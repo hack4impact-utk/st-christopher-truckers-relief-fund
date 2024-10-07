@@ -1,0 +1,58 @@
+name: pr-check
+
+on:
+  pull_request:
+    types:
+      # default types
+      - opened
+      - reopened
+      - synchronize
+      # run when PR title or body changes
+      - edited
+    branches:
+      - main
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "latest"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Enforce linting rules
+        run: pnpm run lint
+
+      - name: Enforce formatting rules
+        run: pnpm run check-format
+
+      - name: Check that PR title follows conventional commits using regex
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Your PR title is '$TITLE'"
+
+          regex="(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z[[:space:]]+\))?:[[:space:]].+"
+
+          if [[ $TITLE =~ $regex ]]; then
+            echo "PR title follows conventional commits"
+          else
+            echo "PR title does not follow conventional commits format"
+            echo "Prefix your PR title with a descriptor such as 'feat:' and then summarize your change"
+            echo "See the following link for more information: https://www.conventionalcommits.org/en/v1.0.0/"
+            exit 1
+          fi
