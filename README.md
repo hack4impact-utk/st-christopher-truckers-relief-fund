@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# St. Christopher Truckers Relief Fund (SCF)
+
+## Description
+
+SCF is a non-profit that has multiple programs that promote the health and well-being of truckers.
+
+They have multiple intake forms, with some on their website and some on Google Forms. Each program is managed either through an Excel spreadsheet or a database.
+
+The goal is to consolidate all of the programs into one intake form and create admin and user dashboards.
+
+Please read the Product Requirement Document here: (insert link later)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Please have the following installed on your machine:
+
+- Node.js
+- PNPM
+- MongoDB Compass
+- VSCode
+
+Please have the following VSCode extensions installed:
+
+- Prettier
+- ESLint
+- Code Spell Checker
+- markdownlint
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory of the project and add the following variables:
+
+```text
+MONGODB_URI=mongodb+srv://<username>:<password>@scf-cluster.ukm7k.mongodb.net/scf-test?retryWrites=true&w=majority&appName=SCF-Cluster
+NEXTAUTH_URL=http://localhost:3000/
+NEXTAUTH_SECRET=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Please contact leadership to obtain the database credentials and the NEXTAUTH_SECRET.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Running the App
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Run `pnpm install` to install the dependencies.
+2. Run `pnpm run dev` to start the development server.
 
-## Learn More
+### Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Branch protections are enabled on this repository.
+To contribute, please create a new branch and make a pull request.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Your pull request title must follow the conventional commits specification. An example of a valid pull request title is:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+feat: Add pending form submissions table
+```
 
-## Deploy on Vercel
+Your PR must pass linting, formatting, and PR title checks before it can be merged.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The `pnpm run lint` command can be used to check for linting errors.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The `pnpm run check-format` command can be used to check for formatting errors.
+
+The `pnpm run format` command can be used to fix formatting errors.
+
+### Testing
+
+For your convenience, there are many tools available to test out components, actions, etc.
+
+`/test/client/page.tsx` is a page that can be accessed at `/test/client` and is used to test out client-side components.
+
+`/test/server/page.tsx` is a page that can be accessed at `/test/server` and is used to test out server-side components.
+
+`/test/account/page.tsx` is a page that can be accessed at `/test/account` and is used to make test accounts.
+
+The `.vscode/launch.json` file is configured to run Next.js in debug mode. This can let you step through your code line by line and inspect variables.
+To start debug mode, navigate to the `Run and Debug` tab in VSCode, select the mode, and click the green play button.
