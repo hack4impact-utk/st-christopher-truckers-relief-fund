@@ -1,4 +1,4 @@
-import { getUserByEmail } from "@/server/api/User/queries";
+import { getUserByEmail } from "@/server/api/users/queries";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/login",
-    error: "/auth/login",
+    error: "/auth/login", // The login page will parse the error query parameter passed in
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
