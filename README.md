@@ -36,9 +36,15 @@ Create a `.env.local` file in the root directory of the project and add the foll
 MONGODB_URI=mongodb+srv://<username>:<password>@scf-cluster.ukm7k.mongodb.net/scf-test?retryWrites=true&w=majority&appName=SCF-Cluster
 NEXTAUTH_URL=http://localhost:3000/
 NEXTAUTH_SECRET=
+SCF_GMAIL=utkscf@gmail.com
+SCF_GMAIL_APP_PASSWORD=
 ```
 
-Please contact leadership to obtain the database credentials and the NEXTAUTH_SECRET.
+Please contact leadership to obtain the following:
+
+- `MONGODB_URI` username and password
+- `NEXTAUTH_SECRET`
+- `SCF_GMAIL_APP_PASSWORD`
 
 ### Running the App
 
@@ -66,13 +72,23 @@ The `pnpm run format` command can be used to fix formatting errors.
 
 ### Testing
 
+#### Testing components and actions
+
 For your convenience, there are many tools available to test out components, actions, etc.
 
 `/test/client/page.tsx` is a page that can be accessed at `/test/client` and is used to test out client-side components.
 
 `/test/server/page.tsx` is a page that can be accessed at `/test/server` and is used to test out server-side components.
 
+#### Testing accounts
+
 `/test/account/page.tsx` is a page that can be accessed at `/test/account` and is used to make test accounts.
+
+#### Testing emails
+
+Run `pnpm run email-dev` to preview the emails that live in the `src/emails` directory.
+
+#### Debugging
 
 The `.vscode/launch.json` file is configured to run Next.js in debug mode. This can let you step through your code line by line and inspect variables.
 To start debug mode, navigate to the `Run and Debug` tab in VSCode, select the mode, and click the green play button.

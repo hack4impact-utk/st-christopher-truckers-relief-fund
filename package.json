@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write src",
-    "check-format": "prettier --check src"
+    "check-format": "prettier --check src",
+    "email-dev": "email dev --dir ./src/emails",
+    "email-build": "email build --dir ./src/emails",
+    "email-export": "email export --dir ./src/emails"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",
@@ -17,18 +20,22 @@
     "@hookform/resolvers": "^3.9.0",
     "@mui/material": "^6.1.2",
     "@mui/material-nextjs": "^6.1.2",
+    "@react-email/components": "^0.0.25",
     "bcrypt": "^5.1.1",
     "mongoose": "^8.7.0",
     "next": "14.2.14",
     "next-auth": "^4.24.8",
+    "nodemailer": "^6.9.15",
     "react": "^18",
     "react-dom": "^18",
+    "react-email": "^3.0.1",
     "react-hook-form": "^7.53.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.16",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
