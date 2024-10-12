@@ -1,7 +1,8 @@
-import { getUserByEmail } from "@/server/api/users/queries";
+import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+
+import { getUserByEmail } from "@/server/api/users/queries";
 import { User } from "@/types";
 
 const authOptions: NextAuthOptions = {

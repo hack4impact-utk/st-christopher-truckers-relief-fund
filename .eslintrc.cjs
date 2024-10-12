@@ -9,10 +9,20 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "prettier"],
+  parserOptions: {
+    sourceType: "module",
+    ecmaVersion: "latest",
+  },
+  plugins: ["@typescript-eslint", "prettier", "simple-import-sort"],
   root: true,
   rules: {
     "prettier/prettier": "warn",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "no-console": "warn",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
   },
 };

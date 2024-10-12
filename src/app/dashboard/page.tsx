@@ -1,6 +1,7 @@
-import getSession from "@/utils/getSession";
 import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+
+import getSession from "@/utils/getSession";
 
 export default async function DashboardPage() {
   const session = await getSession();

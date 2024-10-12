@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
-import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Suspense, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
