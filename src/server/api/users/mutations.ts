@@ -2,13 +2,12 @@
 
 import bcrypt from "bcrypt";
 
+import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
 import { ApiResponse, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
-
-import { getUserByEmail } from "./queries";
 
 export async function createUser(user: User): Promise<ApiResponse<User>> {
   await dbConnect();

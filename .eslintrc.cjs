@@ -17,12 +17,24 @@ module.exports = {
   root: true,
   rules: {
     "prettier/prettier": "warn",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
     "no-console": "warn",
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/first": "error",
-    "import/newline-after-import": "error",
-    "import/no-duplicates": "error",
+    "no-restricted-imports": [
+      "warn",
+      {
+        patterns: [
+          {
+            group: [".*"],
+            message:
+              'Please do not use relative imports. Use "@/..." instead. If this breaks something, disable the rule for that file only.',
+          },
+        ],
+      },
+    ],
+    "simple-import-sort/imports": "warn",
+    "simple-import-sort/exports": "warn",
+    "import/first": "warn",
+    "import/newline-after-import": "warn",
+    "import/no-duplicates": "warn",
   },
 };
