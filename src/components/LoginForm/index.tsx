@@ -35,7 +35,6 @@ function LoginFormFields() {
 
   useEffect(() => {
     const error = searchParams.get("error");
-    console.log(error);
     if (error) {
       setError("root", { message: error });
     }
