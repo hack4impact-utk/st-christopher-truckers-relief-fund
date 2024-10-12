@@ -1,5 +1,7 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -8,10 +10,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/material";
-import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { createUser } from "@/server/api/users/mutations";
 import { User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
@@ -49,8 +50,6 @@ export default function TestAccountCreationPage() {
     };
 
     const response = await createUser(user);
-
-    console.log(response);
 
     if (response.success) {
       alert("User created successfully");

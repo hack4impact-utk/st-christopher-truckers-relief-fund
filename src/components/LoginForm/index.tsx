@@ -1,12 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { signIn } from "next-auth/react";
+import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { Suspense, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+
+function LoginFormLoadingSkeleton() {
+  return <Skeleton variant="rounded" width="100%" height={300} />;
+}
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Invalid email" }),
@@ -17,7 +21,7 @@ const loginFormSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginFormSchema>;
 
-export default function LoginForm() {
+function LoginFormFields() {
   const {
     control,
     handleSubmit,
@@ -43,18 +47,16 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Login
-      </Typography>
-
       <Box
         sx={{
           width: "min(90vw, 500px)",
           display: "grid",
-          gap: 2,
+          gap: 1.5,
           gridTemplateColumns: "1fr",
         }}
       >
+        <Typography variant="h4">Login</Typography>
+
         <Controller
           name="email"
           control={control}
@@ -93,5 +95,13 @@ export default function LoginForm() {
         </Typography>
       </Box>
     </form>
+  );
+}
+
+export default function LoginForm() {
+  return (
+    <Suspense fallback={<LoginFormLoadingSkeleton />}>
+      <LoginFormFields />
+    </Suspense>
   );
 }

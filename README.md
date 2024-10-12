@@ -64,7 +64,9 @@ feat: Add pending form submissions table
 
 Your PR must pass linting, formatting, and PR title checks before it can be merged.
 
-The `pnpm run lint` command can be used to check for linting errors.
+The `pnpm run lint` command can be used to fix linting errors.
+
+The `pnpm run check-lint` command can be used to check for linting errors.
 
 The `pnpm run check-format` command can be used to check for formatting errors.
 

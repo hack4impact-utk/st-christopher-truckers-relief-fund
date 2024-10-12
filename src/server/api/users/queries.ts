@@ -1,8 +1,8 @@
-import { ApiResponse, User } from "@/types";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import handleMongooseError from "@/utils/handleMongooseError";
+import { ApiResponse, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import handleMongooseError from "@/utils/handleMongooseError";
 
 export async function getUserByEmail(
   email: string,
@@ -20,7 +20,6 @@ export async function getUserByEmail(
 
     return { success: true, data: user };
   } catch (error) {
-    console.error(error);
     return { success: false, error: handleMongooseError(error) };
   }
 }

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix",
+    "check-lint": "next lint",
     "format": "prettier --write src",
     "check-format": "prettier --check src",
     "email-dev": "email dev --dir ./src/emails",
@@ -44,6 +45,7 @@
     "eslint-config-next": "14.2.14",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2"
   },

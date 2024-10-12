@@ -1,22 +1,25 @@
-import AdminDashboard from "@/components/AdminDashboard";
-import ClientDashboard from "@/components/ClientDashboard";
+import { Typography } from "@mui/material";
+import { redirect } from "next/navigation";
+
 import getSession from "@/utils/getSession";
 
 export default async function DashboardPage() {
   const session = await getSession();
 
   if (!session) {
-    return <p>Not signed in</p>;
+    return <Typography>You must be logged in to view this page</Typography>;
   }
 
   const role = session.user.role;
 
   switch (role) {
     case "admin":
-      return <AdminDashboard />;
+      redirect("/dashboard/admin");
+      break;
     case "client":
-      return <ClientDashboard />;
+      redirect("/dashboard/client");
+      break;
     default:
-      return <p>Invalid role</p>;
+      return <Typography>Invalid role: {role}</Typography>;
   }
 }

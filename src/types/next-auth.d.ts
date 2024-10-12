@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import "next-auth";
+
 import { User } from "@/types";
 
 declare module "next-auth" {

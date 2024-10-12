@@ -1,12 +1,13 @@
 "use server";
 
-import { ApiResponse, User } from "@/types";
+import bcrypt from "bcrypt";
+
+import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import { getUserByEmail } from "./queries";
-import bcrypt from "bcrypt";
-import handleMongooseError from "@/utils/handleMongooseError";
+import { ApiResponse, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import handleMongooseError from "@/utils/handleMongooseError";
 
 export async function createUser(user: User): Promise<ApiResponse<User>> {
   await dbConnect();
@@ -30,7 +31,6 @@ export async function createUser(user: User): Promise<ApiResponse<User>> {
 
     return { success: true, data: newUser };
   } catch (error) {
-    console.error(error);
     return { success: false, error: handleMongooseError(error) };
   }
 }
