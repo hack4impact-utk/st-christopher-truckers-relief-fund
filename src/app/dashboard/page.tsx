@@ -1,13 +1,15 @@
 import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
-import getSession from "@/utils/getSession";
+import getUserSession from "@/utils/getUserSession";
 
 export default async function DashboardPage() {
-  const session = await getSession();
+  const session = await getUserSession();
 
   if (!session) {
-    return <Typography>You must be logged in to view this page</Typography>;
+    throw new Error(
+      "The dashboard page should be protected by a session middleware, so session should never be null",
+    );
   }
 
   const role = session.user.role;

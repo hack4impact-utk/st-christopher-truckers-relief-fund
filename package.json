@@ -10,9 +10,9 @@
     "check-lint": "next lint",
     "format": "prettier --write src",
     "check-format": "prettier --check src",
-    "email-dev": "email dev --dir ./src/emails",
-    "email-build": "email build --dir ./src/emails",
-    "email-export": "email export --dir ./src/emails"
+    "email-dev": "email dev --dir ./src/components/emails",
+    "email-build": "email build --dir ./src/components/emails",
+    "email-export": "email export --dir ./src/components/emails"
   },
   "dependencies": {
     "@emotion/cache": "^11.13.1",

@@ -40,6 +40,18 @@ jobs:
       - name: Enforce formatting rules
         run: pnpm run check-format
 
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
+          echo "SCF_GMAIL=${{ secrets.SCF_GMAIL }}" >> .env
+          echo "SCF_GMAIL_APP_PASSWORD=${{ secrets.SCF_GMAIL_APP_PASSWORD }}" >> .env
+
+      - name: Check that project builds
+        run: pnpm run build
+
       - name: Check that PR title follows conventional commits using regex
         env:
           TITLE: ${{ github.event.pull_request.title }}
