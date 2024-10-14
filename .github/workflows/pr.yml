@@ -40,6 +40,9 @@ jobs:
       - name: Enforce formatting rules
         run: pnpm run check-format
 
+      - name: Check that project builds
+        run: pnpm run build
+
       - name: Check that PR title follows conventional commits using regex
         env:
           TITLE: ${{ github.event.pull_request.title }}
