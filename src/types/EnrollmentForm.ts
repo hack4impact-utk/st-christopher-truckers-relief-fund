@@ -2,6 +2,9 @@ import z from "zod";
 
 export const generalInformationValidator = z
   .object({
+    hasAcknowledgedPrivacyNotice: z.boolean().refine((val) => val, {
+      message: "You must acknowledge the privacy notice",
+    }),
     firstName: z.string().min(1, { message: "First name is required" }),
     lastName: z.string().min(1, { message: "Last name is required" }),
     email: z.string().email({ message: "Invalid email format" }),
