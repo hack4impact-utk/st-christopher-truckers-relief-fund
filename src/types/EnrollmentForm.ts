@@ -11,6 +11,9 @@ export const generalInformationValidator = z
     password: z.string().min(8, {
       message: "Password must be at least 8 characters",
     }),
+    confirmPassword: z.string().min(8, {
+      message: "Password must be at least 8 characters",
+    }),
     address: z.string().min(1, { message: "Address is required" }),
     phoneNumber: z
       .string()
@@ -78,6 +81,14 @@ export const generalInformationValidator = z
           "Class B Description is required if you don't have a Class A CDL",
         path: ["classBDescription"],
       });
+
+      if (val.password !== val.confirmPassword) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Passwords do not match",
+          path: ["confirmPassword"],
+        });
+      }
     }
   });
 
