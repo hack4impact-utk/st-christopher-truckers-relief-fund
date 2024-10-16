@@ -97,4 +97,7 @@ export type GeneralInformationFormValues = z.infer<
 >;
 
 // The enrollment form type is the union of all sub-form types
-export type EnrollmentForm = GeneralInformationFormValues;
+export type EnrollmentForm = GeneralInformationFormValues & {
+  _id?: string;
+  dateCreated: string;
+};
