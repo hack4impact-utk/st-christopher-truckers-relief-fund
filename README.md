@@ -55,6 +55,13 @@ Please contact leadership to obtain the following:
 
 Branch protections are enabled on this repository.
 To contribute, please create a new branch and make a pull request.
+The rules for branch names are lax, just be sure to include your name.
+
+An example branch name for a card that adds a reset password email would be:
+
+```text
+rudra-reset-password-email
+```
 
 Your pull request title must follow the conventional commits specification. An example of a valid pull request title is:
 
