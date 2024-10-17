@@ -1,4 +1,5 @@
 const apiErrors = {
+  unauthorized: "You must be logged in to access this resource",
   mongoose: {
     CastError: "Error casting value",
     DivergentArrayError: "You modified an array in the middle of a save.",
@@ -17,6 +18,10 @@ const apiErrors = {
   user: {
     userNotFound: "User not found",
     userAlreadyExists: "User already exists",
+  },
+  programEnrollment: {
+    programEnrollmentNotFound: "Program enrollment not found",
+    programEnrollmentAlreadyExists: "Program enrollment already exists",
   },
 };
 

@@ -1,1 +1,3 @@
+export { default as EnrollmentFormModel } from "@/server/models/EnrollmentForm";
+export { default as ProgramEnrollmentModel } from "@/server/models/ProgramEnrollment";
 export { default as UserModel } from "@/server/models/User";
