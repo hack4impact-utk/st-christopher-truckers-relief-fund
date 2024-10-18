@@ -5,7 +5,7 @@ export const generalInformationValidator = z
     hasAcknowledgedPrivacyNotice: z.boolean().refine((val) => val, {
       message: "You must acknowledge the privacy notice",
     }),
-    hasAcknowledgedHipaaNOtice: z.boolean().refine((val) => val, {
+    hasAcknowledgedHipaaNotice: z.boolean().refine((val) => val, {
       message: "You must acknowledge the HIPAA notice",
     }),
     firstName: z.string().min(2, { message: "First name is required" }),
