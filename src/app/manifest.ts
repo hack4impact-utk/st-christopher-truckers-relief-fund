@@ -4,7 +4,8 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "St. Christopher Truckers Relief Fund",
     short_name: "SCF",
-    description: "Enroll in a variety of healthy habits programs through the St. Christopher Truckers Relief Fund",
+    description:
+      "Enroll in a variety of healthy habits programs through the St. Christopher Truckers Relief Fund",
     start_url: "/",
     display: "standalone",
     background_color: "#FFFFFF",
