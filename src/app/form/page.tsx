@@ -1,6 +1,9 @@
 "use client";
 
-import ControlledCheckbox from "@/components/controlled/ControlledCheckbox";
+import {
+  GeneralInformationFormValues,
+  generalInformationValidator,
+} from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -15,30 +18,6 @@ import {
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name is required." }).default(""),
-  email: z
-    .string()
-    .min(6, { message: "Email is required." })
-    .email({ message: "Invalid email" })
-    .default(""),
-  privacy_policy: z
-    .boolean()
-    .default(false)
-    .refine((val) => val === true, {
-      message: "You must agree to the privacy policy to continue.",
-    }),
-  hipaa_notice: z
-    .boolean()
-    .default(false)
-    .refine((val) => val === true, {
-      message: "You must agree to the HIPAA notice to continue.",
-    }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
 
 export default function Form() {
   const {
@@ -46,8 +25,36 @@ export default function Form() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  } = useForm<GeneralInformationFormValues>({
+    resolver: zodResolver(generalInformationValidator),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      address: "",
+      phoneNumber: "",
+      hasClassACdl: false,
+      dateOfBirth: "",
+      drivesSemiTruckOverRoad: false,
+      isUsCitizen: false,
+      monthlyHouseholdExpenses: 0,
+      healthMetrics: {
+        isDiabetic: false,
+        hasHighBloodPressure: false,
+        hasHighCholesterol: false,
+        hasHeartDisease: false,
+        isObese: false,
+        weight: 0,
+      },
+      healthGoals: {
+        shortTerm: "",
+        longTerm: "",
+      },
+      hasAcknowledgedPrivacyNotice: false,
+      hasAcknowledgedHipaaNotice: false,
+    },
   });
 
   const searchParams = useSearchParams();
@@ -59,7 +66,7 @@ export default function Form() {
     }
   }, [searchParams, setError]);
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: GeneralInformationFormValues) => {
     setError("root", { message: "" });
     console.log(data);
   };
@@ -83,27 +90,52 @@ export default function Form() {
             gridTemplateColumns: "1fr",
           }}
         >
-          {/* Title */}
-          <Typography variant="h4">Form</Typography>
+          {/* Title: Enrollment Form */}
+          <Typography variant="h4">Enrollment Form</Typography>
           <Divider />
 
-          {/* General Information */}
+          {/* Section Title: General Information */}
           <Typography variant="h6">General Information</Typography>
 
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                label="Name"
-                variant="outlined"
-              />
-            )}
-          />
+          {/* Name */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <Controller
+              name="firstName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName?.message}
+                  label="First Name"
+                  variant="outlined"
+                />
+              )}
+            />
 
+            <Controller
+              name="lastName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName?.message}
+                  label="Last Name"
+                  variant="outlined"
+                />
+              )}
+            />
+          </Box>
+
+          {/* Email */}
           <Controller
             name="email"
             control={control}
@@ -118,18 +150,81 @@ export default function Form() {
             )}
           />
 
+          {/* Password */}
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                label="Password"
+                variant="outlined"
+                type="password"
+              />
+            )}
+          />
+
+          <Controller
+            name="confirmPassword"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword?.message}
+                label="Confirm Password"
+                variant="outlined"
+                type="password"
+              />
+            )}
+          />
+
           <Divider />
 
           {/* Privacy Policy */}
           <Typography variant="h6">Privacy Policy</Typography>
           <Typography>We will sell all your data! &gt;:)</Typography>
 
-          <ControlledCheckbox
-            name="privacy_policy"
-            control={control}
-            label="I agree."
-            errorMessage={errors.privacy_policy?.message}
-          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <FormControl
+              error={!!errors.hasAcknowledgedPrivacyNotice}
+              sx={{ width: "100%" }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                <Controller
+                  name="hasAcknowledgedPrivacyNotice"
+                  control={control}
+                  render={({ field }) => <Checkbox {...field} />}
+                />
+                <Typography sx={{ ml: 1 }}>I agree.</Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                }}
+              >
+                <FormHelperText sx={{ m: 0 }}>
+                  {errors.hasAcknowledgedPrivacyNotice?.message}
+                </FormHelperText>
+              </Box>
+            </FormControl>
+          </Box>
 
           {/* HIPAA Notice */}
           <Typography variant="h6">HIPAA Notice</Typography>
@@ -139,12 +234,44 @@ export default function Form() {
             Accountability Act (HIPAA).
           </Typography>
 
-          <ControlledCheckbox
-            name="hipaa_notice"
-            control={control}
-            label="I agree."
-            errorMessage={errors.hipaa_notice?.message}
-          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+            }}
+          >
+            <FormControl
+              error={!!errors.hasAcknowledgedHipaaNotice}
+              sx={{ width: "100%" }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                <Controller
+                  name="hasAcknowledgedHipaaNotice"
+                  control={control}
+                  render={({ field }) => <Checkbox {...field} />}
+                />
+                <Typography sx={{ ml: 1 }}>I agree.</Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                }}
+              >
+                <FormHelperText sx={{ m: 0 }}>
+                  {errors.hasAcknowledgedHipaaNotice?.message}
+                </FormHelperText>
+              </Box>
+            </FormControl>
+          </Box>
 
           {/* Submit */}
           <Button type="submit" variant="contained" color="primary">
