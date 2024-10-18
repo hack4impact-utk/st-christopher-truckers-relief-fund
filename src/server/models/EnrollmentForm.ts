@@ -12,6 +12,14 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
       type: String,
       required: true,
     },
+    hasAcknowledgedPrivacyNotice: {
+      type: Boolean,
+      required: true,
+    },
+    hasAcknowledgedHipaaNOtice: {
+      type: Boolean,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,

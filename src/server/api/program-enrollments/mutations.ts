@@ -39,21 +39,21 @@ export async function createProgramEnrollment(
 export async function updateProgramEnrollment(
   newProgramEnrollment: ProgramEnrollment,
 ): Promise<ApiResponse<ProgramEnrollment>> {
-  const authResposne = await authenticateServerFunction("admin");
+  const authResponse = await authenticateServerFunction("admin");
 
-  if (!authResposne.success) {
-    return authResposne;
+  if (!authResponse.success) {
+    return authResponse;
   }
 
   try {
-    const updatedProgramEnrollmentDocument =
+    const updatedProgramEnrollment =
       await ProgramEnrollmentModel.findOneAndUpdate(
         { _id: newProgramEnrollment._id },
         newProgramEnrollment,
-        { new: true },
-      );
+        { new: true, lean: true },
+      ).exec();
 
-    if (!updatedProgramEnrollmentDocument) {
+    if (!updatedProgramEnrollment) {
       return {
         success: false,
         error: apiErrors.programEnrollment.programEnrollmentNotFound,
@@ -61,8 +61,6 @@ export async function updateProgramEnrollment(
     }
 
     // convert ObjectId to string
-    const updatedProgramEnrollment =
-      updatedProgramEnrollmentDocument.toObject();
     updatedProgramEnrollment._id = String(updatedProgramEnrollment._id);
 
     return { success: true, data: updatedProgramEnrollment };

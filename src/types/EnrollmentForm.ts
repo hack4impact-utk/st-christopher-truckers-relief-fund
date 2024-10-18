@@ -5,8 +5,11 @@ export const generalInformationValidator = z
     hasAcknowledgedPrivacyNotice: z.boolean().refine((val) => val, {
       message: "You must acknowledge the privacy notice",
     }),
-    firstName: z.string().min(1, { message: "First name is required" }),
-    lastName: z.string().min(1, { message: "Last name is required" }),
+    hasAcknowledgedHipaaNOtice: z.boolean().refine((val) => val, {
+      message: "You must acknowledge the HIPAA notice",
+    }),
+    firstName: z.string().min(2, { message: "First name is required" }),
+    lastName: z.string().min(2, { message: "Last name is required" }),
     email: z.string().email({ message: "Invalid email format" }),
     password: z.string().min(8, {
       message: "Password must be at least 8 characters",
