@@ -16,7 +16,7 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
       type: Boolean,
       required: true,
     },
-    hasAcknowledgedHipaaNOtice: {
+    hasAcknowledgedHipaaNotice: {
       type: Boolean,
       required: true,
     },
