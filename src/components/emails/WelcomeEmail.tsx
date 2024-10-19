@@ -1,8 +1,10 @@
 import {
+  Body,
   Button,
   Container,
+  Head,
   Hr,
-  Img,
+  Html,
   Link,
   Preview,
   Section,
@@ -15,53 +17,62 @@ const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
 
-interface WelcomeEmailProps {
+interface StripeWelcomeEmailProps {
   firstName: string;
   programName: string;
 }
 
-export const WelcomeEmail: React.FC<WelcomeEmailProps> = ({
+export const StripeWelcomeEmail: React.FC<StripeWelcomeEmailProps> = ({
   firstName,
   programName,
 }) => (
-  <>
+  <Html>
+    <Head />
     <Preview>
       You&apos;ve been accepted into St. Christopher&apos;s Trucker Relief Fund!
     </Preview>
-    <Container style={container}>
-      <Section style={box}>
-        <Logo
-          width={100}
-          height={100}
-          alt="St. Christopher's Trucker Relief Fund Logo"
-        />
-        <Hr style={hr} />
-        <Text style={paragraph}>
-          Hello {firstName}! We are pleased to inform you that your application
-          for {programName} has been accepted. Please click on the link below to
-          access your dashboard.
-        </Text>
-        <Button style={button} href={`${baseUrl}/`}>
-          View your SCF Dashboard
-        </Button>
-        <Hr style={hr} />
-        <Text style={paragraph}>
-          If you have any further questions or concerns, please don&apos;t
-          hesitate to reach out to us at our{" "}
-          <Link style={anchor} href="https://truckersfund.org/contact-us">
-            contact page.
-          </Link>
-        </Text>
-        <Hr style={hr} />
-        <Text style={footer}>
-          St. Christopher&apos;s Trucker Relief Fund, Phone: (865) 202 - 9428
-        </Text>
-      </Section>
-    </Container>
-  </>
+    <Body style={main}>
+      <Container style={container}>
+        <Section style={box}>
+          <Logo
+            width={100}
+            height={100}
+            alt="St. Christopher's Trucker Relief Fund Logo"
+          />
+          <Hr style={hr} />
+          <Text style={paragraph}>
+            Hello {firstName}! We are pleased to inform you that your
+            application for {programName} has been accepted. Please click on the
+            link below to access your dashboard.
+          </Text>
+          <Button style={button} href={`${baseUrl}/`}>
+            View your SCF Dashboard
+          </Button>
+          <Hr style={hr} />
+          <Text style={paragraph}>
+            If you have any further questions or concerns, please don&apos;t
+            hesitate to reach out to us at our{" "}
+            <Link style={anchor} href="https://truckersfund.org/contact-us">
+              contact page.
+            </Link>
+          </Text>
+          <Hr style={hr} />
+          <Text style={footer}>
+            St. Christopher&apos;s Trucker Relief Fund, Phone: (865) 202 - 9428
+          </Text>
+        </Section>
+      </Container>
+    </Body>
+  </Html>
 );
 
-export default WelcomeEmail;
+export default StripeWelcomeEmail;
+
+const main = {
+  backgroundColor: "#f6f9fc",
+  fontFamily:
+    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
+};
 
 const container = {
   backgroundColor: "#ffffff",

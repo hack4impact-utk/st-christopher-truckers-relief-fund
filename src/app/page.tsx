@@ -1,3 +1,10 @@
+import React from "react";
+import WelcomeEmail from "@/components/emails/WelcomeEmail";
+
 export default function Home() {
-  return <p>Home page</p>;
+  return (
+    <>
+      <WelcomeEmail firstName="John" programName="Test Program" />
+    </>
+  );
 }
