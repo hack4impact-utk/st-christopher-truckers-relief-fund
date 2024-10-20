@@ -17,10 +17,10 @@ module.exports = {
   root: true,
   rules: {
     "prettier/prettier": "warn",
-    "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+    "@typescript-eslint/consistent-type-definitions": ["warn", "error"],
     "no-console": "warn",
     "no-restricted-imports": [
-      "warn",
+      "error",
       {
         patterns: [
           {
@@ -31,10 +31,10 @@ module.exports = {
         ],
       },
     ],
-    "simple-import-sort/imports": "warn",
-    "simple-import-sort/exports": "warn",
-    "import/first": "warn",
-    "import/newline-after-import": "warn",
-    "import/no-duplicates": "warn",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
   },
 };
