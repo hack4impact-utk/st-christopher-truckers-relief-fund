@@ -8,6 +8,7 @@ declare global {
       NEXTAUTH_SECRET: string;
       SCF_GMAIL: string;
       SCF_GMAIL_APP_PASSWORD: string;
+      BASE_URL: string;
     }
   }
 }
