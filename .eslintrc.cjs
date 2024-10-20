@@ -17,7 +17,7 @@ module.exports = {
   root: true,
   rules: {
     "prettier/prettier": "warn",
-    "@typescript-eslint/consistent-type-definitions": ["warn", "error"],
+    "@typescript-eslint/consistent-type-definitions": ["error", "tye"],
     "no-console": "warn",
     "no-restricted-imports": [
       "error",
