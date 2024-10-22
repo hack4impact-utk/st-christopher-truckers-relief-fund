@@ -30,8 +30,7 @@ export default function WelcomeEmail({
     <Html>
       <Head />
       <Preview>
-        You&apos;ve been accepted into St. Christopher&apos;s Trucker Relief
-        Fund!
+        You&apos;ve been accepted into St. Christopher Truckers Relief Fund!
       </Preview>
       <Body style={main}>
         <Container style={container}>
@@ -41,7 +40,7 @@ export default function WelcomeEmail({
               src={`${baseUrl}/static/scf-logo.png`}
               width="128"
               height="128"
-              alt="St. Christopher's Trucker Relief Fund"
+              alt="St. Christopher Truckers Relief Fund"
               style={image}
             />
             <Text style={paragraph}>
@@ -61,7 +60,7 @@ export default function WelcomeEmail({
             </Text>
             <Hr style={hr} />
             <Text style={footer}>
-              St. Christopher&apos;s Trucker Relief Fund, Phone: (865) 202-9428
+              St. Christopher Truckers Relief Fund, Phone: (865) 202-9428
             </Text>
           </Section>
         </Container>
