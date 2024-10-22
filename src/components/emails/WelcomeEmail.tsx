@@ -11,14 +11,11 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import Image from "next/image";
 import * as React from "react";
 
-import Logo from "@/app/icons/logo.png";
-// I have tried changing logoUrl to "@/app/icons/logo.png" that gets rid of the error but the picture still doesn't load
-const logoUrl = Logo.src;
-
-const baseUrl = process.env.VERCEL_URL;
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "";
 
 type WelcomeEmailProps = {
   firstName: string;
@@ -41,19 +38,12 @@ export default function WelcomeEmail({
           <Section style={box}>
             {/* React Email Img */}
             <Img
-              src={logoUrl}
-              width="100"
-              height="100"
+              src={`${baseUrl}/static/scf-logo.png`}
+              width="128"
+              height="128"
               alt="St. Christopher's Trucker Relief Fund"
+              style={image}
             />
-            {/* Next.js Img */}
-            <Image
-              src={logoUrl}
-              width={100}
-              height={100}
-              alt="St. Christopher's Trucker Relief Fund"
-            />
-            <Hr style={hr} />
             <Text style={paragraph}>
               Hello {firstName}! We are pleased to inform you that your
               application for {programName} has been accepted. Please click on
@@ -62,10 +52,9 @@ export default function WelcomeEmail({
             <Button style={button} href={`${baseUrl}/`}>
               View your SCF Dashboard
             </Button>
-            <Hr style={hr} />
             <Text style={paragraph}>
-              If you have any further questions or concerns, please don&apos;t
-              hesitate to reach out to us at our{" "}
+              If you have any questions or concerns, please don&apos;t hesitate
+              to reach out to us at our{" "}
               <Link style={anchor} href="https://truckersfund.org/contact-us">
                 contact page.
               </Link>
@@ -132,4 +121,8 @@ const footer = {
   color: "#8898aa",
   fontSize: "12px",
   lineHeight: "16px",
+};
+
+const image = {
+  margin: "0 auto",
 };
