@@ -53,7 +53,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     setSnackbarOpen(true);
     await deletePasswordResetToken(token);
 
-    // wait 2 seconds before redirecting to
+    // wait 2 seconds before redirecting to home page
     setTimeout(() => {
       router.push("/");
     }, 2000);
