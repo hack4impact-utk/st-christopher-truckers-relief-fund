@@ -11,10 +11,10 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import * as React from "react";
+
+import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
 
 const baseUrl = process.env.BASE_URL;
-const imageUrl = "https://i.imgur.com/HGGrF1w.png";
 
 type WelcomeEmailProps = {
   firstName: string;
@@ -36,7 +36,7 @@ export default function WelcomeEmail({
           <Section style={box}>
             {/* React Email Img */}
             <Img
-              src={imageUrl}
+              src={imgurLogoImageUrl}
               width="128"
               height="128"
               alt="St. Christopher Truckers Relief Fund"
