@@ -5,68 +5,81 @@ import {
   Head,
   Hr,
   Html,
+  Img,
   Link,
   Preview,
   Section,
   Text,
 } from "@react-email/components";
+import Image from "next/image";
 import * as React from "react";
-import Logo from "@/components/Logo/index";
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
+import Logo from "@/app/icons/logo.png";
+// I have tried changing logoUrl to "@/app/icons/logo.png" that gets rid of the error but the picture still doesn't load
+const logoUrl = Logo.src;
 
-interface StripeWelcomeEmailProps {
+const baseUrl = process.env.VERCEL_URL;
+
+type WelcomeEmailProps = {
   firstName: string;
   programName: string;
-}
+};
 
-export const StripeWelcomeEmail: React.FC<StripeWelcomeEmailProps> = ({
+export default function WelcomeEmail({
   firstName,
   programName,
-}) => (
-  <Html>
-    <Head />
-    <Preview>
-      You&apos;ve been accepted into St. Christopher&apos;s Trucker Relief Fund!
-    </Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Section style={box}>
-          <Logo
-            width={100}
-            height={100}
-            alt="St. Christopher's Trucker Relief Fund Logo"
-          />
-          <Hr style={hr} />
-          <Text style={paragraph}>
-            Hello {firstName}! We are pleased to inform you that your
-            application for {programName} has been accepted. Please click on the
-            link below to access your dashboard.
-          </Text>
-          <Button style={button} href={`${baseUrl}/`}>
-            View your SCF Dashboard
-          </Button>
-          <Hr style={hr} />
-          <Text style={paragraph}>
-            If you have any further questions or concerns, please don&apos;t
-            hesitate to reach out to us at our{" "}
-            <Link style={anchor} href="https://truckersfund.org/contact-us">
-              contact page.
-            </Link>
-          </Text>
-          <Hr style={hr} />
-          <Text style={footer}>
-            St. Christopher&apos;s Trucker Relief Fund, Phone: (865) 202 - 9428
-          </Text>
-        </Section>
-      </Container>
-    </Body>
-  </Html>
-);
-
-export default StripeWelcomeEmail;
+}: WelcomeEmailProps) {
+  return (
+    <Html>
+      <Head />
+      <Preview>
+        You&apos;ve been accepted into St. Christopher&apos;s Trucker Relief
+        Fund!
+      </Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Section style={box}>
+            {/* React Email Img */}
+            <Img
+              src={logoUrl}
+              width="100"
+              height="100"
+              alt="St. Christopher's Trucker Relief Fund"
+            />
+            {/* Next.js Img */}
+            <Image
+              src={logoUrl}
+              width={100}
+              height={100}
+              alt="St. Christopher's Trucker Relief Fund"
+            />
+            <Hr style={hr} />
+            <Text style={paragraph}>
+              Hello {firstName}! We are pleased to inform you that your
+              application for {programName} has been accepted. Please click on
+              the link below to access your dashboard.
+            </Text>
+            <Button style={button} href={`${baseUrl}/`}>
+              View your SCF Dashboard
+            </Button>
+            <Hr style={hr} />
+            <Text style={paragraph}>
+              If you have any further questions or concerns, please don&apos;t
+              hesitate to reach out to us at our{" "}
+              <Link style={anchor} href="https://truckersfund.org/contact-us">
+                contact page.
+              </Link>
+            </Text>
+            <Hr style={hr} />
+            <Text style={footer}>
+              St. Christopher&apos;s Trucker Relief Fund, Phone: (865) 202-9428
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
+  );
+}
 
 const main = {
   backgroundColor: "#f6f9fc",
