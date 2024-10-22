@@ -50,8 +50,8 @@ export default function WelcomeEmail({
               View your SCF Dashboard
             </Button>
             <Text style={paragraph}>
-              If you have any questions or concerns, please don&apos;t hesitate
-              to reach out to us at our{" "}
+              If you have any questions or concerns, please reach out to us at
+              our{" "}
               <Link style={anchor} href="https://truckersfund.org/contact-us">
                 contact page.
               </Link>

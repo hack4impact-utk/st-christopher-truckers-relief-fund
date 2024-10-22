@@ -20,9 +20,9 @@ export default async function ForgotPasswordComponent({
     return <Typography variant="body1">Invalid token</Typography>;
   }
 
-  const passwordResetToken = await getPasswordResetTokenByToken(token);
+  const passwordResetTokenResponse = await getPasswordResetTokenByToken(token);
 
-  if (!passwordResetToken.success) {
+  if (!passwordResetTokenResponse.success) {
     return (
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -37,5 +37,5 @@ export default async function ForgotPasswordComponent({
     );
   }
 
-  return <ResetPasswordForm token={passwordResetToken.data.token} />;
+  return <ResetPasswordForm token={passwordResetTokenResponse.data.token} />;
 }
