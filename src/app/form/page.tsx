@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  GeneralInformationFormValues,
-  generalInformationValidator,
-} from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -11,13 +7,22 @@ import {
   Checkbox,
   Divider,
   FormControl,
+  FormControlLabel,
   FormHelperText,
+  FormLabel,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+
+import {
+  GeneralInformationFormValues,
+  generalInformationValidator,
+} from "@/types";
 
 export default function Form() {
   const {
@@ -180,6 +185,47 @@ export default function Form() {
               />
             )}
           />
+
+          {/* Date of Birth */}
+          <Controller
+            name="dateOfBirth"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                error={!!errors.dateOfBirth}
+                helperText={errors.dateOfBirth?.message}
+                label="Date of Birth"
+                variant="outlined"
+              />
+            )}
+          />
+
+          {/* US Citizen */}
+          <FormControl error={!!errors.isUsCitizen} sx={{ width: "100%" }}>
+            <FormLabel>Are you a citizen of the United States?</FormLabel>
+            <Controller
+              name="isUsCitizen"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup {...field}>
+                  <FormControlLabel
+                    value={true}
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={<Radio />}
+                    label="No"
+                  />
+                </RadioGroup>
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }}>
+              {errors.isUsCitizen?.message}
+            </FormHelperText>
+          </FormControl>
 
           <Divider />
 
