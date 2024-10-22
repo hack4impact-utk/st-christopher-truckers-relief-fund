@@ -1,10 +1,9 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 
 import ForgotPasswordForm from "@/components/ForgotPasswordComponent/ForgotPasswordForm";
 import ResetPasswordForm from "@/components/ForgotPasswordComponent/ResetPasswordForm";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
-import apiErrors from "@/utils/constants/apiErrors";
 
 type ForgotPasswordComponentProps = {
   token?: string | string[];
@@ -23,27 +22,19 @@ export default async function ForgotPasswordComponent({
 
   const passwordResetToken = await getPasswordResetTokenByToken(token);
 
-  if (
-    !passwordResetToken.success &&
-    passwordResetToken.error ===
-      apiErrors.passwordResetToken.passwordResetTokenExpired
-  ) {
+  if (!passwordResetToken.success) {
     return (
-      <>
-        <Typography variant="body1">
-          This token has expired. Please fill out the form again.
-        </Typography>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
+        <Typography variant="body1">This link has expired</Typography>
         <Link href="/forgot-password" style={{ textDecoration: "none" }}>
           <Typography variant="body1" color="primary">
             Click here to request a new password reset link.
           </Typography>
         </Link>
-      </>
+      </Box>
     );
-  }
-
-  if (!passwordResetToken.success) {
-    return <Typography variant="body1">Invalid token</Typography>;
   }
 
   return <ResetPasswordForm token={passwordResetToken.data.token} />;

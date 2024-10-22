@@ -62,7 +62,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       // wait 2 seconds before redirecting to home page
       setTimeout(() => {
         router.push("/");
-      }, 2000);
+      }, 1000);
     } else {
       setSnackbarMessage("Password reset failed. This link is now invalid.");
       setSnackbarOpen(true);
