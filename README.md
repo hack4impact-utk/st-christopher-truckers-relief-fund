@@ -43,6 +43,7 @@ NEXTAUTH_URL=http://localhost:3000/
 NEXTAUTH_SECRET=
 SCF_GMAIL=utkscf@gmail.com
 SCF_GMAIL_APP_PASSWORD=
+BASE_URL=http://localhost:3000
 ```
 
 Please contact leadership to obtain the following:
