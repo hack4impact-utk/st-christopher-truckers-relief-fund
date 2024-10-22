@@ -2,13 +2,13 @@
 
 import bcrypt from "bcrypt";
 
-import { createPasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
-import { getUserByEmail } from "@/server/api/users/queries";
+import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
+import { getUserByEmail, getUserById } from "@/server/api/users/queries";
+import { updateUser } from "@/server/api/users/secure-mutations";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import { ApiResponse, PasswordResetToken, User } from "@/types";
+import { ApiResponse, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
-import dayjs from "@/utils/dayjs";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 export async function createUser(user: User): Promise<ApiResponse<User>> {
@@ -37,30 +37,30 @@ export async function createUser(user: User): Promise<ApiResponse<User>> {
   }
 }
 
-export async function handlePasswordResetRequest(email: string) {
-  // check if email exists
-  const user = await getUserByEmail(email);
+export async function resetPasswordWithToken(
+  token: string,
+  newPassword: string,
+): Promise<ApiResponse<null>> {
+  const passwordResetTokenResponse = await getPasswordResetTokenByToken(token);
 
-  if (!user.success) {
-    return;
+  if (!passwordResetTokenResponse.success) {
+    return passwordResetTokenResponse;
   }
 
-  if (!user.data) {
-    return;
+  const passwordResetToken = passwordResetTokenResponse.data;
+
+  const userResponse = await getUserById(passwordResetToken.userId);
+
+  if (!userResponse.success) {
+    return userResponse;
   }
 
-  if (!user.data._id) {
-    return;
-  }
+  const user = userResponse.data;
 
-  // generate a password reset token
-  const token: PasswordResetToken = {
-    token: crypto.randomUUID(),
-    userId: user.data._id,
-    expires: dayjs().utc().add(1, "hour").toISOString(),
-  };
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
 
-  await createPasswordResetToken(token.token, token.userId, token.expires);
+  await updateUser(user);
 
-  // await sendPasswordResetEmail(email, token.token);
+  return { success: true, data: null };
 }

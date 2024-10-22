@@ -2,10 +2,10 @@ import dbConnect from "@/server/dbConnect";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
-import dayjs from "@/utils/dayjs";
+import dayjsUtil from "@/utils/dayjsUtil";
 import handleMongooseError from "@/utils/handleMongooseError";
 
-export default async function getPasswordResetTokenByToken(
+export async function getPasswordResetTokenByToken(
   token: string,
 ): Promise<ApiResponse<PasswordResetToken>> {
   await dbConnect();
@@ -24,9 +24,8 @@ export default async function getPasswordResetTokenByToken(
       };
     }
 
-    const tokenHasExpired = dayjs(passwordResetToken.expires).isBefore(
-      dayjs().utc(),
-    );
+    const now = dayjsUtil().utc();
+    const tokenHasExpired = dayjsUtil(passwordResetToken.expires).isBefore(now);
     if (tokenHasExpired) {
       return {
         success: false,

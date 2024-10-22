@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import ForgotPasswordForm from "@/components/ForgotPasswordComponent/ForgotPasswordForm";
 import ResetPasswordForm from "@/components/ForgotPasswordComponent/ResetPasswordForm";
-import getPasswordResetTokenByToken from "@/server/api/password-reset-tokens/queries";
+import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 import apiErrors from "@/utils/constants/apiErrors";
 
 type ForgotPasswordComponentProps = {
@@ -42,7 +42,7 @@ export default async function ForgotPasswordComponent({
     );
   }
 
-  if (!passwordResetToken.success || !passwordResetToken.data) {
+  if (!passwordResetToken.success) {
     return <Typography variant="body1">Invalid token</Typography>;
   }
 

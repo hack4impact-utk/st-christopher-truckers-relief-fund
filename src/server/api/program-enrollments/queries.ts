@@ -6,7 +6,7 @@ import handleMongooseError from "@/utils/handleMongooseError";
 
 type ProgramEnrollmentFilters = Partial<ProgramEnrollment>;
 
-export async function getProgramEnrollments(filters: ProgramEnrollmentFilters) {
+async function getProgramEnrollments(filters: ProgramEnrollmentFilters) {
   await dbConnect();
 
   const authResponse = await authenticateServerFunction();

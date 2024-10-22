@@ -20,7 +20,7 @@ const authOptions: NextAuthOptions = {
 
         const userResponse = await getUserByEmail(credentials.email);
 
-        if (!userResponse.success || !userResponse.data) {
+        if (!userResponse.success) {
           throw new Error("Invalid email or password");
         }
 

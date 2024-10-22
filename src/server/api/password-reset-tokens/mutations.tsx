@@ -1,8 +1,10 @@
 "use server";
 
+import { getUserByEmail } from "@/server/api/users/queries";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import dayjsUtil from "@/utils/dayjsUtil";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 export async function createPasswordResetToken(
@@ -61,4 +63,30 @@ export async function deletePasswordResetToken(
   } catch (error) {
     return { success: false, error: handleMongooseError(error) };
   }
+}
+
+export async function handlePasswordResetRequest(email: string) {
+  // check if email exists
+  const userResponse = await getUserByEmail(email);
+
+  if (!userResponse.success) {
+    return;
+  }
+
+  const user = userResponse.data;
+
+  if (!user._id) {
+    return;
+  }
+
+  // generate a password reset token
+  const token: PasswordResetToken = {
+    token: crypto.randomUUID(),
+    userId: user._id,
+    expires: dayjsUtil().utc().add(1, "hour").toISOString(),
+  };
+
+  await createPasswordResetToken(token.token, token.userId, token.expires);
+
+  // await sendPasswordResetEmail(email, token.token);
 }
