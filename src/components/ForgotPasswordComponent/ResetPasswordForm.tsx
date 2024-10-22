@@ -2,12 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
+import { resetPasswordWithToken } from "@/server/api/users/mutations";
 
 const resetPasswordFormSchema = z
   .object({
@@ -36,6 +37,7 @@ type ResetPasswordFormProps = {
 
 export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const router = useRouter();
 
   const {
@@ -49,14 +51,23 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
   const onSubmit = async (data: ResetPasswordFormValues) => {
     const { password } = data;
-    console.log(password);
-    setSnackbarOpen(true);
-    await deletePasswordResetToken(token);
 
-    // wait 2 seconds before redirecting to home page
-    setTimeout(() => {
-      router.push("/");
-    }, 2000);
+    const resetPasswordResponse = await resetPasswordWithToken(token, password);
+
+    if (resetPasswordResponse.success) {
+      setSnackbarMessage("Password successfully reset");
+      setSnackbarOpen(true);
+      await deletePasswordResetToken(token);
+
+      // wait 2 seconds before redirecting to home page
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } else {
+      setSnackbarMessage("Password reset failed. This link is now invalid.");
+      setSnackbarOpen(true);
+      await deletePasswordResetToken(token);
+    }
   };
 
   return (
@@ -65,7 +76,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={() => setSnackbarOpen(false)}
-        message="Password successfully reset"
+        message={snackbarMessage}
       />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box

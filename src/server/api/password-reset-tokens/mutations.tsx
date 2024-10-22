@@ -1,5 +1,7 @@
 "use server";
 
+import { sendPasswordResetEmail } from "@/server/api/emails/actions";
+import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 import { getUserByEmail } from "@/server/api/users/queries";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
@@ -14,11 +16,10 @@ export async function createPasswordResetToken(
 ): Promise<ApiResponse<PasswordResetToken>> {
   try {
     // don't create password reset token if one already exists
-    const existingPasswordResetToken = await PasswordResetTokenModel.findOne({
-      token,
-    });
+    const passwordResetTokenResponse =
+      await getPasswordResetTokenByToken(token);
 
-    if (existingPasswordResetToken) {
+    if (passwordResetTokenResponse.success) {
       return {
         success: false,
         error: apiErrors.passwordResetToken.passwordResetTokenAlreadyExists,
@@ -36,6 +37,8 @@ export async function createPasswordResetToken(
     );
 
     const passwordResetToken = newPasswordResetTokenDocument.toObject();
+
+    // convert ObjectId to string
     passwordResetToken._id = String(passwordResetToken._id);
 
     return { success: true, data: passwordResetToken };
@@ -80,13 +83,22 @@ export async function handlePasswordResetRequest(email: string) {
   }
 
   // generate a password reset token
+  const oneHourFromNow = dayjsUtil().utc().add(1, "hour").toISOString();
   const token: PasswordResetToken = {
     token: crypto.randomUUID(),
     userId: user._id,
-    expires: dayjsUtil().utc().add(1, "hour").toISOString(),
+    expires: oneHourFromNow,
   };
 
-  await createPasswordResetToken(token.token, token.userId, token.expires);
+  const createPasswordResetTokenResponse = await createPasswordResetToken(
+    token.token,
+    token.userId,
+    token.expires,
+  );
 
-  // await sendPasswordResetEmail(email, token.token);
+  if (!createPasswordResetTokenResponse.success) {
+    return;
+  }
+
+  await sendPasswordResetEmail(email, token.token);
 }

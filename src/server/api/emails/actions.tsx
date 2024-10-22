@@ -2,13 +2,23 @@
 
 import { render } from "@react-email/components";
 
+import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 import sendEmail from "@/server/api/emails/helpers";
 
-export async function sendPasswordResetEmail(recipient_email: string) {
+export async function sendPasswordChangeEmail(recipient_email: string) {
   const html = `<p>Hello ${recipient_email}</p>`;
 
-  await sendEmail(recipient_email, "Please reset your password", html);
+  await sendEmail(recipient_email, "Your SCF password has been changed", html);
+}
+
+export async function sendPasswordResetEmail(
+  recipient_email: string,
+  token: string,
+) {
+  const html = await render(<ResetPasswordEmail token={token} />);
+
+  await sendEmail(recipient_email, "Reset your SCF password", html);
 }
 
 export async function sendWelcomeEmail(
