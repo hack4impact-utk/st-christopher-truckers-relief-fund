@@ -13,9 +13,8 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
+const baseUrl = process.env.BASE_URL;
+const imageUrl = "https://i.imgur.com/HGGrF1w.png";
 
 type WelcomeEmailProps = {
   firstName: string;
@@ -37,7 +36,7 @@ export default function WelcomeEmail({
           <Section style={box}>
             {/* React Email Img */}
             <Img
-              src={`${baseUrl}/static/scf-logo.png`}
+              src={imageUrl}
               width="128"
               height="128"
               alt="St. Christopher Truckers Relief Fund"
