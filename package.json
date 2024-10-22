@@ -23,6 +23,7 @@
     "@mui/material-nextjs": "^6.1.2",
     "@react-email/components": "^0.0.25",
     "bcrypt": "^5.1.1",
+    "dayjs": "^1.11.13",
     "mongoose": "^8.7.0",
     "next": "14.2.14",
     "next-auth": "^4.24.8",

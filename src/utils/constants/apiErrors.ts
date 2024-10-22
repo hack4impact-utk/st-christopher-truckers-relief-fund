@@ -23,6 +23,11 @@ const apiErrors = {
     programEnrollmentNotFound: "Program enrollment not found",
     programEnrollmentAlreadyExists: "Program enrollment already exists",
   },
+  passwordResetToken: {
+    passwordResetTokenNotFound: "Password reset token not found",
+    passwordResetTokenAlreadyExists: "Password reset token already exists",
+    passwordResetTokenExpired: "Password reset token expired",
+  },
 };
 
 export default apiErrors;
