@@ -36,7 +36,13 @@ export default function TestAccountCreationPage() {
     formState: { errors },
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
-    defaultValues: { role: "admin" },
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: "admin",
+    },
   });
 
   const onSubmit = async (data: SignUpFormValues) => {

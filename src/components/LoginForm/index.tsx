@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Suspense, useEffect } from "react";
@@ -29,6 +30,7 @@ function LoginFormFields() {
     setError,
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
+    defaultValues: { email: "", password: "" },
   });
 
   const searchParams = useSearchParams();
@@ -90,7 +92,13 @@ function LoginFormFields() {
           Login
         </Button>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
+        <Link href="/forgot-password" style={{ textDecoration: "none" }}>
+          <Typography variant="body1" color="primary">
+            Forgot password?
+          </Typography>
+        </Link>
+
+        <Typography variant="body1" fontWeight="normal" color="red">
           {errors.root?.message}
         </Typography>
       </Box>
