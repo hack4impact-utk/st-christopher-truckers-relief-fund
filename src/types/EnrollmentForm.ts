@@ -40,6 +40,7 @@ export const generalInformationValidator = z
       )
       .transform((val) => parsePhoneNumber(val, "US").number.toString()),
     hasClassACdl: z.boolean(),
+    cdlNumber: z.string().optional(), // Required if hasClassACdl is true
     classBDescription: z.string().optional(), // Required if hasClassACdl is false
     dateOfBirth: z.string().refine((val) => dayjs(val).isValid(), {
       message: "Invalid date format",
@@ -85,7 +86,7 @@ export const generalInformationValidator = z
     devices: z.string().optional(), // List of devices like "scale", "glucose monitor", etc.
   })
   .superRefine((val, ctx) => {
-    // Add custom conditional validation for classBDescription
+    // Add custom conditional validation for CDL
     if (val.hasClassACdl === false && !val.classBDescription) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -93,14 +94,21 @@ export const generalInformationValidator = z
           "Class B Description is required if you don't have a Class A CDL",
         path: ["classBDescription"],
       });
+    } else if (val.hasClassACdl === true && !val.cdlNumber) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CDL Number is required if you have a Class A CDL",
+        path: ["cdlNumber"],
+      });
+    }
 
-      if (val.password !== val.confirmPassword) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Passwords do not match",
-          path: ["confirmPassword"],
-        });
-      }
+    // Add custom conditional validation for password fields
+    if (val.password !== val.confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
     }
   });
 

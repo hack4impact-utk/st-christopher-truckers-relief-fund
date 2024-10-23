@@ -19,6 +19,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateField } from "@mui/x-date-pickers/DateField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import dayjs from "dayjs";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -44,28 +48,54 @@ export default function Form() {
       email: "",
       password: "",
       confirmPassword: "",
-      address: "",
-      phoneNumber: "",
-      hasClassACdl: undefined,
       dateOfBirth: "",
-      drivesSemiTruckOverRoad: undefined,
-      isUsCitizen: undefined,
-      monthlyHouseholdExpenses: undefined,
+      isUsCitizen: false,
+      phoneNumber: "",
+      address: "",
+      referralSource: "",
+
+      hasClassACdl: false,
+      cdlNumber: "",
+      classBDescription: "",
+      employer: {
+        name: "",
+        contact: "",
+      },
+      drivesSemiTruckOverRoad: false,
+      monthlyHouseholdExpenses: 0,
+
+      ownerOperatorInfo: {
+        businessIncome: 0,
+        businessExpenses: 0,
+      },
+
+      healthConditions: "",
+      recentIllnessOrInjuryDetails: "",
+      devices: "",
+
       healthMetrics: {
         isDiabetic: false,
         hasHighBloodPressure: false,
         hasHighCholesterol: false,
         hasHeartDisease: false,
         isObese: false,
-        weight: undefined,
+        weight: 0,
+        bloodPressure: "",
+        a1c: 0,
+        bloodGlucose: 0,
+        cholesterol: 0,
+        other: "",
       },
+
       healthGoals: {
         shortTerm: "",
         longTerm: "",
       },
+
+      doctors: [],
+
       hasAcknowledgedPrivacyNotice: false,
       hasAcknowledgedHipaaNotice: false,
-      doctors: [],
     },
   });
 
@@ -207,13 +237,23 @@ export default function Form() {
             name="dateOfBirth"
             control={control}
             render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.dateOfBirth}
-                helperText={errors.dateOfBirth?.message}
-                label="Date of Birth"
-                variant="outlined"
-              />
+              <FormControl error={!!errors.dateOfBirth} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateField
+                    {...field}
+                    value={
+                      field.value ? dayjs(field.value, "MM/DD/YYYY") : null
+                    } // Handle string value correctly
+                    onChange={(date) =>
+                      field.onChange(date?.format("MM/DD/YYYY") || "")
+                    } // Convert dayjs to string
+                    label="Date of Birth"
+                    variant="outlined"
+                    format="MM/DD/YYYY"
+                  />
+                </LocalizationProvider>
+                <FormHelperText>{errors.dateOfBirth?.message}</FormHelperText>
+              </FormControl>
             )}
           />
 
@@ -331,11 +371,35 @@ export default function Form() {
           </FormControl>
 
           {watch("hasClassACdl") === true && (
-            <TextField label="CDL Number" variant="outlined" />
+            <Controller
+              name="cdlNumber"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  error={!!errors.cdlNumber}
+                  helperText={errors.cdlNumber?.message}
+                  label="CDL Number"
+                  variant="outlined"
+                />
+              )}
+            />
           )}
 
           {watch("hasClassACdl") === false && (
-            <TextField label="Class B CDL Description" variant="outlined" />
+            <Controller
+              name="classBDescription"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  error={!!errors.classBDescription}
+                  helperText={errors.classBDescription?.message}
+                  label="Class B CDL Description"
+                  variant="outlined"
+                />
+              )}
+            />
           )}
 
           {/* Employer */}
@@ -592,7 +656,7 @@ export default function Form() {
             )}
           />
 
-          {/* High Cholesterol */}
+          {/* Heart Disease */}
           <Controller
             name="healthMetrics.hasHeartDisease"
             control={control}
