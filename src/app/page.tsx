@@ -21,7 +21,7 @@ export default function Home() {
             position: "absolute",
             left: 0,
             top: 0,
-            p: 1, // Material UI spacing
+            p: 0, // Material UI spacing
           }}
         >
           <Logo width={100} height={100} alt="SCF Logo" />
