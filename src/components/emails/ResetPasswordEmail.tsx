@@ -16,21 +16,15 @@ import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
 
 const baseUrl = process.env.BASE_URL;
 
-type WelcomeEmailProps = {
-  firstName: string;
-  programName: string;
+type ResetPasswordEmailProps = {
+  token: string;
 };
 
-export default function WelcomeEmail({
-  firstName,
-  programName,
-}: WelcomeEmailProps) {
+export default function ResetPasswordEmail({ token }: ResetPasswordEmailProps) {
   return (
     <Html>
       <Head />
-      <Preview>
-        You&apos;ve been accepted into St. Christopher Truckers Relief Fund!
-      </Preview>
+      <Preview>Reset your SCF password</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={box}>
@@ -42,12 +36,14 @@ export default function WelcomeEmail({
               style={image}
             />
             <Text style={paragraph}>
-              Hello {firstName}! We are pleased to inform you that your
-              application for {programName} has been accepted. Please click on
-              the link below to access your dashboard.
+              We have received a request to reset your password. Please click on
+              the link below.
             </Text>
-            <Button style={button} href={`${baseUrl}/`}>
-              View your SCF Dashboard
+            <Button
+              style={button}
+              href={`${baseUrl}/forgot-password?token=${token}`}
+            >
+              Reset Password
             </Button>
             <Text style={paragraph}>
               If you have any questions or concerns, please reach out to us at

@@ -2,7 +2,9 @@
 
 import bcrypt from "bcrypt";
 
-import { getUserByEmail } from "@/server/api/users/queries";
+import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
+import { getUserByEmail, getUserById } from "@/server/api/users/queries";
+import { updateUser } from "@/server/api/users/secure-mutations";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
 import { ApiResponse, User } from "@/types";
@@ -33,4 +35,32 @@ export async function createUser(user: User): Promise<ApiResponse<User>> {
   } catch (error) {
     return { success: false, error: handleMongooseError(error) };
   }
+}
+
+export async function resetPasswordWithToken(
+  token: string,
+  newPassword: string,
+): Promise<ApiResponse<null>> {
+  const passwordResetTokenResponse = await getPasswordResetTokenByToken(token);
+
+  if (!passwordResetTokenResponse.success) {
+    return passwordResetTokenResponse;
+  }
+
+  const passwordResetToken = passwordResetTokenResponse.data;
+
+  const userResponse = await getUserById(passwordResetToken.userId);
+
+  if (!userResponse.success) {
+    return userResponse;
+  }
+
+  const user = userResponse.data;
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+
+  await updateUser(user);
+
+  return { success: true, data: null };
 }

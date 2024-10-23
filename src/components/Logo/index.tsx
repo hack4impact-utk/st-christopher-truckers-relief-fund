@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import logo from "@/app/icons/icon.svg";
+import logo from "@/app/icon.svg";
 
 type LogoProps = {
   width: number;
