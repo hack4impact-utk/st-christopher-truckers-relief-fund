@@ -101,6 +101,8 @@ export default function Form() {
 
   const searchParams = useSearchParams();
 
+  console.log(errors);
+
   useEffect(() => {
     const error = searchParams.get("error");
     if (error) {
@@ -109,7 +111,6 @@ export default function Form() {
   }, [searchParams, setError]);
 
   const onSubmit = async (data: GeneralInformationFormValues) => {
-    setError("root", { message: "" });
     // eslint-disable-next-line no-console
     console.log(data);
   };
@@ -452,7 +453,7 @@ export default function Form() {
               render={({ field }) => (
                 <RadioGroup
                   {...field}
-                  value={field.value ? String(field.value) : ""}
+                  value={field.value !== undefined ? String(field.value) : ""}
                   onChange={(e) => field.onChange(e.target.value === "true")}
                 >
                   <FormControlLabel
@@ -912,7 +913,13 @@ export default function Form() {
             </Box>
           ))}
           <Button
-            onClick={() => addDoctor({ name: "", phone: "" } as Doctor)}
+            onClick={() =>
+              addDoctor({
+                id: crypto.randomUUID(),
+                name: "",
+                phone: "",
+              } as Doctor)
+            }
             variant="outlined"
             color="primary"
             startIcon={<AddIcon />}

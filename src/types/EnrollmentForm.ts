@@ -11,7 +11,7 @@ const DoctorSchema = z.object({
       "Invalid phone number",
     )
     .transform((val) => parsePhoneNumber(val, "US").number.toString()),
-  id: z.number(),
+  id: z.string(),
 });
 
 export const generalInformationValidator = z
