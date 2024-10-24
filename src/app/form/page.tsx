@@ -110,6 +110,7 @@ export default function Form() {
 
   const onSubmit = async (data: GeneralInformationFormValues) => {
     setError("root", { message: "" });
+    // eslint-disable-next-line no-console
     console.log(data);
   };
 
@@ -154,7 +155,7 @@ export default function Form() {
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              justifyContent: "space-between",
+              gap: 2,
             }}
           >
             <Controller
@@ -167,6 +168,7 @@ export default function Form() {
                   helperText={errors.firstName?.message}
                   label="First Name"
                   variant="outlined"
+                  sx={{ width: "100%" }}
                 />
               )}
             />
@@ -181,6 +183,7 @@ export default function Form() {
                   helperText={errors.lastName?.message}
                   label="Last Name"
                   variant="outlined"
+                  sx={{ width: "100%" }}
                 />
               )}
             />
