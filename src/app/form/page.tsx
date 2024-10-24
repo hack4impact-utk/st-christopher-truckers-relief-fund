@@ -913,13 +913,14 @@ export default function Form() {
             </Box>
           ))}
           <Button
-            onClick={() =>
-              addDoctor({
+            onClick={() => {
+              const doctor: Doctor = {
                 id: crypto.randomUUID(),
                 name: "",
                 phone: "",
-              } as Doctor)
-            }
+              };
+              addDoctor(doctor);
+            }}
             variant="outlined"
             color="primary"
             startIcon={<AddIcon />}
