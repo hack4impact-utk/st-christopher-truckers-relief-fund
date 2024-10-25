@@ -60,6 +60,7 @@ export const generalInformationValidator = z
     monthlyHouseholdExpenses: z
       .number()
       .min(0, { message: "Expenses must be non-negative" }),
+    isOwnerOperator: z.boolean(),
     ownerOperatorInfo: z
       .object({
         businessIncome: z.number().optional(),
