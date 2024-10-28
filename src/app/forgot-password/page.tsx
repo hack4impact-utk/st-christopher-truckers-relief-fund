@@ -1,13 +1,8 @@
 import { Box } from "@mui/material";
 
-import ForgotPasswordComponent from "@/components/ForgotPasswordComponent";
-import { SearchParams } from "@/types";
+import ForgotPasswordForm from "@/components/ForgotPassword/ForgotPasswordForm";
 
-export default async function ForgotPasswordPage({
-  searchParams,
-}: SearchParams) {
-  const { token } = await searchParams;
-
+export default async function ForgotPasswordPage() {
   return (
     <Box
       sx={{
@@ -18,7 +13,7 @@ export default async function ForgotPasswordPage({
         alignItems: "center",
       }}
     >
-      <ForgotPasswordComponent token={token} />
+      <ForgotPasswordForm />
     </Box>
   );
 }

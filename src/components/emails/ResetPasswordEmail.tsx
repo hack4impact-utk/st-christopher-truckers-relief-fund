@@ -39,10 +39,7 @@ export default function ResetPasswordEmail({ token }: ResetPasswordEmailProps) {
               We have received a request to reset your password. Please click on
               the link below.
             </Text>
-            <Button
-              style={button}
-              href={`${baseUrl}/forgot-password?token=${token}`}
-            >
+            <Button style={button} href={`${baseUrl}/forgot-password/${token}`}>
               Reset Password
             </Button>
             <Text style={paragraph}>

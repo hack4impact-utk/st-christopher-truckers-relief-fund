@@ -48,6 +48,9 @@ export default function ForgotPasswordForm() {
             display: "grid",
             gap: 1.5,
             gridTemplateColumns: "1fr",
+            boxShadow: 1,
+            borderRadius: 2,
+            padding: 3,
           }}
         >
           <Typography variant="h4">Forgot Password?</Typography>
