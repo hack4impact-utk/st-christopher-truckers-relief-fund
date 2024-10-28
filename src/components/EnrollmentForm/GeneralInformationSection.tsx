@@ -679,7 +679,7 @@ export default function GeneralInformationSection() {
               label="Doctor's Name"
               variant="outlined"
               error={errors?.doctors?.[idx]?.name}
-              sx={{ width: "100%"}}
+              sx={{ width: "100%" }}
             />
 
             <ControlledTextInput
