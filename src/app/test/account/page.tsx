@@ -82,7 +82,7 @@ export default function TestAccountCreationPage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           sx={{
-            width: "min(90vw, 500px)",
+            width: "min(90vw, 700px)",
             display: "grid",
             gap: 2,
             gridTemplateColumns: "1fr",

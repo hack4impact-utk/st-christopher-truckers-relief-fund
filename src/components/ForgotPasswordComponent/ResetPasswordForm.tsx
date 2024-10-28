@@ -80,7 +80,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           sx={{
-            width: "min(90vw, 500px)",
+            width: "min(90vw, 700px)",
             display: "grid",
             gap: 1.5,
             gridTemplateColumns: "1fr",
