@@ -1,18 +1,19 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import ControlledTextInput from "@/components/forms/ControlledTextInput";
 import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
 import { resetPasswordWithToken } from "@/server/api/users/mutations";
 
 const resetPasswordFormSchema = z
   .object({
-    password: z.string().min(8, {
+    newPassword: z.string().min(8, {
       message: "Password must be at least 8 characters",
     }),
     confirmPassword: z.string().min(8, {
@@ -20,7 +21,7 @@ const resetPasswordFormSchema = z
     }),
   })
   .superRefine((val, ctx) => {
-    if (val.password !== val.confirmPassword) {
+    if (val.newPassword !== val.confirmPassword) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Passwords do not match",
@@ -46,13 +47,16 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     formState: { errors },
   } = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordFormSchema),
-    defaultValues: { password: "", confirmPassword: "" },
+    defaultValues: { newPassword: "", confirmPassword: "" },
   });
 
   const onSubmit = async (data: ResetPasswordFormValues) => {
-    const { password } = data;
+    const { newPassword } = data;
 
-    const resetPasswordResponse = await resetPasswordWithToken(token, password);
+    const resetPasswordResponse = await resetPasswordWithToken(
+      token,
+      newPassword,
+    );
 
     if (resetPasswordResponse.success) {
       setSnackbarMessage("Password successfully reset");
@@ -84,38 +88,29 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             display: "grid",
             gap: 1.5,
             gridTemplateColumns: "1fr",
+            boxShadow: 1,
+            borderRadius: 2,
+            padding: 3,
           }}
         >
           <Typography variant="h4">Reset Password</Typography>
 
-          <Controller
-            name="password"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                label="Password"
-                variant="outlined"
-                type="password"
-              />
-            )}
+            name="newPassword"
+            label="New Password"
+            variant="outlined"
+            error={errors.newPassword}
+            type="password"
           />
 
-          <Controller
-            name="confirmPassword"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword?.message}
-                label="Confirm Password"
-                variant="outlined"
-                type="password"
-              />
-            )}
+            name="confirmPassword"
+            label="Confirm Password"
+            variant="outlined"
+            error={errors.confirmPassword}
+            type="password"
           />
 
           <Button type="submit" variant="contained" color="primary">
