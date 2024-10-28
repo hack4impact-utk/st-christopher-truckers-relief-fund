@@ -567,7 +567,6 @@ export default function GeneralInformationSection() {
           label="Blood Pressure (e.g. 120/80)"
           variant="outlined"
           error={errors.healthMetrics?.bloodPressure}
-          type="number"
           slotProps={{
             input: {
               endAdornment: (
