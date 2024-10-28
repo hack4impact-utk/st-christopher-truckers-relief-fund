@@ -16,7 +16,6 @@ import {
   InputAdornment,
   Radio,
   RadioGroup,
-  TextField,
   Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -47,12 +46,12 @@ export default function GeneralInformationSection() {
       password: "",
       confirmPassword: "",
       dateOfBirth: "",
-      isUsCitizen: false,
+      isUsCitizen: true,
       phoneNumber: "",
       address: "",
       referralSource: "",
 
-      hasClassACdl: false,
+      hasClassACdl: true,
       cdlNumber: "",
       classBDescription: "",
       employer: {
@@ -126,10 +125,8 @@ export default function GeneralInformationSection() {
         {/* Title: Enrollment Form */}
         <Typography variant="h4">Enrollment Form</Typography>
         <Divider />
-
         {/* Section Title: General Information */}
         <Typography variant="h6">General Information</Typography>
-
         {/* Name */}
         <Box
           sx={{
@@ -157,7 +154,6 @@ export default function GeneralInformationSection() {
             sx={{ width: "100%" }}
           />
         </Box>
-
         {/* Email */}
         <ControlledTextInput
           control={control}
@@ -166,9 +162,7 @@ export default function GeneralInformationSection() {
           variant="outlined"
           error={errors.email}
         />
-
         {/* Password */}
-
         <ControlledTextInput
           control={control}
           name="password"
@@ -177,7 +171,6 @@ export default function GeneralInformationSection() {
           error={errors.password}
           type="password"
         />
-
         <ControlledTextInput
           control={control}
           name="confirmPassword"
@@ -186,7 +179,6 @@ export default function GeneralInformationSection() {
           error={errors.confirmPassword}
           type="password"
         />
-
         {/* Date of Birth */}
         <Controller
           name="dateOfBirth"
@@ -213,7 +205,6 @@ export default function GeneralInformationSection() {
             </FormControl>
           )}
         />
-
         {/* US Citizen */}
         <FormControl error={!!errors.isUsCitizen} sx={{ width: "100%" }}>
           <FormLabel>Are you a citizen of the United States?</FormLabel>
@@ -243,7 +234,6 @@ export default function GeneralInformationSection() {
             {errors.isUsCitizen?.message}
           </FormHelperText>
         </FormControl>
-
         {/* Phone Number */}
         <ControlledTextInput
           control={control}
@@ -253,7 +243,6 @@ export default function GeneralInformationSection() {
           error={errors.phoneNumber}
           type="tel"
         />
-
         {/* Address */}
         <ControlledTextInput
           control={control}
@@ -262,7 +251,6 @@ export default function GeneralInformationSection() {
           variant="outlined"
           error={errors.address}
         />
-
         {/* Referral Source */}
         <ControlledTextInput
           control={control}
@@ -271,12 +259,9 @@ export default function GeneralInformationSection() {
           variant="outlined"
           error={errors.referralSource}
         />
-
         <Divider />
-
         {/* Section Title: Employment Information */}
         <Typography variant="h6">Employment Information</Typography>
-
         {/* CDL */}
         <FormControl error={!!errors.hasClassACdl} sx={{ width: "100%" }}>
           <FormLabel>
@@ -308,7 +293,6 @@ export default function GeneralInformationSection() {
             {errors.hasClassACdl?.message}
           </FormHelperText>
         </FormControl>
-
         {watch("hasClassACdl") === true && (
           <ControlledTextInput
             control={control}
@@ -318,7 +302,6 @@ export default function GeneralInformationSection() {
             error={errors.cdlNumber}
           />
         )}
-
         {watch("hasClassACdl") === false && (
           <ControlledTextInput
             control={control}
@@ -328,7 +311,6 @@ export default function GeneralInformationSection() {
             error={errors.classBDescription}
           />
         )}
-
         {/* Employer */}
         <ControlledTextInput
           control={control}
@@ -337,7 +319,6 @@ export default function GeneralInformationSection() {
           variant="outlined"
           error={errors.employer?.name}
         />
-
         <ControlledTextInput
           control={control}
           name="employer.contact"
@@ -345,7 +326,6 @@ export default function GeneralInformationSection() {
           variant="outlined"
           error={errors.employer?.contact}
         />
-
         {/* Drives Semi Truck Over Road */}
         <FormControl
           error={!!errors.drivesSemiTruckOverRoad}
@@ -384,40 +364,26 @@ export default function GeneralInformationSection() {
             {errors.drivesSemiTruckOverRoad?.message}
           </FormHelperText>
         </FormControl>
-
         {/* Monthly Household Expenses */}
-
-        <Controller
-          name="monthlyHouseholdExpenses"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.monthlyHouseholdExpenses}
-              helperText={errors.monthlyHouseholdExpenses?.message}
-              label="Monthly Household Expenses"
-              type="number"
-              variant="outlined"
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
-                  ),
-                },
-              }}
-              onChange={(e) => {
-                const numericValue = parseFloat(e.target.value);
-                field.onChange(isNaN(numericValue) ? "" : numericValue);
-              }}
-            />
-          )}
+          name="monthlyHouseholdExpenses"
+          label="Monthly Household Expenses"
+          variant="outlined"
+          error={errors.monthlyHouseholdExpenses}
+          type="number"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            },
+          }}
+          convertToNumber={true}
         />
-
         <Divider />
-
         {/* Section Title: Owner Operator Information */}
         <Typography variant="h6">Owner Operator Information</Typography>
-
         {/* Is Owner Operator */}
         <FormControl error={!!errors.isOwnerOperator} sx={{ width: "100%" }}>
           <FormLabel>Are you an owner, operator, or lease operator?</FormLabel>
@@ -447,74 +413,49 @@ export default function GeneralInformationSection() {
             {errors.isOwnerOperator?.message}
           </FormHelperText>
         </FormControl>
-
         {watch("isOwnerOperator") === true && (
           <>
             {/* Business Income */}
-            <Controller
-              name="ownerOperatorInfo.businessIncome"
+            <ControlledTextInput
               control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  error={!!errors.ownerOperatorInfo?.businessIncome}
-                  helperText={errors.ownerOperatorInfo?.businessIncome?.message}
-                  label="Business Income"
-                  type="number"
-                  variant="outlined"
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">$</InputAdornment>
-                      ),
-                    },
-                  }}
-                  onChange={(e) => {
-                    const numericValue = parseFloat(e.target.value);
-                    field.onChange(isNaN(numericValue) ? "" : numericValue);
-                  }}
-                />
-              )}
+              name="ownerOperatorInfo.businessIncome"
+              label="Business Income"
+              variant="outlined"
+              error={errors.ownerOperatorInfo?.businessIncome}
+              type="number"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                },
+              }}
+              convertToNumber={true}
             />
 
             {/* Business Expenses */}
-            <Controller
-              name="ownerOperatorInfo.businessExpenses"
+            <ControlledTextInput
               control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  error={!!errors.ownerOperatorInfo?.businessExpenses}
-                  helperText={
-                    errors.ownerOperatorInfo?.businessExpenses?.message
-                  }
-                  label="Business Expenses"
-                  type="number"
-                  variant="outlined"
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">$</InputAdornment>
-                      ),
-                    },
-                  }}
-                  onChange={(e) => {
-                    const numericValue = parseFloat(e.target.value);
-                    field.onChange(isNaN(numericValue) ? "" : numericValue);
-                  }}
-                />
-              )}
+              name="ownerOperatorInfo.businessExpenses"
+              label="Business Expenses"
+              variant="outlined"
+              error={errors.ownerOperatorInfo?.businessExpenses}
+              type="number"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">$</InputAdornment>
+                  ),
+                },
+              }}
+              convertToNumber={true}
             />
           </>
         )}
-
         <Divider />
-
         {/* Section Title: Health History */}
         <Typography variant="h6">Health History</Typography>
-
         {/* Health Conditions */}
-
         <ControlledTextInput
           control={control}
           name="healthConditions"
@@ -524,7 +465,6 @@ export default function GeneralInformationSection() {
           multiline
           rows={3}
         />
-
         {/* Recent Illness or Injury Details */}
         <ControlledTextInput
           control={control}
@@ -535,7 +475,6 @@ export default function GeneralInformationSection() {
           multiline
           rows={3}
         />
-
         {/* Medical Devices */}
         <ControlledTextInput
           control={control}
@@ -544,17 +483,13 @@ export default function GeneralInformationSection() {
           variant="outlined"
           error={errors.devices}
         />
-
         <Divider />
-
         {/* Section Title: Health History */}
         <Typography variant="h6">Health Metrics</Typography>
-
         <Typography>
           Which of the following conditions do you have? <br /> (Check all that
           apply.)
         </Typography>
-
         {/* Diabetic */}
         <Controller
           name="healthMetrics.isDiabetic"
@@ -566,7 +501,6 @@ export default function GeneralInformationSection() {
             />
           )}
         />
-
         {/* High Blood Pressure */}
         <Controller
           name="healthMetrics.hasHighBloodPressure"
@@ -578,7 +512,6 @@ export default function GeneralInformationSection() {
             />
           )}
         />
-
         {/* High Cholesterol */}
         <Controller
           name="healthMetrics.hasHighCholesterol"
@@ -590,7 +523,6 @@ export default function GeneralInformationSection() {
             />
           )}
         />
-
         {/* Heart Disease */}
         <Controller
           name="healthMetrics.hasHeartDisease"
@@ -602,7 +534,6 @@ export default function GeneralInformationSection() {
             />
           )}
         />
-
         {/* Obese */}
         <Controller
           name="healthMetrics.isObese"
@@ -614,187 +545,118 @@ export default function GeneralInformationSection() {
             />
           )}
         />
-
         {/* Weight */}
-        <Controller
+        <ControlledTextInput
+          control={control}
           name="healthMetrics.weight"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthMetrics?.weight}
-              helperText={errors.healthMetrics?.weight?.message}
-              label="Weight"
-              type="number"
-              variant="outlined"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">lbs</InputAdornment>
-                  ),
-                },
-              }}
-              onChange={(e) => {
-                const numericValue = parseFloat(e.target.value);
-                field.onChange(isNaN(numericValue) ? "" : numericValue);
-              }}
-            />
-          )}
+          label="Weight"
+          variant="outlined"
+          error={errors.healthMetrics?.weight}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">lbs</InputAdornment>,
+            },
+          }}
+          convertToNumber={true}
         />
-
         {/* Blood Pressure */}
-        <Controller
+        <ControlledTextInput
+          control={control}
           name="healthMetrics.bloodPressure"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthMetrics?.bloodPressure}
-              helperText={errors.healthMetrics?.bloodPressure?.message}
-              label="Blood Pressure (e.g. 120/80)"
-              variant="outlined"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">mmHg</InputAdornment>
-                  ),
-                },
-              }}
-            />
-          )}
+          label="Blood Pressure (e.g. 120/80)"
+          variant="outlined"
+          error={errors.healthMetrics?.bloodPressure}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mmHg</InputAdornment>
+              ),
+            },
+          }}
         />
-
         {/* A1C */}
-        <Controller
+        <ControlledTextInput
+          control={control}
           name="healthMetrics.a1c"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthMetrics?.a1c}
-              helperText={errors.healthMetrics?.a1c?.message}
-              label="A1C"
-              type="number"
-              variant="outlined"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">%</InputAdornment>
-                  ),
-                },
-              }}
-              onChange={(e) => {
-                const numericValue = parseFloat(e.target.value);
-                field.onChange(isNaN(numericValue) ? "" : numericValue);
-              }}
-            />
-          )}
+          label="A1C"
+          variant="outlined"
+          error={errors.healthMetrics?.a1c}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">%</InputAdornment>,
+            },
+          }}
+          convertToNumber={true}
         />
-
         {/* Blood Glucose */}
-        <Controller
+        <ControlledTextInput
+          control={control}
           name="healthMetrics.bloodGlucose"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthMetrics?.bloodGlucose}
-              helperText={errors.healthMetrics?.bloodGlucose?.message}
-              label="Blood Glucose"
-              type="number"
-              variant="outlined"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">mg/dL</InputAdornment>
-                  ),
-                },
-              }}
-              onChange={(e) => {
-                const numericValue = parseFloat(e.target.value);
-                field.onChange(isNaN(numericValue) ? "" : numericValue);
-              }}
-            />
-          )}
+          label="Blood Glucose"
+          variant="outlined"
+          error={errors.healthMetrics?.bloodGlucose}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mg/dL</InputAdornment>
+              ),
+            },
+          }}
+          convertToNumber={true}
         />
-
         {/* Cholesterol */}
-        <Controller
-          name="healthMetrics.cholesterol"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthMetrics?.cholesterol}
-              helperText={errors.healthMetrics?.cholesterol?.message}
-              label="Cholesterol"
-              type="number"
-              variant="outlined"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">mg/dL</InputAdornment>
-                  ),
-                },
-              }}
-              onChange={(e) => {
-                const numericValue = parseFloat(e.target.value);
-                field.onChange(isNaN(numericValue) ? "" : numericValue);
-              }}
-            />
-          )}
+          name="healthMetrics.cholesterol"
+          label="Cholesterol"
+          variant="outlined"
+          error={errors.healthMetrics?.cholesterol}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mg/dL</InputAdornment>
+              ),
+            },
+          }}
+          convertToNumber={true}
         />
 
         {/* Other */}
-        <Controller
-          name="healthMetrics.other"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthMetrics?.other}
-              helperText={errors.healthMetrics?.other?.message}
-              label="Other"
-              variant="outlined"
-            />
-          )}
+          name="healthMetrics.other"
+          label="Other"
+          variant="outlined"
+          error={errors.healthMetrics?.other}
         />
 
         <Divider />
 
         {/* Section Title: Health Goals */}
         <Typography variant="h6">Health Goals</Typography>
-
-        <Controller
-          name="healthGoals.shortTerm"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthGoals?.shortTerm}
-              helperText={errors.healthGoals?.shortTerm?.message}
-              label="Short Term Health Goals"
-              multiline
-              rows={3}
-              variant="outlined"
-            />
-          )}
+          name="healthGoals.shortTerm"
+          label="Short Term Health Goals"
+          variant="outlined"
+          error={errors.healthGoals?.shortTerm}
+          multiline
+          rows={3}
         />
 
-        <Controller
-          name="healthGoals.longTerm"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthGoals?.longTerm}
-              helperText={errors.healthGoals?.longTerm?.message}
-              label="Long Term Health Goals"
-              multiline
-              rows={3}
-              variant="outlined"
-            />
-          )}
+          name="healthGoals.longTerm"
+          label="Long Term Health Goals"
+          variant="outlined"
+          error={errors.healthGoals?.longTerm}
+          multiline
+          rows={3}
         />
 
         <Divider />
@@ -807,38 +669,30 @@ export default function GeneralInformationSection() {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
+              gap: 2,
             }}
           >
-            <Controller
+            <ControlledTextInput
+              control={control}
               name={`doctors.${idx}.name`}
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  error={!!errors?.doctors?.[idx]?.name}
-                  helperText={errors?.doctors?.[idx]?.name?.message}
-                  label="Doctor's Name"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
-              )}
+              label="Doctor's Name"
+              variant="outlined"
+              error={errors?.doctors?.[idx]?.name}
+              sx={{ width: "100%"}}
             />
-            <Controller
+
+            <ControlledTextInput
+              control={control}
               name={`doctors.${idx}.phone`}
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  error={!!errors?.doctors?.[idx]?.phone}
-                  helperText={errors?.doctors?.[idx]?.phone?.message}
-                  label="Doctor's Phone Number"
-                  variant="outlined"
-                  sx={{ mr: 1 }}
-                />
-              )}
+              label="Doctor's Phone Number"
+              variant="outlined"
+              error={errors?.doctors?.[idx]?.phone}
+              type="tel"
+              sx={{ width: "100%" }}
             />
-            <IconButton onClick={() => deleteDoctor(idx)}>
+
+            <IconButton onClick={() => deleteDoctor(idx)} sx={{ ml: "auto" }}>
               <DeleteIcon />
             </IconButton>
           </Box>
@@ -864,7 +718,6 @@ export default function GeneralInformationSection() {
         {/* Privacy Policy */}
         <Typography variant="h6">Privacy Policy</Typography>
         <Typography>We will sell all your data! &gt;:)</Typography>
-
         <Box
           sx={{
             display: "flex",
@@ -888,7 +741,7 @@ export default function GeneralInformationSection() {
                 control={control}
                 render={({ field }) => <Checkbox {...field} />}
               />
-              <Typography sx={{ ml: 1 }}>I agree.</Typography>
+              <Typography sx={{ pl: 1 }}>I agree.</Typography>
             </Box>
             <Box
               sx={{
@@ -911,7 +764,6 @@ export default function GeneralInformationSection() {
           is protected under the Health Insurance Portability and Accountability
           Act (HIPAA).
         </Typography>
-
         <Box
           sx={{
             display: "flex",
@@ -935,8 +787,9 @@ export default function GeneralInformationSection() {
                 control={control}
                 render={({ field }) => <Checkbox {...field} />}
               />
-              <Typography sx={{ ml: 1 }}>I agree.</Typography>
+              <Typography sx={{ pl: 1 }}>I agree.</Typography>
             </Box>
+
             <Box
               sx={{
                 display: "flex",
