@@ -24,6 +24,7 @@ import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
+import ControlledTextInput from "@/components/forms/ControlledTextInput";
 import {
   Doctor,
   GeneralInformationFormValues,
@@ -138,81 +139,52 @@ export default function GeneralInformationSection() {
             gap: 2,
           }}
         >
-          <Controller
-            name="firstName"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message}
-                label="First Name"
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-            )}
+            name="firstName"
+            label="First Name"
+            variant="outlined"
+            error={errors.firstName}
+            sx={{ width: "100%" }}
           />
 
-          <Controller
-            name="lastName"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                label="Last Name"
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-            )}
+            name="lastName"
+            label="Last Name"
+            variant="outlined"
+            error={errors.lastName}
+            sx={{ width: "100%" }}
           />
         </Box>
 
         {/* Email */}
-        <Controller
-          name="email"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              label="Email"
-              variant="outlined"
-            />
-          )}
+          name="email"
+          label="Email"
+          variant="outlined"
+          error={errors.email}
         />
 
         {/* Password */}
-        <Controller
-          name="password"
+
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              label="Password"
-              variant="outlined"
-              type="password"
-            />
-          )}
+          name="password"
+          label="Password"
+          variant="outlined"
+          error={errors.password}
+          type="password"
         />
 
-        <Controller
-          name="confirmPassword"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword?.message}
-              label="Confirm Password"
-              variant="outlined"
-              type="password"
-            />
-          )}
+          name="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          error={errors.confirmPassword}
+          type="password"
         />
 
         {/* Date of Birth */}
@@ -273,49 +245,31 @@ export default function GeneralInformationSection() {
         </FormControl>
 
         {/* Phone Number */}
-        <Controller
-          name="phoneNumber"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber?.message}
-              label="Phone Number"
-              variant="outlined"
-              type="tel"
-            />
-          )}
+          name="phoneNumber"
+          label="Phone Number"
+          variant="outlined"
+          error={errors.phoneNumber}
+          type="tel"
         />
 
         {/* Address */}
-        <Controller
-          name="address"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.address}
-              helperText={errors.address?.message}
-              label="Address"
-              variant="outlined"
-            />
-          )}
+          name="address"
+          label="Address"
+          variant="outlined"
+          error={errors.address}
         />
 
         {/* Referral Source */}
-        <Controller
-          name="referralSource"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.referralSource}
-              helperText={errors.referralSource?.message}
-              label="Referral Source"
-              variant="outlined"
-            />
-          )}
+          name="referralSource"
+          label="Referral Source"
+          variant="outlined"
+          error={errors.referralSource}
         />
 
         <Divider />
@@ -356,64 +310,40 @@ export default function GeneralInformationSection() {
         </FormControl>
 
         {watch("hasClassACdl") === true && (
-          <Controller
-            name="cdlNumber"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.cdlNumber}
-                helperText={errors.cdlNumber?.message}
-                label="CDL Number"
-                variant="outlined"
-              />
-            )}
+            name="cdlNumber"
+            label="CDL Number"
+            variant="outlined"
+            error={errors.cdlNumber}
           />
         )}
 
         {watch("hasClassACdl") === false && (
-          <Controller
-            name="classBDescription"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.classBDescription}
-                helperText={errors.classBDescription?.message}
-                label="Class B CDL Description"
-                variant="outlined"
-              />
-            )}
+            name="classBDescription"
+            label="Class B CDL Description"
+            variant="outlined"
+            error={errors.classBDescription}
           />
         )}
 
         {/* Employer */}
-        <Controller
-          name="employer.name"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.employer?.name}
-              helperText={errors.employer?.name?.message}
-              label="Employer Name"
-              variant="outlined"
-            />
-          )}
+          name="employer.name"
+          label="Employer Name"
+          variant="outlined"
+          error={errors.employer?.name}
         />
 
-        <Controller
-          name="employer.contact"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.employer?.contact}
-              helperText={errors.employer?.contact?.message}
-              label="Employer Contact"
-              variant="outlined"
-            />
-          )}
+          name="employer.contact"
+          label="Employer Contact"
+          variant="outlined"
+          error={errors.employer?.contact}
         />
 
         {/* Drives Semi Truck Over Road */}
@@ -456,6 +386,7 @@ export default function GeneralInformationSection() {
         </FormControl>
 
         {/* Monthly Household Expenses */}
+
         <Controller
           name="monthlyHouseholdExpenses"
           control={control}
@@ -583,52 +514,35 @@ export default function GeneralInformationSection() {
         <Typography variant="h6">Health History</Typography>
 
         {/* Health Conditions */}
-        <Controller
-          name="healthConditions"
+
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.healthConditions}
-              helperText={errors.healthConditions?.message}
-              label="Health Conditions"
-              multiline
-              rows={3}
-              variant="outlined"
-            />
-          )}
+          name="healthConditions"
+          label="Health Conditions"
+          variant="outlined"
+          error={errors.healthConditions}
+          multiline
+          rows={3}
         />
 
         {/* Recent Illness or Injury Details */}
-        <Controller
-          name="recentIllnessOrInjuryDetails"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.recentIllnessOrInjuryDetails}
-              helperText={errors.recentIllnessOrInjuryDetails?.message}
-              label="Recent Illness or Injury"
-              multiline
-              rows={3}
-              variant="outlined"
-            />
-          )}
+          name="recentIllnessOrInjuryDetails"
+          label="Recent Illness or Injury"
+          variant="outlined"
+          error={errors.recentIllnessOrInjuryDetails}
+          multiline
+          rows={3}
         />
 
         {/* Medical Devices */}
-        <Controller
-          name="devices"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.devices}
-              helperText={errors.devices?.message}
-              label="Medical Devices"
-              variant="outlined"
-            />
-          )}
+          name="devices"
+          label="Medical Devices"
+          variant="outlined"
+          error={errors.devices}
         />
 
         <Divider />

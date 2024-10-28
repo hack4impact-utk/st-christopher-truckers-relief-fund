@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import ControlledTextInput from "@/components/forms/ControlledTextInput";
 import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
 import { resetPasswordWithToken } from "@/server/api/users/mutations";
 
@@ -88,34 +89,22 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         >
           <Typography variant="h4">Reset Password</Typography>
 
-          <Controller
-            name="password"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                label="Password"
-                variant="outlined"
-                type="password"
-              />
-            )}
+            name="password"
+            label="Password"
+            variant="outlined"
+            error={errors.password}
+            type="password"
           />
 
-          <Controller
-            name="confirmPassword"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword?.message}
-                label="Confirm Password"
-                variant="outlined"
-                type="password"
-              />
-            )}
+            name="confirmPassword"
+            label="Confirm Password"
+            variant="outlined"
+            error={errors.confirmPassword}
+            type="password"
           />
 
           <Button type="submit" variant="contained" color="primary">

@@ -1,11 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, Snackbar, Typography } from "@mui/material";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import ControlledTextInput from "@/components/forms/ControlledTextInput";
 import { handlePasswordResetRequest } from "@/server/api/password-reset-tokens/mutations";
 
 const forgotPasswordFormSchema = z.object({
@@ -51,18 +52,12 @@ export default function ForgotPasswordForm() {
         >
           <Typography variant="h4">Forgot Password?</Typography>
 
-          <Controller
-            name="email"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                label="Email"
-                variant="outlined"
-              />
-            )}
+            name="email"
+            label="Email"
+            variant="outlined"
+            error={errors.email}
           />
 
           <Button type="submit" variant="contained" color="primary">
