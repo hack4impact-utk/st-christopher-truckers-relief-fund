@@ -7,12 +7,12 @@ import {
   FormHelperText,
   MenuItem,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import ControlledTextInput from "@/components/forms/ControlledTextInput";
 import { createUser } from "@/server/api/users/mutations";
 import { User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
@@ -36,7 +36,13 @@ export default function TestAccountCreationPage() {
     formState: { errors },
   } = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
-    defaultValues: { role: "admin" },
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: "admin",
+    },
   });
 
   const onSubmit = async (data: SignUpFormValues) => {
@@ -76,7 +82,7 @@ export default function TestAccountCreationPage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           sx={{
-            width: "min(90vw, 500px)",
+            width: "min(90vw, 700px)",
             display: "grid",
             gap: 2,
             gridTemplateColumns: "1fr",
@@ -84,61 +90,37 @@ export default function TestAccountCreationPage() {
         >
           <Typography variant="h5">Create Account</Typography>
 
-          <Controller
+          <ControlledTextInput
+            control={control}
             name="firstName"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message}
-                label="First Name"
-                variant="outlined"
-              />
-            )}
+            label="First Name"
+            variant="outlined"
+            error={errors.firstName}
           />
 
-          <Controller
+          <ControlledTextInput
+            control={control}
             name="lastName"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                label="Last Name"
-                variant="outlined"
-              />
-            )}
+            label="Last Name"
+            variant="outlined"
+            error={errors.lastName}
           />
 
-          <Controller
+          <ControlledTextInput
+            control={control}
             name="email"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                label="Email"
-                variant="outlined"
-              />
-            )}
+            label="Email"
+            variant="outlined"
+            error={errors.email}
           />
 
-          <Controller
-            name="password"
+          <ControlledTextInput
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                label="Password"
-                variant="outlined"
-                type="password"
-              />
-            )}
+            name="password"
+            label="Password"
+            variant="outlined"
+            error={errors.password}
+            type="password"
           />
 
           <Controller

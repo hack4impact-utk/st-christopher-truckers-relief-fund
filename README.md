@@ -1,4 +1,9 @@
-# St. Christopher Truckers Relief Fund (SCF)
+<h1 align="center">
+  <br>
+    <img src="public/icon-192.png" alt="SCF Logo width="25%">  
+  <br>
+    St. Christopher Truckers Relief Fund (SCF)
+</h1>
 
 ## Description
 
@@ -38,6 +43,7 @@ NEXTAUTH_URL=http://localhost:3000/
 NEXTAUTH_SECRET=
 SCF_GMAIL=utkscf@gmail.com
 SCF_GMAIL_APP_PASSWORD=
+BASE_URL=http://localhost:3000
 ```
 
 Please contact leadership to obtain the following:
@@ -85,9 +91,9 @@ The `pnpm run format` command can be used to fix formatting errors.
 
 For your convenience, there are many tools available to test out components, actions, etc.
 
-`/test/client/page.tsx` is a page that can be accessed at `/test/client` and is used to test out client-side components.
+`/test/client/page.tsx` is a page that can be accessed at `/test/client` and is used to test out client components and server actions.
 
-`/test/server/page.tsx` is a page that can be accessed at `/test/server` and is used to test out server-side components.
+`/test/server/page.tsx` is a page that can be accessed at `/test/server` and is used to test out server components and server functions.
 
 #### Testing accounts
 
@@ -95,7 +101,11 @@ For your convenience, there are many tools available to test out components, act
 
 #### Testing emails
 
-Run `pnpm run email-dev` to preview the emails that live in the `src/emails` directory.
+Run `pnpm run email-dev` to preview the emails that live in the `src/components/emails` directory.
+
+Once the email looks good, fill out the sending function in `src/server/actions/emails/actions.tsx`
+
+Then, go to `/test/client` and add a button that calls the send function.
 
 #### Debugging
 

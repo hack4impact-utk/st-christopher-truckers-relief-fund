@@ -1,4 +1,18 @@
+import dayjs from "dayjs";
+import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
 import z from "zod";
+
+const DoctorSchema = z.object({
+  name: z.string().min(1, { message: "Doctor's name is required" }),
+  phone: z
+    .string()
+    .refine(
+      (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
+      "Invalid phone number",
+    )
+    .transform((val) => parsePhoneNumber(val, "US").number.toString()),
+  id: z.string(),
+});
 
 export const generalInformationValidator = z
   .object({
@@ -20,10 +34,15 @@ export const generalInformationValidator = z
     address: z.string().min(1, { message: "Address is required" }),
     phoneNumber: z
       .string()
-      .min(10, { message: "Phone number must be at least 10 digits" }),
+      .refine(
+        (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
+        "Invalid phone number",
+      )
+      .transform((val) => parsePhoneNumber(val, "US").number.toString()),
     hasClassACdl: z.boolean(),
+    cdlNumber: z.string().optional(), // Required if hasClassACdl is true
     classBDescription: z.string().optional(), // Required if hasClassACdl is false
-    dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    dateOfBirth: z.string().refine((val) => dayjs(val).isValid(), {
       message: "Invalid date format",
     }),
     healthConditions: z.string().optional(),
@@ -31,16 +50,7 @@ export const generalInformationValidator = z
     drivesSemiTruckOverRoad: z.boolean(),
     isUsCitizen: z.boolean(),
     referralSource: z.string().optional(),
-    doctors: z
-      .array(
-        z.object({
-          name: z.string().min(1, { message: "Doctor's name is required" }),
-          phone: z.string().min(10, {
-            message: "Doctor's phone number must be at least 10 digits",
-          }),
-        }),
-      )
-      .optional(),
+    doctors: z.array(DoctorSchema).optional(),
     employer: z
       .object({
         name: z.string().optional(),
@@ -50,6 +60,7 @@ export const generalInformationValidator = z
     monthlyHouseholdExpenses: z
       .number()
       .min(0, { message: "Expenses must be non-negative" }),
+    isOwnerOperator: z.boolean(),
     ownerOperatorInfo: z
       .object({
         businessIncome: z.number().optional(),
@@ -73,10 +84,10 @@ export const generalInformationValidator = z
       shortTerm: z.string(),
       longTerm: z.string(),
     }),
-    devices: z.array(z.string()).optional(), // List of devices like "scale", "glucose monitor", etc.
+    devices: z.string().optional(), // List of devices like "scale", "glucose monitor", etc.
   })
   .superRefine((val, ctx) => {
-    // Add custom conditional validation for classBDescription
+    // Add custom conditional validation for CDL
     if (val.hasClassACdl === false && !val.classBDescription) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -84,20 +95,29 @@ export const generalInformationValidator = z
           "Class B Description is required if you don't have a Class A CDL",
         path: ["classBDescription"],
       });
+    } else if (val.hasClassACdl === true && !val.cdlNumber) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CDL Number is required if you have a Class A CDL",
+        path: ["cdlNumber"],
+      });
+    }
 
-      if (val.password !== val.confirmPassword) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Passwords do not match",
-          path: ["confirmPassword"],
-        });
-      }
+    // Add custom conditional validation for password fields
+    if (val.password !== val.confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
     }
   });
 
 export type GeneralInformationFormValues = z.infer<
   typeof generalInformationValidator
 >;
+
+export type Doctor = z.infer<typeof DoctorSchema>;
 
 // The enrollment form type is the union of all sub-form types
 export type EnrollmentForm = GeneralInformationFormValues & {

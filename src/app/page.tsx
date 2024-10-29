@@ -1,6 +1,11 @@
 import InvitationInfoModal from "../components/InvitationInfoModal";
 import { EnrollmentForm as EnrollmentFormType } from "@/types/EnrollmentForm";
 
+import { Box, Button } from "@mui/material";
+import Link from "next/link";
+
+import LoginForm from "@/components/LoginForm";
+
 export default function Home() {
   // Mock form
   const mockEnrollmentForm: EnrollmentFormType = {
@@ -48,9 +53,26 @@ export default function Home() {
   };
 
   return (
-    <>
-      <p>Home page</p>
-      <InvitationInfoModal enrollment_form={mockEnrollmentForm}/>
-    </>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        height: "100vh",
+        width: "100vw",
+        gap: 2,
+      }}
+    >
+      <LoginForm />
+
+      <Link href="/enrollment-form" passHref>
+        <Button variant="contained" color="primary">
+          Fill out enrollment form
+        </Button>
+      </Link>
+
+      <InvitationInfoModal enrollment_form={mockEnrollmentForm} />
+    </Box>
   );
 }

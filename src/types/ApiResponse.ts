@@ -5,7 +5,7 @@ type FailedApiResponse = {
 
 type SuccessfulApiResponse<T> = {
   success: true;
-  data?: T;
+  data: T;
 };
 
 // Discriminated union to distinguish between successful and failed API responses

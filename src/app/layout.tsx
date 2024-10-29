@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
+import Header from "@/components/Header";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import theme from "@/styles/theme";
 
@@ -31,9 +32,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.variable}>
         <AppRouterCacheProvider>
-          <CssBaseline />
           <ThemeProvider theme={theme}>
-            <NextAuthProvider>{children}</NextAuthProvider>
+            <NextAuthProvider>
+              <CssBaseline />
+              <Header />
+              {children}
+            </NextAuthProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

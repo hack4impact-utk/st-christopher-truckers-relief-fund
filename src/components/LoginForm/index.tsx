@@ -1,12 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Suspense, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import ControlledTextInput from "@/components/forms/ControlledTextInput";
 
 function LoginFormLoadingSkeleton() {
   return <Skeleton variant="rounded" width="100%" height={300} />;
@@ -29,6 +32,7 @@ function LoginFormFields() {
     setError,
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
+    defaultValues: { email: "", password: "" },
   });
 
   const searchParams = useSearchParams();
@@ -49,48 +53,45 @@ function LoginFormFields() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box
         sx={{
-          width: "min(90vw, 500px)",
+          width: "min(90vw, 700px)",
           display: "grid",
           gap: 1.5,
           gridTemplateColumns: "1fr",
+          boxShadow: 1,
+          borderRadius: 2,
+          padding: 3,
         }}
       >
         <Typography variant="h4">Login</Typography>
 
-        <Controller
-          name="email"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              label="Email"
-              variant="outlined"
-            />
-          )}
+          name="email"
+          label="Email"
+          variant="outlined"
+          error={errors.email}
         />
 
-        <Controller
-          name="password"
+        <ControlledTextInput
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              label="Password"
-              variant="outlined"
-              type="password"
-            />
-          )}
+          name="password"
+          label="Password"
+          variant="outlined"
+          error={errors.password}
+          type="password"
         />
 
         <Button type="submit" variant="contained" color="primary">
           Login
         </Button>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
+        <Link href="/forgot-password" style={{ textDecoration: "none" }}>
+          <Typography variant="body1" color="primary">
+            Forgot password?
+          </Typography>
+        </Link>
+
+        <Typography variant="body1" fontWeight="normal" color="red">
           {errors.root?.message}
         </Typography>
       </Box>
