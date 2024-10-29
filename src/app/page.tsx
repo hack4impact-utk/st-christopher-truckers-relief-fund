@@ -19,8 +19,9 @@ export default function Home() {
     password: "password123",
     confirmPassword: "password123",
     address: "123 Main St",
-    phoneNumber: "555-555-5555",
+    phoneNumber: "+15555555555",
     hasClassACdl: true,
+    cdlNumber: "A12345678",
     classBDescription: "N/A",
     dateOfBirth: "1990-01-01",
     healthConditions: "None",
@@ -28,10 +29,23 @@ export default function Home() {
     drivesSemiTruckOverRoad: true,
     isUsCitizen: true,
     referralSource: "Friend",
-    doctors: [],
-    employer: {},
-    monthlyHouseholdExpenses: 2000,
-    ownerOperatorInfo: {},
+    doctors: [
+      {
+        name: "Dr. Smith",
+        phone: "+15555551234",
+        id: "doc-001",
+      },
+    ],
+    employer: {
+      name: "Trucking Co.",
+      contact: "Jane Smith",
+    },
+    monthlyHouseholdExpenses: 2500,
+    isOwnerOperator: true,
+    ownerOperatorInfo: {
+      businessIncome: 5000,
+      businessExpenses: 2000,
+    },
     healthMetrics: {
       isDiabetic: false,
       hasHighBloodPressure: false,
@@ -46,10 +60,10 @@ export default function Home() {
       other: "N/A",
     },
     healthGoals: {
-      shortTerm: "Maintain healthy weight",
-      longTerm: "Reduce cholesterol levels",
+      shortTerm: "Maintain current health levels",
+      longTerm: "Reduce cholesterol",
     },
-    devices: [],
+    devices: "scale, glucose monitor",
   };
 
   return (
