@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import InfoIcon from "@mui/icons-material/Info";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
+
 import { EnrollmentForm as EnrollmentFormType } from "@/types/EnrollmentForm";
 
 // Define the props interface for the modal component
-interface InvitationInfoModalProps {
+type InvitationInfoModalProps = {
   enrollment_form: EnrollmentFormType; // The enrollment form object passed as a prop
-}
+};
 
 // Define the styling for the modal content
 const style = {
@@ -132,10 +133,10 @@ const InvitationInfoModal: React.FC<InvitationInfoModalProps> = ({
                 <Typography variant="body1">
                   <strong>Employer:</strong>
                 </Typography>
-                <Typography variant="body2" >
+                <Typography variant="body2">
                   - Name: {enrollment_form.employer.name}
                 </Typography>
-                <Typography variant="body2" >
+                <Typography variant="body2">
                   - Contact: {enrollment_form.employer.contact}
                 </Typography>
               </Box>
