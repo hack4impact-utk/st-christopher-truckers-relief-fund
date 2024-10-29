@@ -18,26 +18,20 @@ export async function getPasswordResetTokenByToken(
       .exec();
 
     if (!passwordResetToken) {
-      return {
-        success: false,
-        error: apiErrors.passwordResetToken.passwordResetTokenNotFound,
-      };
+      return [null, apiErrors.passwordResetToken.passwordResetTokenNotFound];
     }
 
     const now = dayjsUtil().utc();
     const tokenHasExpired = dayjsUtil(passwordResetToken.expires).isBefore(now);
     if (tokenHasExpired) {
-      return {
-        success: false,
-        error: apiErrors.passwordResetToken.passwordResetTokenExpired,
-      };
+      return [null, apiErrors.passwordResetToken.passwordResetTokenExpired];
     }
 
     // convert ObjectId to string
     passwordResetToken._id = String(passwordResetToken._id);
 
-    return { success: true, data: passwordResetToken };
+    return [passwordResetToken, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }

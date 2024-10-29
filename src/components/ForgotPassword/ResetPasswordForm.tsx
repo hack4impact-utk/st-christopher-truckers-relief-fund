@@ -53,12 +53,9 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const onSubmit = async (data: ResetPasswordFormValues) => {
     const { newPassword } = data;
 
-    const resetPasswordResponse = await resetPasswordWithToken(
-      token,
-      newPassword,
-    );
+    const [, error] = await resetPasswordWithToken(token, newPassword);
 
-    if (resetPasswordResponse.success) {
+    if (error === null) {
       setSnackbarMessage("Password successfully reset");
       setSnackbarOpen(true);
       await deletePasswordResetToken(token);
@@ -88,7 +85,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             display: "grid",
             gap: 1.5,
             gridTemplateColumns: "1fr",
-            boxShadow: 1,
+            boxShadow: 2,
             borderRadius: 2,
             padding: 3,
           }}

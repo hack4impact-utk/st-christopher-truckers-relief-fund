@@ -1,5 +1,7 @@
 "use server";
 
+import { getProgramEnrollmentForUser } from "@/server/api/program-enrollments/queries";
+import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
 import { ApiResponse, ProgramEnrollment } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
@@ -9,18 +11,17 @@ import handleMongooseError from "@/utils/handleMongooseError";
 export async function createProgramEnrollment(
   programEnrollment: ProgramEnrollment,
 ): Promise<ApiResponse<ProgramEnrollment>> {
+  await dbConnect();
+
   try {
     // don't create program enrollment if one already exists
-    const existingProgramEnrollment = await ProgramEnrollmentModel.findOne({
-      email: programEnrollment.email,
-      program: programEnrollment.program,
-    });
+    const [existingProgramEnrollment] = await getProgramEnrollmentForUser(
+      programEnrollment.email,
+      programEnrollment.program,
+    );
 
     if (existingProgramEnrollment) {
-      return {
-        success: false,
-        error: apiErrors.programEnrollment.programEnrollmentAlreadyExists,
-      };
+      return [null, apiErrors.programEnrollment.programEnrollmentAlreadyExists];
     }
 
     const newProgramEnrollmentDocument =
@@ -30,19 +31,21 @@ export async function createProgramEnrollment(
     const newProgramEnrollment = newProgramEnrollmentDocument.toObject();
     newProgramEnrollment._id = String(newProgramEnrollment._id);
 
-    return { success: true, data: newProgramEnrollment };
+    return [newProgramEnrollment, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }
 
 export async function updateProgramEnrollment(
   newProgramEnrollment: ProgramEnrollment,
 ): Promise<ApiResponse<ProgramEnrollment>> {
-  const authResponse = await authenticateServerFunction("admin");
+  await dbConnect();
 
-  if (!authResponse.success) {
-    return authResponse;
+  const [, error] = await authenticateServerFunction("admin");
+
+  if (error) {
+    return [null, error];
   }
 
   try {
@@ -54,17 +57,14 @@ export async function updateProgramEnrollment(
       ).exec();
 
     if (!updatedProgramEnrollment) {
-      return {
-        success: false,
-        error: apiErrors.programEnrollment.programEnrollmentNotFound,
-      };
+      return [null, apiErrors.programEnrollment.programEnrollmentNotFound];
     }
 
     // convert ObjectId to string
     updatedProgramEnrollment._id = String(updatedProgramEnrollment._id);
 
-    return { success: true, data: updatedProgramEnrollment };
+    return [updatedProgramEnrollment, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }

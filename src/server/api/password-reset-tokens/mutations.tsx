@@ -3,6 +3,7 @@
 import { sendPasswordResetEmail } from "@/server/api/emails/actions";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 import { getUserByEmail } from "@/server/api/users/queries";
+import dbConnect from "@/server/dbConnect";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
@@ -14,16 +15,17 @@ export async function createPasswordResetToken(
   userId: string,
   expires: string,
 ): Promise<ApiResponse<PasswordResetToken>> {
+  await dbConnect();
+
   try {
     // don't create password reset token if one already exists
-    const passwordResetTokenResponse =
-      await getPasswordResetTokenByToken(token);
+    const [existingToken] = await getPasswordResetTokenByToken(token);
 
-    if (passwordResetTokenResponse.success) {
-      return {
-        success: false,
-        error: apiErrors.passwordResetToken.passwordResetTokenAlreadyExists,
-      };
+    if (existingToken) {
+      return [
+        null,
+        apiErrors.passwordResetToken.passwordResetTokenAlreadyExists,
+      ];
     }
 
     const newPasswordResetToken: PasswordResetToken = {
@@ -41,42 +43,39 @@ export async function createPasswordResetToken(
     // convert ObjectId to string
     passwordResetToken._id = String(passwordResetToken._id);
 
-    return { success: true, data: passwordResetToken };
+    return [passwordResetToken, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }
 
 export async function deletePasswordResetToken(
   token: string,
 ): Promise<ApiResponse<null>> {
+  await dbConnect();
+
   try {
     const passwordResetToken = await PasswordResetTokenModel.findOneAndDelete({
       token,
     });
 
     if (!passwordResetToken) {
-      return {
-        success: false,
-        error: apiErrors.passwordResetToken.passwordResetTokenNotFound,
-      };
+      return [null, apiErrors.passwordResetToken.passwordResetTokenNotFound];
     }
 
-    return { success: true, data: null };
+    return [null, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }
 
 export async function handlePasswordResetRequest(email: string) {
   // check if email exists
-  const userResponse = await getUserByEmail(email);
+  const [user, userError] = await getUserByEmail(email);
 
-  if (!userResponse.success) {
+  if (userError !== null) {
     return;
   }
-
-  const user = userResponse.data;
 
   if (!user._id) {
     return;
@@ -90,13 +89,13 @@ export async function handlePasswordResetRequest(email: string) {
     expires: oneHourFromNow,
   };
 
-  const createPasswordResetTokenResponse = await createPasswordResetToken(
+  const [, createPasswordResetTokenError] = await createPasswordResetToken(
     token.token,
     token.userId,
     token.expires,
   );
 
-  if (!createPasswordResetTokenResponse.success) {
+  if (createPasswordResetTokenError !== null) {
     return;
   }
 

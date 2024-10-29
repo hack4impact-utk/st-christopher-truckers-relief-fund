@@ -55,14 +55,14 @@ export default function TestAccountCreationPage() {
       dateCreated: new Date().toISOString(),
     };
 
-    const response = await createUser(user);
+    const [, error] = await createUser(user);
 
-    if (response.success) {
+    if (error === null) {
       alert("User created successfully");
       return;
     }
 
-    if (response.error === apiErrors.user.userAlreadyExists) {
+    if (error === apiErrors.user.userAlreadyExists) {
       alert("User already exists");
       return;
     }
