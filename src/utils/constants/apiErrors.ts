@@ -18,6 +18,7 @@ const apiErrors = {
   user: {
     userNotFound: "User not found",
     userAlreadyExists: "User already exists",
+    userInvalidCredentials: "User's credentials are invalid",
   },
   programEnrollment: {
     programEnrollmentNotFound: "Program enrollment not found",
