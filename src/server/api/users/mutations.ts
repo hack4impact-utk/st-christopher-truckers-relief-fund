@@ -16,9 +16,9 @@ export async function createUser(user: User): Promise<ApiResponse<User>> {
 
   try {
     // don't create user if one already exists
-    const [, error] = await getUserByEmail(user.email);
+    const [userInDatabase] = await getUserByEmail(user.email);
 
-    if (error !== null) {
+    if (userInDatabase) {
       return [null, apiErrors.user.userAlreadyExists];
     }
 
