@@ -28,7 +28,9 @@ export default function handleMongooseError(error: unknown): string {
     return apiErrors.mongoose.ValidatorError;
   } else if (error instanceof mongoose.Error.VersionError) {
     return apiErrors.mongoose.VersionError;
+  } else if (error instanceof Error) {
+    return `An unknown error occurred with Mongoose: ${error.message}`;
   } else {
-    return "An unknown error occurred with Mongoose.";
+    return "An unknown error occurred with Mongoose";
   }
 }

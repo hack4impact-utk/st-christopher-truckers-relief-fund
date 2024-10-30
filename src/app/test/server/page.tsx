@@ -1,3 +1,17 @@
+import { Box } from "@mui/material";
+
 export default async function ServerComponentTestPage() {
-  return <p>Server component test page</p>;
+  return (
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p>Server component test page</p>
+    </Box>
+  );
 }

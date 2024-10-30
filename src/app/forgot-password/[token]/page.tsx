@@ -14,9 +14,9 @@ export default async function ResetPasswordWithTokenPage({
   params,
 }: ResetPasswordWithTokenPageProps) {
   const { token } = params;
-  const passwordResetTokenResponse = await getPasswordResetTokenByToken(token);
+  const [passwordResetToken, error] = await getPasswordResetTokenByToken(token);
 
-  if (!passwordResetTokenResponse.success) {
+  if (error !== null) {
     return (
       <Box
         sx={{
@@ -47,7 +47,7 @@ export default async function ResetPasswordWithTokenPage({
         alignItems: "center",
       }}
     >
-      <ResetPasswordForm token={passwordResetTokenResponse.data.token} />;
+      <ResetPasswordForm token={passwordResetToken.token} />;
     </Box>
   );
 }

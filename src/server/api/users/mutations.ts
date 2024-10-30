@@ -16,9 +16,10 @@ export async function createUser(user: User): Promise<ApiResponse<User>> {
 
   try {
     // don't create user if one already exists
-    const existingUser = await getUserByEmail(user.email);
-    if (existingUser.success) {
-      return { success: false, error: apiErrors.user.userAlreadyExists };
+    const [, error] = await getUserByEmail(user.email);
+
+    if (error !== null) {
+      return [null, apiErrors.user.userAlreadyExists];
     }
 
     // hash password
@@ -31,9 +32,9 @@ export async function createUser(user: User): Promise<ApiResponse<User>> {
     const newUser = newUserDocument.toObject();
     newUser._id = String(newUser._id);
 
-    return { success: true, data: newUser };
+    return [newUser, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }
 
@@ -41,26 +42,25 @@ export async function resetPasswordWithToken(
   token: string,
   newPassword: string,
 ): Promise<ApiResponse<null>> {
-  const passwordResetTokenResponse = await getPasswordResetTokenByToken(token);
+  await dbConnect();
 
-  if (!passwordResetTokenResponse.success) {
-    return passwordResetTokenResponse;
+  const [passwordResetToken, passwordResetError] =
+    await getPasswordResetTokenByToken(token);
+
+  if (passwordResetError !== null) {
+    return [null, passwordResetError];
   }
 
-  const passwordResetToken = passwordResetTokenResponse.data;
+  const [user, userError] = await getUserById(passwordResetToken.userId);
 
-  const userResponse = await getUserById(passwordResetToken.userId);
-
-  if (!userResponse.success) {
-    return userResponse;
+  if (userError !== null) {
+    return [null, userError];
   }
-
-  const user = userResponse.data;
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   user.password = hashedPassword;
 
   await updateUser(user);
 
-  return { success: true, data: null };
+  return [null, null];
 }

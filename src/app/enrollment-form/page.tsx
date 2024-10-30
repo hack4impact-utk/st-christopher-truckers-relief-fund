@@ -9,6 +9,7 @@ export default function EnrollmentForm() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        paddingTop: "25vh",
       }}
     >
       <GeneralInformationSection />

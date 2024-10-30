@@ -1,10 +1,13 @@
 // These mutation functions are not exposed to the world for security reasons
 
+import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import { User } from "@/types";
+import { ApiResponse, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 
-export async function updateUser(newUser: User) {
+export async function updateUser(newUser: User): Promise<ApiResponse<User>> {
+  await dbConnect();
+
   const updatedUser = await UserModel.findOneAndUpdate(
     { _id: newUser._id },
     newUser,
@@ -12,14 +15,11 @@ export async function updateUser(newUser: User) {
   ).exec();
 
   if (!updatedUser) {
-    return {
-      success: false,
-      error: apiErrors.user.userNotFound,
-    };
+    return [null, apiErrors.user.userNotFound];
   }
 
   // convert ObjectId to string
   updatedUser._id = String(updatedUser._id);
 
-  return { success: true, data: updatedUser };
+  return [updatedUser, null];
 }

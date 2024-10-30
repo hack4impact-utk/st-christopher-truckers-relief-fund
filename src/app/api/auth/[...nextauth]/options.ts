@@ -18,15 +18,15 @@ const authOptions: NextAuthOptions = {
           throw new Error("You must provide an email and password to sign in");
         }
 
-        const userResponse = await getUserByEmail(credentials.email);
+        const [user, error] = await getUserByEmail(credentials.email);
 
-        if (!userResponse.success) {
+        if (error !== null) {
           throw new Error("Invalid email or password");
         }
 
         const doesPasswordMatch = await bcrypt.compare(
           credentials.password,
-          userResponse.data.password,
+          user.password,
         );
 
         if (!doesPasswordMatch) {
@@ -34,8 +34,8 @@ const authOptions: NextAuthOptions = {
         }
 
         return {
-          ...userResponse.data,
-          id: userResponse.data._id as string, // next_auth requires an "id" field
+          ...user,
+          id: user._id as string, // next_auth requires an "id" field
           password: "", // mask password
         };
       },

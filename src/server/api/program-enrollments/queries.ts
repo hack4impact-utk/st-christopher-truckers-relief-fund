@@ -1,18 +1,21 @@
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
-import { ProgramEnrollment } from "@/types";
+import { ApiResponse, Program, ProgramEnrollment } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
+import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 type ProgramEnrollmentFilters = Partial<ProgramEnrollment>;
 
-async function getProgramEnrollments(filters: ProgramEnrollmentFilters) {
+async function getProgramEnrollments(
+  filters: ProgramEnrollmentFilters,
+): Promise<ApiResponse<ProgramEnrollment[]>> {
   await dbConnect();
 
-  const authResponse = await authenticateServerFunction();
+  const [, error] = await authenticateServerFunction();
 
-  if (!authResponse.success) {
-    return authResponse;
+  if (error) {
+    return [null, error];
   }
 
   try {
@@ -25,10 +28,29 @@ async function getProgramEnrollments(filters: ProgramEnrollmentFilters) {
       programEnrollment._id = String(programEnrollment._id);
     });
 
-    return { success: true, data: programEnrollments };
+    return [programEnrollments, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
+}
+
+async function getProgramEnrollment(
+  filters: ProgramEnrollmentFilters,
+): Promise<ApiResponse<ProgramEnrollment>> {
+  await dbConnect();
+
+  const programEnrollment = await ProgramEnrollmentModel.findOne(filters)
+    .lean<ProgramEnrollment>()
+    .exec();
+
+  if (!programEnrollment) {
+    return [null, apiErrors.programEnrollment.programEnrollmentNotFound];
+  }
+
+  // convert ObjectId to string
+  programEnrollment._id = String(programEnrollment._id);
+
+  return [programEnrollment, null];
 }
 
 export async function getPendingProgramEnrollments() {
@@ -37,4 +59,11 @@ export async function getPendingProgramEnrollments() {
 
 export async function getClientProgramEnrollments(email: string) {
   return getProgramEnrollments({ email, status: "accepted" });
+}
+
+export async function getProgramEnrollmentForUser(
+  email: string,
+  program: Program,
+) {
+  return getProgramEnrollment({ email, program });
 }

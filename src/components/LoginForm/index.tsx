@@ -57,7 +57,7 @@ function LoginFormFields() {
           display: "grid",
           gap: 1.5,
           gridTemplateColumns: "1fr",
-          boxShadow: 1,
+          boxShadow: 2,
           borderRadius: 2,
           padding: 3,
         }}

@@ -8,11 +8,12 @@ type UserFilters = Partial<User>;
 
 async function getUsers(filters: UserFilters): Promise<ApiResponse<User[]>> {
   await dbConnect();
+
   try {
     const users = await UserModel.find(filters).lean<User[]>().exec();
 
     if (!users) {
-      return { success: false, error: apiErrors.user.userNotFound };
+      return [null, apiErrors.user.userNotFound];
     }
 
     // convert ObjectId to string
@@ -20,27 +21,28 @@ async function getUsers(filters: UserFilters): Promise<ApiResponse<User[]>> {
       user._id = String(user._id);
     });
 
-    return { success: true, data: users };
+    return [users, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }
 
 async function getUser(filters: UserFilters): Promise<ApiResponse<User>> {
   await dbConnect();
+
   try {
     const user = await UserModel.findOne(filters).lean<User>().exec();
 
     if (!user) {
-      return { success: false, error: apiErrors.user.userNotFound };
+      return [null, apiErrors.user.userNotFound];
     }
 
     // convert ObjectId to string
     user._id = String(user._id);
 
-    return { success: true, data: user };
+    return [user, null];
   } catch (error) {
-    return { success: false, error: handleMongooseError(error) };
+    return [null, handleMongooseError(error)];
   }
 }
 
