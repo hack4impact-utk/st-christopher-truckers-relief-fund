@@ -3,8 +3,11 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 
 import Logo from "@/components/Logo";
+import getUserSession from "@/utils/getUserSession";
 
-export default function Header() {
+export default async function Header() {
+  const session = await getUserSession();
+
   return (
     <header
       style={{
@@ -15,20 +18,25 @@ export default function Header() {
         alignItems: "center",
         paddingInline: "1.5rem",
         position: "fixed",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+        backgroundColor: "white",
+        zIndex: 999,
       }}
     >
       <Link href="/">
         <Logo width={100} height={100} alt="SCF Logo" />
       </Link>
-      <Button
-        variant="outlined"
-        color="primary"
-        component={Link}
-        href="/settings"
-        endIcon={<SettingsIcon />}
-      >
-        Settings
-      </Button>
+      {session && (
+        <Button
+          variant="outlined"
+          color="primary"
+          component={Link}
+          href="/settings"
+          endIcon={<SettingsIcon />}
+        >
+          Settings
+        </Button>
+      )}
     </header>
   );
 }
