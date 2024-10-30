@@ -1,13 +1,14 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 
+import SignOutButton from "@/components/Settings/SignOutButton";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function AdminDashboardPage() {
+export default async function ClientSettingsPage() {
   const session = await getUserSession();
 
-  if (!session || session.user.role !== "admin") {
-    return redirect("/dashboard");
+  if (!session || session.user.role !== "client") {
+    redirect("/");
   }
 
   return (
@@ -18,9 +19,11 @@ export default async function AdminDashboardPage() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
       }}
     >
-      <p>Admin dashboard page</p>
+      <p>Client settings page</p>
+      <SignOutButton />
     </Box>
   );
 }

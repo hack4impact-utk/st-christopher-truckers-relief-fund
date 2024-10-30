@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 
 import getUserSession from "@/utils/getUserSession";
@@ -9,5 +10,17 @@ export default async function ClientDashboardPage() {
     return redirect("/dashboard");
   }
 
-  return <p>Client dashboard page</p>;
+  return (
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p>Client dashboard page</p>
+    </Box>
+  );
 }
