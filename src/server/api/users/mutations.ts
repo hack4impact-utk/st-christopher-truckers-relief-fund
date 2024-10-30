@@ -90,8 +90,8 @@ export async function changePassword(
   }
 
   const doesOldPasswordsMatch = await bcrypt.compare(
-    user.password,
     oldPassword,
+    user.password,
   );
 
   if (!doesOldPasswordsMatch) {
