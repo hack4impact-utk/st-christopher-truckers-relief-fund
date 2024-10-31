@@ -95,7 +95,7 @@ const anchor = {
 };
 
 const button = {
-  backgroundColor: "#656ee8",
+  backgroundColor: "#183766",
   borderRadius: "5px",
   color: "#fff",
   fontSize: "16px",

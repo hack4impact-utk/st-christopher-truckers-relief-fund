@@ -23,7 +23,7 @@ export default async function Header() {
         zIndex: 999,
       }}
     >
-      <Link href="/">
+      <Link href="/" style={{ width: "100px", height: "100px" }}>
         <Logo width={100} height={100} alt="SCF Logo" />
       </Link>
       {session && (
