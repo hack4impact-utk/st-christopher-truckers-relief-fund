@@ -9,6 +9,7 @@ type ProgramEnrollmentFilters = Partial<ProgramEnrollment>;
 
 async function getProgramEnrollments(
   filters: ProgramEnrollmentFilters,
+  populateEnrollmentForm = false,
 ): Promise<ApiResponse<ProgramEnrollment[]>> {
   await dbConnect();
 
@@ -19,7 +20,13 @@ async function getProgramEnrollments(
   }
 
   try {
-    const programEnrollments = await ProgramEnrollmentModel.find(filters)
+    const programEnrollmentsQuery = ProgramEnrollmentModel.find(filters);
+
+    if (populateEnrollmentForm) {
+      programEnrollmentsQuery.populate("enrollmentForm");
+    }
+
+    const programEnrollments = await programEnrollmentsQuery
       .lean<ProgramEnrollment[]>()
       .exec();
 
@@ -54,10 +61,10 @@ async function getProgramEnrollment(
 }
 
 export async function getPendingProgramEnrollments() {
-  return getProgramEnrollments({ status: "pending" });
+  return getProgramEnrollments({ status: "pending" }, false);
 }
 
-export async function getClientProgramEnrollments(email: string) {
+export async function getClientActivePrograms(email: string) {
   return getProgramEnrollments({ email, status: "accepted" });
 }
 
