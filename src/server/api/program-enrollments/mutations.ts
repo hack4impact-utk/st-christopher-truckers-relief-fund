@@ -93,10 +93,6 @@ export async function approveProgramEnrollment(
     return [null, programEnrollmentError];
   }
 
-  if (!programEnrollment) {
-    return [null, apiErrors.programEnrollment.programEnrollmentNotFound];
-  }
-
   const [, updateProgramEnrollmentError] = await updateProgramEnrollment({
     ...programEnrollment,
     status: "accepted",
