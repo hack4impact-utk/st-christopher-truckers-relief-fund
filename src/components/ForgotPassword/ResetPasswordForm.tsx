@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextInput from "@/components/controlled/ControlledTextField";
 import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
 import { resetPasswordWithToken } from "@/server/api/users/mutations";
 

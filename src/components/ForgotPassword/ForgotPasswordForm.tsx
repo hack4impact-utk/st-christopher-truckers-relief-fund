@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextInput from "@/components/controlled/ControlledTextField";
 import { handlePasswordResetRequest } from "@/server/api/password-reset-tokens/mutations";
 
 const forgotPasswordFormSchema = z.object({
