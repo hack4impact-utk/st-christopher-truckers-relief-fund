@@ -13,12 +13,13 @@ module.exports = {
     sourceType: "module",
     ecmaVersion: "latest",
   },
-  plugins: ["@typescript-eslint", "prettier", "simple-import-sort"],
+  plugins: ["@typescript-eslint", "prettier", "simple-import-sort", "react"],
   root: true,
   rules: {
     "prettier/prettier": "warn",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-    "no-console": "warn",
+    "no-console": "error",
+    camelcase: "warn",
     "no-restricted-imports": [
       "error",
       {
@@ -36,5 +37,12 @@ module.exports = {
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: "function-declaration",
+        unnamedComponents: "function-expression",
+      },
+    ],
   },
 };

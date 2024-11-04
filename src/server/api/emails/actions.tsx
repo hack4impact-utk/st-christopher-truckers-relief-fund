@@ -8,25 +8,25 @@ import WelcomeEmail from "@/components/emails/WelcomeEmail";
 import sendEmail from "@/server/api/emails/helpers";
 
 export async function sendPasswordChangeEmail(
-  recipient_email: string,
+  recipientEmail: string,
   firstName: string,
 ) {
   const html = await render(<PasswordChanged firstName={firstName} />);
 
-  await sendEmail(recipient_email, "Your SCF password has been changed", html);
+  await sendEmail(recipientEmail, "Your SCF password has been changed", html);
 }
 
 export async function sendPasswordResetEmail(
-  recipient_email: string,
+  recipientEmail: string,
   token: string,
 ) {
   const html = await render(<ResetPasswordEmail token={token} />);
 
-  await sendEmail(recipient_email, "Reset your SCF password", html);
+  await sendEmail(recipientEmail, "Reset your SCF password", html);
 }
 
 export async function sendWelcomeEmail(
-  recipient_email: string,
+  recipientEmail: string,
   firstName: string,
   programName: string,
 ) {
@@ -34,5 +34,5 @@ export async function sendWelcomeEmail(
     <WelcomeEmail firstName={firstName} programName={programName} />,
   );
 
-  await sendEmail(recipient_email, "Welcome to SCF", html);
+  await sendEmail(recipientEmail, "Welcome to SCF", html);
 }
