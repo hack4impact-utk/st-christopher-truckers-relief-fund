@@ -38,8 +38,8 @@ export default function RejectionEmail({
             />
             <Text style={paragraph}>
               Your SCF Program Application for {programName} has been rejected.
-              Reason: {rejectReason}
             </Text>
+            <Text style={paragraph}>Reason: {rejectReason}</Text>
             <Text style={paragraph}>
               If you have any questions or concerns, please reach out to us at
               our{" "}
