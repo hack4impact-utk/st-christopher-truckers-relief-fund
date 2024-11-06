@@ -76,17 +76,21 @@ export async function changePassword(
   const [session, sessionError] = await authenticateServerFunction();
 
   if (sessionError !== null) {
-    return [null, sessionError + "1"];
+    return [null, sessionError];
+  }
+
+  if (oldPassword.length < 8 || newPassword.length < 8) {
+    return [null, apiErrors.user.userInvalidCredentials];
   }
 
   if (session.user.email !== email) {
-    return [null, apiErrors.user.userInvalidCredentials + "1"];
+    return [null, apiErrors.user.userInvalidCredentials];
   }
 
   const [user, userError] = await getUserByEmail(email);
 
   if (userError !== null) {
-    return [null, userError + "1"];
+    return [null, userError];
   }
 
   const doesOldPasswordsMatch = await bcrypt.compare(
