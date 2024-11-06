@@ -24,10 +24,15 @@ export default function HealthyHabitsForm() {
   } = useForm<HealthyHabitsFormValues>({
     resolver: zodResolver(healthyHabitsValidator),
     defaultValues: {
+      healthConditions: "",
+      devices: "",
       weight: 0,
       movementMinutes: 0,
       bloodPressure: "",
       bloodGlucose: 0,
+      a1c: 0,
+      cholesterol: 0,
+      qualitativeGoals: "",
     },
   });
 

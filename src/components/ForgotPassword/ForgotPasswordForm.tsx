@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/controlled/ControlledTextField";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handlePasswordResetRequest } from "@/server/api/password-reset-tokens/mutations";
 
 const forgotPasswordFormSchema = z.object({
@@ -55,7 +55,7 @@ export default function ForgotPasswordForm() {
         >
           <Typography variant="h4">Forgot Password?</Typography>
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="email"
             label="Email"
