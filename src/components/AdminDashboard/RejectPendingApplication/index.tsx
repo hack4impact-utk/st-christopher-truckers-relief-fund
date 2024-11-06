@@ -19,13 +19,15 @@ const rejectionReasonSchema = z.object({
 
 type RejectButtonFormValues = z.infer<typeof rejectionReasonSchema>;
 
-export default function RejectButton({
-  height,
-  width,
-}: {
+type RejectPendingApplicationProps = {
   height?: number;
   width?: number;
-}) {
+};
+
+export default function RejectPendingApplication({
+  height,
+  width,
+}: RejectPendingApplicationProps) {
   const [open, setOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -33,6 +35,7 @@ export default function RejectButton({
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<RejectButtonFormValues>({
     resolver: zodResolver(rejectionReasonSchema),
     defaultValues: { rejectionReason: "" },
@@ -45,6 +48,7 @@ export default function RejectButton({
     // Add submission logic here later
     // eslint-disable-next-line no-console
     console.log(data.rejectionReason);
+    reset({ rejectionReason: "" });
     setSnackbarOpen(true);
     handleClose();
   };
@@ -53,9 +57,9 @@ export default function RejectButton({
     <>
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={() => setSnackbarOpen(false)}
-        message="Rejection reason submitted"
+        message="Application successfully rejected"
       />
       <Button
         variant="contained"
