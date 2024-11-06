@@ -3,6 +3,7 @@
 import { render } from "@react-email/components";
 
 import PasswordChanged from "@/components/emails/PasswordChanged";
+import RejectionEmail from "@/components/emails/RejectionEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 import sendEmail from "@/server/api/emails/helpers";
@@ -35,4 +36,20 @@ export async function sendWelcomeEmail(
   );
 
   await sendEmail(recipientEmail, "Welcome to SCF", html);
+}
+
+export async function sendRejectionEmail(
+  recipientEmail: string,
+  programName: string,
+  rejectReason: string,
+) {
+  const html = await render(
+    <RejectionEmail programName={programName} rejectReason={rejectReason} />,
+  );
+
+  await sendEmail(
+    recipientEmail,
+    "Your SCF Program Application Has Been Rejected",
+    html,
+  );
 }
