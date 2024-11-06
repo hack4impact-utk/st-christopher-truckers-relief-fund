@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 
 const rejectionReasonSchema = z.object({
   rejectionReason: z.string().min(1, { message: "Reason is required" }),
@@ -89,7 +89,7 @@ export default function RejectPendingApplication({
             }}
           >
             <Typography variant="h4">Rejection Reason</Typography>
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name="rejectionReason"
               label="Rejection Reason"

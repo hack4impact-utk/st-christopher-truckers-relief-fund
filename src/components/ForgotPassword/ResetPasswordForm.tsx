@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
 import { resetPasswordWithToken } from "@/server/api/users/mutations";
 
@@ -92,7 +92,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
         >
           <Typography variant="h4">Reset Password</Typography>
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="newPassword"
             label="New Password"
@@ -101,7 +101,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             type="password"
           />
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="confirmPassword"
             label="Confirm Password"

@@ -23,7 +23,7 @@ import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 import {
   Doctor,
   GeneralInformationFormValues,
@@ -136,7 +136,7 @@ export default function GeneralInformationSection() {
             gap: 2,
           }}
         >
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="firstName"
             label="First Name"
@@ -145,7 +145,7 @@ export default function GeneralInformationSection() {
             sx={{ width: "100%" }}
           />
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="lastName"
             label="Last Name"
@@ -155,7 +155,7 @@ export default function GeneralInformationSection() {
           />
         </Box>
         {/* Email */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="email"
           label="Email"
@@ -163,7 +163,7 @@ export default function GeneralInformationSection() {
           error={errors.email}
         />
         {/* Password */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="password"
           label="Password"
@@ -171,7 +171,7 @@ export default function GeneralInformationSection() {
           error={errors.password}
           type="password"
         />
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="confirmPassword"
           label="Confirm Password"
@@ -235,7 +235,7 @@ export default function GeneralInformationSection() {
           </FormHelperText>
         </FormControl>
         {/* Phone Number */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="phoneNumber"
           label="Phone Number"
@@ -244,7 +244,7 @@ export default function GeneralInformationSection() {
           type="tel"
         />
         {/* Address */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="address"
           label="Address"
@@ -252,7 +252,7 @@ export default function GeneralInformationSection() {
           error={errors.address}
         />
         {/* Referral Source */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="referralSource"
           label="Referral Source"
@@ -294,7 +294,7 @@ export default function GeneralInformationSection() {
           </FormHelperText>
         </FormControl>
         {watch("hasClassACdl") === true && (
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="cdlNumber"
             label="CDL Number"
@@ -303,7 +303,7 @@ export default function GeneralInformationSection() {
           />
         )}
         {watch("hasClassACdl") === false && (
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="classBDescription"
             label="Class B CDL Description"
@@ -312,14 +312,14 @@ export default function GeneralInformationSection() {
           />
         )}
         {/* Employer */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="employer.name"
           label="Employer Name"
           variant="outlined"
           error={errors.employer?.name}
         />
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="employer.contact"
           label="Employer Contact"
@@ -365,7 +365,7 @@ export default function GeneralInformationSection() {
           </FormHelperText>
         </FormControl>
         {/* Monthly Household Expenses */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="monthlyHouseholdExpenses"
           label="Monthly Household Expenses"
@@ -416,7 +416,7 @@ export default function GeneralInformationSection() {
         {watch("isOwnerOperator") === true && (
           <>
             {/* Business Income */}
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name="ownerOperatorInfo.businessIncome"
               label="Business Income"
@@ -434,7 +434,7 @@ export default function GeneralInformationSection() {
             />
 
             {/* Business Expenses */}
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name="ownerOperatorInfo.businessExpenses"
               label="Business Expenses"
@@ -456,7 +456,7 @@ export default function GeneralInformationSection() {
         {/* Section Title: Health History */}
         <Typography variant="h6">Health History</Typography>
         {/* Health Conditions */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthConditions"
           label="Health Conditions"
@@ -466,7 +466,7 @@ export default function GeneralInformationSection() {
           rows={3}
         />
         {/* Recent Illness or Injury Details */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="recentIllnessOrInjuryDetails"
           label="Recent Illness or Injury"
@@ -476,7 +476,7 @@ export default function GeneralInformationSection() {
           rows={3}
         />
         {/* Medical Devices */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="devices"
           label="Medical Devices"
@@ -546,7 +546,7 @@ export default function GeneralInformationSection() {
           )}
         />
         {/* Weight */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthMetrics.weight"
           label="Weight"
@@ -561,7 +561,7 @@ export default function GeneralInformationSection() {
           convertToNumber={true}
         />
         {/* Blood Pressure */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthMetrics.bloodPressure"
           label="Blood Pressure (e.g. 120/80)"
@@ -576,7 +576,7 @@ export default function GeneralInformationSection() {
           }}
         />
         {/* A1C */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthMetrics.a1c"
           label="A1C"
@@ -591,7 +591,7 @@ export default function GeneralInformationSection() {
           convertToNumber={true}
         />
         {/* Blood Glucose */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthMetrics.bloodGlucose"
           label="Blood Glucose"
@@ -608,7 +608,7 @@ export default function GeneralInformationSection() {
           convertToNumber={true}
         />
         {/* Cholesterol */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthMetrics.cholesterol"
           label="Cholesterol"
@@ -626,7 +626,7 @@ export default function GeneralInformationSection() {
         />
 
         {/* Other */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthMetrics.other"
           label="Other"
@@ -638,7 +638,7 @@ export default function GeneralInformationSection() {
 
         {/* Section Title: Health Goals */}
         <Typography variant="h6">Health Goals</Typography>
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthGoals.shortTerm"
           label="Short Term Health Goals"
@@ -648,7 +648,7 @@ export default function GeneralInformationSection() {
           rows={3}
         />
 
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="healthGoals.longTerm"
           label="Long Term Health Goals"
@@ -672,7 +672,7 @@ export default function GeneralInformationSection() {
               gap: 2,
             }}
           >
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name={`doctors.${idx}.name`}
               label="Doctor's Name"
@@ -681,7 +681,7 @@ export default function GeneralInformationSection() {
               sx={{ width: "100%" }}
             />
 
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name={`doctors.${idx}.phone`}
               label="Doctor's Phone Number"
