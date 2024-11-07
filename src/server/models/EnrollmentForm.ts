@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-import { EnrollmentForm } from "@/types";
+import { OldEnrollmentForm } from "@/types";
 
-const EnrollmentFormSchema = new Schema<EnrollmentForm>(
+const EnrollmentFormSchema = new Schema<OldEnrollmentForm>(
   {
     _id: {
       type: String,
@@ -103,5 +103,5 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
 );
 
 export default (mongoose.models
-  .EnrollmentForm as mongoose.Model<EnrollmentForm>) ||
-  mongoose.model<EnrollmentForm>("EnrollmentForm", EnrollmentFormSchema);
+  .EnrollmentForm as mongoose.Model<OldEnrollmentForm>) ||
+  mongoose.model<OldEnrollmentForm>("EnrollmentForm", EnrollmentFormSchema);

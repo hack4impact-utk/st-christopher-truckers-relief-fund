@@ -120,7 +120,7 @@ export type GeneralInformationFormValues = z.infer<
 export type Doctor = z.infer<typeof DoctorSchema>;
 
 // The enrollment form type is the union of all sub-form types
-export type EnrollmentForm = GeneralInformationFormValues & {
+export type OldEnrollmentForm = GeneralInformationFormValues & {
   _id?: string;
   dateCreated: string;
 };

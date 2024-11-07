@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/app/enrollment-form/program-selection", "src/app/enrollment-form/program-specific-questions"  ],
   "exclude": [
     "node_modules"
   ]

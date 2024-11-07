@@ -8,10 +8,10 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
-import { EnrollmentForm } from "@/types";
+import { OldEnrollmentForm } from "@/types";
 
 type InvitationInfoModalProps = {
-  enrollmentForm: EnrollmentForm;
+  enrollmentForm: OldEnrollmentForm;
 };
 
 // Define the styling for the modal content

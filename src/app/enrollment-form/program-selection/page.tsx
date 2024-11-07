@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 
-import GeneralInformationSection from "@/components/GeneralInformationSection";
+import ProgramSelectionFormSection from "@/components/EnrollmentForm/ProgramSelectionFormSection";
 
-export default function EnrollmentForm() {
+export default function ProgramSelectionPage() {
   return (
     <Box
       sx={{
@@ -12,7 +12,7 @@ export default function EnrollmentForm() {
         paddingTop: "25vh",
       }}
     >
-      <GeneralInformationSection />
+      <ProgramSelectionFormSection />
     </Box>
   );
 }
