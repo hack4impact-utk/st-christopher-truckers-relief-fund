@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-import ProgramSpecificQuestionsFormSection from "@/components/EnrollmentForm/ProgramSpecificQuestionsFormSection";
+import ProgramSpecificQuestionsFormSection from "@/components/EnrollmentForm/ProgramSpecificQuestions/ProgramSpecificQuestionsFormSection";
 
 export default function ProgramSpecificQuestionsPage() {
   return (

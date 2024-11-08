@@ -1,3 +1,4 @@
+import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
 import { z } from "zod";
 
 export const programSpecificQuestionsSectionValidator = z
@@ -132,9 +133,7 @@ export const programSpecificQuestionsSectionValidator = z
       additionalQuestions: z.string(),
     }),
     getPreventativeScreenings: z.object({
-      agreeToProvideAccountability: z.boolean().refine((val) => val, {
-        message: "You must agree to provide accountability",
-      }),
+      agreeToProvideAccountability: z.boolean(),
       prostateScreening: z.object({
         agreeToGetAccountRegistered: z.boolean(),
         agreesToProstateScreening: z.boolean(),
@@ -148,6 +147,8 @@ export const programSpecificQuestionsSectionValidator = z
     const hasOptedInToHealthyHabits = val.hasOptedInToHealthyHabits;
     const hasOptedInToDiabetesPrevention = val.hasOptedInToDiabetesPrevention;
     const hasOptedInToRigsWithoutCigs = val.hasOptedInToRigsWithoutCigs;
+    const hasOptedInToGetPreventativeScreenings =
+      val.hasOptedInToGetPreventativeScreenings;
 
     if (hasOptedInToHealthyHabits || hasOptedInToDiabetesPrevention) {
       if (val.healthyHabitsAndDiabetesPrevention.weight <= 0) {
@@ -206,6 +207,61 @@ export const programSpecificQuestionsSectionValidator = z
           path: ["rigsWithoutCigs", "cigarettesPerDay"],
         });
       }
+
+      if (
+        !isValidPhoneNumber(
+          val.rigsWithoutCigs.accountabilityPerson.phoneNumber,
+          { defaultCountry: "US" },
+        )
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid phone number",
+          path: ["rigsWithoutCigs", "accountabilityPerson", "phoneNumber"],
+        });
+      } else {
+        const phoneNumber = parsePhoneNumber(
+          val.rigsWithoutCigs.accountabilityPerson.phoneNumber,
+          "US",
+        ).number.toString();
+        val.rigsWithoutCigs.accountabilityPerson.phoneNumber = phoneNumber;
+      }
+    }
+
+    if (hasOptedInToGetPreventativeScreenings) {
+      if (
+        val.getPreventativeScreenings.agreeToProvideAccountability === false
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "You must agree to provide accountability",
+          path: ["getPreventativeScreenings", "agreeToProvideAccountability"],
+        });
+      }
+    }
+
+    const selectedNotApplicable =
+      val.getPreventativeScreenings.prostateScreening.isNotApplicable;
+    const agreeToGetAccountRegistered =
+      val.getPreventativeScreenings.prostateScreening
+        .agreeToGetAccountRegistered;
+    const agreesToProstateScreening =
+      val.getPreventativeScreenings.prostateScreening.agreesToProstateScreening;
+
+    if (
+      !selectedNotApplicable &&
+      (agreeToGetAccountRegistered === false ||
+        agreesToProstateScreening === false)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "You must select not applicable or select both other options",
+        path: [
+          "getPreventativeScreenings",
+          "prostateScreening",
+          "agreeToGetAccountRegistered",
+        ],
+      });
     }
   });
 
