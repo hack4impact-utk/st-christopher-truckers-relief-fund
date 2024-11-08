@@ -2,12 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import GetPreventativeScreeningsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/GetPreventativeScreeningsProgramSpecificQuestions";
 import HealthyHabitsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/HealthyHabitsProgramSpecificQuestions";
 import RigsWithoutCigsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/RigsWithoutCigsProgramSpecificQuestions";
 import VaccineVoucherProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/VaccineVoucherProgramSpecificQuestions";
+import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   ProgramSpecificQuestionsSection,
   programSpecificQuestionsSectionValidator,
@@ -15,103 +18,35 @@ import {
 
 export default function ProgramSpecificQuestionsFormSection() {
   const {
+    enrollmentForm,
+    completedSections,
+    updateProgramSpecificQuestionsSection,
+  } = useEnrollmentForm();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (
+      !completedSections.generalInformationSectionCompleted ||
+      !completedSections.qualifyingQuestionsSectionCompleted ||
+      !completedSections.programSelectionSectionCompleted
+    ) {
+      router.push("/enrollment-form/general-information");
+    }
+  }, [
+    completedSections.generalInformationSectionCompleted,
+    completedSections.programSelectionSectionCompleted,
+    completedSections.qualifyingQuestionsSectionCompleted,
+    router,
+  ]);
+
+  const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitCount, isSubmitSuccessful },
     watch,
   } = useForm<ProgramSpecificQuestionsSection>({
     resolver: zodResolver(programSpecificQuestionsSectionValidator),
-    defaultValues: {
-      hasOptedInToHealthyHabits: false,
-      hasOptedInToDiabetesPrevention: false,
-      hasOptedInToRigsWithoutCigs: false,
-      hasOptedInToVaccineVoucher: false,
-      hasOptedInToGetPreventativeScreenings: true,
-      healthyHabitsAndDiabetesPrevention: {
-        weight: 0,
-        bmi: 0,
-        hasHadGlucoseOrA1CTestInPastYear: false,
-        glucoseOrA1CTestResult: "",
-        bloodPressure: "",
-        movementAndActivityRanking: "1",
-        energyRanking: "1",
-        sleepRanking: "1",
-        emotionalHealthRanking: "1",
-        waterBottlesPerDay: "1",
-        fruitAndVegetableServingsPerDay: "0",
-        otherIllnessOrInjury: "",
-        biggestHealthyLivingChallenge: "",
-        shortTermHealthGoals: "",
-        longTermHealthGoals: "",
-        devices: {
-          hasScale: false,
-          hasBloodPressureCuff: false,
-          hasGlucoseMonitor: false,
-          hasA1cHomeTest: false,
-          hasFitnessTracker: false,
-          hasBodyTapMeasure: false,
-          hasResistanceBands: false,
-          hasOtherExerciseEquipment: false,
-          noneOfTheAbove: false,
-        },
-        healthyHabitsHopefulLearnings: "",
-        diabetesPreventionHopefulLearnings: "",
-      },
-      rigsWithoutCigs: {
-        tobaccoForm: {
-          doesUseCigarettes: false,
-          doesUseSmokelessTobacco: false,
-        },
-        tobaccoUsageLength: "",
-        isFirstTimeTryingToQuit: false,
-        methodsUsedToQuit: {
-          hasTriedColdTurkey: false,
-          hasUsedNicotinePatch: false,
-          hasUsedGum: false,
-          hasUsedHypnosis: false,
-          hasUsedMedication: false,
-          hasUsedECigarettes: false,
-          hasUsedOther: false,
-          hasNotTriedToQuit: false,
-        },
-        firstCigaretteTime: "Within 5 minutes",
-        doesFindItDifficultToNotSmokeInNonSmokingAreas: false,
-        hardestCigaretteToGiveUp: "The first one in the morning",
-        cigarettesPerDay: 0,
-        smokesMoreOftenInTheMorning: false,
-        smokesEvenWhenSickInBed: false,
-        plansToJoinFacebookGroup: false,
-        whyDoYouWantToQuitSmoking: "",
-        howCanWeHelpYou: "",
-        referralSource: "Website",
-        accountabilityPerson: {
-          firstName: "",
-          lastName: "",
-          phoneNumber: "",
-          relationshipToAccountabilityPerson: "Friend",
-        },
-        currentlyHasPrimaryCarePhysician: false,
-      },
-      vaccineVoucher: {
-        vaccines: {
-          wantsFluVaccine: false,
-          wantsPneumoniaVaccine: false,
-          wantsShinglesVaccine: false,
-          wantsCovid19Vaccine: false,
-        },
-        voucherLocation: "Walgreens",
-        additionalQuestions: "",
-      },
-      getPreventativeScreenings: {
-        agreeToProvideAccountability: false,
-        prostateScreening: {
-          agreeToGetAccountRegistered: false,
-          agreesToProstateScreening: false,
-          isNotApplicable: false,
-          additionalQuestions: "",
-        },
-      },
-    },
+    defaultValues: enrollmentForm.programSpecificQuestionsSection,
   });
 
   const hasOptedInToHealthyHabits = watch("hasOptedInToHealthyHabits");
@@ -124,11 +59,9 @@ export default function ProgramSpecificQuestionsFormSection() {
     "hasOptedInToGetPreventativeScreenings",
   );
 
-  console.log(errors);
-
+  console.log(enrollmentForm);
   const onSubmit = async (data: ProgramSpecificQuestionsSection) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+    updateProgramSpecificQuestionsSection(data);
   };
 
   return (
@@ -172,13 +105,37 @@ export default function ProgramSpecificQuestionsFormSection() {
           />
         )}
 
-        {/* Submit */}
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            gap: 2,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => router.push("/enrollment-form/program-selection")}
+            sx={{ width: "100%" }}
+          >
+            Back
+          </Button>
+          {/* Submit */}
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%" }}
+          >
+            Submit
+          </Button>
+        </Box>
 
         <Typography variant="h6" fontWeight="normal" color="red">
-          {errors.root?.message}
+          {submitCount && !isSubmitSuccessful
+            ? "Please review all fields before continuing."
+            : ""}
         </Typography>
       </Box>
     </form>

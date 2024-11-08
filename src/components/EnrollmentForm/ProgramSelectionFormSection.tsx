@@ -9,33 +9,48 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
+import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   ProgramSelectionSection,
   programSelectionSectionValidator,
 } from "@/types/EnrollmentForm";
 
 export default function ProgramSelectionFormSection() {
+  const { enrollmentForm, completedSections, updateProgramSelectionSection } =
+    useEnrollmentForm();
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitCount, isSubmitSuccessful },
   } = useForm<ProgramSelectionSection>({
     resolver: zodResolver(programSelectionSectionValidator),
-    defaultValues: {
-      optedInToHealthyHabits: false,
-      optedInToDiabetesPrevention: false,
-      optedInToRigsWithoutCigs: false,
-      optedInToVaccineVoucher: false,
-      optedInToGetPreventativeScreenings: false,
-    },
+    defaultValues: enrollmentForm.programSelectionSection,
   });
 
+  useEffect(() => {
+    if (
+      !completedSections.generalInformationSectionCompleted ||
+      !completedSections.qualifyingQuestionsSectionCompleted
+    ) {
+      router.push("/enrollment-form/general-information");
+    }
+  }, [
+    completedSections.generalInformationSectionCompleted,
+    completedSections.qualifyingQuestionsSectionCompleted,
+    router,
+  ]);
+
   const onSubmit = async (data: ProgramSelectionSection) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+    updateProgramSelectionSection(data);
+    router.push("/enrollment-form/program-specific-questions");
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box
@@ -109,14 +124,41 @@ export default function ProgramSelectionFormSection() {
           )}
         />
 
-        {/* Submit */}
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            gap: 2,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => router.push("/enrollment-form/qualifying-questions")}
+            sx={{ width: "100%" }}
+          >
+            Back
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%" }}
+          >
+            Next
+          </Button>
+        </Box>
 
         <Typography variant="h6" fontWeight="normal" color="red">
           {errors.root?.message}
           {errors.optedInToHealthyHabits?.message}
+        </Typography>
+
+        <Typography variant="h6" fontWeight="normal" color="red">
+          {submitCount && !isSubmitSuccessful
+            ? "Please review all fields before continuing."
+            : ""}
         </Typography>
       </Box>
     </form>

@@ -21,9 +21,11 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { useRouter } from "next/navigation";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   Doctor,
   GeneralInformationSection,
@@ -32,49 +34,24 @@ import {
 import dayjsUtil from "@/utils/dayjsUtil";
 
 export default function GeneralInformationFormSection() {
+  const { enrollmentForm, updateGeneralInformationSection } =
+    useEnrollmentForm();
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitCount, isSubmitSuccessful },
     watch,
   } = useForm<GeneralInformationSection>({
     resolver: zodResolver(generalInformationSectionValidator),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      dateOfBirth: "",
-      sex: "male",
-      phoneNumber: "",
-      address: "",
-      preferredMethodOfContact: "phone",
-      isUsCitizen: true,
-      hasClassACdl: true,
-      cdlNumber: "",
-      truckingIndustryAffiliation: "driver",
-      jobDescription: "OTR Driver, away 4+ nights a week",
-      referralSource: "",
-      employer: {
-        name: "",
-        contact: "",
-      },
-      doctors: [],
-      monthlyHouseholdExpenses: 0,
-      isOwnerOperator: false,
-      ownerOperatorInfo: {
-        businessIncome: 0,
-        businessExpenses: 0,
-      },
-      hasAcknowledgedPrivacyNotice: false,
-      hasAcknowledgedHipaaNotice: false,
-    },
+    defaultValues: enrollmentForm.generalInformationSection,
   });
 
   const onSubmit = async (data: GeneralInformationSection) => {
     // eslint-disable-next-line no-console
-    console.log(data);
+    updateGeneralInformationSection(data);
+    router.push("/enrollment-form/qualifying-questions");
   };
 
   // Doctors array logic
@@ -583,7 +560,9 @@ export default function GeneralInformationFormSection() {
               <Controller
                 name="hasAcknowledgedPrivacyNotice"
                 control={control}
-                render={({ field }) => <Checkbox {...field} />}
+                render={({ field }) => (
+                  <Checkbox {...field} checked={field.value} />
+                )}
               />
               <Typography sx={{ pl: 1 }}>I agree.</Typography>
             </Box>
@@ -629,7 +608,9 @@ export default function GeneralInformationFormSection() {
               <Controller
                 name="hasAcknowledgedHipaaNotice"
                 control={control}
-                render={({ field }) => <Checkbox {...field} />}
+                render={({ field }) => (
+                  <Checkbox {...field} checked={field.value} />
+                )}
               />
               <Typography sx={{ pl: 1 }}>I agree.</Typography>
             </Box>
@@ -650,11 +631,13 @@ export default function GeneralInformationFormSection() {
 
         {/* Submit */}
         <Button type="submit" variant="contained" color="primary">
-          Submit
+          Next
         </Button>
 
         <Typography variant="h6" fontWeight="normal" color="red">
-          {errors.root?.message}
+          {submitCount && !isSubmitSuccessful
+            ? "Please review all fields before continuing."
+            : ""}
         </Typography>
       </Box>
     </form>

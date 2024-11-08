@@ -9,9 +9,12 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   QualifyingQuestionsSection,
   qualifyingQuestionsSectionValidator,
@@ -19,33 +22,30 @@ import {
 
 export default function QualifyingQuestionsFormSection() {
   const {
+    enrollmentForm,
+    completedSections,
+    updateQualifyingQuestionsSection,
+  } = useEnrollmentForm();
+  const router = useRouter();
+
+  const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitCount, isSubmitSuccessful },
   } = useForm<QualifyingQuestionsSection>({
     resolver: zodResolver(qualifyingQuestionsSectionValidator),
-    defaultValues: {
-      diagnoses: {
-        hasType1Diabetes: false,
-        hasType2Diabetes: false,
-        hasHighBloodPressure: false,
-        hasHighCholesterol: false,
-        hasHeartDisease: false,
-        isObese: false,
-        hasOther: "",
-        noneOfTheAbove: false,
-      },
-      isTobaccoUser: false,
-      hasAppliedForFinancialAssistance: false,
-      hasHealthConditionCausedByTobaccoUse: false,
-      hasHealthInsurance: false,
-      hasCloseFamilyHistoryOfProstateCancer: false,
-    },
+    defaultValues: enrollmentForm.qualifyingQuestionsSection,
   });
 
+  useEffect(() => {
+    if (!completedSections.generalInformationSectionCompleted) {
+      router.push("/enrollment-form/general-information");
+    }
+  }, [completedSections.generalInformationSectionCompleted, router]);
+
   const onSubmit = async (data: QualifyingQuestionsSection) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+    updateQualifyingQuestionsSection(data);
+    router.push("/enrollment-form/program-selection");
   };
 
   return (
@@ -216,13 +216,37 @@ export default function QualifyingQuestionsFormSection() {
           )}
         />
 
-        {/* Submit */}
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            gap: 2,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => router.push("/enrollment-form/general-information")}
+            sx={{ width: "100%" }}
+          >
+            Back
+          </Button>
+          {/* Submit */}
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%" }}
+          >
+            Next
+          </Button>
+        </Box>
 
         <Typography variant="h6" fontWeight="normal" color="red">
-          {errors.root?.message}
+          {submitCount && !isSubmitSuccessful
+            ? "Please review all fields before continuing."
+            : ""}
         </Typography>
       </Box>
     </form>

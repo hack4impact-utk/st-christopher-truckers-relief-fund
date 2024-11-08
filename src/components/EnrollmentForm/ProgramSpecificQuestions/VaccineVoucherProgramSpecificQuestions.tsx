@@ -31,7 +31,6 @@ export default function VaccineVoucherProgramSpecificQuestions({
       <Typography variant="h4">Vaccine Voucher</Typography>
 
       <Typography>Select the vaccines you currently want.</Typography>
-      {/* checkboxes */}
       <Controller
         name="vaccineVoucher.vaccines.wantsFluVaccine"
         control={control}
