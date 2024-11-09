@@ -61,7 +61,7 @@ async function getProgramEnrollment(
 }
 
 export async function getPendingProgramEnrollments() {
-  return getProgramEnrollments({ status: "pending" }, false);
+  return getProgramEnrollments({ status: "pending" }, true);
 }
 
 export async function getClientActivePrograms(email: string) {

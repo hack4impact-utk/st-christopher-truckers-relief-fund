@@ -3,4 +3,4 @@ export type Program =
   | "Diabetes Prevention"
   | "Rigs Without Cigs"
   | "Vaccine Voucher"
-  | "GPS (Get Preventative Screenings";
+  | "GPS (Get Preventative Screenings)";

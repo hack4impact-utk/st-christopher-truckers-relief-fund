@@ -30,6 +30,7 @@ type EnrollmentFormContextType = {
   updateProgramSpecificQuestionsSection: (
     section: ProgramSpecificQuestionsSection,
   ) => void;
+  resetEnrollmentForm: () => void;
 };
 
 export const EnrollmentFormContext =
@@ -109,12 +110,31 @@ export function EnrollmentFormProvider({
   ) => {
     setEnrollmentForm((prevForm) => ({
       ...prevForm,
+      dateSubmitted: dayjsUtil().utc().toISOString(),
       programSpecificQuestionsSection: section,
     }));
     setCompletedSections((prevCompletedSections) => ({
       ...prevCompletedSections,
       programSpecificQuestionsSectionCompleted: true,
     }));
+  };
+
+  const resetEnrollmentForm = () => {
+    setEnrollmentForm({
+      dateSubmitted: dayjsUtil().utc().toISOString(),
+      generalInformationSection: generalInformationSectionDefaultValues,
+      qualifyingQuestionsSection: qualifyingQuestionsSectionDefaultValues,
+      programSelectionSection: programSelectionSectionDefaultValues,
+      programSpecificQuestionsSection:
+        programSpecificQuestionsSectionDefaultValues,
+    });
+
+    setCompletedSections({
+      generalInformationSectionCompleted: false,
+      programSelectionSectionCompleted: false,
+      qualifyingQuestionsSectionCompleted: false,
+      programSpecificQuestionsSectionCompleted: false,
+    });
   };
 
   const contextValue = useMemo(
@@ -125,6 +145,7 @@ export function EnrollmentFormProvider({
       updateQualifyingQuestionsSection,
       updateProgramSelectionSection,
       updateProgramSpecificQuestionsSection,
+      resetEnrollmentForm,
     }),
     [enrollmentForm, completedSections],
   );

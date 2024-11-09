@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 
-export default function Custom404() {
+export default function DisqualifiedPage() {
   return (
     <Box
       sx={{
@@ -14,7 +14,8 @@ export default function Custom404() {
       }}
     >
       <Typography variant="body1">
-        The page you are looking for does not exist.
+        Thank you for completing the enrollment form! We will review your
+        application and get back to you soon.
       </Typography>
       <Link href="/" style={{ textDecoration: "none" }}>
         <Typography variant="body1" color="primary">

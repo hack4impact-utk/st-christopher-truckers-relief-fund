@@ -49,7 +49,6 @@ export default function GeneralInformationFormSection() {
   });
 
   const onSubmit = async (data: GeneralInformationSection) => {
-    // eslint-disable-next-line no-console
     updateGeneralInformationSection(data);
     router.push("/enrollment-form/qualifying-questions");
   };

@@ -7,7 +7,7 @@ export type EnrollmentForm = {
   _id?: string;
   dateSubmitted: string;
   generalInformationSection: GeneralInformationSection;
-  programSelectionSection: ProgramSelectionSection;
   qualifyingQuestionsSection: QualifyingQuestionsSection;
+  programSelectionSection: ProgramSelectionSection;
   programSpecificQuestionsSection: ProgramSpecificQuestionsSection;
 };
