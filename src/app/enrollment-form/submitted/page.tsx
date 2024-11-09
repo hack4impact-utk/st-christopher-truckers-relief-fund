@@ -1,7 +1,19 @@
+"use client";
+
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
+import { useEffect } from "react";
+
+import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 
 export default function DisqualifiedPage() {
+  const { resetEnrollmentForm } = useEnrollmentForm();
+
+  // reset form on page load
+  useEffect(() => {
+    resetEnrollmentForm();
+  }, [resetEnrollmentForm]);
+
   return (
     <Box
       sx={{

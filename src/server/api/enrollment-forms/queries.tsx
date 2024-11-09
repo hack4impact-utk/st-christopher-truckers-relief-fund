@@ -4,7 +4,7 @@ import { EnrollmentForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 
-export async function getEnrollmentFormbyEmail(email: string) {
+export async function getEnrollmentFormByEmail(email: string) {
   await dbConnect();
 
   try {

@@ -26,11 +26,11 @@ export default function ProgramSpecificQuestionsFormSection() {
     enrollmentForm,
     completedSections,
     updateProgramSpecificQuestionsSection,
-    resetEnrollmentForm,
   } = useEnrollmentForm();
 
   const router = useRouter();
 
+  // redirect to general information section if missing previous sections
   useEffect(() => {
     if (
       !completedSections.generalInformationSectionCompleted ||
@@ -50,7 +50,6 @@ export default function ProgramSpecificQuestionsFormSection() {
     control,
     handleSubmit,
     formState: { errors, submitCount, isSubmitSuccessful },
-    watch,
   } = useForm<ProgramSpecificQuestionsSection>({
     resolver: zodResolver(programSpecificQuestionsSectionValidator),
     defaultValues: enrollmentForm.programSpecificQuestionsSection,
@@ -60,6 +59,7 @@ export default function ProgramSpecificQuestionsFormSection() {
     updateProgramSpecificQuestionsSection(data);
   };
 
+  // submit form if all sections are completed
   useEffect(() => {
     const submitForm = async () => {
       if (completedSections.programSpecificQuestionsSectionCompleted) {
@@ -68,7 +68,6 @@ export default function ProgramSpecificQuestionsFormSection() {
         if (error === null) {
           setSnackbarMessage("Enrollment form submitted successfully");
           setSnackbarOpen(true);
-          resetEnrollmentForm();
           router.push("/enrollment-form/submitted");
         } else if (error === apiErrors.user.userAlreadyExists) {
           setSnackbarMessage("You already have an account");
@@ -90,18 +89,18 @@ export default function ProgramSpecificQuestionsFormSection() {
     completedSections.programSpecificQuestionsSectionCompleted,
     enrollmentForm,
     router,
-    resetEnrollmentForm,
   ]);
 
-  const hasOptedInToHealthyHabits = watch("hasOptedInToHealthyHabits");
-  const hasOptedInToDiabetesPrevention = watch(
-    "hasOptedInToDiabetesPrevention",
-  );
-  const hasOptedInToRigsWithoutCigs = watch("hasOptedInToRigsWithoutCigs");
-  const hasOptedInToVaccineVoucher = watch("hasOptedInToVaccineVoucher");
-  const hasOptedInToGetPreventativeScreenings = watch(
-    "hasOptedInToGetPreventativeScreenings",
-  );
+  const hasOptedInToHealthyHabits =
+    enrollmentForm.programSelectionSection.optedInToHealthyHabits;
+  const hasOptedInToDiabetesPrevention =
+    enrollmentForm.programSelectionSection.optedInToDiabetesPrevention;
+  const hasOptedInToRigsWithoutCigs =
+    enrollmentForm.programSelectionSection.optedInToRigsWithoutCigs;
+  const hasOptedInToVaccineVoucher =
+    enrollmentForm.programSelectionSection.optedInToVaccineVoucher;
+  const hasOptedInToGetPreventativeScreenings =
+    enrollmentForm.programSelectionSection.optedInToGetPreventativeScreenings;
 
   return (
     <>
@@ -111,6 +110,7 @@ export default function ProgramSpecificQuestionsFormSection() {
         onClose={() => setSnackbarOpen(false)}
         message={snackbarMessage}
       />
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           sx={{
@@ -121,6 +121,7 @@ export default function ProgramSpecificQuestionsFormSection() {
           }}
         >
           <Typography variant="h4">Program Specific Questions</Typography>
+
           {(hasOptedInToHealthyHabits || hasOptedInToDiabetesPrevention) && (
             <HealthyHabitsProgramSpecificQuestions
               control={control}
@@ -167,7 +168,6 @@ export default function ProgramSpecificQuestionsFormSection() {
             >
               Back
             </Button>
-            {/* Submit */}
             <Button
               type="submit"
               variant="contained"

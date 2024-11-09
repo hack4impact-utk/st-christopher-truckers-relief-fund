@@ -1,6 +1,6 @@
 "use server";
 
-import { getEnrollmentFormbyEmail } from "@/server/api/enrollment-forms/queries";
+import { getEnrollmentFormByEmail } from "@/server/api/enrollment-forms/queries";
 import { createProgramEnrollmentsFromEnrollmentForm } from "@/server/api/program-enrollments/mutations";
 import { createUser } from "@/server/api/users/mutations";
 import dbConnect from "@/server/dbConnect";
@@ -16,7 +16,7 @@ export async function createEnrollmentForm(
 
   try {
     // don't create enrollment form if one already exists
-    const [existingEnrollmentForm] = await getEnrollmentFormbyEmail(
+    const [existingEnrollmentForm] = await getEnrollmentFormByEmail(
       enrollmentForm.generalInformationSection.email,
     );
 

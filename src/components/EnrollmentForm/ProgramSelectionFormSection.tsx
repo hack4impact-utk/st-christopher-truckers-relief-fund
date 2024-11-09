@@ -33,6 +33,7 @@ export default function ProgramSelectionFormSection() {
     defaultValues: enrollmentForm.programSelectionSection,
   });
 
+  // redirect to general information section missing previous sections
   useEffect(() => {
     if (
       !completedSections.generalInformationSectionCompleted ||

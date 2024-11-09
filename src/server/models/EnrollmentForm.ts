@@ -145,7 +145,7 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
         additionalQuestions: String,
       },
       getPreventativeScreenings: {
-        agreeToProvideAccountability: Boolean,
+        agreeToShareResults: Boolean,
         prostateScreening: {
           agreeToGetAccountRegistered: Boolean,
           agreesToProstateScreening: Boolean,

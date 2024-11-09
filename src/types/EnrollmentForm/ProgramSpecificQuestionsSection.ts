@@ -133,7 +133,7 @@ export const programSpecificQuestionsSectionValidator = z
       additionalQuestions: z.string(),
     }),
     getPreventativeScreenings: z.object({
-      agreeToProvideAccountability: z.boolean(),
+      agreeToShareResults: z.boolean(),
       prostateScreening: z.object({
         agreeToGetAccountRegistered: z.boolean(),
         agreesToProstateScreening: z.boolean(),
@@ -229,13 +229,11 @@ export const programSpecificQuestionsSectionValidator = z
     }
 
     if (hasOptedInToGetPreventativeScreenings) {
-      if (
-        val.getPreventativeScreenings.agreeToProvideAccountability === false
-      ) {
+      if (val.getPreventativeScreenings.agreeToShareResults === false) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "You must agree to provide accountability",
-          path: ["getPreventativeScreenings", "agreeToProvideAccountability"],
+          message: "You must agree to share your results",
+          path: ["getPreventativeScreenings", "agreeToShareResults"],
         });
       }
     }

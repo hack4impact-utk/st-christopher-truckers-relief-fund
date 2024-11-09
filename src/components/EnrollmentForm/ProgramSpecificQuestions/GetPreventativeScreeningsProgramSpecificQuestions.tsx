@@ -31,17 +31,15 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
       <Typography variant="h4">Get Preventative Screenings</Typography>
 
       <FormControl
-        error={
-          !!errors.getPreventativeScreenings?.agreeToProvideAccountability
-            ?.message
-        }
+        error={!!errors.getPreventativeScreenings?.agreeToShareResults?.message}
         sx={{ width: "100%" }}
       >
         <FormLabel>
-          Do you agree to provide accountability for your health?
+          By checking this box, you are agreeing to provide the St. Christopher
+          Fund with results from your preventative cancer screenings
         </FormLabel>
         <Controller
-          name="getPreventativeScreenings.agreeToProvideAccountability"
+          name="getPreventativeScreenings.agreeToShareResults"
           control={control}
           render={({ field }) => (
             <RadioGroup
@@ -55,10 +53,7 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {
-            errors.getPreventativeScreenings?.agreeToProvideAccountability
-              ?.message
-          }
+          {errors.getPreventativeScreenings?.agreeToShareResults?.message}
         </FormHelperText>
       </FormControl>
 

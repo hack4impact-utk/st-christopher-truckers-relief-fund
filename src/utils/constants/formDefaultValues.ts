@@ -148,7 +148,7 @@ export const programSpecificQuestionsSectionDefaultValues: ProgramSpecificQuesti
       additionalQuestions: "",
     },
     getPreventativeScreenings: {
-      agreeToProvideAccountability: false,
+      agreeToShareResults: false,
       prostateScreening: {
         agreeToGetAccountRegistered: false,
         agreesToProstateScreening: false,

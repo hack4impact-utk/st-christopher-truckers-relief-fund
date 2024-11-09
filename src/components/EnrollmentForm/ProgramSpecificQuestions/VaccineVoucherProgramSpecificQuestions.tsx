@@ -30,7 +30,9 @@ export default function VaccineVoucherProgramSpecificQuestions({
       <Divider />
       <Typography variant="h4">Vaccine Voucher</Typography>
 
-      <Typography>Select the vaccines you currently want.</Typography>
+      <Typography>
+        Select the vaccines you are interested in receiving.
+      </Typography>
       <Controller
         name="vaccineVoucher.vaccines.wantsFluVaccine"
         control={control}

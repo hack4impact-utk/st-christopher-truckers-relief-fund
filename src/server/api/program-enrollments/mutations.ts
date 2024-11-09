@@ -40,7 +40,6 @@ export async function createProgramEnrollment(
 
     return [newProgramEnrollment, null];
   } catch (error) {
-    console.log(error);
     return [null, handleMongooseError(error)];
   }
 }

@@ -4,7 +4,6 @@ import { Box } from "@mui/material";
 export default async function ServerComponentTestPage() {
   const pendingProgramEnrollments = await getPendingProgramEnrollments();
 
-  console.log(pendingProgramEnrollments);
   return (
     <Box
       sx={{
