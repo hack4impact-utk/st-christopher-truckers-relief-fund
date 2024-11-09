@@ -64,10 +64,11 @@ export default function QualifyingQuestionsFormSection() {
           gridTemplateColumns: "1fr",
         }}
       >
-        {/* Title: Enrollment Form */}
+        {/* Title: Qualifying Questions */}
         <Typography variant="h4">Qualifying Questions</Typography>
         <Divider />
 
+        {/* Section Title: Diagnoses */}
         <Typography variant="h6">Diagnoses</Typography>
         <Typography>
           Which of the following conditions do you have? <br /> (Check all that
@@ -163,6 +164,7 @@ export default function QualifyingQuestionsFormSection() {
 
         <Divider />
 
+        {/* Section Title: Other */}
         <Typography variant="h6">Other</Typography>
 
         <FormControl error={!!errors.isTobaccoUser} sx={{ width: "100%" }}>
