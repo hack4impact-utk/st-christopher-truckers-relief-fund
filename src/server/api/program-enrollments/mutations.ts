@@ -30,9 +30,8 @@ export async function createProgramEnrollment(
       return [null, apiErrors.programEnrollment.programEnrollmentAlreadyExists];
     }
 
-    const newProgramEnrollmentDocument = await ProgramEnrollmentModel.create({
-      ...programEnrollment,
-    });
+    const newProgramEnrollmentDocument =
+      await ProgramEnrollmentModel.create(programEnrollment);
 
     // convert ObjectId to string
     const newProgramEnrollment = newProgramEnrollmentDocument.toObject();

@@ -1,10 +1,6 @@
 import { Box } from "@mui/material";
 
-import { getPendingProgramEnrollments } from "@/server/api/program-enrollments/queries";
-
 export default async function ServerComponentTestPage() {
-  const pendingProgramEnrollments = await getPendingProgramEnrollments();
-
   return (
     <Box
       sx={{
@@ -15,7 +11,7 @@ export default async function ServerComponentTestPage() {
         alignItems: "center",
       }}
     >
-      {JSON.stringify(pendingProgramEnrollments)}
+      <p>Server component test page</p>
     </Box>
   );
 }
