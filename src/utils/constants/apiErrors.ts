@@ -29,6 +29,10 @@ const apiErrors = {
     passwordResetTokenAlreadyExists: "Password reset token already exists",
     passwordResetTokenExpired: "Password reset token expired",
   },
+  enrollmentForm: {
+    enrollmentFormNotFound: "Enrollment form not found",
+    enrollmentFormAlreadyExists: "Enrollment form already exists",
+  },
 };
 
 export default apiErrors;

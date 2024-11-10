@@ -3,9 +3,15 @@
 import { getProgramEnrollmentForUser } from "@/server/api/program-enrollments/queries";
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
-import { ApiResponse, Program, ProgramEnrollment } from "@/types";
+import {
+  ApiResponse,
+  EnrollmentForm,
+  Program,
+  ProgramEnrollment,
+} from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
+import dayjsUtil from "@/utils/dayjsUtil";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 export async function createProgramEnrollment(
@@ -103,4 +109,60 @@ export async function approveProgramEnrollment(
   }
 
   return [null, null];
+}
+
+export async function createProgramEnrollmentsFromEnrollmentForm(
+  enrollmentForm: EnrollmentForm,
+) {
+  if (enrollmentForm.programSelectionSection.optedInToHealthyHabits) {
+    await createProgramEnrollment({
+      program: "Healthy Habits For The Long Haul",
+      status: "pending",
+      email: enrollmentForm.generalInformationSection.email,
+      enrollmentForm,
+      dateEnrolled: dayjsUtil().utc().toISOString(),
+    });
+  }
+
+  if (enrollmentForm.programSelectionSection.optedInToDiabetesPrevention) {
+    await createProgramEnrollment({
+      program: "Diabetes Prevention",
+      status: "pending",
+      email: enrollmentForm.generalInformationSection.email,
+      enrollmentForm,
+      dateEnrolled: dayjsUtil().utc().toISOString(),
+    });
+  }
+
+  if (enrollmentForm.programSelectionSection.optedInToRigsWithoutCigs) {
+    await createProgramEnrollment({
+      program: "Rigs Without Cigs",
+      status: "pending",
+      email: enrollmentForm.generalInformationSection.email,
+      enrollmentForm,
+      dateEnrolled: dayjsUtil().utc().toISOString(),
+    });
+  }
+
+  if (enrollmentForm.programSelectionSection.optedInToVaccineVoucher) {
+    await createProgramEnrollment({
+      program: "Vaccine Voucher",
+      status: "pending",
+      email: enrollmentForm.generalInformationSection.email,
+      enrollmentForm,
+      dateEnrolled: dayjsUtil().utc().toISOString(),
+    });
+  }
+
+  if (
+    enrollmentForm.programSelectionSection.optedInToGetPreventativeScreenings
+  ) {
+    await createProgramEnrollment({
+      program: "GPS (Get Preventative Screenings)",
+      status: "pending",
+      email: enrollmentForm.generalInformationSection.email,
+      enrollmentForm,
+      dateEnrolled: dayjsUtil().utc().toISOString(),
+    });
+  }
 }

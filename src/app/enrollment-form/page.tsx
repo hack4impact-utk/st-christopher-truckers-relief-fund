@@ -1,18 +1,5 @@
-import { Box } from "@mui/material";
+import { redirect } from "next/navigation";
 
-import GeneralInformationSection from "@/components/EnrollmentForm/GeneralInformationSection";
-
-export default function EnrollmentForm() {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: "25vh",
-      }}
-    >
-      <GeneralInformationSection />
-    </Box>
-  );
+export default function EnrollmentFormPage() {
+  redirect("/enrollment-form/general-information");
 }

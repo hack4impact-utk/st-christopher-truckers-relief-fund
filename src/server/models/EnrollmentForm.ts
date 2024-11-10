@@ -4,99 +4,155 @@ import { EnrollmentForm } from "@/types";
 
 const EnrollmentFormSchema = new Schema<EnrollmentForm>(
   {
-    _id: {
+    dateSubmitted: {
       type: String,
       required: true,
     },
-    dateCreated: {
-      type: String,
-      required: true,
+    generalInformationSection: {
+      firstName: String,
+      lastName: String,
+      email: String,
+      password: String,
+      confirmPassword: String,
+      dateOfBirth: String,
+      sex: String,
+      phoneNumber: String,
+      address: String,
+      preferredMethodOfContact: String,
+      isUsCitizen: Boolean,
+      hasClassACdl: Boolean,
+      cdlNumber: String,
+      truckingIndustryAffiliation: String,
+      jobDescription: String,
+      referralSource: String,
+      employer: {
+        name: String,
+        contact: String,
+      },
+      doctors: Array,
+      monthlyHouseholdExpenses: Number,
+      isOwnerOperator: Boolean,
+      ownerOperatorInfo: {
+        businessIncome: Number,
+        businessExpenses: Number,
+      },
+      hasAcknowledgedPrivacyNotice: Boolean,
+      hasAcknowledgedHipaaNotice: Boolean,
     },
-    hasAcknowledgedPrivacyNotice: {
-      type: Boolean,
-      required: true,
+    qualifyingQuestionsSection: {
+      diagnoses: {
+        hasType1Diabetes: Boolean,
+        hasType2Diabetes: Boolean,
+        hasHighBloodPressure: Boolean,
+        hasHighCholesterol: Boolean,
+        hasHeartDisease: Boolean,
+        isObese: Boolean,
+        hasOther: String,
+        noneOfTheAbove: Boolean,
+      },
+      isTobaccoUser: Boolean,
+      hasAppliedForFinancialAssistance: Boolean,
+      hasHealthConditionCausedByTobaccoUse: Boolean,
+      hasHealthInsurance: Boolean,
+      hasCloseFamilyHistoryOfProstateCancer: Boolean,
     },
-    hasAcknowledgedHipaaNotice: {
-      type: Boolean,
-      required: true,
+    programSelectionSection: {
+      optedInToHealthyHabits: Boolean,
+      optedInToDiabetesPrevention: Boolean,
+      optedInToRigsWithoutCigs: Boolean,
+      optedInToVaccineVoucher: Boolean,
+      optedInToGetPreventativeScreenings: Boolean,
     },
-    firstName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    confirmPassword: {
-      type: String,
-      required: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
-    hasClassACdl: {
-      type: Boolean,
-      required: true,
-    },
-    classBDescription: {
-      type: String,
-    },
-    dateOfBirth: {
-      type: String,
-      required: true,
-    },
-    healthConditions: {
-      type: String,
-    },
-    recentIllnessOrInjuryDetails: {
-      type: String,
-    },
-    drivesSemiTruckOverRoad: {
-      type: Boolean,
-      required: true,
-    },
-    isUsCitizen: {
-      type: Boolean,
-      required: true,
-    },
-    referralSource: {
-      type: String,
-    },
-    doctors: {
-      type: Array,
-    },
-    employer: {
-      type: Object,
-    },
-    monthlyHouseholdExpenses: {
-      type: Number,
-      required: true,
-    },
-    ownerOperatorInfo: {
-      type: Object,
-    },
-    healthMetrics: {
-      type: Object,
-    },
-    healthGoals: {
-      type: Object,
-    },
-    devices: {
-      type: Array,
+    programSpecificQuestionsSection: {
+      hasOptedInToHealthyHabits: Boolean,
+      hasOptedInToDiabetesPrevention: Boolean,
+      hasOptedInToRigsWithoutCigs: Boolean,
+      hasOptedInToVaccineVoucher: Boolean,
+      hasOptedInToGetPreventativeScreenings: Boolean,
+      healthyHabitsAndDiabetesPrevention: {
+        weight: Number,
+        bmi: Number,
+        hasHadGlucoseOrA1CTestInPastYear: Boolean,
+        glucoseOrA1CTestResult: String,
+        bloodPressure: String,
+        movementAndActivityRanking: String,
+        energyRanking: String,
+        sleepRanking: String,
+        emotionalHealthRanking: String,
+        waterBottlesPerDay: String,
+        fruitAndVegetableServingsPerDay: String,
+        otherIllnessOrInjury: String,
+        biggestHealthyLivingChallenge: String,
+        shortTermHealthGoals: String,
+        longTermHealthGoals: String,
+        devices: {
+          hasScale: Boolean,
+          hasBloodPressureCuff: Boolean,
+          hasGlucoseMonitor: Boolean,
+          hasA1cHomeTest: Boolean,
+          hasFitnessTracker: Boolean,
+          hasBodyTapMeasure: Boolean,
+          hasResistanceBands: Boolean,
+          hasOtherExerciseEquipment: Boolean,
+          noneOfTheAbove: Boolean,
+        },
+        healthyHabitsHopefulLearnings: String,
+        diabetesPreventionHopefulLearnings: String,
+      },
+      rigsWithoutCigs: {
+        tobaccoForm: {
+          doesUseCigarettes: Boolean,
+          doesUseSmokelessTobacco: Boolean,
+        },
+        tobaccoUsageLength: String,
+        isFirstTimeTryingToQuit: Boolean,
+        methodsUsedToQuit: {
+          hasTriedColdTurkey: Boolean,
+          hasUsedNicotinePatch: Boolean,
+          hasUsedGum: Boolean,
+          hasUsedHypnosis: Boolean,
+          hasUsedMedication: Boolean,
+          hasUsedECigarettes: Boolean,
+          hasUsedOther: Boolean,
+          hasNotTriedToQuit: Boolean,
+        },
+        firstCigaretteTime: String,
+        doesFindItDifficultToNotSmokeInNonSmokingAreas: Boolean,
+        hardestCigaretteToGiveUp: String,
+        cigarettesPerDay: Number,
+        smokesMoreOftenInTheMorning: Boolean,
+        smokesEvenWhenSickInBed: Boolean,
+        plansToJoinFacebookGroup: Boolean,
+        whyDoYouWantToQuitSmoking: String,
+        howCanWeHelpYou: String,
+        referralSource: String,
+        accountabilityPerson: {
+          firstName: String,
+          lastName: String,
+          phoneNumber: String,
+          relationshipToAccountabilityPerson: String,
+        },
+        currentlyHasPrimaryCarePhysician: Boolean,
+      },
+      vaccineVoucher: {
+        vaccines: {
+          wantsFluVaccine: Boolean,
+          wantsPneumoniaVaccine: Boolean,
+          wantsShinglesVaccine: Boolean,
+          wantsCovid19Vaccine: Boolean,
+        },
+        voucherLocation: String,
+        additionalQuestions: String,
+      },
+      getPreventativeScreenings: {
+        agreeToShareResults: Boolean,
+        prostateScreening: {
+          agreeToGetAccountRegistered: Boolean,
+          agreesToProstateScreening: Boolean,
+          isNotApplicable: Boolean,
+          additionalQuestions: String,
+        },
+      },
     },
   },
   { versionKey: false },
