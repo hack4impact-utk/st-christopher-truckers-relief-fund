@@ -496,8 +496,8 @@ export default function HealthyHabitsProgramSpecificQuestions({
       {hasOptedInToHealthyHabits && (
         <>
           <Typography>
-            What are your hopeful learnings and/or goals for healthy habits and
-            diabetes prevention?
+            What are your hopeful learnings and/or goals for the healthy habits
+            program?
           </Typography>
           <ControlledTextField
             control={control}
