@@ -102,6 +102,7 @@ export default function HealthyHabitsProgramSpecificQuestions({
         </FormHelperText>
       </FormControl>
 
+      <Typography>What was the result? (Put “NA” if not applicable)</Typography>
       <ControlledTextField
         control={control}
         name="healthyHabitsAndDiabetesPrevention.glucoseOrA1CTestResult"
@@ -312,6 +313,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
       </FormControl>
 
       {/* other illness or injury */}
+      <Typography>
+        Do you have any other illness or injury we should be aware of? If
+        applicable, please describe. If not, put “NA.”
+      </Typography>
       <ControlledTextField
         control={control}
         name="healthyHabitsAndDiabetesPrevention.otherIllnessOrInjury"
@@ -324,6 +329,9 @@ export default function HealthyHabitsProgramSpecificQuestions({
       />
 
       {/* biggest healthy living challenge */}
+      <Typography>
+        What is your biggest healthy living challenge while out on the road?
+      </Typography>
       <ControlledTextField
         control={control}
         name="healthyHabitsAndDiabetesPrevention.biggestHealthyLivingChallenge"
