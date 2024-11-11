@@ -120,8 +120,6 @@ export default function ProgramSpecificQuestionsFormSection() {
             gridTemplateColumns: "1fr",
           }}
         >
-          <Typography variant="h4">Program Specific Questions</Typography>
-
           {(hasOptedInToHealthyHabits || hasOptedInToDiabetesPrevention) && (
             <HealthyHabitsProgramSpecificQuestions
               control={control}

@@ -34,9 +34,11 @@ export default function HealthyHabitsProgramSpecificQuestions({
     <>
       <Divider />
 
-      <Typography variant="h6">
+      <Typography variant="h4">
         Healthy Habits and Diabetes Prevention
       </Typography>
+
+      <Typography variant="h6">Health information</Typography>
 
       <ControlledTextField
         control={control}
@@ -69,6 +71,23 @@ export default function HealthyHabitsProgramSpecificQuestions({
         convertToNumber={true}
         required
       />
+
+      <ControlledTextField
+        control={control}
+        name="healthyHabitsAndDiabetesPrevention.bloodPressure"
+        label="Blood Pressure (e.g. 120/80)"
+        variant="outlined"
+        error={errors.healthyHabitsAndDiabetesPrevention?.bloodPressure}
+        slotProps={{
+          input: {
+            endAdornment: <InputAdornment position="end">mmHg</InputAdornment>,
+          },
+        }}
+      />
+
+      <Divider />
+
+      <Typography variant="h6">Glucose and A1c</Typography>
 
       <FormControl
         error={
@@ -114,18 +133,13 @@ export default function HealthyHabitsProgramSpecificQuestions({
         required
       />
 
-      <ControlledTextField
-        control={control}
-        name="healthyHabitsAndDiabetesPrevention.bloodPressure"
-        label="Blood Pressure (e.g. 120/80)"
-        variant="outlined"
-        error={errors.healthyHabitsAndDiabetesPrevention?.bloodPressure}
-        slotProps={{
-          input: {
-            endAdornment: <InputAdornment position="end">mmHg</InputAdornment>,
-          },
-        }}
-      />
+      <Divider />
+
+      <Typography variant="h6">Self Assessment</Typography>
+      <Typography>
+        For each question, rank your overall health in various categories. A 1
+        is the worst score and a 5 is the best score.
+      </Typography>
 
       <FormControl
         error={
@@ -243,6 +257,9 @@ export default function HealthyHabitsProgramSpecificQuestions({
         </FormHelperText>
       </FormControl>
 
+      <Divider />
+
+      <Typography variant="h6">Diet</Typography>
       {/* water bottles per day */}
       <FormControl
         error={!!errors.healthyHabitsAndDiabetesPrevention?.waterBottlesPerDay}
@@ -312,6 +329,9 @@ export default function HealthyHabitsProgramSpecificQuestions({
         </FormHelperText>
       </FormControl>
 
+      <Divider />
+
+      <Typography variant="h6">Health Goals</Typography>
       {/* other illness or injury */}
       <Typography>
         Do you have any other illness or injury we should be aware of? If
@@ -347,6 +367,7 @@ export default function HealthyHabitsProgramSpecificQuestions({
       />
 
       {/* short term health goals */}
+      <Typography>What are your short-term health goals?</Typography>
       <ControlledTextField
         control={control}
         name="healthyHabitsAndDiabetesPrevention.shortTermHealthGoals"
@@ -359,6 +380,7 @@ export default function HealthyHabitsProgramSpecificQuestions({
       />
 
       {/* long term health goals */}
+      <Typography>What are your long-term health goals?</Typography>
       <ControlledTextField
         control={control}
         name="healthyHabitsAndDiabetesPrevention.longTermHealthGoals"
@@ -369,6 +391,8 @@ export default function HealthyHabitsProgramSpecificQuestions({
         rows={3}
         required
       />
+
+      <Divider />
       {/* devices */}
       <Typography variant="h6">Devices</Typography>
       <Typography>Select the devices you currently use.</Typography>
@@ -489,10 +513,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         )}
       />
 
+      <Divider />
+
       {/* healthy habits and diabetes prevention goals */}
-      <Typography variant="h6">
-        Healthy Habits and Diabetes Prevention Goals
-      </Typography>
+      <Typography variant="h6">Program Goals</Typography>
       {hasOptedInToHealthyHabits && (
         <>
           <Typography>

@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { EnrollmentForm } from "@/types/EnrollmentForm";
 import { GeneralInformationSection } from "@/types/EnrollmentForm/GeneralInformationSection";
@@ -137,19 +137,6 @@ export function EnrollmentFormProvider({
     });
   };
 
-  const contextValue = useMemo(
-    () => ({
-      enrollmentForm,
-      completedSections,
-      updateGeneralInformationSection,
-      updateQualifyingQuestionsSection,
-      updateProgramSelectionSection,
-      updateProgramSpecificQuestionsSection,
-      resetEnrollmentForm,
-    }),
-    [enrollmentForm, completedSections],
-  );
-
   // show warning on window unload
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -168,7 +155,17 @@ export function EnrollmentFormProvider({
   }, []);
 
   return (
-    <EnrollmentFormContext.Provider value={contextValue}>
+    <EnrollmentFormContext.Provider
+      value={{
+        enrollmentForm,
+        completedSections,
+        updateGeneralInformationSection,
+        updateQualifyingQuestionsSection,
+        updateProgramSelectionSection,
+        updateProgramSpecificQuestionsSection,
+        resetEnrollmentForm,
+      }}
+    >
       {children}
     </EnrollmentFormContext.Provider>
   );

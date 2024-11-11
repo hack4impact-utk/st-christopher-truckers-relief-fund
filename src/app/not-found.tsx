@@ -1,5 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box } from "@mui/material";
+
+import NotFound from "@/components/NotFound";
 
 export default function Custom404() {
   return (
@@ -13,14 +14,7 @@ export default function Custom404() {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">
-        The page you are looking for does not exist.
-      </Typography>
-      <Link href="/" style={{ textDecoration: "none" }}>
-        <Typography variant="body1" color="primary">
-          Return to home
-        </Typography>
-      </Link>
+      <NotFound />
     </Box>
   );
 }

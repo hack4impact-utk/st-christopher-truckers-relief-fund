@@ -66,6 +66,10 @@ export default function ProgramSelectionFormSection() {
         <Typography variant="h4">Program Selection</Typography>
         <Divider />
 
+        <Typography>
+          Please select the programs you are interested in.
+        </Typography>
+
         <Controller
           name="optedInToHealthyHabits"
           control={control}
