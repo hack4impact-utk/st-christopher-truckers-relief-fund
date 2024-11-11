@@ -236,30 +236,32 @@ export const programSpecificQuestionsSectionValidator = z
           path: ["getPreventativeScreenings", "agreeToShareResults"],
         });
       }
-    }
 
-    const selectedNotApplicable =
-      val.getPreventativeScreenings.prostateScreening.isNotApplicable;
-    const agreeToGetAccountRegistered =
-      val.getPreventativeScreenings.prostateScreening
-        .agreeToGetAccountRegistered;
-    const agreesToProstateScreening =
-      val.getPreventativeScreenings.prostateScreening.agreesToProstateScreening;
+      const selectedNotApplicable =
+        val.getPreventativeScreenings.prostateScreening.isNotApplicable;
+      const agreeToGetAccountRegistered =
+        val.getPreventativeScreenings.prostateScreening
+          .agreeToGetAccountRegistered;
+      const agreesToProstateScreening =
+        val.getPreventativeScreenings.prostateScreening
+          .agreesToProstateScreening;
 
-    if (
-      !selectedNotApplicable &&
-      (agreeToGetAccountRegistered === false ||
-        agreesToProstateScreening === false)
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "You must select not applicable or select both other options",
-        path: [
-          "getPreventativeScreenings",
-          "prostateScreening",
-          "agreeToGetAccountRegistered",
-        ],
-      });
+      if (
+        !selectedNotApplicable &&
+        (agreeToGetAccountRegistered === false ||
+          agreesToProstateScreening === false)
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "You must select not applicable or select both other options",
+          path: [
+            "getPreventativeScreenings",
+            "prostateScreening",
+            "agreeToGetAccountRegistered",
+          ],
+        });
+      }
     }
   });
 
