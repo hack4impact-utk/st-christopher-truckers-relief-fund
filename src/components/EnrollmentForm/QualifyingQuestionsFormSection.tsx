@@ -71,8 +71,7 @@ export default function QualifyingQuestionsFormSection() {
         {/* Section Title: Diagnoses */}
         <Typography variant="h6">Diagnoses</Typography>
         <Typography>
-          Which of the following conditions do you have? <br /> (Check all that
-          apply.)
+          Which of the following conditions do you have? Check all that apply
         </Typography>
 
         <Controller

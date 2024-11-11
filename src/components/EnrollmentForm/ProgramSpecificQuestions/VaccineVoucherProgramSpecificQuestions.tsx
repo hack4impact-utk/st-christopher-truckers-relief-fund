@@ -29,6 +29,7 @@ export default function VaccineVoucherProgramSpecificQuestions({
     <>
       <Divider />
       <Typography variant="h4">Vaccine Voucher</Typography>
+      <Typography variant="h6">Vaccines</Typography>
 
       <Typography>
         Select the vaccines you are interested in receiving.

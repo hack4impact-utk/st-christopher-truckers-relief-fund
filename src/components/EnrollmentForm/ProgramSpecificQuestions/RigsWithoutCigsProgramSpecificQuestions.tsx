@@ -31,7 +31,9 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
       <Divider />
       <Typography variant="h4">Rigs for Cigs</Typography>
 
-      <Typography variant="h6">What form of tobacco do you use?</Typography>
+      <Typography variant="h6">General</Typography>
+
+      <Typography>What form of tobacco do you use?</Typography>
       <Controller
         name="rigsWithoutCigs.tobaccoForm.doesUseCigarettes"
         control={control}
@@ -53,6 +55,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         )}
       />
 
+      <Typography>How long have you been using tobacco?</Typography>
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.tobaccoUsageLength"
@@ -60,114 +63,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         variant="outlined"
         error={errors.rigsWithoutCigs?.tobaccoUsageLength}
         required
-      />
-
-      <FormControl
-        error={!!errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
-        sx={{ width: "100%" }}
-      >
-        <FormLabel>Is this your first time trying to quit?</FormLabel>
-        <Controller
-          name="rigsWithoutCigs.isFirstTimeTryingToQuit"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup
-              {...field}
-              value={field.value !== undefined ? String(field.value) : ""}
-              onChange={(e) => field.onChange(e.target.value === "true")}
-            >
-              <FormControlLabel value="true" control={<Radio />} label="Yes" />
-              <FormControlLabel value="false" control={<Radio />} label="No" />
-            </RadioGroup>
-          )}
-        />
-        <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
-        </FormHelperText>
-      </FormControl>
-
-      <Typography variant="h6">
-        What methods have you used to quit in the past?
-      </Typography>
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasTriedColdTurkey"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="Cold turkey"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedNicotinePatch"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="Nicotine patch"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedGum"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="Gum"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedHypnosis"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="Hypnosis"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedMedication"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="Medication"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedECigarettes"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="E-cigarettes"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedOther"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="Other"
-          />
-        )}
-      />
-      <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasNotTriedToQuit"
-        control={control}
-        render={({ field }) => (
-          <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
-            label="I have not tried to quit"
-          />
-        )}
       />
 
       <FormControl
@@ -365,7 +260,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         </FormHelperText>
       </FormControl>
 
-      <Typography variant="h6">Why do you want to quit smoking?</Typography>
+      <Typography>Why do you want to quit smoking?</Typography>
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.whyDoYouWantToQuitSmoking"
@@ -377,7 +272,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         required
       />
 
-      <Typography variant="h6">How can we help you?</Typography>
+      <Typography>How can we help you?</Typography>
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.howCanWeHelpYou"
@@ -471,6 +366,122 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         </FormHelperText>
       </FormControl>
 
+      <Divider />
+
+      <Typography variant="h6">Methods of Quitting</Typography>
+      <FormControl
+        error={!!errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
+        sx={{ width: "100%" }}
+      >
+        <FormLabel>Is this your first time trying to quit?</FormLabel>
+        <Controller
+          name="rigsWithoutCigs.isFirstTimeTryingToQuit"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup
+              {...field}
+              value={field.value !== undefined ? String(field.value) : ""}
+              onChange={(e) => field.onChange(e.target.value === "true")}
+            >
+              <FormControlLabel value="true" control={<Radio />} label="Yes" />
+              <FormControlLabel value="false" control={<Radio />} label="No" />
+            </RadioGroup>
+          )}
+        />
+        <FormHelperText sx={{ m: 0 }}>
+          {errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
+        </FormHelperText>
+      </FormControl>
+      <Typography>What methods have you used to quit in the past?</Typography>
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasTriedColdTurkey"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Cold turkey"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedNicotinePatch"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Nicotine patch"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedGum"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Gum"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedHypnosis"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Hypnosis"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedMedication"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Medication"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedECigarettes"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="E-cigarettes"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedOther"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Other"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasNotTriedToQuit"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="I have not tried to quit"
+          />
+        )}
+      />
+
+      <Divider />
+
+      <Typography variant="h6">Accountability Person</Typography>
+      <Typography>
+        Please provide the name, phone number, and relationship to a person who
+        can help you quit smoking.
+      </Typography>
+
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.accountabilityPerson.firstName"
@@ -549,6 +560,9 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           }
         </FormHelperText>
       </FormControl>
+
+      <Divider />
+      <Typography variant="h6">Healthcare</Typography>
 
       <FormControl
         error={

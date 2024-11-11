@@ -110,36 +110,6 @@ export default function GeneralInformationFormSection() {
           />
         </Box>
 
-        {/* Email */}
-        <ControlledTextField
-          control={control}
-          name="email"
-          label="Email"
-          variant="outlined"
-          error={errors.email}
-          required
-        />
-
-        {/* Password */}
-        <ControlledTextField
-          control={control}
-          name="password"
-          label="Password"
-          variant="outlined"
-          error={errors.password}
-          type="password"
-          required
-        />
-        <ControlledTextField
-          control={control}
-          name="confirmPassword"
-          label="Confirm Password"
-          variant="outlined"
-          error={errors.confirmPassword}
-          type="password"
-          required
-        />
-
         {/* Date of Birth */}
         <Controller
           name="dateOfBirth"
@@ -252,6 +222,44 @@ export default function GeneralInformationFormSection() {
           error={errors.referralSource}
           required
         />
+        <Divider />
+
+        {/* Section Title: Login Information */}
+        <Typography variant="h6">Login Information</Typography>
+        <Typography>
+          Your password must be at least 8 characters long.
+        </Typography>
+
+        {/* Email */}
+        <ControlledTextField
+          control={control}
+          name="email"
+          label="Email"
+          variant="outlined"
+          error={errors.email}
+          required
+        />
+
+        {/* Password */}
+        <ControlledTextField
+          control={control}
+          name="password"
+          label="Password"
+          variant="outlined"
+          error={errors.password}
+          type="password"
+          required
+        />
+        <ControlledTextField
+          control={control}
+          name="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          error={errors.confirmPassword}
+          type="password"
+          required
+        />
+
         <Divider />
 
         {/* Section Title: Employment Information */}
