@@ -270,6 +270,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         </FormHelperText>
       </FormControl>
 
+      <Typography>How many cigarettes do you smoke daily? (1-100)</Typography>
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.cigarettesPerDay"
