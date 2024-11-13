@@ -1,16 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
-  Button,
   Checkbox,
   Divider,
   FormControlLabel,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
@@ -20,6 +20,7 @@ import {
 } from "@/types/EnrollmentForm";
 
 export default function ProgramSelectionFormSection() {
+  const [isLoading, setIsLoading] = useState(false);
   const { enrollmentForm, completedSections, updateProgramSelectionSection } =
     useEnrollmentForm();
   const router = useRouter();
@@ -48,6 +49,7 @@ export default function ProgramSelectionFormSection() {
   ]);
 
   const onSubmit = async (data: ProgramSelectionSection) => {
+    setIsLoading(true);
     updateProgramSelectionSection(data);
     router.push("/enrollment-form/program-specific-questions");
   };
@@ -137,30 +139,35 @@ export default function ProgramSelectionFormSection() {
             gap: 2,
           }}
         >
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
-            onClick={() => router.push("/enrollment-form/qualifying-questions")}
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/enrollment-form/qualifying-questions");
+            }}
+            loading={isLoading}
             sx={{ width: "100%" }}
           >
             Back
-          </Button>
-          <Button
+          </LoadingButton>
+          <LoadingButton
             type="submit"
             variant="contained"
             color="primary"
+            loading={isLoading}
             sx={{ width: "100%" }}
           >
             Next
-          </Button>
+          </LoadingButton>
         </Box>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
+        <Typography variant="body1" color="red">
           {errors.root?.message}
           {errors.optedInToHealthyHabits?.message}
         </Typography>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
+        <Typography variant="body1" color="red">
           {submitCount && !isSubmitSuccessful
             ? "Please review all fields before continuing."
             : ""}

@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Snackbar, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +40,7 @@ type ResetPasswordFormProps = {
 export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const {
@@ -51,14 +53,15 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   });
 
   const onSubmit = async (data: ResetPasswordFormValues) => {
+    setIsLoading(true);
+
     const { newPassword } = data;
 
     const [, error] = await resetPasswordWithToken(token, newPassword);
-
+    await deletePasswordResetToken(token);
     if (error === null) {
       setSnackbarMessage("Password successfully reset");
       setSnackbarOpen(true);
-      await deletePasswordResetToken(token);
 
       setTimeout(() => {
         router.push("/");
@@ -66,7 +69,8 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     } else {
       setSnackbarMessage("Password reset failed. This link is now invalid.");
       setSnackbarOpen(true);
-      await deletePasswordResetToken(token);
+
+      setIsLoading(false);
     }
   };
 
@@ -110,9 +114,14 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             type="password"
           />
 
-          <Button type="submit" variant="contained" color="primary">
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            loading={isLoading}
+          >
             Reset Password
-          </Button>
+          </LoadingButton>
         </Box>
       </form>
     </>

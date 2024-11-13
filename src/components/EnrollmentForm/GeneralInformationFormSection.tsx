@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   Button,
@@ -22,6 +23,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -34,6 +36,7 @@ import {
 import dayjsUtil from "@/utils/dayjsUtil";
 
 export default function GeneralInformationFormSection() {
+  const [isLoading, setIsLoading] = useState(false);
   const { enrollmentForm, updateGeneralInformationSection } =
     useEnrollmentForm();
   const router = useRouter();
@@ -49,6 +52,7 @@ export default function GeneralInformationFormSection() {
   });
 
   const onSubmit = async (data: GeneralInformationSection) => {
+    setIsLoading(true);
     updateGeneralInformationSection(data);
     router.push("/enrollment-form/qualifying-questions");
   };
@@ -637,11 +641,16 @@ export default function GeneralInformationFormSection() {
         </Box>
 
         {/* Submit */}
-        <Button type="submit" variant="contained" color="primary">
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={isLoading}
+        >
           Next
-        </Button>
+        </LoadingButton>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
+        <Typography variant="body1" color="red">
           {submitCount && !isSubmitSuccessful
             ? "Please review all fields before continuing."
             : ""}

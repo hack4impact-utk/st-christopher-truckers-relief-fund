@@ -1,11 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Skeleton, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Skeleton, Typography } from "@mui/material";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -25,6 +26,8 @@ const loginFormSchema = z.object({
 type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 function LoginFormFields() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -45,6 +48,7 @@ function LoginFormFields() {
   }, [searchParams, setError]);
 
   const onSubmit = async (data: LoginFormValues) => {
+    setIsLoading(true);
     setError("root", { message: "" });
     signIn("credentials", { ...data, callbackUrl: "/dashboard" });
   };
@@ -81,9 +85,14 @@ function LoginFormFields() {
           type="password"
         />
 
-        <Button type="submit" variant="contained" color="primary">
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={isLoading}
+        >
           Login
-        </Button>
+        </LoadingButton>
 
         <Link href="/forgot-password" style={{ textDecoration: "none" }}>
           <Typography variant="body1" color="primary">
@@ -91,7 +100,7 @@ function LoginFormFields() {
           </Typography>
         </Link>
 
-        <Typography variant="body1" fontWeight="normal" color="red">
+        <Typography variant="body1" color="red">
           {errors.root?.message}
         </Typography>
       </Box>
