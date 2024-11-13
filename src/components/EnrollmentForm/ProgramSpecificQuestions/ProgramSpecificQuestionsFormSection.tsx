@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Snackbar, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -21,6 +22,7 @@ import apiErrors from "@/utils/constants/apiErrors";
 export default function ProgramSpecificQuestionsFormSection() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     enrollmentForm,
@@ -56,6 +58,7 @@ export default function ProgramSpecificQuestionsFormSection() {
   });
 
   const onSubmit = async (data: ProgramSpecificQuestionsSection) => {
+    setIsLoading(true);
     updateProgramSpecificQuestionsSection(data);
   };
 
@@ -72,14 +75,17 @@ export default function ProgramSpecificQuestionsFormSection() {
         } else if (error === apiErrors.user.userAlreadyExists) {
           setSnackbarMessage("You already have an account");
           setSnackbarOpen(true);
+          setIsLoading(false);
         } else if (
           error === apiErrors.enrollmentForm.enrollmentFormAlreadyExists
         ) {
           setSnackbarMessage("You have already submitted this form");
           setSnackbarOpen(true);
+          setIsLoading(false);
         } else {
           setSnackbarMessage("An unknown error occurred");
           setSnackbarOpen(true);
+          setIsLoading(false);
         }
       }
     };
@@ -158,25 +164,30 @@ export default function ProgramSpecificQuestionsFormSection() {
               gap: 2,
             }}
           >
-            <Button
+            <LoadingButton
               variant="contained"
               color="primary"
-              onClick={() => router.push("/enrollment-form/program-selection")}
+              onClick={() => {
+                setIsLoading(true);
+                router.push("/enrollment-form/program-selection");
+              }}
+              loading={isLoading}
               sx={{ width: "100%" }}
             >
               Back
-            </Button>
-            <Button
+            </LoadingButton>
+            <LoadingButton
               type="submit"
               variant="contained"
               color="primary"
+              loading={isLoading}
               sx={{ width: "100%" }}
             >
               Submit
-            </Button>
+            </LoadingButton>
           </Box>
 
-          <Typography variant="h6" fontWeight="normal" color="red">
+          <Typography variant="body1" color="red">
             {submitCount && !isSubmitSuccessful
               ? "Please review all fields before continuing."
               : ""}

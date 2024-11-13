@@ -1,9 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
-  Button,
   Checkbox,
   Divider,
   FormControl,
@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -26,6 +26,7 @@ import {
 } from "@/types/EnrollmentForm";
 
 export default function QualifyingQuestionsFormSection() {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     enrollmentForm,
     completedSections,
@@ -50,6 +51,7 @@ export default function QualifyingQuestionsFormSection() {
   }, [completedSections.generalInformationSectionCompleted, router]);
 
   const onSubmit = async (data: QualifyingQuestionsSection) => {
+    setIsLoading(true);
     updateQualifyingQuestionsSection(data);
     router.push("/enrollment-form/program-selection");
   };
@@ -334,25 +336,30 @@ export default function QualifyingQuestionsFormSection() {
             gap: 2,
           }}
         >
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
-            onClick={() => router.push("/enrollment-form/general-information")}
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/enrollment-form/general-information");
+            }}
+            loading={isLoading}
             sx={{ width: "100%" }}
           >
             Back
-          </Button>
-          <Button
+          </LoadingButton>
+          <LoadingButton
             type="submit"
             variant="contained"
             color="primary"
+            loading={isLoading}
             sx={{ width: "100%" }}
           >
             Next
-          </Button>
+          </LoadingButton>
         </Box>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
+        <Typography variant="body1" color="red">
           {submitCount && !isSubmitSuccessful
             ? "Please review all fields before continuing."
             : ""}
