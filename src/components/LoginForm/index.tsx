@@ -50,7 +50,7 @@ function LoginFormFields() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setError("root", { message: "" });
-    signIn("credentials", { ...data, callbackUrl: "/dashboard" });
+    await signIn("credentials", { ...data, callbackUrl: "/dashboard" });
   };
 
   return (
