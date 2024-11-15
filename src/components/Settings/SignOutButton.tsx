@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 export default function SignOutButton() {
   return (
     <Button
-      onClick={() => signOut()}
+      onClick={() => signOut({ callbackUrl: "/" })}
       variant="contained"
       color="error"
       startIcon={<LogoutIcon />}
