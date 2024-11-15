@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 
-import SignOutButton from "@/components/Settings/SignOutButton";
+import AdminSettings from "@/components/Settings/AdminSettings";
 import getUserSession from "@/utils/getUserSession";
 
 export default async function AdminSettingsPage() {
@@ -10,6 +10,8 @@ export default async function AdminSettingsPage() {
   if (!session || session.user.role !== "admin") {
     redirect("/");
   }
+
+  const { user } = session;
 
   return (
     <Box
@@ -20,10 +22,10 @@ export default async function AdminSettingsPage() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        gap: 2,
       }}
     >
-      <p>Admin settings page</p>
-      <SignOutButton />
+      <AdminSettings user={user} />
     </Box>
   );
 }

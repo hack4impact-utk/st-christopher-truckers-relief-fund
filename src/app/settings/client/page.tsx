@@ -1,15 +1,17 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 
-import SignOutButton from "@/components/Settings/SignOutButton";
+import ClientSettings from "@/components/Settings/ClientSettings";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function ClientSettingsPage() {
+export default async function AdminSettingsPage() {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "client") {
     redirect("/");
   }
+
+  const { user } = session;
 
   return (
     <Box
@@ -20,10 +22,10 @@ export default async function ClientSettingsPage() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        gap: 2,
       }}
     >
-      <p>Client settings page</p>
-      <SignOutButton />
+      <ClientSettings user={user} />
     </Box>
   );
 }
