@@ -75,10 +75,36 @@ async function updateProgramEnrollment(
   }
 }
 
-// export async function rejectProgramEnrollment(
-//   email: string,
-//   program: Program,
-// ): Promise<ApiResponse<null>> {}
+export async function rejectProgramEnrollment(
+  email: string,
+  program: Program,
+): Promise<ApiResponse<null>> {
+  await dbConnect();
+
+  const [, authError] = await authenticateServerFunction("admin");
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  const [programEnrollment, programEnrollmentError] =
+    await getProgramEnrollmentForUser(email, program);
+
+  if (programEnrollmentError !== null) {
+    return [null, programEnrollmentError];
+  }
+
+  const [, updateProgramEnrollmentError] = await updateProgramEnrollment({
+    ...programEnrollment,
+    status: "rejected",
+  });
+
+  if (updateProgramEnrollmentError !== null) {
+    return [null, updateProgramEnrollmentError];
+  }
+
+  return [null, null];
+}
 
 export async function approveProgramEnrollment(
   email: string,
