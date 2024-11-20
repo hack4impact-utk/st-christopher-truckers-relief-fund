@@ -5,13 +5,15 @@ import { Clear as ClearIcon } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import Snackbar from "@mui/material/Snackbar";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import { handleRejectProgramApplication } from "@/server/api/program-enrollments/mutations";
+import { Program } from "@/types";
 
 const rejectionReasonSchema = z.object({
   rejectionReason: z.string().min(1, { message: "Reason is required" }),
@@ -19,17 +21,24 @@ const rejectionReasonSchema = z.object({
 
 type RejectButtonFormValues = z.infer<typeof rejectionReasonSchema>;
 
-type RejectPendingApplicationProps = {
-  height?: number;
-  width?: number;
+type RejectPendingApplicationButtonProps = {
+  email: string;
+  program: Program;
+  rows: Row[];
+  setRows: Dispatch<SetStateAction<Row[]>>;
+  setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
+  setSnackbarMessage: Dispatch<SetStateAction<string>>;
 };
 
-export default function RejectPendingApplication({
-  height,
-  width,
-}: RejectPendingApplicationProps) {
+export default function RejectPendingApplicationButton({
+  email,
+  program,
+  rows,
+  setRows,
+  setSnackbarOpen,
+  setSnackbarMessage,
+}: RejectPendingApplicationButtonProps) {
   const [open, setOpen] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const {
     control,
@@ -41,36 +50,33 @@ export default function RejectPendingApplication({
     defaultValues: { rejectionReason: "" },
   });
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const removePendingApplicationFromRows = () => {
+    const rowsWithoutProgramEnrollment = rows.filter(
+      (row) => row.email !== email || row.program !== program,
+    );
+    setRows(rowsWithoutProgramEnrollment);
+  };
 
-  const onSubmit = (data: RejectButtonFormValues) => {
-    // Add submission logic here later
-    // eslint-disable-next-line no-console
-    console.log(data.rejectionReason);
+  const onSubmit = async (data: RejectButtonFormValues) => {
+    await handleRejectProgramApplication(email, program, data.rejectionReason);
+    removePendingApplicationFromRows();
     reset({ rejectionReason: "" });
+    setSnackbarMessage("Application successfully rejected");
     setSnackbarOpen(true);
-    handleClose();
+    setOpen(false);
   };
 
   return (
     <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-        message="Application successfully rejected"
-      />
       <Button
         variant="contained"
         color="error"
         startIcon={<ClearIcon />}
-        onClick={handleOpen}
-        style={{ height, width }}
+        onClick={() => setOpen(true)}
       >
         Reject
       </Button>
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} onClose={() => setOpen(false)}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
@@ -88,7 +94,9 @@ export default function RejectPendingApplication({
               bgcolor: "background.paper",
             }}
           >
-            <Typography variant="h4">Rejection Reason</Typography>
+            <Typography variant="body1">
+              Please enter a reason for rejecting this applicant:
+            </Typography>
             <ControlledTextField
               control={control}
               name="rejectionReason"
