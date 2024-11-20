@@ -1,11 +1,14 @@
 "use client";
 
-import { Box, Button } from "@mui/material";
+import { Box, Button, Snackbar } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useState } from "react";
 
+import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
+import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
 import { EnrollmentForm, Program, ProgramEnrollment } from "@/types";
 
-type Row = {
+export type Row = {
   id?: string;
   lastName: string;
   firstName: string;
@@ -14,68 +17,6 @@ type Row = {
   program: Program;
   enrollmentForm: EnrollmentForm;
 };
-
-const columns: GridColDef<Row>[] = [
-  {
-    field: "firstName",
-    headerName: "First name",
-    flex: 1,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    flex: 1,
-  },
-  {
-    field: "phoneNumber",
-    headerName: "Phone Number",
-    flex: 2,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    flex: 2,
-  },
-  {
-    field: "program",
-    headerName: "Program",
-    flex: 2,
-  },
-  {
-    field: "action",
-    headerName: "",
-    sortable: false,
-    flex: 3,
-    renderCell: (params) => {
-      return (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          <Button color="success" variant="contained">
-            Accept
-          </Button>
-          <Button color="error" variant="contained">
-            Reject
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              alert(JSON.stringify(params.row.enrollmentForm));
-            }}
-          >
-            Info
-          </Button>
-        </Box>
-      );
-    },
-  },
-];
 
 const createRowFromProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
@@ -98,18 +39,110 @@ type PendingApplicationDashboardProps = {
   programEnrollments: ProgramEnrollment[] | null;
 };
 
+function getRows(programEnrollments: ProgramEnrollment[] | null): Row[] {
+  return programEnrollments
+    ? programEnrollments.map(createRowFromProgramEnrollment)
+    : [];
+}
+
 export default function PendingApplicationDashboard({
   programEnrollments,
 }: PendingApplicationDashboardProps) {
-  const rows = programEnrollments
-    ? programEnrollments.map((programEnrollment) =>
-        createRowFromProgramEnrollment(programEnrollment),
-      )
-    : [];
+  const [rows, setRows] = useState<Row[]>(getRows(programEnrollments));
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const columns: GridColDef<Row>[] = [
+    {
+      field: "firstName",
+      headerName: "First name",
+      width: 200,
+    },
+    {
+      field: "lastName",
+      headerName: "Last name",
+      width: 200,
+    },
+    {
+      field: "phoneNumber",
+      headerName: "Phone Number",
+      width: 125,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      minWidth: 150,
+      flex: 1,
+    },
+    {
+      field: "program",
+      headerName: "Program",
+      width: 250,
+    },
+    {
+      field: "action",
+      headerName: "",
+      sortable: false,
+      minWidth: 250,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <AcceptPendingApplicationButton
+                email={
+                  params.row.enrollmentForm.generalInformationSection.email
+                }
+                firstName={params.row.firstName}
+                program={params.row.program}
+                rows={rows}
+                setRows={setRows}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+              <RejectPendingApplicationButton
+                email={
+                  params.row.enrollmentForm.generalInformationSection.email
+                }
+                program={params.row.program}
+                rows={rows}
+                setRows={setRows}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarMessage={setSnackbarMessage}
+              />
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {
+                  alert(JSON.stringify(params.row.enrollmentForm));
+                }}
+              >
+                Info
+              </Button>
+            </Box>
+          </>
+        );
+      },
+    },
+  ];
 
   return (
     <>
       <Box sx={{ width: "90%" }}>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={() => setSnackbarOpen(false)}
+          message={snackbarMessage}
+          anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+        />
         <DataGrid
           rows={rows}
           columns={columns}

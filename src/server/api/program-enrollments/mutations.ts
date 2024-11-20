@@ -1,5 +1,9 @@
 "use server";
 
+import {
+  sendRejectionEmail,
+  sendWelcomeEmail,
+} from "@/server/api/emails/actions";
 import { getProgramEnrollmentForUser } from "@/server/api/program-enrollments/queries";
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
@@ -75,7 +79,7 @@ async function updateProgramEnrollment(
   }
 }
 
-export async function rejectProgramEnrollment(
+async function rejectProgramEnrollment(
   email: string,
   program: Program,
 ): Promise<ApiResponse<null>> {
@@ -106,7 +110,7 @@ export async function rejectProgramEnrollment(
   return [null, null];
 }
 
-export async function approveProgramEnrollment(
+async function approveProgramEnrollment(
   email: string,
   program: Program,
 ): Promise<ApiResponse<null>> {
@@ -191,4 +195,22 @@ export async function createProgramEnrollmentsFromEnrollmentForm(
       dateEnrolled: dayjsUtil().utc().toISOString(),
     });
   }
+}
+
+export async function handleRejectProgramApplication(
+  email: string,
+  program: Program,
+  reason: string,
+) {
+  await rejectProgramEnrollment(email, program);
+  await sendRejectionEmail(email, program, reason);
+}
+
+export async function handleApproveProgramApplication(
+  email: string,
+  firstName: string,
+  program: Program,
+) {
+  await approveProgramEnrollment(email, program);
+  await sendWelcomeEmail(email, firstName, program);
 }
