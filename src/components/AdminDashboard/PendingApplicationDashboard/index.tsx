@@ -82,9 +82,12 @@ const createRowFromProgramEnrollment = (
 ) => {
   return {
     id: programEnrollment._id,
-    lastName: programEnrollment.enrollmentForm.lastName,
-    firstName: programEnrollment.enrollmentForm.firstName,
-    phoneNumber: programEnrollment.enrollmentForm.phoneNumber,
+    lastName:
+      programEnrollment.enrollmentForm.generalInformationSection.lastName,
+    firstName:
+      programEnrollment.enrollmentForm.generalInformationSection.firstName,
+    phoneNumber:
+      programEnrollment.enrollmentForm.generalInformationSection.phoneNumber,
     email: programEnrollment.email,
     program: programEnrollment.program,
     enrollmentForm: programEnrollment.enrollmentForm,
@@ -92,15 +95,17 @@ const createRowFromProgramEnrollment = (
 };
 
 type PendingApplicationDashboardProps = {
-  programEnrollments: ProgramEnrollment[];
+  programEnrollments: ProgramEnrollment[] | null;
 };
 
 export default function PendingApplicationDashboard({
   programEnrollments,
 }: PendingApplicationDashboardProps) {
-  const rows = programEnrollments.map((programEnrollment) =>
-    createRowFromProgramEnrollment(programEnrollment),
-  );
+  const rows = programEnrollments
+    ? programEnrollments.map((programEnrollment) =>
+        createRowFromProgramEnrollment(programEnrollment),
+      )
+    : [];
 
   return (
     <>
