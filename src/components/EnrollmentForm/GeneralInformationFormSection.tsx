@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   Button,
@@ -21,85 +22,39 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
+import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   Doctor,
-  GeneralInformationFormValues,
-  generalInformationValidator,
-} from "@/types";
+  GeneralInformationSection,
+  generalInformationSectionValidator,
+} from "@/types/EnrollmentForm";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-export default function GeneralInformationSection() {
+export default function GeneralInformationFormSection() {
+  const [isLoading, setIsLoading] = useState(false);
+  const { enrollmentForm, updateGeneralInformationSection } =
+    useEnrollmentForm();
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, submitCount, isSubmitSuccessful },
     watch,
-  } = useForm<GeneralInformationFormValues>({
-    resolver: zodResolver(generalInformationValidator),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      dateOfBirth: "",
-      isUsCitizen: true,
-      phoneNumber: "",
-      address: "",
-      referralSource: "",
-
-      hasClassACdl: true,
-      cdlNumber: "",
-      classBDescription: "",
-      employer: {
-        name: "",
-        contact: "",
-      },
-      drivesSemiTruckOverRoad: false,
-      monthlyHouseholdExpenses: 0,
-
-      isOwnerOperator: false,
-      ownerOperatorInfo: {
-        businessIncome: 0,
-        businessExpenses: 0,
-      },
-
-      healthConditions: "",
-      recentIllnessOrInjuryDetails: "",
-      devices: "",
-
-      healthMetrics: {
-        isDiabetic: false,
-        hasHighBloodPressure: false,
-        hasHighCholesterol: false,
-        hasHeartDisease: false,
-        isObese: false,
-        weight: 0,
-        bloodPressure: "",
-        a1c: 0,
-        bloodGlucose: 0,
-        cholesterol: 0,
-        other: "",
-      },
-
-      healthGoals: {
-        shortTerm: "",
-        longTerm: "",
-      },
-
-      doctors: [],
-
-      hasAcknowledgedPrivacyNotice: false,
-      hasAcknowledgedHipaaNotice: false,
-    },
+  } = useForm<GeneralInformationSection>({
+    resolver: zodResolver(generalInformationSectionValidator),
+    defaultValues: enrollmentForm.generalInformationSection,
   });
 
-  const onSubmit = async (data: GeneralInformationFormValues) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const onSubmit = async (data: GeneralInformationSection) => {
+    setIsLoading(true);
+    updateGeneralInformationSection(data);
+    router.push("/enrollment-form/qualifying-questions");
   };
 
   // Doctors array logic
@@ -125,8 +80,10 @@ export default function GeneralInformationSection() {
         {/* Title: Enrollment Form */}
         <Typography variant="h4">Enrollment Form</Typography>
         <Divider />
+
         {/* Section Title: General Information */}
         <Typography variant="h6">General Information</Typography>
+
         {/* Name */}
         <Box
           sx={{
@@ -136,49 +93,27 @@ export default function GeneralInformationSection() {
             gap: 2,
           }}
         >
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="firstName"
             label="First Name"
             variant="outlined"
             error={errors.firstName}
+            required
             sx={{ width: "100%" }}
           />
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="lastName"
             label="Last Name"
             variant="outlined"
             error={errors.lastName}
+            required
             sx={{ width: "100%" }}
           />
         </Box>
-        {/* Email */}
-        <ControlledTextInput
-          control={control}
-          name="email"
-          label="Email"
-          variant="outlined"
-          error={errors.email}
-        />
-        {/* Password */}
-        <ControlledTextInput
-          control={control}
-          name="password"
-          label="Password"
-          variant="outlined"
-          error={errors.password}
-          type="password"
-        />
-        <ControlledTextInput
-          control={control}
-          name="confirmPassword"
-          label="Confirm Password"
-          variant="outlined"
-          error={errors.confirmPassword}
-          type="password"
-        />
+
         {/* Date of Birth */}
         <Controller
           name="dateOfBirth"
@@ -199,12 +134,38 @@ export default function GeneralInformationSection() {
                   label="Date of Birth"
                   variant="outlined"
                   format="MM/DD/YYYY"
+                  required
                 />
               </LocalizationProvider>
               <FormHelperText>{errors.dateOfBirth?.message}</FormHelperText>
             </FormControl>
           )}
         />
+
+        {/* Sex */}
+        <FormControl error={!!errors.sex} sx={{ width: "100%" }}>
+          <FormLabel>What is your sex?</FormLabel>
+          <Controller
+            name="sex"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup {...field}>
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+              </RadioGroup>
+            )}
+          />
+          <FormHelperText sx={{ m: 0 }}>{errors.sex?.message}</FormHelperText>
+        </FormControl>
+
         {/* US Citizen */}
         <FormControl error={!!errors.isUsCitizen} sx={{ width: "100%" }}>
           <FormLabel>Are you a citizen of the United States?</FormLabel>
@@ -234,34 +195,80 @@ export default function GeneralInformationSection() {
             {errors.isUsCitizen?.message}
           </FormHelperText>
         </FormControl>
+
         {/* Phone Number */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="phoneNumber"
           label="Phone Number"
           variant="outlined"
           error={errors.phoneNumber}
           type="tel"
+          required
         />
+
         {/* Address */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="address"
           label="Address"
           variant="outlined"
           error={errors.address}
+          required
         />
+
         {/* Referral Source */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="referralSource"
-          label="Referral Source"
+          label="How did you hear about SCF?"
           variant="outlined"
           error={errors.referralSource}
+          required
         />
         <Divider />
+
+        {/* Section Title: Login Information */}
+        <Typography variant="h6">Login Information</Typography>
+        <Typography>
+          Your password must be at least 8 characters long.
+        </Typography>
+
+        {/* Email */}
+        <ControlledTextField
+          control={control}
+          name="email"
+          label="Email"
+          variant="outlined"
+          error={errors.email}
+          required
+        />
+
+        {/* Password */}
+        <ControlledTextField
+          control={control}
+          name="password"
+          label="Password"
+          variant="outlined"
+          error={errors.password}
+          type="password"
+          required
+        />
+        <ControlledTextField
+          control={control}
+          name="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          error={errors.confirmPassword}
+          type="password"
+          required
+        />
+
+        <Divider />
+
         {/* Section Title: Employment Information */}
         <Typography variant="h6">Employment Information</Typography>
+
         {/* CDL */}
         <FormControl error={!!errors.hasClassACdl} sx={{ width: "100%" }}>
           <FormLabel>
@@ -294,78 +301,109 @@ export default function GeneralInformationSection() {
           </FormHelperText>
         </FormControl>
         {watch("hasClassACdl") === true && (
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="cdlNumber"
             label="CDL Number"
             variant="outlined"
             error={errors.cdlNumber}
+            required
           />
         )}
-        {watch("hasClassACdl") === false && (
-          <ControlledTextInput
+
+        <FormControl
+          error={!!errors.truckingIndustryAffiliation}
+          sx={{ width: "100%" }}
+        >
+          <FormLabel>
+            How are you affiliated with the trucking industry?
+          </FormLabel>
+          <Controller
+            name="truckingIndustryAffiliation"
             control={control}
-            name="classBDescription"
-            label="Class B CDL Description"
-            variant="outlined"
-            error={errors.classBDescription}
+            render={({ field }) => (
+              <RadioGroup {...field}>
+                <FormControlLabel
+                  value="driver"
+                  control={<Radio />}
+                  label="Driver"
+                />
+                <FormControlLabel
+                  value="spouse"
+                  control={<Radio />}
+                  label="Spouse"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+            )}
           />
-        )}
+          <FormHelperText sx={{ m: 0 }}>
+            {errors.truckingIndustryAffiliation?.message}
+          </FormHelperText>
+        </FormControl>
+
+        <FormControl error={!!errors.jobDescription} sx={{ width: "100%" }}>
+          <FormLabel>What choice best fits your job description?</FormLabel>
+          <Controller
+            name="jobDescription"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup {...field}>
+                <FormControlLabel
+                  value="OTR Driver, away 4+ nights a week"
+                  control={<Radio />}
+                  label="OTR Driver, away 4+ nights a week"
+                />
+                <FormControlLabel
+                  value="Regional Driver, away 4+ nights a week"
+                  control={<Radio />}
+                  label="Regional Driver, away 4+ nights a week"
+                />
+                <FormControlLabel
+                  value="Regional Driver"
+                  control={<Radio />}
+                  label="Regional Driver"
+                />
+                <FormControlLabel
+                  value="Local Driver"
+                  control={<Radio />}
+                  label="Local Driver"
+                />
+                <FormControlLabel
+                  value="Other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+            )}
+          />
+          <FormHelperText sx={{ m: 0 }}>
+            {errors.jobDescription?.message}
+          </FormHelperText>
+        </FormControl>
+
         {/* Employer */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="employer.name"
           label="Employer Name"
           variant="outlined"
           error={errors.employer?.name}
         />
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="employer.contact"
           label="Employer Contact"
           variant="outlined"
           error={errors.employer?.contact}
         />
-        {/* Drives Semi Truck Over Road */}
-        <FormControl
-          error={!!errors.drivesSemiTruckOverRoad}
-          sx={{ width: "100%" }}
-        >
-          <FormLabel>
-            Do you drive a semi-truck over the road or did you before an illness
-            or injury?
-          </FormLabel>
-          <FormHelperText sx={{ m: 0 }}>
-            Away from home for at least 4 nights a week.
-          </FormHelperText>
-          <Controller
-            name="drivesSemiTruckOverRoad"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup
-                {...field}
-                value={field.value !== undefined ? String(field.value) : ""}
-                onChange={(e) => field.onChange(e.target.value === "true")}
-              >
-                <FormControlLabel
-                  value="true"
-                  control={<Radio />}
-                  label="Yes"
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="No"
-                />
-              </RadioGroup>
-            )}
-          />
-          <FormHelperText sx={{ m: 0 }}>
-            {errors.drivesSemiTruckOverRoad?.message}
-          </FormHelperText>
-        </FormControl>
+
         {/* Monthly Household Expenses */}
-        <ControlledTextInput
+        <ControlledTextField
           control={control}
           name="monthlyHouseholdExpenses"
           label="Monthly Household Expenses"
@@ -380,7 +418,9 @@ export default function GeneralInformationSection() {
             },
           }}
           convertToNumber={true}
+          required
         />
+
         <Divider />
         {/* Section Title: Owner Operator Information */}
         <Typography variant="h6">Owner Operator Information</Typography>
@@ -416,7 +456,7 @@ export default function GeneralInformationSection() {
         {watch("isOwnerOperator") === true && (
           <>
             {/* Business Income */}
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name="ownerOperatorInfo.businessIncome"
               label="Business Income"
@@ -434,7 +474,7 @@ export default function GeneralInformationSection() {
             />
 
             {/* Business Expenses */}
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name="ownerOperatorInfo.businessExpenses"
               label="Business Expenses"
@@ -453,213 +493,6 @@ export default function GeneralInformationSection() {
           </>
         )}
         <Divider />
-        {/* Section Title: Health History */}
-        <Typography variant="h6">Health History</Typography>
-        {/* Health Conditions */}
-        <ControlledTextInput
-          control={control}
-          name="healthConditions"
-          label="Health Conditions"
-          variant="outlined"
-          error={errors.healthConditions}
-          multiline
-          rows={3}
-        />
-        {/* Recent Illness or Injury Details */}
-        <ControlledTextInput
-          control={control}
-          name="recentIllnessOrInjuryDetails"
-          label="Recent Illness or Injury"
-          variant="outlined"
-          error={errors.recentIllnessOrInjuryDetails}
-          multiline
-          rows={3}
-        />
-        {/* Medical Devices */}
-        <ControlledTextInput
-          control={control}
-          name="devices"
-          label="Medical Devices"
-          variant="outlined"
-          error={errors.devices}
-        />
-        <Divider />
-        {/* Section Title: Health History */}
-        <Typography variant="h6">Health Metrics</Typography>
-        <Typography>
-          Which of the following conditions do you have? <br /> (Check all that
-          apply.)
-        </Typography>
-        {/* Diabetic */}
-        <Controller
-          name="healthMetrics.isDiabetic"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Diabetic"
-            />
-          )}
-        />
-        {/* High Blood Pressure */}
-        <Controller
-          name="healthMetrics.hasHighBloodPressure"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="High Blood Pressure"
-            />
-          )}
-        />
-        {/* High Cholesterol */}
-        <Controller
-          name="healthMetrics.hasHighCholesterol"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="High Cholesterol"
-            />
-          )}
-        />
-        {/* Heart Disease */}
-        <Controller
-          name="healthMetrics.hasHeartDisease"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Heart Disease"
-            />
-          )}
-        />
-        {/* Obese */}
-        <Controller
-          name="healthMetrics.isObese"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Obese"
-            />
-          )}
-        />
-        {/* Weight */}
-        <ControlledTextInput
-          control={control}
-          name="healthMetrics.weight"
-          label="Weight"
-          variant="outlined"
-          error={errors.healthMetrics?.weight}
-          type="number"
-          slotProps={{
-            input: {
-              endAdornment: <InputAdornment position="end">lbs</InputAdornment>,
-            },
-          }}
-          convertToNumber={true}
-        />
-        {/* Blood Pressure */}
-        <ControlledTextInput
-          control={control}
-          name="healthMetrics.bloodPressure"
-          label="Blood Pressure (e.g. 120/80)"
-          variant="outlined"
-          error={errors.healthMetrics?.bloodPressure}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">mmHg</InputAdornment>
-              ),
-            },
-          }}
-        />
-        {/* A1C */}
-        <ControlledTextInput
-          control={control}
-          name="healthMetrics.a1c"
-          label="A1C"
-          variant="outlined"
-          error={errors.healthMetrics?.a1c}
-          type="number"
-          slotProps={{
-            input: {
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            },
-          }}
-          convertToNumber={true}
-        />
-        {/* Blood Glucose */}
-        <ControlledTextInput
-          control={control}
-          name="healthMetrics.bloodGlucose"
-          label="Blood Glucose"
-          variant="outlined"
-          error={errors.healthMetrics?.bloodGlucose}
-          type="number"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">mg/dL</InputAdornment>
-              ),
-            },
-          }}
-          convertToNumber={true}
-        />
-        {/* Cholesterol */}
-        <ControlledTextInput
-          control={control}
-          name="healthMetrics.cholesterol"
-          label="Cholesterol"
-          variant="outlined"
-          error={errors.healthMetrics?.cholesterol}
-          type="number"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">mg/dL</InputAdornment>
-              ),
-            },
-          }}
-          convertToNumber={true}
-        />
-
-        {/* Other */}
-        <ControlledTextInput
-          control={control}
-          name="healthMetrics.other"
-          label="Other"
-          variant="outlined"
-          error={errors.healthMetrics?.other}
-        />
-
-        <Divider />
-
-        {/* Section Title: Health Goals */}
-        <Typography variant="h6">Health Goals</Typography>
-        <ControlledTextInput
-          control={control}
-          name="healthGoals.shortTerm"
-          label="Short Term Health Goals"
-          variant="outlined"
-          error={errors.healthGoals?.shortTerm}
-          multiline
-          rows={3}
-        />
-
-        <ControlledTextInput
-          control={control}
-          name="healthGoals.longTerm"
-          label="Long Term Health Goals"
-          variant="outlined"
-          error={errors.healthGoals?.longTerm}
-          multiline
-          rows={3}
-        />
-
-        <Divider />
-
         {/* Section Title: Doctors */}
         <Typography variant="h6">Doctors</Typography>
         {doctors.map((doctor, idx) => (
@@ -672,7 +505,7 @@ export default function GeneralInformationSection() {
               gap: 2,
             }}
           >
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name={`doctors.${idx}.name`}
               label="Doctor's Name"
@@ -681,7 +514,7 @@ export default function GeneralInformationSection() {
               sx={{ width: "100%" }}
             />
 
-            <ControlledTextInput
+            <ControlledTextField
               control={control}
               name={`doctors.${idx}.phone`}
               label="Doctor's Phone Number"
@@ -738,7 +571,9 @@ export default function GeneralInformationSection() {
               <Controller
                 name="hasAcknowledgedPrivacyNotice"
                 control={control}
-                render={({ field }) => <Checkbox {...field} />}
+                render={({ field }) => (
+                  <Checkbox {...field} checked={field.value} />
+                )}
               />
               <Typography sx={{ pl: 1 }}>I agree.</Typography>
             </Box>
@@ -784,7 +619,9 @@ export default function GeneralInformationSection() {
               <Controller
                 name="hasAcknowledgedHipaaNotice"
                 control={control}
-                render={({ field }) => <Checkbox {...field} />}
+                render={({ field }) => (
+                  <Checkbox {...field} checked={field.value} />
+                )}
               />
               <Typography sx={{ pl: 1 }}>I agree.</Typography>
             </Box>
@@ -804,12 +641,19 @@ export default function GeneralInformationSection() {
         </Box>
 
         {/* Submit */}
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={isLoading}
+        >
+          Next
+        </LoadingButton>
 
-        <Typography variant="h6" fontWeight="normal" color="red">
-          {errors.root?.message}
+        <Typography variant="body1" color="red">
+          {submitCount && !isSubmitSuccessful
+            ? "Please review all fields before continuing."
+            : ""}
         </Typography>
       </Box>
     </form>

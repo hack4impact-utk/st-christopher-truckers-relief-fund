@@ -13,6 +13,7 @@ type ControlledTextFieldProps = {
   type?: HTMLInputTypeAttribute;
   slotProps?: Record<string, unknown>;
   multiline?: boolean;
+  required?: boolean;
   rows?: number;
   convertToNumber?: boolean;
 };
@@ -33,6 +34,7 @@ export default function ControlledTextField(props: ControlledTextFieldProps) {
           type={props.type}
           slotProps={props.slotProps}
           multiline={props.multiline}
+          required={props.required}
           rows={props.rows}
           onChange={
             props.convertToNumber

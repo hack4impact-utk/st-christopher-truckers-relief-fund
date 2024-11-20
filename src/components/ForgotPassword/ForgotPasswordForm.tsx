@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Snackbar, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Box, Snackbar, Typography } from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handlePasswordResetRequest } from "@/server/api/password-reset-tokens/mutations";
 
 const forgotPasswordFormSchema = z.object({
@@ -17,6 +18,7 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordFormSchema>;
 
 export default function ForgotPasswordForm() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     control,
@@ -28,9 +30,13 @@ export default function ForgotPasswordForm() {
   });
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
+    setIsLoading(true);
+
     const { email } = data;
     await handlePasswordResetRequest(email);
     setSnackbarOpen(true);
+
+    setIsLoading(false);
   };
 
   return (
@@ -55,7 +61,7 @@ export default function ForgotPasswordForm() {
         >
           <Typography variant="h4">Forgot Password?</Typography>
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="email"
             label="Email"
@@ -63,9 +69,14 @@ export default function ForgotPasswordForm() {
             error={errors.email}
           />
 
-          <Button type="submit" variant="contained" color="primary">
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            loading={isLoading}
+          >
             Reset Password
-          </Button>
+          </LoadingButton>
         </Box>
       </form>
     </>

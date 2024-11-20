@@ -18,6 +18,7 @@ const apiErrors = {
   user: {
     userNotFound: "User not found",
     userAlreadyExists: "User already exists",
+    userInvalidCredentials: "User's credentials are invalid",
   },
   programEnrollment: {
     programEnrollmentNotFound: "Program enrollment not found",
@@ -27,6 +28,10 @@ const apiErrors = {
     passwordResetTokenNotFound: "Password reset token not found",
     passwordResetTokenAlreadyExists: "Password reset token already exists",
     passwordResetTokenExpired: "Password reset token expired",
+  },
+  enrollmentForm: {
+    enrollmentFormNotFound: "Enrollment form not found",
+    enrollmentFormAlreadyExists: "Enrollment form already exists",
   },
 };
 

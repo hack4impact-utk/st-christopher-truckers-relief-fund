@@ -12,7 +12,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextInput from "@/components/forms/ControlledTextInput";
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { createUser } from "@/server/api/users/mutations";
 import { User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
@@ -90,7 +90,7 @@ export default function TestAccountCreationPage() {
         >
           <Typography variant="h5">Create Account</Typography>
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="firstName"
             label="First Name"
@@ -98,7 +98,7 @@ export default function TestAccountCreationPage() {
             error={errors.firstName}
           />
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="lastName"
             label="Last Name"
@@ -106,7 +106,7 @@ export default function TestAccountCreationPage() {
             error={errors.lastName}
           />
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="email"
             label="Email"
@@ -114,7 +114,7 @@ export default function TestAccountCreationPage() {
             error={errors.email}
           />
 
-          <ControlledTextInput
+          <ControlledTextField
             control={control}
             name="password"
             label="Password"
