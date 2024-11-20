@@ -35,6 +35,14 @@ async function getProgramEnrollments(
       programEnrollment._id = String(programEnrollment._id);
     });
 
+    if (populateEnrollmentForm) {
+      programEnrollments.forEach((programEnrollment) => {
+        programEnrollment.enrollmentForm._id = String(
+          programEnrollment.enrollmentForm._id,
+        );
+      });
+    }
+
     return [programEnrollments, null];
   } catch (error) {
     return [null, handleMongooseError(error)];
