@@ -90,7 +90,7 @@ export default function ProgramSpecificQuestionsFormSection() {
       }
     };
 
-    submitForm();
+    void submitForm();
   }, [
     completedSections.programSpecificQuestionsSectionCompleted,
     enrollmentForm,

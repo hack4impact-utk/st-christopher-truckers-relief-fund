@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Clear as ClearIcon } from "@mui/icons-material";
+import { Clear } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -39,6 +40,7 @@ export default function RejectPendingApplicationButton({
   setSnackbarMessage,
 }: RejectPendingApplicationButtonProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     control,
@@ -58,12 +60,17 @@ export default function RejectPendingApplicationButton({
   };
 
   const onSubmit = async (data: RejectButtonFormValues) => {
+    setLoading(true);
+
     await handleRejectProgramApplication(email, program, data.rejectionReason);
     removePendingApplicationFromRows();
     reset({ rejectionReason: "" });
+
     setSnackbarMessage("Application successfully rejected");
     setSnackbarOpen(true);
+
     setOpen(false);
+    setLoading(false);
   };
 
   return (
@@ -71,7 +78,7 @@ export default function RejectPendingApplicationButton({
       <Button
         variant="contained"
         color="error"
-        startIcon={<ClearIcon />}
+        startIcon={<Clear />}
         onClick={() => setOpen(true)}
       >
         Reject
@@ -106,9 +113,14 @@ export default function RejectPendingApplicationButton({
               variant="outlined"
               error={errors.rejectionReason}
             />
-            <Button type="submit" variant="contained" color="error">
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              color="error"
+              loading={loading}
+            >
               Reject
-            </Button>
+            </LoadingButton>
           </Box>
         </form>
       </Modal>

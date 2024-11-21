@@ -1,5 +1,9 @@
 /* eslint-env node */
 module.exports = {
+  // plugins
+  plugins: ["@typescript-eslint", "prettier", "simple-import-sort", "react"],
+
+  // default rules
   extends: [
     "next/core-web-vitals",
     "next/typescript",
@@ -8,18 +12,42 @@ module.exports = {
     "plugin:@typescript-eslint/stylistic",
     "plugin:prettier/recommended",
   ],
+
+  // parser rules
+  root: true,
+  ignorePatterns: [".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
     ecmaVersion: "latest",
+    projectService: true,
+    tsconfigRootDir: __dirname,
   },
-  plugins: ["@typescript-eslint", "prettier", "simple-import-sort", "react"],
-  root: true,
+
   rules: {
+    // formatting / style rules
     "prettier/prettier": "warn",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "no-console": "error",
     camelcase: "warn",
+    "react/function-component-definition": [
+      "error",
+      {
+        namedComponents: "function-declaration",
+        unnamedComponents: "function-expression",
+      },
+    ],
+
+    // typescript rules
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/no-floating-promises": "warn",
+    "@typescript-eslint/await-thenable": "warn",
+
+    // import rules
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
     "no-restricted-imports": [
       "error",
       {
@@ -30,18 +58,6 @@ module.exports = {
               'Please do not use relative imports. Use "@/..." instead. If this breaks something, disable the rule for that file only.',
           },
         ],
-      },
-    ],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/first": "error",
-    "import/newline-after-import": "error",
-    "import/no-duplicates": "error",
-    "react/function-component-definition": [
-      "error",
-      {
-        namedComponents: "function-declaration",
-        unnamedComponents: "function-expression",
       },
     ],
   },
