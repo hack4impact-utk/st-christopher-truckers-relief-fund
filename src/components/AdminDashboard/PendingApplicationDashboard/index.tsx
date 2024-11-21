@@ -20,7 +20,7 @@ export type Row = {
 
 const createRowFromProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
-) => {
+): Row => {
   return {
     id: programEnrollment._id,
     lastName:
@@ -35,20 +35,18 @@ const createRowFromProgramEnrollment = (
   };
 };
 
-type PendingApplicationDashboardProps = {
-  programEnrollments: ProgramEnrollment[] | null;
-};
-
-function getRows(programEnrollments: ProgramEnrollment[] | null): Row[] {
-  return programEnrollments
-    ? programEnrollments.map(createRowFromProgramEnrollment)
-    : [];
+function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
+  return programEnrollments.map(createRowFromProgramEnrollment);
 }
+
+type PendingApplicationDashboardProps = {
+  programEnrollments: ProgramEnrollment[];
+};
 
 export default function PendingApplicationDashboard({
   programEnrollments,
 }: PendingApplicationDashboardProps) {
-  const [rows, setRows] = useState<Row[]>(getRows(programEnrollments));
+  const [rows, setRows] = useState(getRows(programEnrollments));
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 

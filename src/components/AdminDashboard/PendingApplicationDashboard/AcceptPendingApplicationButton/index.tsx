@@ -35,8 +35,8 @@ export default function AcceptPendingApplicationButton({
   };
 
   const handleClick = async () => {
-    await handleApproveProgramApplication(email, firstName, program);
     removePendingApplicationFromRows();
+    await handleApproveProgramApplication(email, firstName, program);
     setSnackbarMessage("Application successfully approved");
     setSnackbarOpen(true);
   };
@@ -46,12 +46,13 @@ export default function AcceptPendingApplicationButton({
       variant="contained"
       color="success"
       startIcon={<Check />}
-      onClick={() => {
+      onClick={async () => {
         const confirmed = window.confirm(
           "Are you sure you want to approve this application?",
         );
+
         if (confirmed) {
-          handleClick();
+          await handleClick();
         }
       }}
     >

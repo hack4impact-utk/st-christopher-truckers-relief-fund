@@ -14,7 +14,7 @@ export default async function AdminDashboardPage() {
 
   const [programEnrollments, error] = await getPendingProgramEnrollments();
 
-  if (error) {
+  if (error !== null) {
     return (
       <Box
         sx={{
