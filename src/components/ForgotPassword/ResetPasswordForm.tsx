@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
-import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
 import { resetPasswordWithToken } from "@/server/api/users/mutations";
 
 const resetPasswordFormSchema = z
@@ -59,7 +58,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     const { newPassword } = data;
 
     const [, error] = await resetPasswordWithToken(token, newPassword);
-    await deletePasswordResetToken(token);
+
     if (error === null) {
       setSnackbarMessage("Password successfully reset");
       setSnackbarOpen(true);

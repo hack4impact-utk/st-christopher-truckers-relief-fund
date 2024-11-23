@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 
 import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/mutations";
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
+import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 import { getUserByEmail, getUserById } from "@/server/api/users/queries";
 import { updateUser } from "@/server/api/users/secure-mutations";
@@ -64,6 +65,8 @@ export async function resetPasswordWithToken(
   user.password = hashedPassword;
 
   await updateUser(user);
+
+  await deletePasswordResetToken(token);
 
   return [null, null];
 }
