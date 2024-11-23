@@ -28,6 +28,10 @@ const UserSchema = new Schema<User>(
       type: String,
       required: true,
     },
+    emailVerified: {
+      type: Boolean,
+      required: true,
+    },
   },
   { versionKey: false },
 );

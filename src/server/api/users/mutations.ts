@@ -2,6 +2,8 @@
 
 import bcrypt from "bcrypt";
 
+import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/mutations";
+import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 import { getUserByEmail, getUserById } from "@/server/api/users/queries";
 import { updateUser } from "@/server/api/users/secure-mutations";
@@ -106,6 +108,36 @@ export async function changePassword(
   user.password = hashedPassword;
 
   await updateUser(user);
+
+  return [null, null];
+}
+
+export async function verifyEmailWithToken(
+  token: string,
+): Promise<ApiResponse<null>> {
+  await dbConnect();
+
+  const [emailVerificationToken, emailVerificationTokenError] =
+    await getEmailVerificationTokenByToken(token);
+
+  if (emailVerificationTokenError !== null) {
+    return [
+      null,
+      apiErrors.emailVerificationToken.emailVerificationTokenNotFound,
+    ];
+  }
+
+  const [user, userError] = await getUserById(emailVerificationToken.userId);
+
+  if (userError !== null) {
+    return [null, userError];
+  }
+
+  user.emailVerified = true;
+
+  await updateUser(user);
+
+  await deleteEmailVerificationToken(token);
 
   return [null, null];
 }

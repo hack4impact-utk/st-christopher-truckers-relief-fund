@@ -1,4 +1,5 @@
 export * from "@/types/ApiResponse";
+export * from "@/types/EmailVerificationToken";
 export * from "@/types/EnrollmentForm/EnrollmentForm";
 export * from "@/types/OldEnrollmentForm";
 export * from "@/types/PasswordResetToken";

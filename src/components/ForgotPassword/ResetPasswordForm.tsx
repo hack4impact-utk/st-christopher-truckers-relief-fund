@@ -41,6 +41,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const router = useRouter();
 
   const {
@@ -71,6 +72,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       setSnackbarOpen(true);
 
       setIsLoading(false);
+      setDisabled(true);
     }
   };
 
@@ -119,6 +121,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             variant="contained"
             color="primary"
             loading={isLoading}
+            disabled={disabled}
           >
             Reset Password
           </LoadingButton>

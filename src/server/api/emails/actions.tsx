@@ -2,7 +2,8 @@
 
 import { render } from "@react-email/components";
 
-import PasswordChanged from "@/components/emails/PasswordChanged";
+import EmailVerificationEmail from "@/components/emails/EmailVerificationEmail";
+import PasswordChangedEmail from "@/components/emails/PasswordChangedEmail";
 import RejectionEmail from "@/components/emails/RejectionEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
@@ -12,7 +13,7 @@ export async function sendPasswordChangeEmail(
   recipientEmail: string,
   firstName: string,
 ) {
-  const html = await render(<PasswordChanged firstName={firstName} />);
+  const html = await render(<PasswordChangedEmail firstName={firstName} />);
 
   await sendEmail(recipientEmail, "Your SCF password has been changed", html);
 }
@@ -52,4 +53,13 @@ export async function sendRejectionEmail(
     "Your SCF Program Application Has Been Rejected",
     html,
   );
+}
+
+export async function sendEmailVerificationEmail(
+  recipientEmail: string,
+  token: string,
+) {
+  const html = await render(<EmailVerificationEmail token={token} />);
+
+  await sendEmail(recipientEmail, "Verify your SCF email address", html);
 }

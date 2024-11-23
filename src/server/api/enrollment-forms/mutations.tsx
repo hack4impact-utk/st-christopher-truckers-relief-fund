@@ -1,5 +1,6 @@
 "use server";
 
+import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/mutations";
 import { getEnrollmentFormByEmail } from "@/server/api/enrollment-forms/queries";
 import { createProgramEnrollmentsFromEnrollmentForm } from "@/server/api/program-enrollments/mutations";
 import { createUser } from "@/server/api/users/mutations";
@@ -47,6 +48,7 @@ export async function handleEnrollmentFormSubmission(
     password: enrollmentForm.generalInformationSection.password,
     role: "client",
     dateCreated: new Date().toISOString(),
+    emailVerified: false,
   };
 
   // create user
@@ -63,6 +65,11 @@ export async function handleEnrollmentFormSubmission(
   if (createEnrollmentFormError !== null) {
     return [null, createEnrollmentFormError];
   }
+
+  // send email verification email
+  await handleEmailVerificationTokenRequest(
+    enrollmentFormInDatabase.generalInformationSection.email,
+  );
 
   // create program enrollments
   await createProgramEnrollmentsFromEnrollmentForm(enrollmentFormInDatabase);

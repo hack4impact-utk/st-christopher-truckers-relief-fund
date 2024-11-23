@@ -19,6 +19,7 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordFormSchema>;
 export default function ForgotPasswordForm() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const {
     control,
@@ -37,6 +38,7 @@ export default function ForgotPasswordForm() {
     setSnackbarOpen(true);
 
     setIsLoading(false);
+    setDisabled(true);
   };
 
   return (
@@ -74,6 +76,7 @@ export default function ForgotPasswordForm() {
             variant="contained"
             color="primary"
             loading={isLoading}
+            disabled={disabled}
           >
             Reset Password
           </LoadingButton>
