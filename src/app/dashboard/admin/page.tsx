@@ -9,5 +9,5 @@ export default async function AdminDashboardPage() {
     return redirect("/dashboard");
   }
 
-  redirect("/dashboard/programs");
+  redirect("/admin/dashboard/programs");
 }
