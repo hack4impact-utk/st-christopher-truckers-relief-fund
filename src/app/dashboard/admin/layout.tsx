@@ -1,5 +1,6 @@
-import Sidebar from "@/components/AdminDashboard/Navbar";
 import { Box } from "@mui/material";
+
+import Sidebar from "@/components/AdminDashboard/Sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

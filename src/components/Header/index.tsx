@@ -13,11 +13,12 @@ export default async function Header() {
       style={{
         display: "flex",
         height: "100px",
-        width: "100vw",
+        width: "100%",
         justifyContent: "space-between",
         alignItems: "center",
         paddingInline: "1.5rem",
-        position: "fixed",
+        position: "sticky", // Changed from fixed to sticky
+        top: 0, // Required for sticky to work
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
         backgroundColor: "white",
         zIndex: 999,
