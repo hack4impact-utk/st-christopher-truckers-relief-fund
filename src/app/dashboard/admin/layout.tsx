@@ -1,12 +1,10 @@
-import { Box } from "@mui/material";
-
 import Sidebar from "@/components/AdminDashboard/Sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Sidebar />
-      <main>{children}</main>
-    </>
+      <main style={{ flex: 1 }}>{children}</main>
+    </div>
   );
 }
