@@ -53,7 +53,7 @@ export default function TestAccountCreationPage() {
       password: data.password,
       role: data.role,
       dateCreated: new Date().toISOString(),
-      emailVerified: true,
+      isEmailVerified: true,
     };
 
     const [, error] = await createUser(user);

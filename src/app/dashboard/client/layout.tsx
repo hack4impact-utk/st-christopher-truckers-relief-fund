@@ -15,7 +15,7 @@ export default async function ClientDashboardLayout({
     redirect("/dashboard");
   }
 
-  if (!session.user.emailVerified) {
+  if (!session.user.isEmailVerified) {
     redirect("/verify-email");
   }
 

@@ -6,5 +6,5 @@ export type User = {
   password: string;
   role: "admin" | "client";
   dateCreated: string;
-  emailVerified: boolean;
+  isEmailVerified: boolean;
 };

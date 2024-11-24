@@ -48,7 +48,7 @@ export async function handleEnrollmentFormSubmission(
     password: enrollmentForm.generalInformationSection.password,
     role: "client",
     dateCreated: new Date().toISOString(),
-    emailVerified: false,
+    isEmailVerified: false,
   };
 
   // create user

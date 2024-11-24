@@ -136,7 +136,7 @@ export async function verifyEmailWithToken(
     return [null, userError];
   }
 
-  user.emailVerified = true;
+  user.isEmailVerified = true;
 
   await updateUser(user);
 
