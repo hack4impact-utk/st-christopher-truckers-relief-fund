@@ -36,7 +36,10 @@ export default function Sidebar() {
               href={link.href}
               sx={{ justifyContent: "center", color: "inherit" }}
             >
-              <ListItemText primary={link.label} sx={{ textAlign: "left", color: "inherit" }} />
+              <ListItemText
+                primary={link.label}
+                sx={{ textAlign: "left", color: "inherit" }}
+              />
             </ListItem>
           ))}
         </List>
