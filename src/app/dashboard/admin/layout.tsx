@@ -1,10 +1,18 @@
+import { Box } from "@mui/material";
+
 import Sidebar from "@/components/AdminDashboard/Sidebar";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+type AdminDashboardLayoutProps = {
+  children: React.ReactNode;
+};
+
+export default function AdminDashboardLayout({
+  children,
+}: AdminDashboardLayoutProps) {
   return (
-    <div style={{ display: "flex" }}>
+    <Box sx={{ display: "flex", height: "100vh" }}>
       <Sidebar />
-      <main style={{ flex: 1 }}>{children}</main>
-    </div>
+      <Box sx={{ flex: 1 }}>{children}</Box>
+    </Box>
   );
 }
