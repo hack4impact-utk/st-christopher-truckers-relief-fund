@@ -9,14 +9,16 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  useTheme,
 } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 export default function Sidebar() {
+  const theme = useTheme();
   const pathname = usePathname();
 
   const links = [
@@ -39,9 +41,9 @@ export default function Sidebar() {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
+        marginTop: "100px",
         "& .MuiDrawer-paper": {
           width: drawerWidth,
-          boxSizing: "border-box",
           marginTop: "100px",
         },
       }}
@@ -55,21 +57,29 @@ export default function Sidebar() {
             key={link.href}
             href={link.href}
             passHref
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{ textDecoration: "none" }}
           >
             <ListItem disablePadding>
               <ListItemButton
                 sx={{
-                  backgroundColor: pathname === link.href ? "#f0f4fc" : "inherit",
+                  backgroundColor:
+                    pathname === link.href
+                      ? theme.palette.primary.main
+                      : "inherit",
                   "&:hover": {
                     backgroundColor:
-                      pathname === link.href ? "#e8ecfc" : "lightgray",
+                      pathname === link.href
+                        ? theme.palette.primary.light
+                        : "lightgray",
                   },
                 }}
               >
                 <ListItemIcon
                   sx={{
-                    color: pathname === link.href ? "#1864c4" : "inherit",
+                    color:
+                      pathname === link.href
+                        ? theme.palette.primary.contrastText
+                        : "darkgray",
                   }}
                 >
                   {link.icon}
@@ -77,7 +87,10 @@ export default function Sidebar() {
                 <ListItemText
                   primary={link.label}
                   sx={{
-                    color: pathname === link.href ? "black" : "inherit",
+                    color:
+                      pathname === link.href
+                        ? theme.palette.primary.contrastText
+                        : "darkgray",
                   }}
                 />
               </ListItemButton>
