@@ -1,44 +1,86 @@
 "use client";
-import { List, ListItem, ListItemText } from "@mui/material";
-import Box from "@mui/material/Box";
+
+import { Apps, Home, Notifications, People } from "@mui/icons-material";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+} from "@mui/material";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // Use usePathname instead of useRouter
 import React from "react";
 
+const drawerWidth = 240;
+
 export default function Sidebar() {
+  const pathname = usePathname(); // Get the current pathname
+
   const links = [
-    { href: "/dashboard/admin/programs", label: "Programs" },
-    { href: "/dashboard/admin/clients", label: "Clients" },
-    { href: "/dashboard/admin/notifications", label: "Notifications" },
-    { href: "/dashboard/admin/applications", label: "Applications" },
+    { href: "/dashboard/admin/programs", label: "Programs", icon: <Apps /> },
+    { href: "/dashboard/admin/clients", label: "Clients", icon: <People /> },
+    {
+      href: "/dashboard/admin/notifications",
+      label: "Notifications",
+      icon: <Notifications />,
+    },
+    {
+      href: "/dashboard/admin/applications",
+      label: "Applications",
+      icon: <Home />,
+    },
   ];
 
   return (
-    <Box
+    <Drawer
       sx={{
-        width: "200px",
-        boxShadow: "10px 0 10px -5px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        zIndex: 10,
+        width: drawerWidth,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: drawerWidth,
+          boxSizing: "border-box",
+          marginTop: "100px",
+        },
       }}
+      variant="permanent"
+      anchor="left"
     >
-      <List sx={{ marginTop: "125px" }}>
+      <Toolbar />
+      <List>
         {links.map((link) => (
           <Link
             key={link.href}
             href={link.href}
+            passHref
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <ListItem sx={{ justifyContent: "center", color: "inherit" }}>
-              <ListItemText
-                primary={link.label}
-                sx={{ textAlign: "left", color: "inherit" }}
-              />
+            <ListItem disablePadding>
+              <ListItemButton
+                sx={{
+                  backgroundColor: pathname === link.href ? "blue" : "inherit",
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    color: pathname === link.href ? "white" : "inherit",
+                  }}
+                >
+                  {link.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={link.label}
+                  sx={{
+                    color: pathname === link.href ? "white" : "inherit",
+                  }}
+                />
+              </ListItemButton>
             </ListItem>
           </Link>
         ))}
       </List>
-    </Box>
+    </Drawer>
   );
 }
