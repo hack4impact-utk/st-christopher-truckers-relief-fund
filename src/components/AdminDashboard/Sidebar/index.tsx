@@ -60,12 +60,16 @@ export default function Sidebar() {
             <ListItem disablePadding>
               <ListItemButton
                 sx={{
-                  backgroundColor: pathname === link.href ? "blue" : "inherit",
+                  backgroundColor: pathname === link.href ? "#f0f4fc" : "inherit",
+                  "&:hover": {
+                    backgroundColor:
+                      pathname === link.href ? "#e8ecfc" : "lightgray",
+                  },
                 }}
               >
                 <ListItemIcon
                   sx={{
-                    color: pathname === link.href ? "white" : "inherit",
+                    color: pathname === link.href ? "#1864c4" : "inherit",
                   }}
                 >
                   {link.icon}
@@ -73,7 +77,7 @@ export default function Sidebar() {
                 <ListItemText
                   primary={link.label}
                   sx={{
-                    color: pathname === link.href ? "white" : "inherit",
+                    color: pathname === link.href ? "black" : "inherit",
                   }}
                 />
               </ListItemButton>
