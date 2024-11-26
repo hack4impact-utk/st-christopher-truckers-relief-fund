@@ -11,13 +11,13 @@ import {
   Toolbar,
 } from "@mui/material";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Use usePathname instead of useRouter
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const drawerWidth = 240;
 
 export default function Sidebar() {
-  const pathname = usePathname(); // Get the current pathname
+  const pathname = usePathname();
 
   const links = [
     { href: "/dashboard/admin/programs", label: "Programs", icon: <Apps /> },
