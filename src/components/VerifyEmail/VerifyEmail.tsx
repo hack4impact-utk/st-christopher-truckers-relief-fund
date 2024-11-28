@@ -4,7 +4,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { useState } from "react";
 
-import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/mutations";
+import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/public-mutations";
 
 type VerifyEmailProps = {
   email: string;

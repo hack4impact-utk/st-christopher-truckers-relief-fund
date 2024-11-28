@@ -1,6 +1,6 @@
 "use server";
 
-import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/mutations";
+import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/public-mutations";
 import { createEnrollmentForm } from "@/server/api/enrollment-forms/private-mutations";
 import { createProgramEnrollmentsFromEnrollmentForm } from "@/server/api/program-enrollments/public-mutations";
 import { createUser } from "@/server/api/users/public-mutations";
