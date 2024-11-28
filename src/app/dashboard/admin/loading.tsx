@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 export default function AdminDashboardLoadingSkeleton() {
   return (
@@ -10,7 +10,7 @@ export default function AdminDashboardLoadingSkeleton() {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">Loading...</Typography>
+      <CircularProgress />
     </Box>
   );
 }
