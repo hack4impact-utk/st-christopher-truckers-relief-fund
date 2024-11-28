@@ -1,10 +1,11 @@
-import { Box, Typography } from "@mui/material";
-import Link from "next/link";
+/* eslint-disable simple-import-sort/imports */
+import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 
 import VerifyEmailSuccess from "@/components/VerifyEmail/VerifyEmailSuccess";
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
 import getUserSession from "@/utils/getUserSession";
+import InvalidEmailVerificationToken from "@/components/VerifyEmail/InvalidEmailVerificationToken";
 
 type VerifyEmailSuccessPageProps = {
   params: {
@@ -38,12 +39,7 @@ export default async function VerifyEmailSuccessPage({
           alignItems: "center",
         }}
       >
-        <Typography variant="body1">This link has expired</Typography>
-        <Link href="/verify-email" style={{ textDecoration: "none" }}>
-          <Typography variant="body1" color="primary">
-            Click here to request a new verification link.
-          </Typography>
-        </Link>
+        <InvalidEmailVerificationToken />
       </Box>
     );
   }
