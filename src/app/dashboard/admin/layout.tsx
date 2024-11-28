@@ -1,14 +1,22 @@
 import { Box } from "@mui/material";
+import { redirect } from "next/navigation";
 
 import Sidebar from "@/components/AdminDashboard/Sidebar";
+import getUserSession from "@/utils/getUserSession";
 
 type AdminDashboardLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function AdminDashboardLayout({
+export default async function AdminDashboardLayout({
   children,
 }: AdminDashboardLayoutProps) {
+  const session = await getUserSession();
+
+  if (!session || session.user.role !== "admin") {
+    redirect("/dashboard");
+  }
+
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
       <Sidebar />

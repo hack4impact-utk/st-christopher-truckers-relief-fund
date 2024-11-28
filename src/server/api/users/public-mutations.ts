@@ -2,9 +2,12 @@
 
 import bcrypt from "bcrypt";
 
+import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/private-mutations";
+import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
+import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/private-mutations";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
+import { updateUser } from "@/server/api/users/private-mutations";
 import { getUserByEmail, getUserById } from "@/server/api/users/queries";
-import { updateUser } from "@/server/api/users/secure-mutations";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
 import { ApiResponse, User } from "@/types";
@@ -63,6 +66,8 @@ export async function resetPasswordWithToken(
 
   await updateUser(user);
 
+  await deletePasswordResetToken(token);
+
   return [null, null];
 }
 
@@ -106,6 +111,46 @@ export async function changePassword(
   user.password = hashedPassword;
 
   await updateUser(user);
+
+  return [null, null];
+}
+
+export async function verifyEmailWithToken(
+  token: string,
+): Promise<ApiResponse<null>> {
+  await dbConnect();
+
+  const [session, sessionError] = await authenticateServerFunction();
+
+  if (sessionError !== null) {
+    return [null, sessionError];
+  }
+
+  const [emailVerificationToken, emailVerificationTokenError] =
+    await getEmailVerificationTokenByToken(token);
+
+  if (emailVerificationTokenError !== null) {
+    return [
+      null,
+      apiErrors.emailVerificationToken.emailVerificationTokenNotFound,
+    ];
+  }
+
+  const [user, userError] = await getUserById(emailVerificationToken.userId);
+
+  if (userError !== null) {
+    return [null, userError];
+  }
+
+  if (session.user.email !== user.email) {
+    return [null, apiErrors.user.userInvalidCredentials];
+  }
+
+  user.isEmailVerified = true;
+
+  await updateUser(user);
+
+  await deleteEmailVerificationToken(token);
 
   return [null, null];
 }

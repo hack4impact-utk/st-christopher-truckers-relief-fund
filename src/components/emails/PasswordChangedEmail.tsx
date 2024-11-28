@@ -13,11 +13,13 @@ import {
 
 import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
 
-type PasswordChangedProps = {
+type PasswordChangedEmailProps = {
   firstName: string;
 };
 
-export default function PasswordChanged({ firstName }: PasswordChangedProps) {
+export default function PasswordChangedEmail({
+  firstName,
+}: PasswordChangedEmailProps) {
   return (
     <Html>
       <Head />

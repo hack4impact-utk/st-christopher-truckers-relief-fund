@@ -12,7 +12,7 @@ import HealthyHabitsProgramSpecificQuestions from "@/components/EnrollmentForm/P
 import RigsWithoutCigsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/RigsWithoutCigsProgramSpecificQuestions";
 import VaccineVoucherProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/VaccineVoucherProgramSpecificQuestions";
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
-import { handleEnrollmentFormSubmission } from "@/server/api/enrollment-forms/mutations";
+import { handleEnrollmentFormSubmission } from "@/server/api/enrollment-forms/public-mutations";
 import {
   ProgramSpecificQuestionsSection,
   programSpecificQuestionsSectionValidator,

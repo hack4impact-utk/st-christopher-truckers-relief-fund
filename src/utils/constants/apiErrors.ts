@@ -33,6 +33,11 @@ const apiErrors = {
     enrollmentFormNotFound: "Enrollment form not found",
     enrollmentFormAlreadyExists: "Enrollment form already exists",
   },
+  emailVerificationToken: {
+    emailVerificationTokenNotFound: "Email verification token not found",
+    emailVerificationTokenAlreadyExists:
+      "Email verification token already exists",
+  },
 };
 
 export default apiErrors;

@@ -2,13 +2,10 @@ import { Box, Button, Typography } from "@mui/material";
 import Link from "next/link";
 
 import SignOutButton from "@/components/Settings/SignOutButton";
+import { User } from "@/types";
 
 type AdminSettingsProps = {
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
+  user: User;
 };
 
 export default function AdminSettings({ user }: AdminSettingsProps) {

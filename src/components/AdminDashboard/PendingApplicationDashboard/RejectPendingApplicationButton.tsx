@@ -13,7 +13,7 @@ import { z } from "zod";
 
 import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
 import ControlledTextField from "@/components/controlled/ControlledTextField";
-import { handleRejectProgramApplication } from "@/server/api/program-enrollments/mutations";
+import { handleRejectProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { Program } from "@/types";
 
 const rejectionReasonSchema = z.object({

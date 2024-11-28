@@ -13,7 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
-import { createUser } from "@/server/api/users/mutations";
+import { createUser } from "@/server/api/users/public-mutations";
 import { User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 
@@ -53,6 +53,7 @@ export default function TestAccountCreationPage() {
       password: data.password,
       role: data.role,
       dateCreated: new Date().toISOString(),
+      isEmailVerified: true,
     };
 
     const [, error] = await createUser(user);
