@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 
-import { verifyEmailWithToken } from "@/server/api/users/mutations";
+import { verifyEmailWithToken } from "@/server/api/users/public-mutations";
 import { EmailVerificationToken } from "@/types";
 
 type VerifyEmailSuccessProps = {

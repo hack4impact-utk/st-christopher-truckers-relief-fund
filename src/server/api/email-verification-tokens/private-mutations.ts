@@ -1,8 +1,4 @@
-"use server";
-
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
-import { sendEmailVerificationEmail } from "@/server/api/emails/actions";
-import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { EmailVerificationTokenModel } from "@/server/models";
 import { ApiResponse, EmailVerificationToken } from "@/types";
@@ -69,30 +65,4 @@ export async function deleteEmailVerificationToken(
   } catch (error) {
     return [null, handleMongooseError(error)];
   }
-}
-
-export async function handleEmailVerificationTokenRequest(email: string) {
-  const [user, userError] = await getUserByEmail(email);
-
-  if (userError !== null) {
-    return;
-  }
-
-  if (!user._id) {
-    return;
-  }
-
-  const token: EmailVerificationToken = {
-    token: crypto.randomUUID(),
-    userId: user._id,
-  };
-
-  const [, createEmailVerificationTokenError] =
-    await createEmailVerificationToken(token.token, token.userId);
-
-  if (createEmailVerificationTokenError !== null) {
-    return;
-  }
-
-  await sendEmailVerificationEmail(email, token.token);
 }

@@ -2,12 +2,12 @@
 
 import bcrypt from "bcrypt";
 
-import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/mutations";
+import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/private-mutations";
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
-import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/mutations";
+import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/private-mutations";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
+import { updateUser } from "@/server/api/users/private-mutations";
 import { getUserByEmail, getUserById } from "@/server/api/users/queries";
-import { updateUser } from "@/server/api/users/secure-mutations";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
 import { ApiResponse, User } from "@/types";
@@ -120,6 +120,12 @@ export async function verifyEmailWithToken(
 ): Promise<ApiResponse<null>> {
   await dbConnect();
 
+  const [session, sessionError] = await authenticateServerFunction();
+
+  if (sessionError !== null) {
+    return [null, sessionError];
+  }
+
   const [emailVerificationToken, emailVerificationTokenError] =
     await getEmailVerificationTokenByToken(token);
 
@@ -134,6 +140,10 @@ export async function verifyEmailWithToken(
 
   if (userError !== null) {
     return [null, userError];
+  }
+
+  if (session.user.email !== user.email) {
+    return [null, apiErrors.user.userInvalidCredentials];
   }
 
   user.isEmailVerified = true;

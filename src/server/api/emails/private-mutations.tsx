@@ -1,5 +1,3 @@
-"use server";
-
 import { render } from "@react-email/components";
 
 import EmailVerificationEmail from "@/components/emails/EmailVerificationEmail";

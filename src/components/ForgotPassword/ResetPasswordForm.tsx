@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
-import { resetPasswordWithToken } from "@/server/api/users/mutations";
+import { resetPasswordWithToken } from "@/server/api/users/public-mutations";
 
 const resetPasswordFormSchema = z
   .object({
