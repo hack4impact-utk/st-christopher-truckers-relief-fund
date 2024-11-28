@@ -1,16 +1,14 @@
 import { Box } from "@mui/material";
-
-import Sidebar from "@/components/AdminDashboard/Sidebar";
-
 import { redirect } from "next/navigation";
 
+import Sidebar from "@/components/AdminDashboard/Sidebar";
 import getUserSession from "@/utils/getUserSession";
 
 type AdminDashboardLayoutProps = {
   children: React.ReactNode;
 };
 
-export default function AdminDashboardLayout({
+export default async function AdminDashboardLayout({
   children,
 }: AdminDashboardLayoutProps) {
   const session = await getUserSession();
