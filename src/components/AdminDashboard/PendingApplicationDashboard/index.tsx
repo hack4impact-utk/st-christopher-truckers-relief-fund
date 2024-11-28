@@ -81,7 +81,7 @@ export default function PendingApplicationDashboard({
       field: "action",
       headerName: "",
       sortable: false,
-      minWidth: 250,
+      minWidth: 350,
       flex: 1,
       renderCell: (params) => {
         return (
@@ -133,7 +133,7 @@ export default function PendingApplicationDashboard({
 
   return (
     <>
-      <Box sx={{ width: "90%" }}>
+      <Box sx={{ width: "95%" }}>
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
