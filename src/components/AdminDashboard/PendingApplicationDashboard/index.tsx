@@ -144,6 +144,7 @@ export default function PendingApplicationDashboard({
         <DataGrid
           rows={rows}
           columns={columns}
+          disableRowSelectionOnClick
           initialState={{
             pagination: {
               paginationModel: {
