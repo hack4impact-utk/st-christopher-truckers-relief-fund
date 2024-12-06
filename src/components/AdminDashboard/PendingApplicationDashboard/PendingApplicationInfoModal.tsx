@@ -8,13 +8,12 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 
-import { OldEnrollmentForm } from "@/types";
+import { EnrollmentForm } from "@/types/EnrollmentForm";
 
 type InvitationInfoModalProps = {
-  enrollmentForm: OldEnrollmentForm;
+  enrollmentForm: EnrollmentForm;
 };
 
-// Define the styling for the modal content
 const style = {
   position: "absolute",
   top: "50%",
@@ -28,54 +27,28 @@ const style = {
   p: 4,
 };
 
-// Functional component for the Invitation Info Modal
 export default function InvitationInfoModal({
   enrollmentForm,
 }: InvitationInfoModalProps) {
-  // State to manage the open/closed status of the modal
   const [open, setOpen] = useState(false);
 
-  // Handlers to open and close the modal
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // Array of key-value pairs to simplify rendering
-  const formFields = [
-    { label: "ID", value: enrollmentForm._id },
-    { label: "Date Created", value: enrollmentForm.dateCreated },
-    { label: "First Name", value: enrollmentForm.firstName },
-    { label: "Last Name", value: enrollmentForm.lastName },
-    { label: "Email", value: enrollmentForm.email },
-    { label: "Address", value: enrollmentForm.address },
-    { label: "Phone Number", value: enrollmentForm.phoneNumber },
-    { label: "Date of Birth", value: enrollmentForm.dateOfBirth },
-    { label: "Health Conditions", value: enrollmentForm.healthConditions },
-    { label: "Referral Source", value: enrollmentForm.referralSource },
-    { label: "Weight", value: enrollmentForm.healthMetrics?.weight },
-    {
-      label: "Blood Pressure",
-      value: enrollmentForm.healthMetrics?.bloodPressure,
-    },
-    { label: "Cholesterol", value: enrollmentForm.healthMetrics?.cholesterol },
-    { label: "A1C", value: enrollmentForm.healthMetrics?.a1c },
-    {
-      label: "Short Term Health Goal",
-      value: enrollmentForm.healthGoals?.shortTerm,
-    },
-    {
-      label: "Long Term Health Goal",
-      value: enrollmentForm.healthGoals?.longTerm,
-    },
-  ];
+  const {
+    generalInformationSection: generalInfo,
+    programSelectionSection: programSelection,
+    programSpecificQuestionsSection: specificQuestions,
+  } = enrollmentForm;
 
   return (
     <div>
-      {/* Button to trigger the modal */}
+      {/* Info Button */}
       <Button variant="contained" onClick={handleOpen}>
         <InfoIcon />
       </Button>
 
-      {/* Modal component containing enrollment information */}
+      {/* Modal */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -87,33 +60,58 @@ export default function InvitationInfoModal({
           <Box sx={style}>
             <Typography
               id="transition-modal-title"
-              variant="h5"
+              variant="h4"
               component="h2"
               gutterBottom
             >
               Enrollment Form Information
             </Typography>
 
-            {/* Render fields with values */}
-            {formFields
-              .filter((field) => field.value) // Display only fields with values
-              .map((field, index) => (
-                <Typography
-                  key={index}
-                  variant="body1"
-                  sx={{ fontSize: "1.1rem", mb: 1 }}
-                >
-                  <strong>{field.label}:</strong> {field.value}
-                </Typography>
-              ))}
+            {/* General Info */}
+            <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+              General Information
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Name:</strong> {generalInfo.firstName}{" "}
+              {generalInfo.lastName}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Email:</strong> {generalInfo.email}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Phone:</strong> {generalInfo.phoneNumber}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Date of Birth:</strong> {generalInfo.dateOfBirth}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Address:</strong> {generalInfo.address}
+            </Typography>
 
-            {/* Render Doctors if available */}
-            {enrollmentForm.doctors?.length ? (
+            {/* Employer Info */}
+            {generalInfo.employer?.name && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body1">
+                  <strong>Employer:</strong>
+                </Typography>
+                <Typography variant="body2">
+                  - Name: {generalInfo.employer.name}
+                </Typography>
+                {generalInfo.employer.contact && (
+                  <Typography variant="body2">
+                    - Contact: {generalInfo.employer.contact}
+                  </Typography>
+                )}
+              </Box>
+            )}
+
+            {/* Doctors */}
+            {generalInfo.doctors?.length ? (
               <Box sx={{ mt: 2 }}>
                 <Typography variant="body1" sx={{ mt: 1 }}>
                   <strong>Doctors:</strong>
                 </Typography>
-                {enrollmentForm.doctors.map((doctor, index) => (
+                {generalInfo.doctors.map((doctor, index) => (
                   <Typography
                     key={index}
                     variant="body2"
@@ -125,19 +123,194 @@ export default function InvitationInfoModal({
               </Box>
             ) : null}
 
-            {/* Render Employer if available */}
-            {enrollmentForm.employer && (
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="body1">
-                  <strong>Employer:</strong>
+            {/* Program Selection */}
+            <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+              Program Selection
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Healthy Habits:</strong>{" "}
+              {programSelection.optedInToHealthyHabits ? "Yes" : "No"}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Diabetes Prevention:</strong>{" "}
+              {programSelection.optedInToDiabetesPrevention ? "Yes" : "No"}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Rigs Without Cigs:</strong>{" "}
+              {programSelection.optedInToRigsWithoutCigs ? "Yes" : "No"}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Vaccine Voucher:</strong>{" "}
+              {programSelection.optedInToVaccineVoucher ? "Yes" : "No"}
+            </Typography>
+            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+              <strong>Preventative Screenings:</strong>{" "}
+              {programSelection.optedInToGetPreventativeScreenings
+                ? "Yes"
+                : "No"}
+            </Typography>
+
+            {/* Healthy Habits & Diabetes Prevention */}
+            {(programSelection.optedInToHealthyHabits ||
+              programSelection.optedInToDiabetesPrevention) && (
+              <>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+                  Healthy Habits & Diabetes Prevention
                 </Typography>
-                <Typography variant="body2">
-                  - Name: {enrollmentForm.employer.name}
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Weight:</strong>{" "}
+                  {specificQuestions.healthyHabitsAndDiabetesPrevention.weight}
                 </Typography>
-                <Typography variant="body2">
-                  - Contact: {enrollmentForm.employer.contact}
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>BMI:</strong>{" "}
+                  {specificQuestions.healthyHabitsAndDiabetesPrevention.bmi}
                 </Typography>
-              </Box>
+                {programSelection.optedInToHealthyHabits && (
+                  <Typography
+                    variant="body1"
+                    sx={{ fontSize: "1.1rem", mb: 1 }}
+                  >
+                    <strong>Healthy Habits Hopeful Learnings:</strong>{" "}
+                    {
+                      specificQuestions.healthyHabitsAndDiabetesPrevention
+                        .healthyHabitsHopefulLearnings
+                    }
+                  </Typography>
+                )}
+                {programSelection.optedInToDiabetesPrevention && (
+                  <Typography
+                    variant="body1"
+                    sx={{ fontSize: "1.1rem", mb: 1 }}
+                  >
+                    <strong>Diabetes Prevention Hopeful Learnings:</strong>{" "}
+                    {
+                      specificQuestions.healthyHabitsAndDiabetesPrevention
+                        .diabetesPreventionHopefulLearnings
+                    }
+                  </Typography>
+                )}
+              </>
+            )}
+
+            {/* Rigs Without Cigs */}
+            {programSelection.optedInToRigsWithoutCigs && (
+              <>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+                  Rigs Without Cigs
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Cigarettes Per Day:</strong>{" "}
+                  {specificQuestions.rigsWithoutCigs.cigarettesPerDay}
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Accountability Person:</strong>{" "}
+                  {
+                    specificQuestions.rigsWithoutCigs.accountabilityPerson
+                      .firstName
+                  }{" "}
+                  {
+                    specificQuestions.rigsWithoutCigs.accountabilityPerson
+                      .lastName
+                  }
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Accountability Person Phone:</strong>{" "}
+                  {
+                    specificQuestions.rigsWithoutCigs.accountabilityPerson
+                      .phoneNumber
+                  }
+                </Typography>
+              </>
+            )}
+
+            {/* Vaccine Voucher */}
+            {programSelection.optedInToVaccineVoucher && (
+              <>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+                  Vaccine Voucher
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Flu Vaccine:</strong>{" "}
+                  {specificQuestions.vaccineVoucher.vaccines.wantsFluVaccine
+                    ? "Yes"
+                    : "No"}
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Pneumonia Vaccine:</strong>{" "}
+                  {specificQuestions.vaccineVoucher.vaccines
+                    .wantsPneumoniaVaccine
+                    ? "Yes"
+                    : "No"}
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Shingles Vaccine:</strong>{" "}
+                  {specificQuestions.vaccineVoucher.vaccines
+                    .wantsShinglesVaccine
+                    ? "Yes"
+                    : "No"}
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>COVID-19 Vaccine:</strong>{" "}
+                  {specificQuestions.vaccineVoucher.vaccines.wantsCovid19Vaccine
+                    ? "Yes"
+                    : "No"}
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Voucher Location:</strong>{" "}
+                  {specificQuestions.vaccineVoucher.voucherLocation}
+                </Typography>
+              </>
+            )}
+
+            {/* Preventative Screenings */}
+            {programSelection.optedInToGetPreventativeScreenings && (
+              <>
+                <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+                  Preventative Screenings
+                </Typography>
+                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                  <strong>Agree to Share Results:</strong>{" "}
+                  {specificQuestions.getPreventativeScreenings
+                    .agreeToShareResults
+                    ? "Yes"
+                    : "No"}
+                </Typography>
+                {specificQuestions.getPreventativeScreenings
+                  .prostateScreening && (
+                  <>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: "1.1rem", mb: 1 }}
+                    >
+                      <strong>Prostate Screening Not Applicable:</strong>{" "}
+                      {specificQuestions.getPreventativeScreenings
+                        .prostateScreening.isNotApplicable
+                        ? "Yes"
+                        : "No"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: "1.1rem", mb: 1 }}
+                    >
+                      <strong>Agree to Get Account Registered:</strong>{" "}
+                      {specificQuestions.getPreventativeScreenings
+                        .prostateScreening.agreeToGetAccountRegistered
+                        ? "Yes"
+                        : "No"}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: "1.1rem", mb: 1 }}
+                    >
+                      <strong>Agrees to Prostate Screening:</strong>{" "}
+                      {specificQuestions.getPreventativeScreenings
+                        .prostateScreening.agreesToProstateScreening
+                        ? "Yes"
+                        : "No"}
+                    </Typography>
+                  </>
+                )}
+              </>
             )}
 
             <Button variant="outlined" onClick={handleClose} sx={{ mt: 3 }}>

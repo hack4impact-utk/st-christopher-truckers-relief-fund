@@ -1,10 +1,11 @@
 "use client";
 
-import { Box, Button, Snackbar } from "@mui/material";
+import { Box, Snackbar } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
 import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
+import InvitationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal";
 import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
 import { EnrollmentForm, Program, ProgramEnrollment } from "@/types";
 
@@ -115,15 +116,7 @@ export default function PendingApplicationDashboard({
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarMessage={setSnackbarMessage}
               />
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => {
-                  alert(JSON.stringify(params.row.enrollmentForm));
-                }}
-              >
-                Info
-              </Button>
+              <InvitationInfoModal enrollmentForm={params.row.enrollmentForm} />
             </Box>
           </>
         );
