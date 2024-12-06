@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
 import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
-import InvitationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/InvitationInfoModal";
+import InvitationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal";
 import { EnrollmentForm, Program, ProgramEnrollment } from "@/types";
 
 export type Row = {
