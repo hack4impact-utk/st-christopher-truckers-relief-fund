@@ -18,6 +18,8 @@ export default async function Header() {
         alignItems: "center",
         paddingInline: "1.5rem",
         position: "fixed",
+        top: 0,
+        left: 0,
         boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
         backgroundColor: "white",
         zIndex: 999,

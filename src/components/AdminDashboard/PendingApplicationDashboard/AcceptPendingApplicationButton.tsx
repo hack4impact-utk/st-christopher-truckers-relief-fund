@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import React, { Dispatch, SetStateAction } from "react";
 
 import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
-import { handleApproveProgramApplication } from "@/server/api/program-enrollments/mutations";
+import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { Program } from "@/types";
 
 type AcceptPendingApplicationButtonProps = {
@@ -35,6 +35,14 @@ export default function AcceptPendingApplicationButton({
   };
 
   const handleClick = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to approve this application?",
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     removePendingApplicationFromRows();
     await handleApproveProgramApplication(email, firstName, program);
     setSnackbarMessage("Application successfully approved");
@@ -46,15 +54,7 @@ export default function AcceptPendingApplicationButton({
       variant="contained"
       color="success"
       startIcon={<Check />}
-      onClick={async () => {
-        const confirmed = window.confirm(
-          "Are you sure you want to approve this application?",
-        );
-
-        if (confirmed) {
-          await handleClick();
-        }
-      }}
+      onClick={async () => await handleClick()}
     >
       Accept
     </Button>

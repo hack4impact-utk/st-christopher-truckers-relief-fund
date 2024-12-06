@@ -1,6 +1,6 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-export default function AdminDashboardLoadingSkeleton() {
+export default async function AdminClientsPage() {
   return (
     <Box
       sx={{
@@ -10,7 +10,7 @@ export default function AdminDashboardLoadingSkeleton() {
         alignItems: "center",
       }}
     >
-      <CircularProgress />
+      <Typography variant="body1">Admin Clients Page</Typography>
     </Box>
   );
 }

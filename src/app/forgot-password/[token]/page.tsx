@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box } from "@mui/material";
 
+import InvalidPasswordResetToken from "@/components/ForgotPassword/InvalidPasswordResetToken";
 import ResetPasswordForm from "@/components/ForgotPassword/ResetPasswordForm";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 
@@ -28,12 +28,7 @@ export default async function ResetPasswordWithTokenPage({
           alignItems: "center",
         }}
       >
-        <Typography variant="body1">This link has expired</Typography>
-        <Link href="/forgot-password" style={{ textDecoration: "none" }}>
-          <Typography variant="body1" color="primary">
-            Click here to request a new password reset link.
-          </Typography>
-        </Link>
+        <InvalidPasswordResetToken />
       </Box>
     );
   }

@@ -1,3 +1,4 @@
+export { default as EmailVerificationTokenModel } from "@/server/models/EmailVerificationToken";
 export { default as EnrollmentFormModel } from "@/server/models/EnrollmentForm";
 export { default as PasswordResetTokenModel } from "@/server/models/PasswordResetToken";
 export { default as ProgramEnrollmentModel } from "@/server/models/ProgramEnrollment";

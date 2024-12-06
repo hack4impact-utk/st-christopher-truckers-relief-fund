@@ -1,7 +1,6 @@
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
 import { ApiResponse, Program, ProgramEnrollment } from "@/types";
-import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 
@@ -12,12 +11,6 @@ async function getProgramEnrollments(
   populateEnrollmentForm = false,
 ): Promise<ApiResponse<ProgramEnrollment[]>> {
   await dbConnect();
-
-  const [, error] = await authenticateServerFunction();
-
-  if (error) {
-    return [null, error];
-  }
 
   try {
     const programEnrollmentsQuery = ProgramEnrollmentModel.find(filters);
