@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
 import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
+import InvitationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/InvitationInfoModal";
 import { EnrollmentForm, Program, ProgramEnrollment } from "@/types";
 
 export type Row = {
@@ -115,15 +116,7 @@ export default function PendingApplicationDashboard({
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarMessage={setSnackbarMessage}
               />
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => {
-                  alert(JSON.stringify(params.row.enrollmentForm));
-                }}
-              >
-                Info
-              </Button>
+              <InvitationInfoModal enrollmentForm={params.row.enrollmentForm} />
             </Box>
           </>
         );
