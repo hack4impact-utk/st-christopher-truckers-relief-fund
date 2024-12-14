@@ -4,9 +4,9 @@ import Link from "next/link";
 export default function InvalidPasswordResetToken() {
   return (
     <Box sx={{ width: "min(90vw, 700px)", textAlign: "center" }}>
-      <Typography variant="body1">This link has expired</Typography>
+      <Typography>This link has expired</Typography>
       <Link href="/forgot-password" style={{ textDecoration: "none" }}>
-        <Typography variant="body1" color="primary">
+        <Typography color="primary">
           Click here to request a new password reset link.
         </Typography>
       </Link>

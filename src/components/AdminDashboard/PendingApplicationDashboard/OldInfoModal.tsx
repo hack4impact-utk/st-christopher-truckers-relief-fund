@@ -71,27 +71,27 @@ export default function InvitationInfoModal({
             <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
               General Information
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Name:</strong> {generalInfo.firstName}{" "}
               {generalInfo.lastName}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Email:</strong> {generalInfo.email}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Phone:</strong> {generalInfo.phoneNumber}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Date of Birth:</strong> {generalInfo.dateOfBirth}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Address:</strong> {generalInfo.address}
             </Typography>
 
             {/* Employer Info */}
             {generalInfo.employer?.name && (
               <Box sx={{ mt: 2 }}>
-                <Typography variant="body1">
+                <Typography>
                   <strong>Employer:</strong>
                 </Typography>
                 <Typography variant="body2">
@@ -108,7 +108,7 @@ export default function InvitationInfoModal({
             {/* Doctors */}
             {generalInfo.doctors?.length ? (
               <Box sx={{ mt: 2 }}>
-                <Typography variant="body1" sx={{ mt: 1 }}>
+                <Typography sx={{ mt: 1 }}>
                   <strong>Doctors:</strong>
                 </Typography>
                 {generalInfo.doctors.map((doctor, index) => (
@@ -127,23 +127,23 @@ export default function InvitationInfoModal({
             <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
               Program Selection
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Healthy Habits:</strong>{" "}
               {programSelection.optedInToHealthyHabits ? "Yes" : "No"}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Diabetes Prevention:</strong>{" "}
               {programSelection.optedInToDiabetesPrevention ? "Yes" : "No"}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Rigs Without Cigs:</strong>{" "}
               {programSelection.optedInToRigsWithoutCigs ? "Yes" : "No"}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Vaccine Voucher:</strong>{" "}
               {programSelection.optedInToVaccineVoucher ? "Yes" : "No"}
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+            <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
               <strong>Preventative Screenings:</strong>{" "}
               {programSelection.optedInToGetPreventativeScreenings
                 ? "Yes"
@@ -157,19 +157,16 @@ export default function InvitationInfoModal({
                 <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
                   Healthy Habits & Diabetes Prevention
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Weight:</strong>{" "}
                   {specificQuestions.healthyHabitsAndDiabetesPrevention.weight}
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>BMI:</strong>{" "}
                   {specificQuestions.healthyHabitsAndDiabetesPrevention.bmi}
                 </Typography>
                 {programSelection.optedInToHealthyHabits && (
-                  <Typography
-                    variant="body1"
-                    sx={{ fontSize: "1.1rem", mb: 1 }}
-                  >
+                  <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                     <strong>Healthy Habits Hopeful Learnings:</strong>{" "}
                     {
                       specificQuestions.healthyHabitsAndDiabetesPrevention
@@ -178,10 +175,7 @@ export default function InvitationInfoModal({
                   </Typography>
                 )}
                 {programSelection.optedInToDiabetesPrevention && (
-                  <Typography
-                    variant="body1"
-                    sx={{ fontSize: "1.1rem", mb: 1 }}
-                  >
+                  <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                     <strong>Diabetes Prevention Hopeful Learnings:</strong>{" "}
                     {
                       specificQuestions.healthyHabitsAndDiabetesPrevention
@@ -198,11 +192,11 @@ export default function InvitationInfoModal({
                 <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
                   Rigs Without Cigs
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Cigarettes Per Day:</strong>{" "}
                   {specificQuestions.rigsWithoutCigs.cigarettesPerDay}
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Accountability Person:</strong>{" "}
                   {
                     specificQuestions.rigsWithoutCigs.accountabilityPerson
@@ -213,7 +207,7 @@ export default function InvitationInfoModal({
                       .lastName
                   }
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Accountability Person Phone:</strong>{" "}
                   {
                     specificQuestions.rigsWithoutCigs.accountabilityPerson
@@ -229,33 +223,33 @@ export default function InvitationInfoModal({
                 <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
                   Vaccine Voucher
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Flu Vaccine:</strong>{" "}
                   {specificQuestions.vaccineVoucher.vaccines.wantsFluVaccine
                     ? "Yes"
                     : "No"}
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Pneumonia Vaccine:</strong>{" "}
                   {specificQuestions.vaccineVoucher.vaccines
                     .wantsPneumoniaVaccine
                     ? "Yes"
                     : "No"}
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Shingles Vaccine:</strong>{" "}
                   {specificQuestions.vaccineVoucher.vaccines
                     .wantsShinglesVaccine
                     ? "Yes"
                     : "No"}
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>COVID-19 Vaccine:</strong>{" "}
                   {specificQuestions.vaccineVoucher.vaccines.wantsCovid19Vaccine
                     ? "Yes"
                     : "No"}
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Voucher Location:</strong>{" "}
                   {specificQuestions.vaccineVoucher.voucherLocation}
                 </Typography>
@@ -268,7 +262,7 @@ export default function InvitationInfoModal({
                 <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
                   Preventative Screenings
                 </Typography>
-                <Typography variant="body1" sx={{ fontSize: "1.1rem", mb: 1 }}>
+                <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                   <strong>Agree to Share Results:</strong>{" "}
                   {specificQuestions.getPreventativeScreenings
                     .agreeToShareResults
@@ -278,30 +272,21 @@ export default function InvitationInfoModal({
                 {specificQuestions.getPreventativeScreenings
                   .prostateScreening && (
                   <>
-                    <Typography
-                      variant="body1"
-                      sx={{ fontSize: "1.1rem", mb: 1 }}
-                    >
+                    <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                       <strong>Prostate Screening Not Applicable:</strong>{" "}
                       {specificQuestions.getPreventativeScreenings
                         .prostateScreening.isNotApplicable
                         ? "Yes"
                         : "No"}
                     </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ fontSize: "1.1rem", mb: 1 }}
-                    >
+                    <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                       <strong>Agree to Get Account Registered:</strong>{" "}
                       {specificQuestions.getPreventativeScreenings
                         .prostateScreening.agreeToGetAccountRegistered
                         ? "Yes"
                         : "No"}
                     </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{ fontSize: "1.1rem", mb: 1 }}
-                    >
+                    <Typography sx={{ fontSize: "1.1rem", mb: 1 }}>
                       <strong>Agrees to Prostate Screening:</strong>{" "}
                       {specificQuestions.getPreventativeScreenings
                         .prostateScreening.agreesToProstateScreening

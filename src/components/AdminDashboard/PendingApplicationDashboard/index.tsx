@@ -5,7 +5,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
 import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
-import InvitationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal";
+import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal";
 import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
 import { EnrollmentForm, Program, ProgramEnrollment } from "@/types";
 
@@ -116,7 +116,9 @@ export default function PendingApplicationDashboard({
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarMessage={setSnackbarMessage}
               />
-              <InvitationInfoModal enrollmentForm={params.row.enrollmentForm} />
+              <PendingApplicationInfoModal
+                enrollmentForm={params.row.enrollmentForm}
+              />
             </Box>
           </>
         );

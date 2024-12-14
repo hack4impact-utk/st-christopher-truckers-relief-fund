@@ -33,11 +33,11 @@ export default function VerifyEmail({ email }: VerifyEmailProps) {
         message="Email verification email sent"
       />
       <Box sx={{ width: "min(90vw, 700px)", textAlign: "center" }}>
-        <Typography variant="body1">
+        <Typography>
           Please verify your email address by clicking on the link in the email
           we sent you.
         </Typography>
-        <Typography variant="body1">
+        <Typography>
           To resend the verification email, click on the button below.
         </Typography>
         <LoadingButton

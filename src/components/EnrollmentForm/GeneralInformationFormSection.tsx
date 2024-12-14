@@ -650,7 +650,7 @@ export default function GeneralInformationFormSection() {
           Next
         </LoadingButton>
 
-        <Typography variant="body1" color="red">
+        <Typography color="red">
           {submitCount && !isSubmitSuccessful
             ? "Please review all fields before continuing."
             : ""}

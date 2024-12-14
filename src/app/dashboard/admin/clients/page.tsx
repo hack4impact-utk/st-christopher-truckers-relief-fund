@@ -10,7 +10,7 @@ export default async function AdminClientsPage() {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">Admin Clients Page</Typography>
+      <Typography>Admin Clients Page</Typography>
     </Box>
   );
 }

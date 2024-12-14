@@ -28,5 +28,5 @@ export default function VerifyEmailSuccess({
     void verifyEmail();
   }, []);
 
-  return <Typography variant="body1">Verifying email...</Typography>;
+  return <Typography>Verifying email...</Typography>;
 }
