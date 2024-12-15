@@ -137,12 +137,13 @@ export default function PendingApplicationDashboard({
     (row) =>
       row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()),
+      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <>
-      <Box sx={{ width: "95%" }}>
+      <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
         <Typography color="primary" align="center" variant="h4" sx={{ m: 2 }}>
           Pending Applications
         </Typography>
@@ -172,9 +173,12 @@ export default function PendingApplicationDashboard({
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 7,
+                pageSize: 5,
               },
             },
+          }}
+          sx={{
+            height: "300px",
           }}
         />
       </Box>
