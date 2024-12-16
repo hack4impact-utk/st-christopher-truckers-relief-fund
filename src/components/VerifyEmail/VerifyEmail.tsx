@@ -32,7 +32,15 @@ export default function VerifyEmail({ email }: VerifyEmailProps) {
         onClose={() => setSnackbarOpen(false)}
         message="Email verification email sent"
       />
-      <Box sx={{ width: "min(90vw, 700px)", textAlign: "center" }}>
+      <Box
+        sx={{
+          width: "min(90vw, 700px)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
         <Typography variant="body1">
           Please verify your email address by clicking on the link in the email
           we sent you.

@@ -4,9 +4,13 @@ import bcrypt from "bcrypt";
 
 import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/private-mutations";
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
+import { sendPasswordChangeEmail } from "@/server/api/emails/private-mutations";
 import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/private-mutations";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
-import { updateUser } from "@/server/api/users/private-mutations";
+import {
+  changePassword,
+  updateUser,
+} from "@/server/api/users/private-mutations";
 import { getUserByEmail, getUserById } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
@@ -71,46 +75,19 @@ export async function resetPasswordWithToken(
   return [null, null];
 }
 
-export async function changePassword(
+export async function handleChangePassword(
+  firstName: string,
   email: string,
   oldPassword: string,
   newPassword: string,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await changePassword(email, oldPassword, newPassword);
 
-  const [session, sessionError] = await authenticateServerFunction();
-
-  if (sessionError !== null) {
-    return [null, sessionError];
+  if (error !== null) {
+    return [null, error];
   }
 
-  if (oldPassword.length < 8 || newPassword.length < 8) {
-    return [null, apiErrors.user.userInvalidCredentials];
-  }
-
-  if (session.user.email !== email) {
-    return [null, apiErrors.user.userInvalidCredentials];
-  }
-
-  const [user, userError] = await getUserByEmail(email);
-
-  if (userError !== null) {
-    return [null, userError];
-  }
-
-  const doesOldPasswordsMatch = await bcrypt.compare(
-    oldPassword,
-    user.password,
-  );
-
-  if (!doesOldPasswordsMatch) {
-    return [null, apiErrors.user.userInvalidCredentials];
-  }
-
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-  user.password = hashedPassword;
-
-  await updateUser(user);
+  await sendPasswordChangeEmail(email, firstName);
 
   return [null, null];
 }
