@@ -1,11 +1,9 @@
-/* eslint-disable simple-import-sort/imports */
 import { Box, Typography } from "@mui/material";
+import Link from "next/link";
 
 import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramsSelectionScreen";
 import { getClientActivePrograms } from "@/server/api/program-enrollments/queries";
-import { ProgramEnrollment } from "@/types";
 import getUserSession from "@/utils/getUserSession";
-import Link from "next/link";
 
 export default async function ClientDashboardPage() {
   const session = await getUserSession();
