@@ -16,7 +16,15 @@ export default function SubmittedFormSection() {
   }, []);
 
   return (
-    <Box sx={{ width: "min(90vw, 700px)", textAlign: "center" }}>
+    <Box
+      sx={{
+        width: "min(90vw, 700px)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 2,
+      }}
+    >
       <Typography variant="body1">
         Thank you for completing the enrollment form!
       </Typography>

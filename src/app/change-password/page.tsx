@@ -1,8 +1,16 @@
 import { Box } from "@mui/material";
+import { redirect } from "next/navigation";
 
 import ChangePasswordForm from "@/components/ChangePassword/ChangePasswordForm";
+import getUserSession from "@/utils/getUserSession";
 
 export default async function ForgotPasswordPage() {
+  const session = await getUserSession();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <Box
       sx={{
@@ -13,7 +21,10 @@ export default async function ForgotPasswordPage() {
         alignItems: "center",
       }}
     >
-      <ChangePasswordForm />
+      <ChangePasswordForm
+        firstName={session.user.firstName}
+        email={session.user.email}
+      />
     </Box>
   );
 }

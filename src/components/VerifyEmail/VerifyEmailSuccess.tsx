@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Typography } from "@mui/material";
+import { Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { verifyEmailWithToken } from "@/server/api/users/public-mutations";
 import { EmailVerificationToken } from "@/types";
@@ -16,17 +16,31 @@ type VerifyEmailSuccessProps = {
 export default function VerifyEmailSuccess({
   emailVerificationToken,
 }: VerifyEmailSuccessProps) {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const verifyEmail = async () => {
       await verifyEmailWithToken(emailVerificationToken.token);
-      await signOut();
-      router.push("/");
+      setSnackbarOpen(true);
+      setTimeout(async () => {
+        await signOut();
+        router.push("/");
+      }, 1000);
     };
 
     void verifyEmail();
   }, []);
 
-  return <Typography variant="body1">Verifying email...</Typography>;
+  return (
+    <>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message="Email verified"
+      />
+      <Typography variant="body1">Verifying email...</Typography>;
+    </>
+  );
 }

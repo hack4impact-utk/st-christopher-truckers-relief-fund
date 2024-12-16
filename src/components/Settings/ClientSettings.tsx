@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
-import Link from "next/link";
+import { Box, Typography } from "@mui/material";
 
+import ChangePasswordButton from "@/components/Settings/ChangePasswordButton";
 import SignOutButton from "@/components/Settings/SignOutButton";
 import { User } from "@/types";
 
@@ -23,11 +23,7 @@ export default function ClientSettings({ user }: ClientSettingsProps) {
         Name: {user.firstName} {user.lastName}
       </Typography>
       <Typography variant="body1">Email: {user.email}</Typography>
-      <Link href="/change-password" passHref>
-        <Button variant="contained" color="primary">
-          Reset Password
-        </Button>
-      </Link>
+      <ChangePasswordButton />
       <SignOutButton />
     </Box>
   );

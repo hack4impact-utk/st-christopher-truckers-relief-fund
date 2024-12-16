@@ -9,11 +9,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
-import { changePassword } from "@/server/api/users/public-mutations";
+import { handleChangePassword } from "@/server/api/users/public-mutations";
 
 const changePasswordFormSchema = z
   .object({
-    email: z.string().email({ message: "Invalid email" }),
     oldPassword: z.string().min(8, {
       message: "Password must be at least 8 characters",
     }),
@@ -36,7 +35,15 @@ const changePasswordFormSchema = z
 
 type ChangePasswordFormValues = z.infer<typeof changePasswordFormSchema>;
 
-export default function ChangePasswordForm() {
+type ChangePasswordFormProps = {
+  firstName: string;
+  email: string;
+};
+
+export default function ChangePasswordForm({
+  firstName,
+  email,
+}: ChangePasswordFormProps) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +57,6 @@ export default function ChangePasswordForm() {
   } = useForm<ChangePasswordFormValues>({
     resolver: zodResolver(changePasswordFormSchema),
     defaultValues: {
-      email: "",
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
@@ -60,15 +66,20 @@ export default function ChangePasswordForm() {
   const onSubmit = async (data: ChangePasswordFormValues) => {
     setIsLoading(true);
 
-    const { email, oldPassword, newPassword } = data;
-    const [, error] = await changePassword(email, oldPassword, newPassword);
+    const { oldPassword, newPassword } = data;
+    const [, error] = await handleChangePassword(
+      firstName,
+      email,
+      oldPassword,
+      newPassword,
+    );
 
     if (error === null) {
       setSnackbarMessage("Password successfully changed");
       setSnackbarOpen(true);
 
       setTimeout(() => {
-        router.push("/");
+        router.push("/settings");
       }, 1000);
     } else {
       setSnackbarMessage("Password change failed.");
@@ -103,14 +114,6 @@ export default function ChangePasswordForm() {
           }}
         >
           <Typography variant="h4">Change Password?</Typography>
-
-          <ControlledTextField
-            control={control}
-            name="email"
-            label="Email"
-            variant="outlined"
-            error={errors.email}
-          />
 
           <ControlledTextField
             control={control}
