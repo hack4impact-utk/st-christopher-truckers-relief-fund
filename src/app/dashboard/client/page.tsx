@@ -1,12 +1,33 @@
-// app/dashboard/client/page.tsx
 import { Box } from "@mui/material";
+
 import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramsSelectionScreen";
 import { getClientActivePrograms } from "@/server/api/program-enrollments/queries";
 import { ProgramEnrollment } from "@/types";
+import getUserSession from "@/utils/getUserSession";
 
 export default async function ClientDashboardPage() {
-  const clientEmail = "test@example.com";
-  const [programEnrollments, error] = await getClientActivePrograms(clientEmail);
+  const session = await getUserSession();
+
+  // If session or session.user is null or undefined, return a friendly message or redirect
+  if (!session?.user?.email) {
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <p>No user session found. Please log in.</p>
+      </Box>
+    );
+  }
+
+  const clientEmail = session.user.email;
+  const [programEnrollments, error] =
+    await getClientActivePrograms(clientEmail);
 
   if (error) {
     return (
@@ -36,22 +57,16 @@ export default async function ClientDashboardPage() {
         }}
       >
         <p>
-          No accepted programs found. Check the database to ensure status is
-          changed to 'accepted'.
+          No accepted programs found. Please ensure the status is
+          &apos;accepted&apos;.
         </p>
       </Box>
     );
   }
 
-  const handleSelectProgram = (program: string) => {
-    console.log(`Selected program: ${program}`);
-    // For example: router.push(`/dashboard/client/${program.toLowerCase().replace(/ /g, "-")}`);
-  };
-
   return (
     <EnrolledProgramsSelectionScreen
       programEnrollments={programEnrollments as ProgramEnrollment[]}
-      onSelectProgram={handleSelectProgram}
     />
   );
 }
