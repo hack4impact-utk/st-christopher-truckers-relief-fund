@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, Button, Snackbar } from "@mui/material";
+import { Search } from "@mui/icons-material";
+import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
@@ -49,17 +50,18 @@ export default function PendingApplicationDashboard({
   const [rows, setRows] = useState(getRows(programEnrollments));
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const columns: GridColDef<Row>[] = [
     {
       field: "firstName",
       headerName: "First name",
-      width: 200,
+      width: 150,
     },
     {
       field: "lastName",
       headerName: "Last name",
-      width: 200,
+      width: 150,
     },
     {
       field: "phoneNumber",
@@ -69,7 +71,7 @@ export default function PendingApplicationDashboard({
     {
       field: "email",
       headerName: "Email",
-      minWidth: 150,
+      minWidth: 200,
       flex: 1,
     },
     {
@@ -79,7 +81,7 @@ export default function PendingApplicationDashboard({
     },
     {
       field: "action",
-      headerName: "",
+      headerName: "Actions",
       sortable: false,
       minWidth: 350,
       flex: 1,
@@ -131,9 +133,32 @@ export default function PendingApplicationDashboard({
     },
   ];
 
+  const filteredRows = rows.filter(
+    (row) =>
+      row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
     <>
-      <Box sx={{ width: "95%" }}>
+      <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
+        <Typography color="primary" align="center" variant="h4" sx={{ m: 2 }}>
+          Pending Applications
+        </Typography>
+        <Box display="flex" alignItems="center" sx={{ py: 2 }}>
+          <TextField
+            id="search-bar"
+            className="text"
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            placeholder="Search..."
+            size="small"
+          />
+          <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
+        </Box>
         <Snackbar
           open={snackbarOpen}
           autoHideDuration={3000}
@@ -142,15 +167,18 @@ export default function PendingApplicationDashboard({
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
         />
         <DataGrid
-          rows={rows}
+          rows={filteredRows}
           columns={columns}
           disableRowSelectionOnClick
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 7,
+                pageSize: 5,
               },
             },
+          }}
+          sx={{
+            height: "300px",
           }}
         />
       </Box>
