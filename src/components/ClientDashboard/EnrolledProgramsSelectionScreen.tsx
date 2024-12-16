@@ -7,20 +7,30 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 
-import { ProgramEnrollment } from "@/types";
+import { Program, ProgramEnrollment } from "@/types";
+
+function programNameToSlug(programName: Program) {
+  switch (programName) {
+    case "Healthy Habits For The Long Haul":
+      return "healthy-habits";
+    case "Diabetes Prevention":
+      return "diabetes-prevention";
+    case "Rigs Without Cigs":
+      return "rigs-without-cigs";
+    case "Vaccine Voucher":
+      return "vaccine-voucher";
+    case "GPS (Get Preventative Screenings)":
+      return "get-preventative-screenings";
+  }
+}
 
 type EnrolledProgramsSelectionScreenProps = {
   programEnrollments: ProgramEnrollment[];
 };
 
-// Utility function to create a route-friendly slug from a program name
-function programToSlug(programName: string) {
-  return programName.toLowerCase().replace(/\s+/g, "-");
-}
-
-function EnrolledProgramsSelectionScreen({
+export default function EnrolledProgramsSelectionScreen({
   programEnrollments,
-}: EnrolledProgramsSelectionScreenProps): JSX.Element {
+}: EnrolledProgramsSelectionScreenProps) {
   return (
     <Box
       sx={{
@@ -59,7 +69,7 @@ function EnrolledProgramsSelectionScreen({
         {programEnrollments.map((enrollment) => (
           <Link
             key={enrollment._id}
-            href={`/dashboard/client/${programToSlug(enrollment.program)}`}
+            href={`/dashboard/client/${programNameToSlug(enrollment.program)}`}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Card
@@ -95,5 +105,3 @@ function EnrolledProgramsSelectionScreen({
     </Box>
   );
 }
-
-export default EnrolledProgramsSelectionScreen;

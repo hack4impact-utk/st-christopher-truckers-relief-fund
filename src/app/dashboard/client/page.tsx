@@ -1,9 +1,11 @@
-import { Box } from "@mui/material";
+/* eslint-disable simple-import-sort/imports */
+import { Box, Typography } from "@mui/material";
 
 import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramsSelectionScreen";
 import { getClientActivePrograms } from "@/server/api/program-enrollments/queries";
 import { ProgramEnrollment } from "@/types";
 import getUserSession from "@/utils/getUserSession";
+import Link from "next/link";
 
 export default async function ClientDashboardPage() {
   const session = await getUserSession();
@@ -20,7 +22,7 @@ export default async function ClientDashboardPage() {
           alignItems: "center",
         }}
       >
-        <p>No user session found. Please log in.</p>
+        <Typography>No user session found. Please log in.</Typography>
       </Box>
     );
   }
@@ -29,7 +31,7 @@ export default async function ClientDashboardPage() {
   const [programEnrollments, error] =
     await getClientActivePrograms(clientEmail);
 
-  if (error) {
+  if (error !== null) {
     return (
       <Box
         sx={{
@@ -40,33 +42,39 @@ export default async function ClientDashboardPage() {
           alignItems: "center",
         }}
       >
-        <p>Error loading programs: {String(error)}</p>
+        <p>There was an error fetching your programs.</p>
       </Box>
     );
   }
 
-  if (!programEnrollments || programEnrollments.length === 0) {
+  if (programEnrollments.length === 0) {
     return (
       <Box
         sx={{
           height: "100vh",
           width: "100vw",
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          gap: 2,
         }}
       >
-        <p>
-          No accepted programs found. Please ensure the status is
-          &apos;accepted&apos;.
-        </p>
+        <Typography>Your application is still being reviewed.</Typography>
+        <Typography variant="body1">
+          Please reach out to us at our{" "}
+          <Link href="https://truckersfund.org/contact-us">
+            <Typography variant="inherit" color="primary" component="span">
+              contact page{" "}
+            </Typography>
+          </Link>
+          if you have any questions or concerns.
+        </Typography>
       </Box>
     );
   }
 
   return (
-    <EnrolledProgramsSelectionScreen
-      programEnrollments={programEnrollments as ProgramEnrollment[]}
-    />
+    <EnrolledProgramsSelectionScreen programEnrollments={programEnrollments} />
   );
 }
