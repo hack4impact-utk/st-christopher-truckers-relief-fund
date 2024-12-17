@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramsSelectionScreen";
 import { getClientActivePrograms } from "@/server/api/program-enrollments/queries";
@@ -8,21 +9,8 @@ import getUserSession from "@/utils/getUserSession";
 export default async function ClientDashboardPage() {
   const session = await getUserSession();
 
-  // If session or session.user is null or undefined, return a friendly message or redirect
-  if (!session?.user?.email) {
-    return (
-      <Box
-        sx={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography>No user session found. Please log in.</Typography>
-      </Box>
-    );
+  if (!session) {
+    redirect("/");
   }
 
   const clientEmail = session.user.email;
@@ -40,7 +28,9 @@ export default async function ClientDashboardPage() {
           alignItems: "center",
         }}
       >
-        <p>There was an error fetching your programs.</p>
+        <Typography>
+          There was an error fetching your active programs.
+        </Typography>
       </Box>
     );
   }

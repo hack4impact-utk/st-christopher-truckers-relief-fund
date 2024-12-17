@@ -1,6 +1,11 @@
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
-import { ApiResponse, Program, ProgramEnrollment } from "@/types";
+import {
+  ApiResponse,
+  EnrollmentForm,
+  Program,
+  ProgramEnrollment,
+} from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 
@@ -33,6 +38,10 @@ async function getProgramEnrollments(
         programEnrollment.enrollmentForm._id = String(
           programEnrollment.enrollmentForm._id,
         );
+      });
+    } else {
+      programEnrollments.forEach((programEnrollment) => {
+        programEnrollment.enrollmentForm = {} as EnrollmentForm;
       });
     }
 

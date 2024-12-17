@@ -144,7 +144,7 @@ export default function PendingApplicationDashboard({
   return (
     <>
       <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
-        <Typography color="primary" align="center" variant="h4" sx={{ m: 2 }}>
+        <Typography align="center" variant="h4" sx={{ m: 2 }}>
           Pending Applications
         </Typography>
         <Box display="flex" alignItems="center" sx={{ py: 2 }}>
