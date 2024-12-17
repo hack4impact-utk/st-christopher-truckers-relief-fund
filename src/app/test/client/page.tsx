@@ -2,8 +2,6 @@
 
 import { Box } from "@mui/material";
 
-import ProgramSectionDropdown from "@/components/ProgramSectionDropdown";
-
 export default function ClientComponentTestPage() {
   return (
     <Box
@@ -17,7 +15,6 @@ export default function ClientComponentTestPage() {
       }}
     >
       <p>Client component test page</p>
-      <ProgramSectionDropdown />
     </Box>
   );
 }
