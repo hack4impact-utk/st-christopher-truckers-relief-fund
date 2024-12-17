@@ -1,9 +1,12 @@
+"use client";
+
 import {
   Box,
   Card,
   CardActionArea,
   CardContent,
   Typography,
+  useTheme,
 } from "@mui/material";
 import Link from "next/link";
 
@@ -31,6 +34,8 @@ type EnrolledProgramsSelectionScreenProps = {
 export default function EnrolledProgramsSelectionScreen({
   programEnrollments,
 }: EnrolledProgramsSelectionScreenProps) {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -80,6 +85,8 @@ export default function EnrolledProgramsSelectionScreen({
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
                 boxShadow: 3,
                 borderRadius: 2, // Rounded corners
               }}
