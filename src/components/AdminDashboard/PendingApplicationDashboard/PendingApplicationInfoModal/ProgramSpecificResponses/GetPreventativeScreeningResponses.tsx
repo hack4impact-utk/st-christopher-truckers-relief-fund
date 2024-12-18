@@ -7,7 +7,7 @@ type GetPreventativeScreeningResponsesProps = {
 };
 
 export default function GetPreventativeScreeningResponses({
-  programSpecificQuestions,
+  programSpecificQuestionsSection,
 }: GetPreventativeScreeningResponsesProps) {
   return (
     <Box>
