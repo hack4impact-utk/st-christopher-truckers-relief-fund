@@ -1,7 +1,7 @@
 "use client";
 
 import { Search } from "@mui/icons-material";
-import { Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Snackbar, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 

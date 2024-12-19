@@ -25,9 +25,7 @@ export default function SubmittedFormSection() {
         gap: 2,
       }}
     >
-      <Typography>
-        Thank you for completing the enrollment form!
-      </Typography>
+      <Typography>Thank you for completing the enrollment form!</Typography>
       <Typography>
         We will review your application and get back to you soon.
       </Typography>
