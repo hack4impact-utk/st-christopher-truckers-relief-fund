@@ -162,12 +162,12 @@ export default function ProgramSelectionFormSection() {
           </LoadingButton>
         </Box>
 
-        <Typography variant="body1" color="red">
+        <Typography color="red">
           {errors.root?.message}
           {errors.optedInToHealthyHabits?.message}
         </Typography>
 
-        <Typography variant="body1" color="red">
+        <Typography color="red">
           {submitCount && !isSubmitSuccessful
             ? "Please review all fields before continuing."
             : ""}

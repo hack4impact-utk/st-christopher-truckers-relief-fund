@@ -10,7 +10,7 @@ export default async function AdminProgramsPage() {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">Admin Programs Page</Typography>
+      <Typography>Admin Programs Page</Typography>
     </Box>
   );
 }

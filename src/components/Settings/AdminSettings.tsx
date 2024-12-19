@@ -19,7 +19,7 @@ export default function AdminSettings({ user }: AdminSettingsProps) {
       }}
     >
       <Typography variant="h4">Admin Settings</Typography>
-      <Typography variant="body1">
+      <Typography>
         Name: {user.firstName} {user.lastName}
       </Typography>
       <Typography variant="body1">Email: {user.email}</Typography>

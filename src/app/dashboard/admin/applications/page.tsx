@@ -16,7 +16,7 @@ export default async function AdminDashboardPage() {
           alignItems: "center",
         }}
       >
-        <Typography variant="body1">
+        <Typography>
           There was an error fetching pending applications
         </Typography>
       </Box>

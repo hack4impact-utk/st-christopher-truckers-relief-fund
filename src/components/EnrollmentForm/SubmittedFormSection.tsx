@@ -25,16 +25,12 @@ export default function SubmittedFormSection() {
         gap: 2,
       }}
     >
-      <Typography variant="body1">
-        Thank you for completing the enrollment form!
-      </Typography>
-      <Typography variant="body1">
+      <Typography>Thank you for completing the enrollment form!</Typography>
+      <Typography>
         We will review your application and get back to you soon.
       </Typography>
       <Link href="/" style={{ textDecoration: "none" }}>
-        <Typography variant="body1" color="primary">
-          Return to home
-        </Typography>
+        <Typography color="primary">Return to home</Typography>
       </Link>
     </Box>
   );

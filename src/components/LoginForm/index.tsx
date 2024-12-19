@@ -95,14 +95,10 @@ function LoginFormFields() {
         </LoadingButton>
 
         <Link href="/forgot-password" style={{ textDecoration: "none" }}>
-          <Typography variant="body1" color="primary">
-            Forgot password?
-          </Typography>
+          <Typography color="primary">Forgot password?</Typography>
         </Link>
 
-        <Typography variant="body1" color="red">
-          {errors.root?.message}
-        </Typography>
+        <Typography color="red">{errors.root?.message}</Typography>
       </Box>
     </form>
   );

@@ -97,7 +97,7 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
 
       {errors.getPreventativeScreenings?.prostateScreening
         ?.agreeToGetAccountRegistered?.message && (
-        <Typography variant="body1" color="error">
+        <Typography color="error">
           {
             errors.getPreventativeScreenings?.prostateScreening
               ?.agreeToGetAccountRegistered?.message

@@ -12,9 +12,9 @@ export default function InvalidPasswordResetToken() {
         gap: 2,
       }}
     >
-      <Typography variant="body1">This link has expired</Typography>
+      <Typography>This link has expired</Typography>
       <Link href="/forgot-password" style={{ textDecoration: "none" }}>
-        <Typography variant="body1" color="primary">
+        <Typography color="primary">
           Click here to request a new password reset link.
         </Typography>
       </Link>

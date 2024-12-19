@@ -101,7 +101,7 @@ export default function RejectPendingApplicationButton({
               bgcolor: "background.paper",
             }}
           >
-            <Typography variant="body1">
+            <Typography>
               Please enter a reason for rejecting this applicant:
             </Typography>
             <ControlledTextField

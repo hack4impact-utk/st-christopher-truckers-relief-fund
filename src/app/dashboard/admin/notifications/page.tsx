@@ -10,7 +10,7 @@ export default async function AdminNotificationsPage() {
         alignItems: "center",
       }}
     >
-      <Typography variant="body1">Admin Notifications Page</Typography>
+      <Typography>Admin Notifications Page</Typography>
     </Box>
   );
 }

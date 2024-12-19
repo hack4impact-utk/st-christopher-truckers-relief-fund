@@ -12,7 +12,7 @@ export default function DisqualifiedFormSection() {
         gap: 2,
       }}
     >
-      <Typography variant="body1">
+      <Typography>
         We are sorry, but you do not qualify for any of the programs we offer.
         Please contact us at our{" "}
         <Link href="https://truckersfund.org/contact-us">
@@ -23,9 +23,7 @@ export default function DisqualifiedFormSection() {
         if you have any questions or concerns.
       </Typography>
       <Link href="/" style={{ textDecoration: "none" }}>
-        <Typography variant="body1" color="primary">
-          Return to home
-        </Typography>
+        <Typography color="primary">Return to home</Typography>
       </Link>
     </Box>
   );

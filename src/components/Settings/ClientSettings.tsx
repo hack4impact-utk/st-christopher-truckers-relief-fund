@@ -19,7 +19,7 @@ export default function ClientSettings({ user }: ClientSettingsProps) {
       }}
     >
       <Typography variant="h4">Client Settings</Typography>
-      <Typography variant="body1">
+      <Typography>
         Name: {user.firstName} {user.lastName}
       </Typography>
       <Typography variant="body1">Email: {user.email}</Typography>

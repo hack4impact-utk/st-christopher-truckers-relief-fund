@@ -41,11 +41,11 @@ export default function VerifyEmail({ email }: VerifyEmailProps) {
           gap: 2,
         }}
       >
-        <Typography variant="body1">
+        <Typography>
           Please verify your email address by clicking on the link in the email
           we sent you.
         </Typography>
-        <Typography variant="body1">
+        <Typography>
           To resend the verification email, click on the button below.
         </Typography>
         <LoadingButton
