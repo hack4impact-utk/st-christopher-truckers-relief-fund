@@ -29,7 +29,6 @@ export default async function AdminDashboardPage() {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
       }}
     >
       <PendingApplicationDashboard programEnrollments={programEnrollments} />
