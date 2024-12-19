@@ -117,90 +117,90 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
               .longTermHealthGoals
           }
         />
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        <Typography style={{ fontWeight: "bold" }}>Devices:</Typography>
-        <FormResponse
-          label="A1c Home Test"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasA1cHomeTest
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Blood Pressure Cuff"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasBloodPressureCuff
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Body Tap Measure"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasBodyTapMeasure
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Fitness Tracker"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasFitnessTracker
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Glucose Monitor"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasGlucoseMonitor
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Other Exercise Equipment"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasOtherExerciseEquipment
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Resistance Bands"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasResistanceBands
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Scale"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.hasScale
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="None of the Above"
-          value={
-            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .devices.noneOfTheAbove
-              ? "Yes"
-              : "No"
-          }
-        />
-    </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Typography style={{ fontWeight: "bold" }}>Devices:</Typography>
+          <FormResponse
+            label="A1c Home Test"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasA1cHomeTest
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Blood Pressure Cuff"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasBloodPressureCuff
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Body Tap Measure"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasBodyTapMeasure
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Fitness Tracker"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasFitnessTracker
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Glucose Monitor"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasGlucoseMonitor
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Other Exercise Equipment"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasOtherExerciseEquipment
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Resistance Bands"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasResistanceBands
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="Scale"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.hasScale
+                ? "Yes"
+                : "No"
+            }
+          />
+          <FormResponse
+            label="None of the Above"
+            value={
+              programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+                .devices.noneOfTheAbove
+                ? "Yes"
+                : "No"
+            }
+          />
+        </Box>
         <FormResponse
           label="Healthy Habits Hopeful Learnings"
           value={
