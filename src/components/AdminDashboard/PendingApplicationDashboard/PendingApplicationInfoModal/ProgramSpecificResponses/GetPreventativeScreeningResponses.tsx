@@ -12,7 +12,11 @@ export default function GetPreventativeScreeningResponses({
 }: GetPreventativeScreeningResponsesProps) {
   return (
     <Box mb={2}>
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{ textDecoration: "underline" }}
+      >
         Get Preventative Screenings Responses
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

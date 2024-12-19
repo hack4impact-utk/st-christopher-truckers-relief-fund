@@ -12,7 +12,11 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
 }: HealthyHabitsAndDiabetesPreventionResponsesProps) {
   return (
     <Box mb={2}>
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{ textDecoration: "underline" }}
+      >
         Healthy Habits and Diabetes Prevention Responses
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -39,6 +43,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
             programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
               .glucoseOrA1CTestResult
           }
+          isListItem={true}
         />
         <FormResponse
           label="Blood Pressure"
@@ -118,7 +123,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
           }
         />
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography style={{ fontWeight: "bold" }}>Devices:</Typography>
+          <Typography sx={{ textDecoration: "underline" }}>Devices:</Typography>
           <FormResponse
             label="A1c Home Test"
             value={
@@ -127,6 +132,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Blood Pressure Cuff"
@@ -136,6 +142,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Body Tap Measure"
@@ -145,6 +152,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Fitness Tracker"
@@ -154,6 +162,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Glucose Monitor"
@@ -163,6 +172,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Other Exercise Equipment"
@@ -172,6 +182,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Resistance Bands"
@@ -181,6 +192,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Scale"
@@ -190,6 +202,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="None of the Above"
@@ -199,6 +212,7 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
         </Box>
         <FormResponse

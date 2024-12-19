@@ -92,7 +92,7 @@ export default function GeneralInformationResponses({
           value={`$${generalInformationSection.monthlyHouseholdExpenses}`}
         />
         <FormResponse
-          label="Owner Operator"
+          label="Is A Owner Or Operator"
           value={generalInformationSection.isOwnerOperator ? "Yes" : "No"}
         />
         {generalInformationSection.isOwnerOperator && (
@@ -104,6 +104,7 @@ export default function GeneralInformationResponses({
                   ? `$${generalInformationSection.ownerOperatorInfo.businessIncome}`
                   : "Not Provided"
               }
+              isListItem={true}
             />
             <FormResponse
               label="Business Expenses"
@@ -112,6 +113,7 @@ export default function GeneralInformationResponses({
                   ? `$${generalInformationSection.ownerOperatorInfo.businessExpenses}`
                   : "Not Provided"
               }
+              isListItem={true}
             />
           </Box>
         )}
@@ -132,8 +134,12 @@ export default function GeneralInformationResponses({
         {generalInformationSection.doctors.map((doctor, index) => (
           <Box key={doctor.id} display="flex" flexDirection="column" gap={1}>
             <Typography variant="h6">Doctor {index + 1}</Typography>
-            <FormResponse label="Name" value={doctor.name} />
-            <FormResponse label="Phone" value={doctor.phone} />
+            <FormResponse label="Name" value={doctor.name} isListItem={true} />
+            <FormResponse
+              label="Phone"
+              value={doctor.phone}
+              isListItem={true}
+            />
           </Box>
         ))}
       </Box>

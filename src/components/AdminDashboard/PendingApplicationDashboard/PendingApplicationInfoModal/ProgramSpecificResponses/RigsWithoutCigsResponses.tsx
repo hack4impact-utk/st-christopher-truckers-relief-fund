@@ -12,12 +12,18 @@ export default function RigsWithoutCigsResponses({
 }: RigsWithoutCigsResponsesProps) {
   return (
     <Box mb={2}>
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{ textDecoration: "underline" }}
+      >
         Rigs Without Cigs Responses
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography style={{ fontWeight: "bold" }}>Tobacco Used:</Typography>
+          <Typography style={{ textDecoration: "underline" }}>
+            Tobacco Used:
+          </Typography>
           <FormResponse
             label="Cigarettes"
             value={
@@ -26,6 +32,7 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Smokeless Tobacco"
@@ -35,6 +42,7 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
         </Box>
 
@@ -54,7 +62,7 @@ export default function RigsWithoutCigsResponses({
           }
         />
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography style={{ fontWeight: "bold" }}>
+          <Typography style={{ textDecoration: "underline" }}>
             Attempted Quitting Methods:
           </Typography>
 
@@ -66,6 +74,7 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Nicotine Patch"
@@ -75,6 +84,7 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Gum"
@@ -84,24 +94,27 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
-            label="Hyponsis"
+            label="Hypnosis"
             value={
               programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
                 .hasUsedHypnosis
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
-            label="ECigarettes"
+            label="e-Cigarettes"
             value={
               programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
                 .hasUsedECigarettes
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Other"
@@ -111,6 +124,7 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
           <FormResponse
             label="I Have Not Tried to Quit"
@@ -120,6 +134,7 @@ export default function RigsWithoutCigsResponses({
                 ? "Yes"
                 : "No"
             }
+            isListItem={true}
           />
         </Box>
 

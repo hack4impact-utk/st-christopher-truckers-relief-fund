@@ -14,12 +14,16 @@ export default function VaccineVoucherResponses({
 
   return (
     <Box mb={2}>
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{ textDecoration: "underline" }}
+      >
         Vaccine Voucher Responses
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography style={{ fontWeight: "bold" }}>
+          <Typography style={{ textDecoration: "underline" }}>
             Vaccines to receive:
           </Typography>
 
@@ -31,6 +35,7 @@ export default function VaccineVoucherResponses({
                 ? "Yes"
                 : "no"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Pneumonia"
@@ -40,6 +45,7 @@ export default function VaccineVoucherResponses({
                 ? "Yes"
                 : "no"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Shingles"
@@ -49,6 +55,7 @@ export default function VaccineVoucherResponses({
                 ? "Yes"
                 : "no"
             }
+            isListItem={true}
           />
           <FormResponse
             label="Covid-19"
@@ -58,6 +65,7 @@ export default function VaccineVoucherResponses({
                 ? "Yes"
                 : "no"
             }
+            isListItem={true}
           />
         </Box>
         <FormResponse

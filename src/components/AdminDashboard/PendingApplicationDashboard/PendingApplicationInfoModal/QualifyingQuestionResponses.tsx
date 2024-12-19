@@ -30,19 +30,27 @@ export default function QualifyingQuestionResponses({
         <FormResponse
           label="High Cholesterol"
           value={diagnoses.hasHighCholesterol ? "Yes" : "No"}
+          isListItem={true}
         />
         <FormResponse
           label="Heart Disease"
           value={diagnoses.hasHeartDisease ? "Yes" : "No"}
+          isListItem={true}
         />
         <FormResponse
           label="Obesity"
           value={diagnoses.isObese ? "Yes" : "No"}
+          isListItem={true}
         />
-        <FormResponse label="Other" value={diagnoses.hasOther ? "Yes" : "No"} />
+        <FormResponse
+          label="Other"
+          value={diagnoses.hasOther ? "Yes" : "No"}
+          isListItem={true}
+        />
         <FormResponse
           label="None of the Above"
           value={diagnoses.noneOfTheAbove ? "Yes" : "No"}
+          isListItem={true}
         />
 
         {/* Additional Questions Section */}
@@ -51,6 +59,7 @@ export default function QualifyingQuestionResponses({
         <FormResponse
           label="Tobacco User"
           value={qualifyingQuestionsSection.isTobaccoUser ? "Yes" : "No"}
+          isListItem={true}
         />
         <FormResponse
           label="Applied for Financial Assistance"
@@ -59,6 +68,7 @@ export default function QualifyingQuestionResponses({
               ? "Yes"
               : "No"
           }
+          isListItem={true}
         />
         <FormResponse
           label="Health Condition Caused by Tobacco Use"
@@ -67,10 +77,12 @@ export default function QualifyingQuestionResponses({
               ? "Yes"
               : "No"
           }
+          isListItem={true}
         />
         <FormResponse
           label="Health Insurance"
           value={qualifyingQuestionsSection.hasHealthInsurance ? "Yes" : "No"}
+          isListItem={true}
         />
         <FormResponse
           label="Close Family History of Prostate Cancer"
@@ -79,6 +91,7 @@ export default function QualifyingQuestionResponses({
               ? "Yes"
               : "No"
           }
+          isListItem={true}
         />
       </Box>
     </Box>
