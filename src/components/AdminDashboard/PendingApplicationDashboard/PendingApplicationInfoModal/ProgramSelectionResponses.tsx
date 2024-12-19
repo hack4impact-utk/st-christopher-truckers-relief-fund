@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+
 import FormResponse from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/FormResponse";
 import { ProgramSelectionSection } from "@/types/EnrollmentForm";
 

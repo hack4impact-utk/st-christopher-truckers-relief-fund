@@ -15,7 +15,6 @@ export default function GeneralInformationResponses({
       <Typography variant="h5" gutterBottom>
         General Information Responses
       </Typography>
-
       <Box
         sx={{
           display: "flex",

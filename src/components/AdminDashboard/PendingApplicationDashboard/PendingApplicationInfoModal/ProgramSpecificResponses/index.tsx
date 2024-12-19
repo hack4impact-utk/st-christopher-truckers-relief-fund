@@ -15,7 +15,9 @@ export default function ProgramSpecificResponses({
 }: ProgramSpecificResponsesProps) {
   return (
     <Box>
-      <Typography variant="h5">Program Specific Responses</Typography>
+      <Typography variant="h5" gutterBottom>
+        Program Specific Responses
+      </Typography>
 
       {programSpecificQuestionsSection.hasOptedInToHealthyHabits && (
         <HealthyHabitsAndDiabetesPreventionResponses

@@ -52,7 +52,7 @@ export default function PendingApplicationInfoModal({
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h4" gutterBottom>
+            <Typography id="transition-modal-title" variant="h4">
               Enrollment Form Information
             </Typography>
 
