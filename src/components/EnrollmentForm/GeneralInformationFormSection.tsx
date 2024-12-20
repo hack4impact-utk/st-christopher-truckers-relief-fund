@@ -57,6 +57,10 @@ export default function GeneralInformationFormSection() {
     router.push("/enrollment-form/qualifying-questions");
   };
 
+  const onError = () => {
+    window.alert("Please review all fields before continuing.");
+  };
+
   // Doctors array logic
   const {
     fields: doctors,
@@ -68,7 +72,7 @@ export default function GeneralInformationFormSection() {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Box
         sx={{
           width: "min(90vw, 700px)",

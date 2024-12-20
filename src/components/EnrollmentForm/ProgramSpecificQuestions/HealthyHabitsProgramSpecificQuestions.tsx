@@ -2,6 +2,7 @@
 "use client";
 
 import {
+  Box,
   Checkbox,
   Divider,
   FormControl,
@@ -56,21 +57,48 @@ export default function HealthyHabitsProgramSpecificQuestions({
         required
       />
 
-      <ControlledTextField
-        control={control}
-        name="healthyHabitsAndDiabetesPrevention.bmi"
-        label="BMI"
-        variant="outlined"
-        error={errors.healthyHabitsAndDiabetesPrevention?.bmi}
-        type="number"
-        slotProps={{
-          input: {
-            endAdornment: <InputAdornment position="end">BMI</InputAdornment>,
-          },
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          gap: 2,
         }}
-        convertToNumber={true}
-        required
-      />
+      >
+        <ControlledTextField
+          control={control}
+          name="healthyHabitsAndDiabetesPrevention.heightFeet"
+          label="Height (feet)"
+          variant="outlined"
+          error={errors.healthyHabitsAndDiabetesPrevention?.heightFeet}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">ft</InputAdornment>,
+            },
+          }}
+          convertToNumber={true}
+          required
+          sx={{ width: "100%" }}
+        />
+
+        <ControlledTextField
+          control={control}
+          name="healthyHabitsAndDiabetesPrevention.heightInches"
+          label="Height (inches)"
+          variant="outlined"
+          error={errors.healthyHabitsAndDiabetesPrevention?.heightInches}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">in</InputAdornment>,
+            },
+          }}
+          convertToNumber={true}
+          required
+          sx={{ width: "100%" }}
+        />
+      </Box>
 
       <ControlledTextField
         control={control}

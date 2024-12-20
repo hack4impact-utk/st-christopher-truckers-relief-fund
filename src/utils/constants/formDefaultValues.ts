@@ -74,6 +74,8 @@ export const programSpecificQuestionsSectionDefaultValues: ProgramSpecificQuesti
     hasOptedInToGetPreventativeScreenings: false,
     healthyHabitsAndDiabetesPrevention: {
       weight: 0,
+      heightFeet: 0,
+      heightInches: 0,
       bmi: 0,
       hasHadGlucoseOrA1CTestInPastYear: false,
       glucoseOrA1CTestResult: "",
