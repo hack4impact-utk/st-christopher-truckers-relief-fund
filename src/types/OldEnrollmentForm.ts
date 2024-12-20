@@ -1,5 +1,8 @@
 import dayjs from "dayjs";
-import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import z from "zod";
 
 const DoctorSchema = z.object({
@@ -10,7 +13,7 @@ const DoctorSchema = z.object({
       (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
       "Invalid phone number",
     )
-    .transform((val) => parsePhoneNumber(val, "US").number.toString()),
+    .transform((val) => parsePhoneNumberWithError(val, "US").number.toString()),
   id: z.string(),
 });
 
@@ -38,7 +41,9 @@ export const generalInformationValidator = z
         (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
         "Invalid phone number",
       )
-      .transform((val) => parsePhoneNumber(val, "US").number.toString()),
+      .transform((val) =>
+        parsePhoneNumberWithError(val, "US").number.toString(),
+      ),
     hasClassACdl: z.boolean(),
     cdlNumber: z.string().optional(), // Required if hasClassACdl is true
     classBDescription: z.string().optional(), // Required if hasClassACdl is false

@@ -1,4 +1,7 @@
-import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import { z } from "zod";
 
 export const programSpecificQuestionsSectionValidator = z
@@ -233,7 +236,7 @@ export const programSpecificQuestionsSectionValidator = z
           path: ["rigsWithoutCigs", "accountabilityPerson", "phoneNumber"],
         });
       } else {
-        const phoneNumber = parsePhoneNumber(
+        const phoneNumber = parsePhoneNumberWithError(
           val.rigsWithoutCigs.accountabilityPerson.phoneNumber,
           "US",
         ).number.toString();
