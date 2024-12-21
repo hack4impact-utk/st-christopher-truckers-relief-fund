@@ -157,6 +157,7 @@ export default function ProgramSpecificQuestionsFormSection() {
             <GetPreventativeScreeningsProgramSpecificQuestions
               control={control}
               errors={errors}
+              enrollmentForm={enrollmentForm}
             />
           )}
 

@@ -15,16 +15,45 @@ import {
 import { Control, Controller } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import { EnrollmentForm } from "@/types";
+import calculateAge from "@/utils/calculateAge";
 
 type GetPreventativeScreeningsProgramSpecificQuestionsProps = {
   control: Control<any>;
   errors: any;
+  enrollmentForm: EnrollmentForm;
 };
+
+function isEligibleForProstateScreening(enrollmentForm: EnrollmentForm) {
+  if (enrollmentForm.generalInformationSection.sex === "female") {
+    return false;
+  }
+
+  const age = calculateAge(
+    enrollmentForm.generalInformationSection.dateOfBirth,
+  );
+
+  if (age > 69) {
+    return false;
+  }
+
+  if (
+    enrollmentForm.qualifyingQuestionsSection
+      .hasCloseFamilyHistoryOfProstateCancer
+  ) {
+    return age >= 40;
+  } else {
+    return age >= 50;
+  }
+}
 
 export default function GetPreventativeScreeningsProgramSpecificQuestions({
   control,
   errors,
+  enrollmentForm,
 }: GetPreventativeScreeningsProgramSpecificQuestionsProps) {
+  const showProstateScreening = isEligibleForProstateScreening(enrollmentForm);
+
   return (
     <>
       <Divider />
@@ -62,7 +91,13 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
         control={control}
         render={({ field }) => (
           <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
+            control={
+              <Checkbox
+                {...field}
+                checked={field.value}
+                disabled={!showProstateScreening}
+              />
+            }
             label="By checking this box, I acknowledge that the St. Christopher Fund 
         will create an account on my behalf through Call on Doc
          for the purpose of requesting a test kit, 
@@ -76,7 +111,13 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
         control={control}
         render={({ field }) => (
           <FormControlLabel
-            control={<Checkbox {...field} checked={field.value} />}
+            control={
+              <Checkbox
+                {...field}
+                checked={field.value}
+                disabled={!showProstateScreening}
+              />
+            }
             label="By checking this box, I am choosing to register myself 
         for the prostate cancer screening. 
         I will expect a follow-up email with information 
