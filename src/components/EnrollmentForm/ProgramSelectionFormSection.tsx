@@ -15,9 +15,70 @@ import { Controller, useForm } from "react-hook-form";
 
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
+  EnrollmentForm,
   ProgramSelectionSection,
   programSelectionSectionValidator,
 } from "@/types/EnrollmentForm";
+import calculateAge from "@/utils/calculateAge";
+
+function shouldShowDiabetesPreventionButton(enrollmentForm: EnrollmentForm) {
+  if (enrollmentForm.qualifyingQuestionsSection.diagnoses.hasType1Diabetes) {
+    return false;
+  }
+
+  if (enrollmentForm.qualifyingQuestionsSection.diagnoses.hasType2Diabetes) {
+    return false;
+  }
+
+  return true;
+}
+
+function shouldShowRigsWithoutCigsButton(enrollmentForm: EnrollmentForm) {
+  if (
+    !enrollmentForm.qualifyingQuestionsSection.hasAppliedForFinancialAssistance
+  ) {
+    return false;
+  }
+
+  if (
+    !enrollmentForm.qualifyingQuestionsSection
+      .hasHealthConditionCausedByTobaccoUse
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+function shouldShowVaccineVoucherButton(enrollmentForm: EnrollmentForm) {
+  const age = calculateAge(
+    enrollmentForm.generalInformationSection.dateOfBirth,
+  );
+
+  if (age > 65) {
+    return false;
+  }
+
+  if (enrollmentForm.qualifyingQuestionsSection.hasHealthInsurance) {
+    return false;
+  }
+
+  return true;
+}
+
+function shouldShowGetPreventativeScreeningsButton(
+  enrollmentForm: EnrollmentForm,
+) {
+  const age = calculateAge(
+    enrollmentForm.generalInformationSection.dateOfBirth,
+  );
+
+  if (age < 40 || age > 75) {
+    return false;
+  }
+
+  return true;
+}
 
 export default function ProgramSelectionFormSection() {
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +119,14 @@ export default function ProgramSelectionFormSection() {
     window.alert("Please review all fields before continuing.");
   };
 
+  const showDiabetesButton = shouldShowDiabetesPreventionButton(enrollmentForm);
+  const showRigsWithoutCigsButton =
+    shouldShowRigsWithoutCigsButton(enrollmentForm);
+  const showVaccineVoucherButton =
+    shouldShowVaccineVoucherButton(enrollmentForm);
+  const showGetPreventativeScreeningsButton =
+    shouldShowGetPreventativeScreeningsButton(enrollmentForm);
+
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Box
@@ -89,51 +158,57 @@ export default function ProgramSelectionFormSection() {
           )}
         />
 
-        <Controller
-          name="optedInToDiabetesPrevention"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Diabetes Prevention"
-            />
-          )}
-        />
+        {showDiabetesButton && (
+          <Controller
+            name="optedInToDiabetesPrevention"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={<Checkbox {...field} checked={field.value} />}
+                label="Diabetes Prevention"
+              />
+            )}
+          />
+        )}
 
-        <Controller
-          name="optedInToRigsWithoutCigs"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Rigs Without Cigs"
-            />
-          )}
-        />
+        {showRigsWithoutCigsButton && (
+          <Controller
+            name="optedInToRigsWithoutCigs"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={<Checkbox {...field} checked={field.value} />}
+                label="Rigs Without Cigs"
+              />
+            )}
+          />
+        )}
 
-        <Controller
-          name="optedInToVaccineVoucher"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Vaccine Voucher"
-            />
-          )}
-        />
+        {showVaccineVoucherButton && (
+          <Controller
+            name="optedInToVaccineVoucher"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={<Checkbox {...field} checked={field.value} />}
+                label="Vaccine Voucher"
+              />
+            )}
+          />
+        )}
 
-        <Controller
-          name="optedInToGetPreventativeScreenings"
-          control={control}
-          render={({ field }) => (
-            <>
+        {showGetPreventativeScreeningsButton && (
+          <Controller
+            name="optedInToGetPreventativeScreenings"
+            control={control}
+            render={({ field }) => (
               <FormControlLabel
                 control={<Checkbox {...field} checked={field.value} />}
                 label="Get Preventative Screenings"
               />
-            </>
-          )}
-        />
+            )}
+          />
+        )}
 
         <Box
           sx={{

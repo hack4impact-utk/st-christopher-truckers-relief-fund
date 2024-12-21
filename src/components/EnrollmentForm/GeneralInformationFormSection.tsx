@@ -35,6 +35,21 @@ import {
 } from "@/types/EnrollmentForm";
 import dayjsUtil from "@/utils/dayjsUtil";
 
+function isDisqualified(generalInformationSection: GeneralInformationSection) {
+  if (!generalInformationSection.hasClassACdl) {
+    return true;
+  }
+
+  if (
+    generalInformationSection.jobDescription !==
+    "OTR Driver, away 4+ nights a week"
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 export default function GeneralInformationFormSection() {
   const [isLoading, setIsLoading] = useState(false);
   const { enrollmentForm, updateGeneralInformationSection } =
@@ -53,8 +68,12 @@ export default function GeneralInformationFormSection() {
 
   const onSubmit = async (data: GeneralInformationSection) => {
     setIsLoading(true);
-    updateGeneralInformationSection(data);
-    router.push("/enrollment-form/qualifying-questions");
+    if (isDisqualified(data)) {
+      router.push("/enrollment-form/disqualified");
+    } else {
+      updateGeneralInformationSection(data);
+      router.push("/enrollment-form/qualifying-questions");
+    }
   };
 
   const onError = () => {

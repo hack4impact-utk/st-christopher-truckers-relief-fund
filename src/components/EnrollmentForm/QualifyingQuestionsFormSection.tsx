@@ -297,40 +297,42 @@ export default function QualifyingQuestionsFormSection() {
           </FormHelperText>
         </FormControl>
 
-        <FormControl
-          error={!!errors.hasCloseFamilyHistoryOfProstateCancer}
-          sx={{ width: "100%" }}
-        >
-          <FormLabel>
-            Do you have a close family history (father or brother) of prostate
-            cancer?
-          </FormLabel>
-          <Controller
-            name="hasCloseFamilyHistoryOfProstateCancer"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup
-                {...field}
-                value={field.value !== undefined ? String(field.value) : ""}
-                onChange={(e) => field.onChange(e.target.value === "true")}
-              >
-                <FormControlLabel
-                  value="true"
-                  control={<Radio />}
-                  label="Yes"
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio />}
-                  label="No"
-                />
-              </RadioGroup>
-            )}
-          />
-          <FormHelperText sx={{ m: 0 }}>
-            {errors.hasCloseFamilyHistoryOfProstateCancer?.message}
-          </FormHelperText>
-        </FormControl>
+        {enrollmentForm.generalInformationSection.sex === "male" && (
+          <FormControl
+            error={!!errors.hasCloseFamilyHistoryOfProstateCancer}
+            sx={{ width: "100%" }}
+          >
+            <FormLabel>
+              Do you have a close family history (father or brother) of prostate
+              cancer?
+            </FormLabel>
+            <Controller
+              name="hasCloseFamilyHistoryOfProstateCancer"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  {...field}
+                  value={field.value !== undefined ? String(field.value) : ""}
+                  onChange={(e) => field.onChange(e.target.value === "true")}
+                >
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="No"
+                  />
+                </RadioGroup>
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }}>
+              {errors.hasCloseFamilyHistoryOfProstateCancer?.message}
+            </FormHelperText>
+          </FormControl>
+        )}
 
         <Box
           sx={{
