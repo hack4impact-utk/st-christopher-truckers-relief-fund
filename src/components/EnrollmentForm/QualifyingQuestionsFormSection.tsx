@@ -56,8 +56,12 @@ export default function QualifyingQuestionsFormSection() {
     router.push("/enrollment-form/program-selection");
   };
 
+  const onError = () => {
+    window.alert("Please review all fields before continuing.");
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Box
         sx={{
           width: "min(90vw, 700px)",

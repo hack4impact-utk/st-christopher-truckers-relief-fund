@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 
 import FormResponse from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/FormResponse";
 import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm";
+import getBmiClassification from "@/utils/getBmiClassification";
 
 type HealthyHabitsAndDiabetesPreventionResponsesProps = {
   programSpecificQuestionsSection: ProgramSpecificQuestionsSection;
@@ -25,8 +26,17 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
           value={programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention.weight.toString()}
         />
         <FormResponse
+          label="Height"
+          value={`${programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention.heightFeet} ft ${programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention.heightInches} in`}
+        />
+        <FormResponse
           label="BMI"
-          value={programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention.bmi.toString()}
+          value={`${programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention.bmi.toFixed(
+            1,
+          )} (${getBmiClassification(
+            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+              .bmi,
+          )})`}
         />
         <FormResponse
           label="Had Glucose/A1C Test in Past Year"

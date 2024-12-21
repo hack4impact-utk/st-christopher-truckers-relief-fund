@@ -62,6 +62,10 @@ export default function ProgramSpecificQuestionsFormSection() {
     updateProgramSpecificQuestionsSection(data);
   };
 
+  const onError = () => {
+    window.alert("Please review all fields before continuing.");
+  };
+
   // submit form if all sections are completed
   useEffect(() => {
     const submitForm = async () => {
@@ -117,7 +121,7 @@ export default function ProgramSpecificQuestionsFormSection() {
         message={snackbarMessage}
       />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <Box
           sx={{
             width: "min(90vw, 700px)",

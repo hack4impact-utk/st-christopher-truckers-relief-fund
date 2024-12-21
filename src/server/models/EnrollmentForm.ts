@@ -71,6 +71,8 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
       hasOptedInToGetPreventativeScreenings: Boolean,
       healthyHabitsAndDiabetesPrevention: {
         weight: Number,
+        heightFeet: Number,
+        heightInches: Number,
         bmi: Number,
         hasHadGlucoseOrA1CTestInPastYear: Boolean,
         glucoseOrA1CTestResult: String,

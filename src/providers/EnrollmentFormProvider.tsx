@@ -6,6 +6,7 @@ import { GeneralInformationSection } from "@/types/EnrollmentForm/GeneralInforma
 import { ProgramSelectionSection } from "@/types/EnrollmentForm/ProgramSelectionSection";
 import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm/ProgramSpecificQuestionsSection";
 import { QualifyingQuestionsSection } from "@/types/EnrollmentForm/QualifyingQuestionsSection";
+import calculateBmi from "@/utils/calculateBmi";
 import {
   generalInformationSectionDefaultValues,
   programSelectionSectionDefaultValues,
@@ -111,7 +112,17 @@ export function EnrollmentFormProvider({
     setEnrollmentForm((prevForm) => ({
       ...prevForm,
       dateSubmitted: dayjsUtil().utc().toISOString(),
-      programSpecificQuestionsSection: section,
+      programSpecificQuestionsSection: {
+        ...section,
+        healthyHabitsAndDiabetesPrevention: {
+          ...section.healthyHabitsAndDiabetesPrevention,
+          bmi: calculateBmi(
+            section.healthyHabitsAndDiabetesPrevention.heightFeet,
+            section.healthyHabitsAndDiabetesPrevention.heightInches,
+            section.healthyHabitsAndDiabetesPrevention.weight,
+          ),
+        },
+      },
     }));
     setCompletedSections((prevCompletedSections) => ({
       ...prevCompletedSections,

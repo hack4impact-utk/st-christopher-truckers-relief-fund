@@ -1,4 +1,7 @@
-import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import { z } from "zod";
 
 export const programSpecificQuestionsSectionValidator = z
@@ -12,6 +15,8 @@ export const programSpecificQuestionsSectionValidator = z
 
     healthyHabitsAndDiabetesPrevention: z.object({
       weight: z.number(),
+      heightFeet: z.number(),
+      heightInches: z.number(),
       bmi: z.number(),
       hasHadGlucoseOrA1CTestInPastYear: z.boolean(),
       glucoseOrA1CTestResult: z.string(),
@@ -158,11 +163,22 @@ export const programSpecificQuestionsSectionValidator = z
           path: ["healthyHabitsAndDiabetesPrevention", "weight"],
         });
       }
-      if (val.healthyHabitsAndDiabetesPrevention.bmi <= 0) {
+      if (val.healthyHabitsAndDiabetesPrevention.heightFeet <= 0) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "BMI is required",
-          path: ["healthyHabitsAndDiabetesPrevention", "bmi"],
+          message: "Invalid height",
+          path: ["healthyHabitsAndDiabetesPrevention", "heightFeet"],
+        });
+      }
+
+      if (
+        val.healthyHabitsAndDiabetesPrevention.heightInches <= 0 ||
+        val.healthyHabitsAndDiabetesPrevention.heightInches > 12
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid height",
+          path: ["healthyHabitsAndDiabetesPrevention", "heightInches"],
         });
       }
     }
@@ -220,7 +236,7 @@ export const programSpecificQuestionsSectionValidator = z
           path: ["rigsWithoutCigs", "accountabilityPerson", "phoneNumber"],
         });
       } else {
-        const phoneNumber = parsePhoneNumber(
+        const phoneNumber = parsePhoneNumberWithError(
           val.rigsWithoutCigs.accountabilityPerson.phoneNumber,
           "US",
         ).number.toString();

@@ -54,8 +54,12 @@ export default function ProgramSelectionFormSection() {
     router.push("/enrollment-form/program-specific-questions");
   };
 
+  const onError = () => {
+    window.alert("Please review all fields before continuing.");
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
       <Box
         sx={{
           width: "min(90vw, 700px)",
