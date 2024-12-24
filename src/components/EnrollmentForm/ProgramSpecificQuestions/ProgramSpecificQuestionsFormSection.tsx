@@ -57,7 +57,7 @@ export default function ProgramSpecificQuestionsFormSection() {
     defaultValues: enrollmentForm.programSpecificQuestionsSection,
   });
 
-  const onSubmit = async (data: ProgramSpecificQuestionsSection) => {
+  const onSubmit = (data: ProgramSpecificQuestionsSection) => {
     setIsLoading(true);
     updateProgramSpecificQuestionsSection(data);
   };

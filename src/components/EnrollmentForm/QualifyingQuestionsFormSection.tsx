@@ -50,7 +50,7 @@ export default function QualifyingQuestionsFormSection() {
     }
   }, [completedSections.generalInformationSectionCompleted, router]);
 
-  const onSubmit = async (data: QualifyingQuestionsSection) => {
+  const onSubmit = (data: QualifyingQuestionsSection) => {
     setIsLoading(true);
     updateQualifyingQuestionsSection(data);
     router.push("/enrollment-form/program-selection");

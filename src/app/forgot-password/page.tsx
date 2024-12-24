@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 import ForgotPasswordForm from "@/components/ForgotPassword/ForgotPasswordForm";
 
-export default async function ForgotPasswordPage() {
+export default function ForgotPasswordPage() {
   return (
     <Box
       sx={{

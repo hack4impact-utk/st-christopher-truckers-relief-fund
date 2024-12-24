@@ -109,7 +109,7 @@ export default function ProgramSelectionFormSection() {
     router,
   ]);
 
-  const onSubmit = async (data: ProgramSelectionSection) => {
+  const onSubmit = (data: ProgramSelectionSection) => {
     setIsLoading(true);
     updateProgramSelectionSection(data);
     router.push("/enrollment-form/program-specific-questions");

@@ -41,6 +41,7 @@ module.exports = {
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/await-thenable": "warn",
+    "@typescript-eslint/require-await": "warn",
 
     // import rules
     "simple-import-sort/imports": "error",

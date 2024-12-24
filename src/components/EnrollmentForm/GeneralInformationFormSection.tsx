@@ -66,7 +66,7 @@ export default function GeneralInformationFormSection() {
     defaultValues: enrollmentForm.generalInformationSection,
   });
 
-  const onSubmit = async (data: GeneralInformationSection) => {
+  const onSubmit = (data: GeneralInformationSection) => {
     setIsLoading(true);
     if (isDisqualified(data)) {
       router.push("/enrollment-form/disqualified");

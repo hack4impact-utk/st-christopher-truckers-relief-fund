@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-export default async function ServerComponentTestPage() {
+export default function ServerComponentTestPage() {
   return (
     <Box
       sx={{

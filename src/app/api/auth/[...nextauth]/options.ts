@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
