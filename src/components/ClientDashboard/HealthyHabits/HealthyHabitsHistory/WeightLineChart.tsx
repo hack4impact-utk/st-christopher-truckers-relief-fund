@@ -30,7 +30,7 @@ export default function WeightLineChart({
     <Box
       sx={{
         height: 200,
-        width: "90vw",
+        width: "100%",
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
@@ -51,6 +51,7 @@ export default function WeightLineChart({
             data: chartData.map((item) => item.y),
             label: "Weight (lbs)",
             color: theme.palette.primary.main,
+            curve: "linear",
           },
         ]}
       />
