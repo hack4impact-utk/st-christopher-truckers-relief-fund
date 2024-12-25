@@ -7,24 +7,7 @@ import HealthyHabitsInfo from "@/components/ClientDashboard/HealthyHabits/Health
 import HealthyHabitsTracking from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsTracking";
 import { HealthyHabitsTrackingForm } from "@/types";
 
-export type HealthyHabitsSections = "tracking" | "history" | "info";
-
-function getSectionContent(
-  section: HealthyHabitsSections,
-  email: string,
-  trackingForms: HealthyHabitsTrackingForm[],
-) {
-  switch (section) {
-    case "tracking":
-      return <HealthyHabitsTracking email={email} />;
-    case "history":
-      return <HealthyHabitsHistory trackingForms={trackingForms} />;
-    case "info":
-      return <HealthyHabitsInfo />;
-    default:
-      return <Typography>Invalid section</Typography>;
-  }
-}
+type HealthyHabitsSections = "tracking" | "history" | "info";
 
 type HealthyHabitsProps = {
   email: string;
@@ -44,6 +27,19 @@ export default function HealthyHabits({
   ) => {
     setSelectedSection(newValue);
   };
+
+  function getSectionContent(section: HealthyHabitsSections) {
+    switch (section) {
+      case "tracking":
+        return <HealthyHabitsTracking email={email} />;
+      case "history":
+        return <HealthyHabitsHistory trackingForms={trackingForms} />;
+      case "info":
+        return <HealthyHabitsInfo />;
+      default:
+        return <Typography>Invalid section</Typography>;
+    }
+  }
 
   return (
     <>
@@ -71,9 +67,7 @@ export default function HealthyHabits({
         </Tabs>
       </Box>
       <Divider sx={{ width: "80vw", marginTop: 2 }} />
-      <Box sx={{ marginTop: 3 }}>
-        {getSectionContent(selectedSection, email, trackingForms)}
-      </Box>
+      <Box sx={{ marginTop: 3 }}>{getSectionContent(selectedSection)}</Box>
     </>
   );
 }
