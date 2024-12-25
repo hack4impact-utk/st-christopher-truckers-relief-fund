@@ -1,7 +1,6 @@
 import dbConnect from "@/server/dbConnect";
 import { HealthyHabitsTrackingFormModel } from "@/server/models";
 import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 type HealthyHabitsTrackingFormFilters = Partial<HealthyHabitsTrackingForm>;
@@ -16,13 +15,6 @@ async function getHealthyHabitsTrackingForms(
       await HealthyHabitsTrackingFormModel.find(filters)
         .lean<HealthyHabitsTrackingForm[]>()
         .exec();
-
-    if (!healthyHabitsTrackingForms) {
-      return [
-        null,
-        apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormNotFound,
-      ];
-    }
 
     // convert ObjectId to string
     healthyHabitsTrackingForms.forEach((healthyHabitsTrackingForm) => {

@@ -16,6 +16,7 @@ export default function HealthyHabitsHistory({
   return (
     <Box
       sx={{
+        width: "min(90vw, 700px)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
