@@ -24,7 +24,7 @@ export default function VerifyEmailSuccess({
       await verifyEmailWithToken(emailVerificationToken.token);
       setSnackbarOpen(true);
       setTimeout(async () => {
-        await signOut();
+        await signOut({ redirect: false, callbackUrl: "/" });
         router.push("/");
       }, 1000);
     };

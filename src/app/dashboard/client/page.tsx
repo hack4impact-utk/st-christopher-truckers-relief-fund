@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramsSelectionScreen";
+import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramSelectionScreen.tsx";
 import { getClientActivePrograms } from "@/server/api/program-enrollments/queries";
 import getUserSession from "@/utils/getUserSession";
 

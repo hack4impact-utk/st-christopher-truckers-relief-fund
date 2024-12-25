@@ -1,10 +1,8 @@
 /* eslint-disable simple-import-sort/imports */
 import { Box } from "@mui/material";
-import { redirect } from "next/navigation";
 
 import VerifyEmailSuccess from "@/components/VerifyEmail/VerifyEmailSuccess";
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
-import getUserSession from "@/utils/getUserSession";
 import InvalidEmailVerificationToken from "@/components/VerifyEmail/InvalidEmailVerificationToken";
 
 type VerifyEmailSuccessPageProps = {
@@ -16,12 +14,6 @@ type VerifyEmailSuccessPageProps = {
 export default async function VerifyEmailSuccessPage({
   params,
 }: VerifyEmailSuccessPageProps) {
-  const session = await getUserSession();
-
-  if (!session) {
-    redirect("/");
-  }
-
   const { token } = params;
 
   const [emailVerificationToken, error] =

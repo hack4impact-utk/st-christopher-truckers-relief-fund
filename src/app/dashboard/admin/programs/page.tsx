@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export default async function AdminProgramsPage() {
+export default function AdminProgramsPage() {
   return (
     <Box
       sx={{

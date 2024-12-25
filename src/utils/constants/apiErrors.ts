@@ -38,6 +38,11 @@ const apiErrors = {
     emailVerificationTokenAlreadyExists:
       "Email verification token already exists",
   },
+  healthyHabitsTrackingForm: {
+    healthyHabitsTrackingFormNotFound: "Healthy habits tracking form not found",
+    healthyHabitsTrackingFormAlreadyExists:
+      "Healthy habits tracking form already exists",
+  },
 };
 
 export default apiErrors;
