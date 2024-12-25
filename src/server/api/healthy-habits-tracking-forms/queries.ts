@@ -6,7 +6,7 @@ import handleMongooseError from "@/utils/handleMongooseError";
 
 type HealthyHabitsTrackingFormFilters = Partial<HealthyHabitsTrackingForm>;
 
-export async function getHealthyHabitsTrackingForms(
+async function getHealthyHabitsTrackingForms(
   filters: HealthyHabitsTrackingFormFilters,
 ): Promise<ApiResponse<HealthyHabitsTrackingForm[]>> {
   await dbConnect();
@@ -35,6 +35,6 @@ export async function getHealthyHabitsTrackingForms(
   }
 }
 
-export async function getHealthyHabitsTrackingFormByEmail(email: string) {
+export async function getHealthyHabitsTrackingFormsByEmail(email: string) {
   return getHealthyHabitsTrackingForms({ email });
 }
