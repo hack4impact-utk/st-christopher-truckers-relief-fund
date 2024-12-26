@@ -5,8 +5,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Skeleton, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
-import { Suspense, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,6 +27,9 @@ type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 function LoginFormFields() {
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session, update } = useSession();
+  const isSignedIn = useRef(false);
+
   const router = useRouter();
 
   const {
@@ -66,10 +69,35 @@ function LoginFormFields() {
       setIsLoading(false);
       return;
     }
-
-    // manually redirect to the callbackUrl
-    router.push(callbackUrl);
   };
+
+  useEffect(() => {
+    const handleSignIn = async () => {
+      // wait for session to be loaded
+      if (!session) {
+        return;
+      }
+
+      // prevent "update" from triggering a loop
+      if (isSignedIn.current) {
+        return;
+      }
+
+      isSignedIn.current = true;
+
+      // update session manually to reflect changes
+      // otherwise, getUserSession will return null
+      await update({
+        ...session,
+      });
+
+      const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
+
+      router.push(callbackUrl);
+    };
+
+    void handleSignIn();
+  }, [router, searchParams, session, update]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
