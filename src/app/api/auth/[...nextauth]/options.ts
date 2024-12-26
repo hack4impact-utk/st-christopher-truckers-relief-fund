@@ -50,7 +50,7 @@ const authOptions: NextAuthOptions = {
         token.user = user;
       }
 
-      // if you call the "update" function, refresh the user to reflect changes
+      // if you call the "update" function, refresh the user to reflect changes server-side
       if (trigger === "update") {
         token.user = session.user;
       }
