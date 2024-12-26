@@ -43,12 +43,18 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       // the token gets the User object from the CredentialsProvider's authorize method
       // but it only gets it the first time; every time after it is undefined
       if (user) {
         token.user = user;
       }
+
+      // if you call the "update" function, refresh the user to reflect changes server-side
+      if (trigger === "update") {
+        token.user = session.user;
+      }
+
       return token;
     },
     async session({ session, token }) {
@@ -60,7 +66,6 @@ const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/login",
-    error: "/auth/login", // The login page will parse the error query parameter passed in
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

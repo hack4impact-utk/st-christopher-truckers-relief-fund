@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function ServerComponentTestPage() {
   return (
@@ -11,7 +11,7 @@ export default function ServerComponentTestPage() {
         alignItems: "center",
       }}
     >
-      <p>Server component test page</p>
+      <Typography>Server component test page</Typography>
     </Box>
   );
 }

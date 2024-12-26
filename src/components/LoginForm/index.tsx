@@ -4,9 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Skeleton, Typography } from "@mui/material";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,6 +28,8 @@ type LoginFormValues = z.infer<typeof loginFormSchema>;
 function LoginFormFields() {
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
+
   const {
     control,
     handleSubmit,
@@ -40,17 +42,33 @@ function LoginFormFields() {
 
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const error = searchParams.get("error");
-    if (error) {
-      setError("root", { message: error });
-    }
-  }, [searchParams, setError]);
-
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setError("root", { message: "" });
-    await signIn("credentials", { ...data, callbackUrl: "/dashboard" });
+
+    const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
+
+    // redirect must be false, otherwise the callbackUrl will be lost
+    // if the user puts it invalid credentials
+    const signInResponse = await signIn("credentials", {
+      ...data,
+      callbackUrl: callbackUrl,
+      redirect: false,
+    });
+
+    if (!signInResponse) {
+      setError("root", { message: "An unknown error occurred" });
+      setIsLoading(false);
+      return;
+    }
+
+    if (signInResponse.error) {
+      setError("root", { message: signInResponse.error });
+      setIsLoading(false);
+      return;
+    }
+
+    router.push(callbackUrl);
   };
 
   return (
