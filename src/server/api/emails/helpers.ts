@@ -34,10 +34,11 @@ export default async function sendEmail(
   const email = process.env.SCF_GMAIL;
 
   const mailOptions = {
-    from: `St. Christopher Truckers Relief Fund <${email}>`,
+    from: email,
     to: recipient,
     subject,
     html,
+    text: html,
   };
 
   const response = await transporter.sendMail(mailOptions);
