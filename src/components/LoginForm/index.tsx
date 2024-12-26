@@ -50,7 +50,9 @@ function LoginFormFields() {
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setError("root", { message: "" });
-    await signIn("credentials", { ...data, callbackUrl: "/dashboard" });
+
+    const callbackUrl = searchParams.get("callbackUrl") ?? "/";
+    await signIn("credentials", { ...data, callbackUrl: callbackUrl });
   };
 
   return (
