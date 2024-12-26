@@ -3,7 +3,7 @@
 
 import { Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import { verifyEmailWithToken } from "@/server/api/users/public-mutations";
@@ -18,19 +18,40 @@ export default function VerifyEmailSuccess({
 }: VerifyEmailSuccessProps) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const router = useRouter();
+  const { data: session, update } = useSession();
 
   useEffect(() => {
     const verifyEmail = async () => {
+      // wait for session to be loaded
+      if (!session) {
+        return;
+      }
+
+      // calling update will trigger the useEffect again
+      // this prevents a loop
+      if (session.user.isEmailVerified) {
+        return;
+      }
+
       await verifyEmailWithToken(emailVerificationToken.token);
       setSnackbarOpen(true);
-      setTimeout(async () => {
-        await signOut({ redirect: false, callbackUrl: "/" });
+
+      // update session object to reflect database changes
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          isEmailVerified: true,
+        },
+      });
+
+      setTimeout(() => {
         router.push("/");
-      }, 1000);
+      }, 2000);
     };
 
     void verifyEmail();
-  }, []);
+  }, [session]);
 
   return (
     <>

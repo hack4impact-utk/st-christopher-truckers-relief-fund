@@ -1,6 +1,6 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function ClientComponentTestPage() {
   return (
@@ -14,7 +14,7 @@ export default function ClientComponentTestPage() {
         width: "100vw",
       }}
     >
-      <p>Client component test page</p>
+      <Typography>Client component test page</Typography>
     </Box>
   );
 }
