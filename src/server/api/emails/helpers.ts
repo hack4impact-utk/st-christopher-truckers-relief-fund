@@ -34,7 +34,7 @@ export default async function sendEmail(
   const email = process.env.SCF_GMAIL;
 
   const mailOptions = {
-    from: email,
+    from: `St. Christopher Truckers Relief Fund <${email}>`,
     to: recipient,
     subject,
     html,
