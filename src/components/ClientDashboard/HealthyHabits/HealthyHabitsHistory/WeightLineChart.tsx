@@ -1,7 +1,6 @@
 "use client";
 import { Box, Typography, useTheme } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
-import dayjs from "dayjs";
 
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -17,12 +16,12 @@ export default function WeightLineChart({
 
   const chartData = trackingForms
     .sort((a, b) =>
-      dayjs(a.submittedDate, "MM/DD/YYYY").diff(
-        dayjs(b.submittedDate, "MM/DD/YYYY"),
+      dayjsUtil(a.submittedDate, "MM/DD/YYYY").diff(
+        dayjsUtil(b.submittedDate, "MM/DD/YYYY"),
       ),
     )
     .map((entry) => ({
-      x: dayjs(entry.submittedDate, "MM/DD/YYYY").toDate(),
+      x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
       y: entry.weight,
     }));
 

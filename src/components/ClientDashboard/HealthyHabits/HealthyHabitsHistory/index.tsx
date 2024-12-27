@@ -12,7 +12,6 @@ type HealthyHabitsHistoryProps = {
 export default function HealthyHabitsHistory({
   trackingForms,
 }: HealthyHabitsHistoryProps) {
-  // place weight line chart using flex wrap
   return (
     <Box
       sx={{

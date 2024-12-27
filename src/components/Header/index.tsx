@@ -1,12 +1,14 @@
+"use client";
+
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 import Logo from "@/components/Logo";
-import getUserSession from "@/utils/getUserSession";
 
-export default async function Header() {
-  const session = await getUserSession();
+export default function Header() {
+  const { data: session } = useSession();
 
   return (
     <header
