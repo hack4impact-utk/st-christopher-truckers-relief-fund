@@ -10,7 +10,7 @@ export default function AdminProgramsPage() {
         alignItems: "center",
       }}
     >
-      <Typography>Admin Programs Page</Typography>
+      <Typography>Please select a program on the left sidebar.</Typography>
     </Box>
   );
 }
