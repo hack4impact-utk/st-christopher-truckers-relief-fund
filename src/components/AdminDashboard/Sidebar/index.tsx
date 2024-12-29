@@ -1,9 +1,7 @@
 "use client";
 
 import Apps from "@mui/icons-material/Apps";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Home from "@mui/icons-material/Home";
+import Description from "@mui/icons-material/Description";
 import Insights from "@mui/icons-material/Insights";
 import MedicationIcon from "@mui/icons-material/Medication";
 import Notifications from "@mui/icons-material/Notifications";
@@ -11,139 +9,97 @@ import People from "@mui/icons-material/People";
 import SmokeFreeIcon from "@mui/icons-material/SmokeFree";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
-import {
-  Collapse,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  useTheme,
-} from "@mui/material";
-import Link from "next/link";
+import { Box, Collapse, Drawer, List, Toolbar, useTheme } from "@mui/material";
 import { usePathname } from "next/navigation";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
+
+import CollapsibleSidebarButton from "@/components/AdminDashboard/Sidebar/CollapsibleSidebarButton";
+import SidebarButton from "@/components/AdminDashboard/Sidebar/SidebarButton";
 
 const drawerWidth = 200;
 
-type SidebarButtonProps = {
-  href: string;
-  icon: ReactNode;
+type SidebarChildItem = {
   label: string;
-  padLeft?: boolean;
+  icon: React.ReactNode;
+  href: string;
 };
 
-type CollapsibleSidebarButtonProps = SidebarButtonProps & {
-  onClick: () => void;
-};
+type SidebarItem =
+  | {
+      type: "standard";
+      label: string;
+      icon: React.ReactNode;
+      href: string;
+    }
+  | {
+      type: "collapsible";
+      label: string;
+      icon: React.ReactNode;
+      href: string;
+      children: SidebarChildItem[];
+    };
+
+const sidebarItems: SidebarItem[] = [
+  {
+    type: "collapsible",
+    label: "Programs",
+    icon: <Apps />,
+    href: "/dashboard/admin/programs",
+    children: [
+      {
+        label: "Healthy Habits",
+        icon: <Insights />,
+        href: "/dashboard/admin/programs/healthy-habits",
+      },
+      {
+        label: "Diabetes Prevention",
+        icon: <MedicationIcon />,
+        href: "/dashboard/admin/programs/diabetes-prevention",
+      },
+      {
+        label: "Rigs Without Cigs",
+        icon: <SmokeFreeIcon />,
+        href: "/dashboard/admin/programs/rigs-without-cigs",
+      },
+      {
+        label: "Vaccine Voucher",
+        icon: <VaccinesIcon />,
+        href: "/dashboard/admin/programs/vaccine-voucher",
+      },
+      {
+        label: "Get Preventative Screenings",
+        icon: <TroubleshootIcon />,
+        href: "/dashboard/admin/programs/get-preventative-screenings",
+      },
+    ],
+  },
+  {
+    type: "standard",
+    label: "Clients",
+    icon: <People />,
+    href: "/dashboard/admin/clients",
+  },
+  {
+    type: "standard",
+    label: "Notifications",
+    icon: <Notifications />,
+    href: "/dashboard/admin/notifications",
+  },
+  {
+    type: "standard",
+    label: "Applications",
+    icon: <Description />,
+    href: "/dashboard/admin/applications",
+  },
+];
 
 export default function Sidebar() {
   const theme = useTheme();
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
 
-  function SidebarButton({ href, icon, label, padLeft }: SidebarButtonProps) {
-    return (
-      <Link key={href} href={href} style={{ textDecoration: "none" }}>
-        <ListItem disablePadding>
-          <ListItemButton
-            sx={{
-              backgroundColor:
-                pathname === href ? theme.palette.primary.main : "inherit",
-              "&:hover": {
-                backgroundColor:
-                  pathname === href ? theme.palette.primary.light : "lightgray",
-              },
-              paddingLeft: padLeft ? 4 : undefined,
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                color:
-                  pathname === href
-                    ? theme.palette.primary.contrastText
-                    : "black",
-              }}
-            >
-              {icon}
-            </ListItemIcon>
-            <ListItemText
-              primary={label}
-              sx={{
-                color:
-                  pathname === href
-                    ? theme.palette.primary.contrastText
-                    : "black",
-              }}
-            />
-          </ListItemButton>
-        </ListItem>
-      </Link>
-    );
-  }
+  const isOnProgramsSubpage = pathname.startsWith("/dashboard/admin/programs");
 
-  function CollapsibleSidebarButton({
-    href,
-    icon,
-    label,
-    onClick,
-  }: CollapsibleSidebarButtonProps) {
-    return (
-      <ListItem disablePadding onClick={onClick}>
-        <ListItemButton
-          sx={{
-            backgroundColor:
-              pathname === href ? theme.palette.primary.main : "inherit",
-            "&:hover": {
-              backgroundColor:
-                pathname === href ? theme.palette.primary.light : "lightgray",
-            },
-          }}
-        >
-          <ListItemIcon
-            sx={{
-              color:
-                pathname === href
-                  ? theme.palette.primary.contrastText
-                  : "black",
-            }}
-          >
-            {icon}
-          </ListItemIcon>
-          <ListItemText
-            primary={label}
-            sx={{
-              color:
-                pathname === href
-                  ? theme.palette.primary.contrastText
-                  : "black",
-            }}
-          />
-          {open ? (
-            <ExpandLess
-              sx={{
-                color:
-                  pathname === href
-                    ? theme.palette.primary.contrastText
-                    : "black",
-              }}
-            />
-          ) : (
-            <ExpandMore
-              sx={{
-                color:
-                  pathname === href
-                    ? theme.palette.primary.contrastText
-                    : "black",
-              }}
-            />
-          )}
-        </ListItemButton>
-      </ListItem>
-    );
-  }
+  const [open, setOpen] = useState(isOnProgramsSubpage);
 
   return (
     <Drawer
@@ -160,61 +116,66 @@ export default function Sidebar() {
       anchor="left"
     >
       <Toolbar />
-      <List>
-        <CollapsibleSidebarButton
-          href="/dashboard/admin/programs"
-          icon={<Apps />}
-          label="Programs"
-          onClick={() => setOpen(!open)}
-        />
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <SidebarButton
-            href="/dashboard/admin/programs/healthy-habits"
-            icon={<Insights />}
-            label="Healthy Habits"
-            padLeft
-          />
-          <SidebarButton
-            href="/dashboard/admin/programs/diabetes-prevention"
-            icon={<MedicationIcon />}
-            label="Diabetes Prevention"
-            padLeft
-          />
-          <SidebarButton
-            href="/dashboard/admin/programs/rigs-without-cigs"
-            icon={<SmokeFreeIcon />}
-            label="Rigs Without Cigs"
-            padLeft
-          />
-          <SidebarButton
-            href="/dashboard/admin/programs/vaccine-voucher"
-            icon={<VaccinesIcon />}
-            label="Vaccine Voucher"
-            padLeft
-          />
-          <SidebarButton
-            href="/dashboard/admin/programs/get-preventative-screenings"
-            icon={<TroubleshootIcon />}
-            label="Get Preventative Screenings"
-            padLeft
-          />
-        </Collapse>
+      <List
+        sx={{
+          height: "75vh",
+          overflowY: "auto",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "lightgray",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "gray",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+        }}
+        disablePadding
+      >
+        {sidebarItems.map((item) => {
+          if (item.type === "collapsible") {
+            return (
+              <Box key={item.href}>
+                <CollapsibleSidebarButton
+                  pathname={pathname}
+                  theme={theme}
+                  href={item.href}
+                  icon={item.icon}
+                  label={item.label}
+                  onClick={() => setOpen((prev) => !prev)}
+                />
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  {item.children.map((child) => (
+                    <SidebarButton
+                      key={child.href}
+                      pathname={pathname}
+                      theme={theme}
+                      href={child.href}
+                      icon={child.icon}
+                      label={child.label}
+                      padLeft
+                    />
+                  ))}
+                </Collapse>
+              </Box>
+            );
+          }
 
-        <SidebarButton
-          href="/dashboard/admin/clients"
-          icon={<People />}
-          label="Clients"
-        />
-        <SidebarButton
-          href="/dashboard/admin/notifications"
-          icon={<Notifications />}
-          label="Notifications"
-        />
-        <SidebarButton
-          href="/dashboard/admin/applications"
-          icon={<Home />}
-          label="Applications"
-        />
+          return (
+            <SidebarButton
+              key={item.href}
+              pathname={pathname}
+              theme={theme}
+              href={item.href}
+              icon={item.icon}
+              label={item.label}
+            />
+          );
+        })}
       </List>
     </Drawer>
   );
