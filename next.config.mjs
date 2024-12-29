@@ -8,6 +8,7 @@ const nextConfig = {
    * To fix this, we disable the router cache for dynamic routes.
    * https://github.com/vercel/next.js/discussions/65487
    * https://nextjs.org/docs/14/app/api-reference/next-config-js/staleTimes
+   * This is the default behavior for Next.js 15.
    */
   experimental: {
     staleTimes: {

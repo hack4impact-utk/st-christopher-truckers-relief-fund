@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export default function AdminProgramsPage() {
+export default function RigsWithoutCigsProgramPage() {
   return (
     <Box
       sx={{
@@ -10,7 +10,7 @@ export default function AdminProgramsPage() {
         alignItems: "center",
       }}
     >
-      <Typography>Please select a program on the left sidebar.</Typography>
+      <Typography>Rigs Without Cigs Program</Typography>
     </Box>
   );
 }
