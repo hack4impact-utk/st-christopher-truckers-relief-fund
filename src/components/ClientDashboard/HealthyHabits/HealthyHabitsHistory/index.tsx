@@ -56,6 +56,13 @@ export default function HealthyHabitsHistory({
         dataKey="bloodPressure"
         title="Blood Pressure"
       />
+
+      <ModularLineChart
+        trackingForms={trackingForms.filter((form) => form.movementMinutes)}
+        graphLabel="Movement Minutes"
+        dataKey="movementMinutes"
+        title="Movement Minutes"
+      />
     </Box>
   );
 }
