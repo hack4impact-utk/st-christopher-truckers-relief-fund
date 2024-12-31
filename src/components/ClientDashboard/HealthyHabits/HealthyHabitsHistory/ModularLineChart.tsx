@@ -23,6 +23,16 @@ type BloodPressureChartDataPoint = {
   diastolic: number;
 };
 
+type ChartConfig = {
+  chartData: RegularChartDataPoint[] | BloodPressureChartDataPoint[];
+  series: {
+    data: number[];
+    label: string;
+    color: string;
+    curve: "linear";
+  }[];
+};
+
 export default function ModularLineChart({
   trackingForms,
   graphLabel,
@@ -31,15 +41,6 @@ export default function ModularLineChart({
 }: ModularLineChartProps) {
   const theme = useTheme();
 
-  // Special handling for blood pressure
-  const isBloodPressure = dataKey === "bloodPressure";
-
-  const sortedData = trackingForms.sort((a, b) =>
-    dayjsUtil(a.submittedDate, "MM/DD/YYYY").diff(
-      dayjsUtil(b.submittedDate, "MM/DD/YYYY"),
-    ),
-  );
-
   const parseBloodPressure = (
     bp: string,
   ): { systolic: number; diastolic: number } => {
@@ -47,16 +48,61 @@ export default function ModularLineChart({
     return { systolic, diastolic };
   };
 
-  const chartData: RegularChartDataPoint[] | BloodPressureChartDataPoint[] =
-    isBloodPressure
-      ? sortedData.map((entry) => ({
+  const getChartDataAndSeries = (): ChartConfig => {
+    const sortedData = trackingForms.sort((a, b) =>
+      dayjsUtil(a.submittedDate, "MM/DD/YYYY").diff(
+        dayjsUtil(b.submittedDate, "MM/DD/YYYY"),
+      ),
+    );
+
+    const isBloodPressure = dataKey === "bloodPressure";
+
+    if (isBloodPressure) {
+      const chartData: BloodPressureChartDataPoint[] = sortedData.map(
+        (entry) => ({
           x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
           ...parseBloodPressure(entry[dataKey] as string),
-        }))
-      : sortedData.map((entry) => ({
-          x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
-          y: entry[dataKey] as number,
-        }));
+        }),
+      );
+
+      return {
+        chartData,
+        series: [
+          {
+            data: chartData.map((item) => item.systolic),
+            label: "Systolic",
+            color: theme.palette.primary.main,
+            curve: "linear",
+          },
+          {
+            data: chartData.map((item) => item.diastolic),
+            label: "Diastolic",
+            color: theme.palette.info.main,
+            curve: "linear",
+          },
+        ],
+      };
+    }
+
+    const chartData: RegularChartDataPoint[] = sortedData.map((entry) => ({
+      x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
+      y: entry[dataKey] as number,
+    }));
+
+    return {
+      chartData,
+      series: [
+        {
+          data: chartData.map((item) => item.y),
+          label: graphLabel || "",
+          color: theme.palette.primary.main,
+          curve: "linear",
+        },
+      ],
+    };
+  };
+
+  const { chartData, series } = getChartDataAndSeries();
 
   return (
     <Box
@@ -78,37 +124,7 @@ export default function ModularLineChart({
             tickInterval: chartData.map((item) => item.x),
           },
         ]}
-        series={
-          isBloodPressure
-            ? [
-                {
-                  data: (chartData as BloodPressureChartDataPoint[]).map(
-                    (item) => item.systolic,
-                  ),
-                  label: "Systolic",
-                  color: theme.palette.primary.main,
-                  curve: "linear",
-                },
-                {
-                  data: (chartData as BloodPressureChartDataPoint[]).map(
-                    (item) => item.diastolic,
-                  ),
-                  label: "Diastolic",
-                  color: theme.palette.secondary.main, // TODO: Change to secondary color
-                  curve: "linear",
-                },
-              ]
-            : [
-                {
-                  data: (chartData as RegularChartDataPoint[]).map(
-                    (item) => item.y,
-                  ),
-                  label: graphLabel,
-                  color: theme.palette.primary.main,
-                  curve: "linear",
-                },
-              ]
-        }
+        series={series}
       />
     </Box>
   );
