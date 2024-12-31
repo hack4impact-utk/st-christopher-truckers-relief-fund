@@ -2,6 +2,7 @@
 
 import { Box } from "@mui/material";
 
+import ModularBarChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularBarChart";
 import ModularLineChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularLineChart";
 import { HealthyHabitsTrackingForm } from "@/types";
 
@@ -57,7 +58,7 @@ export default function HealthyHabitsHistory({
         title="Blood Pressure"
       />
 
-      <ModularLineChart
+      <ModularBarChart
         trackingForms={trackingForms.filter((form) => form.movementMinutes)}
         graphLabel="Movement Minutes"
         dataKey="movementMinutes"
