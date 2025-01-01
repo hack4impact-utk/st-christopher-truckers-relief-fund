@@ -79,8 +79,6 @@ export default function HealthyHabitsTracking({
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
       email,
-      bloodPressure:
-        data.systolicBloodPressure + "/" + data.diastolicBloodPressure,
     };
 
     const [, error] = await handleHealthyHabitsTrackingFormSubmission(

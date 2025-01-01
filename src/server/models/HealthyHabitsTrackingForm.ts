@@ -6,7 +6,6 @@ const HealthyHabitsTrackingFormSchema = new Schema<HealthyHabitsTrackingForm>(
   {
     email: { type: String, required: true },
     submittedDate: { type: String, required: true },
-    bloodPressure: { type: String, required: true },
     healthConditions: { type: String, required: true },
     devices: {
       hasScale: { type: Boolean, required: true },

@@ -29,5 +29,4 @@ export type HealthyHabitsFormValues = z.infer<typeof healthyHabitsValidator>;
 export type HealthyHabitsTrackingForm = {
   _id?: string;
   email: string;
-  bloodPressure: string;
 } & HealthyHabitsFormValues;
