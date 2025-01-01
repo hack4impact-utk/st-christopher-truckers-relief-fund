@@ -7,9 +7,9 @@ import dayjsUtil from "@/utils/dayjsUtil";
 
 type ModularBarChartProps = {
   trackingForms: HealthyHabitsTrackingForm[];
-  graphLabel?: string;
+  graphLabel: string;
   dataKey: keyof HealthyHabitsTrackingForm;
-  title?: string;
+  title: string;
 };
 
 type WeeklyDataPoint = {
@@ -69,7 +69,7 @@ export default function ModularBarChart({
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        {title || `Weekly ${graphLabel}`}
+        {title}
       </Typography>
       <BarChart
         xAxis={[
@@ -82,7 +82,7 @@ export default function ModularBarChart({
         series={[
           {
             data: weeklyData.map((item) => item.total),
-            label: graphLabel || "",
+            label: graphLabel,
             color: theme.palette.primary.main,
           },
         ]}

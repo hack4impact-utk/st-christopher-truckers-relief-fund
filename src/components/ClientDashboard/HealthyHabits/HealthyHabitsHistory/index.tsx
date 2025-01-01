@@ -32,7 +32,7 @@ export default function HealthyHabitsHistory({
       />
       <ModularLineChart
         trackingForms={trackingForms.filter((form) => form.bloodGlucose)}
-        graphLabel="Blood Glucose(when fasting) (mg/dL)"
+        graphLabel="Blood Glucose When Fasting (mg/dL)"
         dataKey="bloodGlucose"
         title="Blood Glucose"
       />

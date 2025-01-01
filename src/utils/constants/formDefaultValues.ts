@@ -96,7 +96,7 @@ export const programSpecificQuestionsSectionDefaultValues: ProgramSpecificQuesti
         hasGlucoseMonitor: false,
         hasA1cHomeTest: false,
         hasFitnessTracker: false,
-        hasBodyTapMeasure: false,
+        hasBodyTapeMeasure: false,
         hasResistanceBands: false,
         hasOtherExerciseEquipment: false,
         noneOfTheAbove: false,

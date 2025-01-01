@@ -7,9 +7,9 @@ import dayjsUtil from "@/utils/dayjsUtil";
 
 type ModularLineChartProps = {
   trackingForms: HealthyHabitsTrackingForm[];
-  graphLabel?: string;
+  graphLabel: string;
   dataKey: keyof HealthyHabitsTrackingForm;
-  title?: string;
+  title: string;
 };
 
 type RegularChartDataPoint = {
@@ -94,7 +94,7 @@ export default function ModularLineChart({
       series: [
         {
           data: chartData.map((item) => item.y),
-          label: graphLabel || "",
+          label: graphLabel,
           color: theme.palette.primary.main,
           curve: "linear",
         },
@@ -112,7 +112,7 @@ export default function ModularLineChart({
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        {title || graphLabel}
+        {title}
       </Typography>
       <LineChart
         xAxis={[
