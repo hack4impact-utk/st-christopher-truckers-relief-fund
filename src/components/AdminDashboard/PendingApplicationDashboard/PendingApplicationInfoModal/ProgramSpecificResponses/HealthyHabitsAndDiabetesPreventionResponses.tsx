@@ -155,10 +155,10 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
             isListItem={true}
           />
           <FormResponse
-            label="Body Tap Measure"
+            label="Body Tape Measure"
             value={
               programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-                .devices.hasBodyTapMeasure
+                .devices.hasBodyTapeMeasure
                 ? "Yes"
                 : "No"
             }

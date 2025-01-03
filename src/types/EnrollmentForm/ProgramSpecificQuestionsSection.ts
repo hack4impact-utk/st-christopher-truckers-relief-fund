@@ -49,7 +49,7 @@ export const programSpecificQuestionsSectionValidator = z
         hasGlucoseMonitor: z.boolean(),
         hasA1cHomeTest: z.boolean(),
         hasFitnessTracker: z.boolean(),
-        hasBodyTapMeasure: z.boolean(),
+        hasBodyTapeMeasure: z.boolean(),
         hasResistanceBands: z.boolean(),
         hasOtherExerciseEquipment: z.boolean(),
         noneOfTheAbove: z.boolean(),

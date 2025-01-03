@@ -93,7 +93,7 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
           hasGlucoseMonitor: Boolean,
           hasA1cHomeTest: Boolean,
           hasFitnessTracker: Boolean,
-          hasBodyTapMeasure: Boolean,
+          hasBodyTapeMeasure: Boolean,
           hasResistanceBands: Boolean,
           hasOtherExerciseEquipment: Boolean,
           noneOfTheAbove: Boolean,

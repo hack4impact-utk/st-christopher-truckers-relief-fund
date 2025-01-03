@@ -490,13 +490,13 @@ export default function HealthyHabitsProgramSpecificQuestions({
       />
 
       <Controller
-        name="healthyHabitsAndDiabetesPrevention.devices.hasBodyTapMeasure"
+        name="healthyHabitsAndDiabetesPrevention.devices.hasBodyTapeMeasure"
         control={control}
         render={({ field }) => (
           <>
             <FormControlLabel
               control={<Checkbox {...field} checked={field.value} />}
-              label="Body Tap Measure"
+              label="Body Tape Measure"
             />
           </>
         )}
