@@ -52,10 +52,14 @@ export default function HealthyHabitsHistory({
       />
 
       <ModularLineChart
-        trackingForms={trackingForms.filter((form) => form.bloodPressure)}
-        graphLabel="Blood Pressure (mmHg)"
-        dataKey="bloodPressure"
-        title="Blood Pressure"
+        trackingForms={trackingForms.filter(
+          (form) => form.systolicBloodPressure && form.diastolicBloodPressure,
+        )}
+        graphLabel="Systolic"
+        secondaryLabel="Diastolic"
+        dataKey="systolicBloodPressure"
+        dataKey2="diastolicBloodPressure"
+        title="Blood Pressure (mmHg)"
       />
 
       <ModularBarChart
@@ -64,6 +68,27 @@ export default function HealthyHabitsHistory({
         dataKey="movementMinutes"
         title="Movement Minutes"
       />
+
+      {/* <ModularBarChart
+        trackingForms={trackingForms.filter((form) => form.sleepQuality)}
+        graphLabel="Sleep Quality"
+        dataKey="sleepQuality"
+        title="Sleep Quality"
+      />
+
+      <ModularBarChart
+        trackingForms={trackingForms.filter((form) => form.energyLevel)}
+        graphLabel="Energy Level"
+        dataKey="energyLevel"
+        title="Energy Level"
+      />
+
+      <ModularBarChart
+        trackingForms={trackingForms.filter((form) => form.emotionalHealth)}
+        graphLabel="Emotional Health"
+        dataKey="emotionalHealth"
+        title="Emotional Health"
+      /> */}
     </Box>
   );
 }

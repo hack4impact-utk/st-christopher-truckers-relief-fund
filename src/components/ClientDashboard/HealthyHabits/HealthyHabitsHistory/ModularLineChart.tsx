@@ -9,22 +9,19 @@ type ModularLineChartProps = {
   trackingForms: HealthyHabitsTrackingForm[];
   graphLabel: string;
   dataKey: keyof HealthyHabitsTrackingForm;
+  dataKey2?: keyof HealthyHabitsTrackingForm;
   title: string;
+  secondaryLabel?: string;
 };
 
 type RegularChartDataPoint = {
   x: Date;
   y: number;
-};
-
-type BloodPressureChartDataPoint = {
-  x: Date;
-  systolic: number;
-  diastolic: number;
+  y2?: number;
 };
 
 type ChartConfig = {
-  chartData: RegularChartDataPoint[] | BloodPressureChartDataPoint[];
+  chartData: RegularChartDataPoint[];
   series: {
     data: number[];
     label: string;
@@ -37,16 +34,11 @@ export default function ModularLineChart({
   trackingForms,
   graphLabel,
   dataKey,
+  dataKey2,
+  secondaryLabel,
   title,
 }: ModularLineChartProps) {
   const theme = useTheme();
-
-  const parseBloodPressure = (
-    bp: string,
-  ): { systolic: number; diastolic: number } => {
-    const [systolic, diastolic] = bp.split("/").map((num) => parseInt(num, 10));
-    return { systolic, diastolic };
-  };
 
   const getChartDataAndSeries = (): ChartConfig => {
     const sortedData = trackingForms.sort((a, b) =>
@@ -55,50 +47,33 @@ export default function ModularLineChart({
       ),
     );
 
-    const isBloodPressure = dataKey === "bloodPressure";
-
-    if (isBloodPressure) {
-      const chartData: BloodPressureChartDataPoint[] = sortedData.map(
-        (entry) => ({
-          x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
-          ...parseBloodPressure(entry[dataKey] as string),
-        }),
-      );
-
-      return {
-        chartData,
-        series: [
-          {
-            data: chartData.map((item) => item.systolic),
-            label: "Systolic",
-            color: theme.palette.primary.main,
-            curve: "linear",
-          },
-          {
-            data: chartData.map((item) => item.diastolic),
-            label: "Diastolic",
-            color: theme.palette.info.main,
-            curve: "linear",
-          },
-        ],
-      };
-    }
-
     const chartData: RegularChartDataPoint[] = sortedData.map((entry) => ({
       x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
       y: entry[dataKey] as number,
+      ...(dataKey2 && { y2: entry[dataKey2] as number }),
     }));
+
+    const series = [
+      {
+        data: chartData.map((item) => item.y),
+        label: graphLabel,
+        color: theme.palette.primary.main,
+        curve: "linear" as const,
+      },
+    ];
+
+    if (dataKey2 && secondaryLabel) {
+      series.push({
+        data: chartData.map((item) => item.y2!),
+        label: secondaryLabel,
+        color: theme.palette.info.main,
+        curve: "linear",
+      });
+    }
 
     return {
       chartData,
-      series: [
-        {
-          data: chartData.map((item) => item.y),
-          label: graphLabel,
-          color: theme.palette.primary.main,
-          curve: "linear",
-        },
-      ],
+      series,
     };
   };
 
@@ -120,7 +95,8 @@ export default function ModularLineChart({
             data: chartData.map((item) => item.x),
             label: "Date",
             scaleType: "time",
-            valueFormatter: (value) => dayjsUtil(value).format("MM/DD/YYYY"),
+            valueFormatter: (value) =>
+              `Week of ${dayjsUtil(value).format("MM/DD/YYYY")}`,
             tickInterval: chartData.map((item) => item.x),
           },
         ]}
