@@ -1,6 +1,8 @@
+import { getHealthyHabitsTrackingForm } from "@/server/api/healthy-habits-tracking-forms/queries";
 import dbConnect from "@/server/dbConnect";
 import { HealthyHabitsTrackingFormModel } from "@/server/models";
 import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
+import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 export async function createHealthyHabitsTrackingForm(
@@ -9,6 +11,20 @@ export async function createHealthyHabitsTrackingForm(
   await dbConnect();
 
   try {
+    const [existingHealthyHabitsTrackingForm] =
+      await getHealthyHabitsTrackingForm({
+        email: healthyHabitsTrackingForm.email,
+        submittedDate: healthyHabitsTrackingForm.submittedDate,
+      });
+
+    if (existingHealthyHabitsTrackingForm) {
+      return [
+        null,
+        apiErrors.healthyHabitsTrackingForm
+          .healthyHabitsTrackingFormAlreadyExists,
+      ];
+    }
+
     const newHealthyHabitsTrackingFormDocument =
       await HealthyHabitsTrackingFormModel.create(healthyHabitsTrackingForm);
 
