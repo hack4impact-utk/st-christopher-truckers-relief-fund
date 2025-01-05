@@ -9,7 +9,10 @@ import {
   FormControl,
   FormControlLabel,
   FormHelperText,
+  FormLabel,
   InputAdornment,
+  Radio,
+  RadioGroup,
   Snackbar,
   Typography,
 } from "@mui/material";
@@ -70,6 +73,9 @@ export default function HealthyHabitsTracking({
       a1c: 0,
       cholesterol: 0,
       qualitativeGoals: "",
+      sleepRanking: 1,
+      energyRanking: 1,
+      emotionalHealthRanking: 1,
     },
   });
 
@@ -426,6 +432,104 @@ export default function HealthyHabitsTracking({
             rows={3}
             required
           />
+
+          <Divider />
+
+          <Typography variant="h6">Self Assessment</Typography>
+          <Typography>
+            For each question, rank your overall health in various categories. A
+            1 is the worst score and a 5 is the best score.
+          </Typography>
+
+          <FormControl
+            error={!!errors.sleepRanking?.message}
+            sx={{ width: "100%" }}
+          >
+            <FormLabel>
+              On a scale of 1-5, rank your overall health when it comes to
+              sleep:
+            </FormLabel>
+            <Controller
+              name="sleepRanking"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  {...field}
+                  value={field.value.toString()}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                >
+                  <FormControlLabel value="1" control={<Radio />} label="1" />
+                  <FormControlLabel value="2" control={<Radio />} label="2" />
+                  <FormControlLabel value="3" control={<Radio />} label="3" />
+                  <FormControlLabel value="4" control={<Radio />} label="4" />
+                  <FormControlLabel value="5" control={<Radio />} label="5" />
+                </RadioGroup>
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }}>
+              {errors.sleepRanking?.message}
+            </FormHelperText>
+          </FormControl>
+
+          <FormControl
+            error={!!errors.energyRanking?.message}
+            sx={{ width: "100%" }}
+          >
+            <FormLabel>
+              On a scale of 1-5, rank your overall health when it comes to
+              energy:
+            </FormLabel>
+            <Controller
+              name="energyRanking"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  {...field}
+                  value={field.value.toString()}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                >
+                  <FormControlLabel value="1" control={<Radio />} label="1" />
+                  <FormControlLabel value="2" control={<Radio />} label="2" />
+                  <FormControlLabel value="3" control={<Radio />} label="3" />
+                  <FormControlLabel value="4" control={<Radio />} label="4" />
+                  <FormControlLabel value="5" control={<Radio />} label="5" />
+                </RadioGroup>
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }}>
+              {errors.energyRanking?.message}
+            </FormHelperText>
+          </FormControl>
+
+          <FormControl
+            error={!!errors.emotionalHealthRanking?.message}
+            sx={{ width: "100%" }}
+          >
+            <FormLabel>
+              On a scale of 1-5, rank your overall health when it comes to
+              emotional health:
+            </FormLabel>
+            <Controller
+              name="emotionalHealthRanking"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  {...field}
+                  value={field.value.toString()}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                >
+                  <FormControlLabel value="1" control={<Radio />} label="1" />
+                  <FormControlLabel value="2" control={<Radio />} label="2" />
+                  <FormControlLabel value="3" control={<Radio />} label="3" />
+                  <FormControlLabel value="4" control={<Radio />} label="4" />
+                  <FormControlLabel value="5" control={<Radio />} label="5" />
+                </RadioGroup>
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }}>
+              {errors.emotionalHealthRanking?.message}
+            </FormHelperText>
+          </FormControl>
 
           {/* Submit */}
           <LoadingButton

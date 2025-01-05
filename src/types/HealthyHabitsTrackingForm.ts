@@ -22,6 +22,9 @@ export const healthyHabitsValidator = z.object({
   a1c: z.number().int().positive(),
   cholesterol: z.number().int().positive(),
   qualitativeGoals: z.string(),
+  sleepRanking: z.number().int().min(1).max(5),
+  energyRanking: z.number().int().min(1).max(5),
+  emotionalHealthRanking: z.number().int().min(1).max(5),
 });
 
 export type HealthyHabitsFormValues = z.infer<typeof healthyHabitsValidator>;

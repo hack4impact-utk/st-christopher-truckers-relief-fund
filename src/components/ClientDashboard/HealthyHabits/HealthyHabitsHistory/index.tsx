@@ -69,26 +69,28 @@ export default function HealthyHabitsHistory({
         title="Movement Minutes"
       />
 
-      {/* <ModularBarChart
-        trackingForms={trackingForms.filter((form) => form.sleepQuality)}
+      <ModularBarChart
+        trackingForms={trackingForms.filter((form) => form.sleepRanking)}
         graphLabel="Sleep Quality"
-        dataKey="sleepQuality"
+        dataKey="sleepRanking"
         title="Sleep Quality"
       />
 
       <ModularBarChart
-        trackingForms={trackingForms.filter((form) => form.energyLevel)}
+        trackingForms={trackingForms.filter((form) => form.energyRanking)}
         graphLabel="Energy Level"
-        dataKey="energyLevel"
+        dataKey="energyRanking"
         title="Energy Level"
       />
 
       <ModularBarChart
-        trackingForms={trackingForms.filter((form) => form.emotionalHealth)}
+        trackingForms={trackingForms.filter(
+          (form) => form.emotionalHealthRanking,
+        )}
         graphLabel="Emotional Health"
-        dataKey="emotionalHealth"
+        dataKey="emotionalHealthRanking"
         title="Emotional Health"
-      /> */}
+      />
     </Box>
   );
 }

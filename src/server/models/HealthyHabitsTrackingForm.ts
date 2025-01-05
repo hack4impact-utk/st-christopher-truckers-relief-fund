@@ -26,6 +26,9 @@ const HealthyHabitsTrackingFormSchema = new Schema<HealthyHabitsTrackingForm>(
     a1c: { type: Number, required: true },
     cholesterol: { type: Number, required: true },
     qualitativeGoals: { type: String, required: true },
+    sleepRanking: { type: Number, required: true },
+    energyRanking: { type: Number, required: true },
+    emotionalHealthRanking: { type: Number, required: true },
   },
   { versionKey: false },
 );
