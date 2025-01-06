@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -16,8 +16,6 @@ export default async function Home() {
       case "client":
         redirect("/dashboard/client");
         break;
-      default:
-        return <Typography>Invalid role: {session.user.role}</Typography>;
     }
   }
 

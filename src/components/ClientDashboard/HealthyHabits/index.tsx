@@ -5,19 +5,15 @@ import { useState } from "react";
 import HealthyHabitsHistory from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory";
 import HealthyHabitsInfo from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsInfo";
 import HealthyHabitsTracking from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsTracking";
-import { HealthyHabitsTrackingForm } from "@/types";
+import { ClientUser } from "@/types";
 
 type HealthyHabitsSections = "tracking" | "history" | "info";
 
 type HealthyHabitsProps = {
-  email: string;
-  trackingForms: HealthyHabitsTrackingForm[];
+  user: ClientUser;
 };
 
-export default function HealthyHabits({
-  email,
-  trackingForms,
-}: HealthyHabitsProps) {
+export default function HealthyHabits({ user }: HealthyHabitsProps) {
   const [selectedSection, setSelectedSection] =
     useState<HealthyHabitsSections>("tracking");
 
@@ -31,9 +27,13 @@ export default function HealthyHabits({
   function getSectionContent(section: HealthyHabitsSections) {
     switch (section) {
       case "tracking":
-        return <HealthyHabitsTracking email={email} />;
+        return <HealthyHabitsTracking user={user} />;
       case "history":
-        return <HealthyHabitsHistory trackingForms={trackingForms} />;
+        return (
+          <HealthyHabitsHistory
+            trackingForms={user.healthyHabitsTrackingForms}
+          />
+        );
       case "info":
         return <HealthyHabitsInfo />;
       default:

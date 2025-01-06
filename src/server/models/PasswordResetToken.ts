@@ -4,11 +4,11 @@ import { PasswordResetToken } from "@/types";
 
 const PasswordResetTokenSchema = new Schema<PasswordResetToken>(
   {
-    token: {
+    userId: {
       type: String,
       required: true,
     },
-    userId: {
+    token: {
       type: String,
       required: true,
     },

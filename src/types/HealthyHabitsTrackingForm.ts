@@ -1,5 +1,7 @@
 import z from "zod";
 
+import { User } from "@/types";
+
 export const healthyHabitsValidator = z.object({
   submittedDate: z.string(),
   healthConditions: z.string(),
@@ -31,5 +33,5 @@ export type HealthyHabitsFormValues = z.infer<typeof healthyHabitsValidator>;
 
 export type HealthyHabitsTrackingForm = {
   _id?: string;
-  email: string;
+  user: User;
 } & HealthyHabitsFormValues;

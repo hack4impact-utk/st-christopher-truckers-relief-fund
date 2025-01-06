@@ -1,9 +1,10 @@
 import { getHealthyHabitsTrackingForm } from "@/server/api/healthy-habits-tracking-forms/queries";
 import dbConnect from "@/server/dbConnect";
-import { HealthyHabitsTrackingFormModel } from "@/server/models";
+import { HealthyHabitsTrackingFormModel, UserModel } from "@/server/models";
 import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function createHealthyHabitsTrackingForm(
   healthyHabitsTrackingForm: HealthyHabitsTrackingForm,
@@ -12,10 +13,10 @@ export async function createHealthyHabitsTrackingForm(
 
   try {
     const [existingHealthyHabitsTrackingForm] =
-      await getHealthyHabitsTrackingForm({
-        email: healthyHabitsTrackingForm.email,
-        submittedDate: healthyHabitsTrackingForm.submittedDate,
-      });
+      await getHealthyHabitsTrackingForm(
+        healthyHabitsTrackingForm.user.email,
+        healthyHabitsTrackingForm.submittedDate,
+      );
 
     if (existingHealthyHabitsTrackingForm) {
       return [
@@ -28,13 +29,17 @@ export async function createHealthyHabitsTrackingForm(
     const newHealthyHabitsTrackingFormDocument =
       await HealthyHabitsTrackingFormModel.create(healthyHabitsTrackingForm);
 
-    // convert ObjectId to string
     const newHealthyHabitsTrackingForm =
       newHealthyHabitsTrackingFormDocument.toObject();
-    newHealthyHabitsTrackingForm._id = String(newHealthyHabitsTrackingForm._id);
 
-    return [newHealthyHabitsTrackingForm, null];
+    // Update the User's healthyHabitsTrackingForms array with the new form ID
+    await UserModel.findByIdAndUpdate(healthyHabitsTrackingForm.user._id, {
+      $push: { healthyHabitsTrackingForms: newHealthyHabitsTrackingForm._id },
+    });
+
+    return [serializeMongooseObject(newHealthyHabitsTrackingForm), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }

@@ -3,57 +3,50 @@ import { UserModel } from "@/server/models";
 import { ApiResponse, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 type UserFilters = Partial<User>;
 
-async function getUsers(filters: UserFilters): Promise<ApiResponse<User[]>> {
+type UserPopulateOptions = {
+  populateHealthyHabitsTrackingForms?: boolean;
+  populateProgramEnrollments?: boolean;
+};
+
+async function getUser(
+  filters: UserFilters,
+  options?: UserPopulateOptions,
+): Promise<ApiResponse<User>> {
   await dbConnect();
 
   try {
-    const users = await UserModel.find(filters).lean<User[]>().exec();
+    const userQuery = UserModel.findOne(filters);
 
-    if (!users) {
-      return [null, apiErrors.user.userNotFound];
+    if (options?.populateHealthyHabitsTrackingForms) {
+      userQuery.populate("healthyHabitsTrackingForms");
     }
 
-    // convert ObjectId to string
-    users.forEach((user) => {
-      user._id = String(user._id);
-    });
+    if (options?.populateProgramEnrollments) {
+      userQuery.populate("programEnrollments");
+    }
 
-    return [users, null];
-  } catch (error) {
-    return [null, handleMongooseError(error)];
-  }
-}
-
-async function getUser(filters: UserFilters): Promise<ApiResponse<User>> {
-  await dbConnect();
-
-  try {
-    const user = await UserModel.findOne(filters).lean<User>().exec();
+    const user = await userQuery.lean<User>().exec();
 
     if (!user) {
       return [null, apiErrors.user.userNotFound];
     }
 
-    // convert ObjectId to string
-    user._id = String(user._id);
-
-    return [user, null];
+    return [serializeMongooseObject(user), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }
 
-export async function getAllUsers(): Promise<ApiResponse<User[]>> {
-  return getUsers({});
-}
-
 export async function getUserByEmail(
   email: string,
+  options?: UserPopulateOptions,
 ): Promise<ApiResponse<User>> {
-  return getUser({ email });
+  return getUser({ email }, options);
 }
 
 export async function getUserById(id: string): Promise<ApiResponse<User>> {

@@ -4,11 +4,11 @@ import { EmailVerificationToken } from "@/types";
 
 const EmailVerificationTokenSchema = new Schema<EmailVerificationToken>(
   {
-    token: {
+    userId: {
       type: String,
       required: true,
     },
-    userId: {
+    token: {
       type: String,
       required: true,
     },

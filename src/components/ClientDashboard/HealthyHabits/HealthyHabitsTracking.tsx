@@ -24,6 +24,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handleHealthyHabitsTrackingFormSubmission } from "@/server/api/healthy-habits-tracking-forms/public-mutations";
+import { ClientUser } from "@/types";
 import {
   HealthyHabitsFormValues,
   HealthyHabitsTrackingForm,
@@ -34,11 +35,11 @@ import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
 type HealthyHabitsTrackingFormProps = {
-  email: string;
+  user: ClientUser;
 };
 
 export default function HealthyHabitsTracking({
-  email,
+  user,
 }: HealthyHabitsTrackingFormProps) {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -84,7 +85,7 @@ export default function HealthyHabitsTracking({
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
-      email,
+      user,
     };
 
     const [, error] = await handleHealthyHabitsTrackingFormSubmission(

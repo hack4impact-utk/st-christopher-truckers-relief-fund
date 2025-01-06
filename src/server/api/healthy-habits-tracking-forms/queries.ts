@@ -1,41 +1,32 @@
+import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { HealthyHabitsTrackingFormModel } from "@/server/models";
 import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
-
-type HealthyHabitsTrackingFormFilters = Partial<HealthyHabitsTrackingForm>;
-
-async function getHealthyHabitsTrackingForms(
-  filters: HealthyHabitsTrackingFormFilters,
-): Promise<ApiResponse<HealthyHabitsTrackingForm[]>> {
-  await dbConnect();
-
-  try {
-    const healthyHabitsTrackingForms =
-      await HealthyHabitsTrackingFormModel.find(filters)
-        .lean<HealthyHabitsTrackingForm[]>()
-        .exec();
-
-    // convert ObjectId to string
-    healthyHabitsTrackingForms.forEach((healthyHabitsTrackingForm) => {
-      healthyHabitsTrackingForm._id = String(healthyHabitsTrackingForm._id);
-    });
-
-    return [healthyHabitsTrackingForms, null];
-  } catch (error) {
-    return [null, handleMongooseError(error)];
-  }
-}
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getHealthyHabitsTrackingForm(
-  filters: HealthyHabitsTrackingFormFilters,
+  email: string,
+  submittedDate: string,
 ): Promise<ApiResponse<HealthyHabitsTrackingForm>> {
   await dbConnect();
 
   try {
+    const [user] = await getUserByEmail(email);
+
+    if (!user) {
+      return [
+        null,
+        apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormNotFound,
+      ];
+    }
+
     const healthyHabitsTrackingForm =
-      await HealthyHabitsTrackingFormModel.findOne(filters)
+      await HealthyHabitsTrackingFormModel.findOne({
+        user: user._id,
+        submittedDate,
+      })
         .lean<HealthyHabitsTrackingForm>()
         .exec();
 
@@ -46,15 +37,9 @@ export async function getHealthyHabitsTrackingForm(
       ];
     }
 
-    // convert ObjectId to string
-    healthyHabitsTrackingForm._id = String(healthyHabitsTrackingForm._id);
-
-    return [healthyHabitsTrackingForm, null];
+    return [serializeMongooseObject(healthyHabitsTrackingForm), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
-}
-
-export async function getHealthyHabitsTrackingFormsByEmail(email: string) {
-  return getHealthyHabitsTrackingForms({ email });
 }

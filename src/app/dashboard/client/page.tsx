@@ -3,7 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramSelectionScreen.tsx";
-import { getClientActivePrograms } from "@/server/api/program-enrollments/queries";
+import { getUserByEmail } from "@/server/api/users/queries";
+import { ClientUser } from "@/types";
 import getUserSession from "@/utils/getUserSession";
 
 export default async function ClientDashboardPage() {
@@ -13,9 +14,9 @@ export default async function ClientDashboardPage() {
     redirect("/");
   }
 
-  const clientEmail = session.user.email;
-  const [programEnrollments, error] =
-    await getClientActivePrograms(clientEmail);
+  const [user, error] = await getUserByEmail(session.user.email, {
+    populateProgramEnrollments: true,
+  });
 
   if (error !== null) {
     return (
@@ -34,6 +35,10 @@ export default async function ClientDashboardPage() {
       </Box>
     );
   }
+
+  const programEnrollments = (user as ClientUser).programEnrollments.filter(
+    (programEnrollment) => programEnrollment.status === "accepted",
+  );
 
   if (programEnrollments.length === 0) {
     return (

@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
 import getUserSession from "@/utils/getUserSession";
@@ -17,7 +16,5 @@ export default async function SettingsPage() {
     case "client":
       redirect("/settings/client");
       break;
-    default:
-      return <Typography>Invalid role: {session.user.role}</Typography>;
   }
 }

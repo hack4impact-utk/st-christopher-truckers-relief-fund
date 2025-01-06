@@ -31,14 +31,12 @@ export async function createEmailVerificationToken(
     const newEmailVerificationTokenDocument =
       await EmailVerificationTokenModel.create(emailVerificationToken);
 
-    // convert ObjectId to string
     const newEmailVerificationToken =
       newEmailVerificationTokenDocument.toObject();
 
-    newEmailVerificationToken._id = String(newEmailVerificationToken._id);
-
     return [newEmailVerificationToken, null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }
@@ -63,6 +61,7 @@ export async function deleteEmailVerificationToken(
 
     return [null, null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }

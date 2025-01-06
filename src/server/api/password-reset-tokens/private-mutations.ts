@@ -4,6 +4,7 @@ import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function createPasswordResetToken(
   token: string,
@@ -35,11 +36,9 @@ export async function createPasswordResetToken(
 
     const passwordResetToken = newPasswordResetTokenDocument.toObject();
 
-    // convert ObjectId to string
-    passwordResetToken._id = String(passwordResetToken._id);
-
-    return [passwordResetToken, null];
+    return [serializeMongooseObject(passwordResetToken), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }
@@ -60,6 +59,7 @@ export async function deletePasswordResetToken(
 
     return [null, null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }

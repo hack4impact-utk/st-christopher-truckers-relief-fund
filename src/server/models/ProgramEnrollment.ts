@@ -4,21 +4,18 @@ import { ProgramEnrollment } from "@/types";
 
 const ProgramEnrollmentSchema = new Schema<ProgramEnrollment>(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     status: {
       type: String,
+      enum: ["pending", "accepted", "rejected"],
       required: true,
     },
     program: {
       type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    enrollmentForm: {
-      type: Schema.Types.ObjectId,
-      ref: "EnrollmentForm",
       required: true,
     },
     dateEnrolled: {

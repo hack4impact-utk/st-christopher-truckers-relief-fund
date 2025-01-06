@@ -2,7 +2,8 @@ import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
 import HealthyHabits from "@/components/ClientDashboard/HealthyHabits";
-import { getHealthyHabitsTrackingFormsByEmail } from "@/server/api/healthy-habits-tracking-forms/queries";
+import { getUserByEmail } from "@/server/api/users/queries";
+import { ClientUser } from "@/types";
 import getUserSession from "@/utils/getUserSession";
 
 export default async function HealthyHabitsPage() {
@@ -12,9 +13,9 @@ export default async function HealthyHabitsPage() {
     redirect("/");
   }
 
-  const [trackingForms, error] = await getHealthyHabitsTrackingFormsByEmail(
-    session.user.email,
-  );
+  const [user, error] = await getUserByEmail(session.user.email, {
+    populateHealthyHabitsTrackingForms: true,
+  });
 
   if (error !== null) {
     return (
@@ -45,7 +46,7 @@ export default async function HealthyHabitsPage() {
         padding: 1,
       }}
     >
-      <HealthyHabits email={session.user.email} trackingForms={trackingForms} />
+      <HealthyHabits user={user as ClientUser} />
     </Box>
   );
 }
