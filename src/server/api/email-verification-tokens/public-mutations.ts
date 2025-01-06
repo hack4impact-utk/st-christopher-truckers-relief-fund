@@ -5,7 +5,9 @@ import { sendEmailVerificationEmail } from "@/server/api/emails/private-mutation
 import { getUserByEmail } from "@/server/api/users/queries";
 import { EmailVerificationToken } from "@/types";
 
-export async function handleEmailVerificationTokenRequest(email: string) {
+export async function handleEmailVerificationTokenRequest(
+  email: string,
+): Promise<void> {
   const [user, userError] = await getUserByEmail(email);
 
   if (userError !== null) {

@@ -8,7 +8,7 @@ import { useState } from "react";
 import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
 import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal";
 import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
-import { EnrollmentForm, Program, ProgramEnrollment } from "@/types";
+import { ClientUser, Program, ProgramEnrollment } from "@/types";
 
 export type Row = {
   id?: string;
@@ -17,23 +17,21 @@ export type Row = {
   phoneNumber: string;
   email: string;
   program: Program;
-  enrollmentForm: EnrollmentForm;
+  programEnrollment: ProgramEnrollment;
 };
 
 const createRowFromProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
 ): Row => {
+  const user = programEnrollment.user as ClientUser;
   return {
     id: programEnrollment._id,
-    lastName:
-      programEnrollment.enrollmentForm.generalInformationSection.lastName,
-    firstName:
-      programEnrollment.enrollmentForm.generalInformationSection.firstName,
-    phoneNumber:
-      programEnrollment.enrollmentForm.generalInformationSection.phoneNumber,
-    email: programEnrollment.email,
+    lastName: user.enrollmentForm.generalInformationSection.lastName,
+    firstName: user.enrollmentForm.generalInformationSection.firstName,
+    phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
+    email: user.email,
     program: programEnrollment.program,
-    enrollmentForm: programEnrollment.enrollmentForm,
+    programEnrollment: programEnrollment,
   };
 };
 
@@ -87,6 +85,7 @@ export default function PendingApplicationDashboard({
       minWidth: 350,
       flex: 1,
       renderCell: (params) => {
+        const user = params.row.programEnrollment.user as ClientUser;
         return (
           <>
             <Box
@@ -98,28 +97,21 @@ export default function PendingApplicationDashboard({
               }}
             >
               <AcceptPendingApplicationButton
-                email={
-                  params.row.enrollmentForm.generalInformationSection.email
-                }
-                firstName={params.row.firstName}
-                program={params.row.program}
+                programEnrollment={params.row.programEnrollment}
                 rows={rows}
                 setRows={setRows}
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarMessage={setSnackbarMessage}
               />
               <RejectPendingApplicationButton
-                email={
-                  params.row.enrollmentForm.generalInformationSection.email
-                }
-                program={params.row.program}
+                programEnrollment={params.row.programEnrollment}
                 rows={rows}
                 setRows={setRows}
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarMessage={setSnackbarMessage}
               />
               <PendingApplicationInfoModal
-                enrollmentForm={params.row.enrollmentForm}
+                enrollmentForm={user.enrollmentForm}
               />
             </Box>
           </>

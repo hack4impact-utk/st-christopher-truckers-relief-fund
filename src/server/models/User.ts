@@ -32,6 +32,22 @@ const UserSchema = new Schema<User>(
       type: Boolean,
       required: true,
     },
+    enrollmentForm: {
+      type: Schema.Types.ObjectId,
+      ref: "EnrollmentForm",
+    },
+    programEnrollments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "ProgramEnrollment",
+      },
+    ],
+    healthyHabitsTrackingForms: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "HealthyHabitsTrackingForm",
+      },
+    ],
   },
   { versionKey: false },
 );

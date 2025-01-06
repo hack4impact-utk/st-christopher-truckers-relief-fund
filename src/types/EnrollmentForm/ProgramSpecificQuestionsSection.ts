@@ -152,6 +152,7 @@ export const programSpecificQuestionsSectionValidator = z
     const hasOptedInToHealthyHabits = val.hasOptedInToHealthyHabits;
     const hasOptedInToDiabetesPrevention = val.hasOptedInToDiabetesPrevention;
     const hasOptedInToRigsWithoutCigs = val.hasOptedInToRigsWithoutCigs;
+    const hasOptedInToVaccineVoucher = val.hasOptedInToVaccineVoucher;
     const hasOptedInToGetPreventativeScreenings =
       val.hasOptedInToGetPreventativeScreenings;
 
@@ -172,8 +173,8 @@ export const programSpecificQuestionsSectionValidator = z
       }
 
       if (
-        val.healthyHabitsAndDiabetesPrevention.heightInches <= 0 ||
-        val.healthyHabitsAndDiabetesPrevention.heightInches > 12
+        val.healthyHabitsAndDiabetesPrevention.heightInches < 0 ||
+        val.healthyHabitsAndDiabetesPrevention.heightInches >= 12
       ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -241,6 +242,21 @@ export const programSpecificQuestionsSectionValidator = z
           "US",
         ).number.toString();
         val.rigsWithoutCigs.accountabilityPerson.phoneNumber = phoneNumber;
+      }
+    }
+
+    if (hasOptedInToVaccineVoucher) {
+      if (
+        val.vaccineVoucher.vaccines.wantsFluVaccine === false &&
+        val.vaccineVoucher.vaccines.wantsPneumoniaVaccine === false &&
+        val.vaccineVoucher.vaccines.wantsShinglesVaccine === false &&
+        val.vaccineVoucher.vaccines.wantsCovid19Vaccine === false
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "You must select at least one vaccine",
+          path: ["vaccineVoucher", "vaccines", "wantsFluVaccine"],
+        });
       }
     }
 

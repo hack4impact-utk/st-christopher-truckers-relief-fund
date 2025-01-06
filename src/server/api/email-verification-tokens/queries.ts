@@ -3,6 +3,7 @@ import { EmailVerificationTokenModel } from "@/server/models";
 import { ApiResponse, EmailVerificationToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getEmailVerificationTokenByToken(
   token: string,
@@ -23,11 +24,9 @@ export async function getEmailVerificationTokenByToken(
       ];
     }
 
-    // convert ObjectId to string
-    emailVerificationToken._id = String(emailVerificationToken._id);
-
-    return [emailVerificationToken, null];
+    return [serializeMongooseObject(emailVerificationToken), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }

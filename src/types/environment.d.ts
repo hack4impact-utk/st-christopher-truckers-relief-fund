@@ -9,6 +9,7 @@ declare global {
       SCF_GMAIL: string;
       SCF_GMAIL_APP_PASSWORD: string;
       BASE_URL: string;
+      ADMIN_CREATION_KEY: string;
     }
   }
 }

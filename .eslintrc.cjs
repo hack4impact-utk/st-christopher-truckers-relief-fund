@@ -27,7 +27,7 @@ module.exports = {
   rules: {
     // formatting / style rules
     "prettier/prettier": "warn",
-    "no-console": "error",
+    "no-console": ["error", { allow: ["error"] }],
     camelcase: "warn",
     "react/function-component-definition": [
       "error",

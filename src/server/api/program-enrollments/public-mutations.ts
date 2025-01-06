@@ -6,72 +6,13 @@ import {
 } from "@/server/api/emails/private-mutations";
 import {
   approveProgramEnrollment,
-  createProgramEnrollment,
   rejectProgramEnrollment,
 } from "@/server/api/program-enrollments/private-mutations";
-import { EnrollmentForm, Program } from "@/types";
+import { ProgramEnrollment } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
-import dayjsUtil from "@/utils/dayjsUtil";
-
-export async function createProgramEnrollmentsFromEnrollmentForm(
-  enrollmentForm: EnrollmentForm,
-) {
-  if (enrollmentForm.programSelectionSection.optedInToHealthyHabits) {
-    await createProgramEnrollment({
-      program: "Healthy Habits For The Long Haul",
-      status: "pending",
-      email: enrollmentForm.generalInformationSection.email,
-      enrollmentForm,
-      dateEnrolled: dayjsUtil().utc().toISOString(),
-    });
-  }
-
-  if (enrollmentForm.programSelectionSection.optedInToDiabetesPrevention) {
-    await createProgramEnrollment({
-      program: "Diabetes Prevention",
-      status: "pending",
-      email: enrollmentForm.generalInformationSection.email,
-      enrollmentForm,
-      dateEnrolled: dayjsUtil().utc().toISOString(),
-    });
-  }
-
-  if (enrollmentForm.programSelectionSection.optedInToRigsWithoutCigs) {
-    await createProgramEnrollment({
-      program: "Rigs Without Cigs",
-      status: "pending",
-      email: enrollmentForm.generalInformationSection.email,
-      enrollmentForm,
-      dateEnrolled: dayjsUtil().utc().toISOString(),
-    });
-  }
-
-  if (enrollmentForm.programSelectionSection.optedInToVaccineVoucher) {
-    await createProgramEnrollment({
-      program: "Vaccine Voucher",
-      status: "pending",
-      email: enrollmentForm.generalInformationSection.email,
-      enrollmentForm,
-      dateEnrolled: dayjsUtil().utc().toISOString(),
-    });
-  }
-
-  if (
-    enrollmentForm.programSelectionSection.optedInToGetPreventativeScreenings
-  ) {
-    await createProgramEnrollment({
-      program: "GPS (Get Preventative Screenings)",
-      status: "pending",
-      email: enrollmentForm.generalInformationSection.email,
-      enrollmentForm,
-      dateEnrolled: dayjsUtil().utc().toISOString(),
-    });
-  }
-}
 
 export async function handleRejectProgramApplication(
-  email: string,
-  program: Program,
+  programEnrollment: ProgramEnrollment,
   reason: string,
 ) {
   const [, authError] = await authenticateServerFunction("admin");
@@ -80,14 +21,16 @@ export async function handleRejectProgramApplication(
     return [null, authError];
   }
 
-  await rejectProgramEnrollment(email, program);
-  await sendRejectionEmail(email, program, reason);
+  await rejectProgramEnrollment(programEnrollment);
+  await sendRejectionEmail(
+    programEnrollment.user.email,
+    programEnrollment.program,
+    reason,
+  );
 }
 
 export async function handleApproveProgramApplication(
-  email: string,
-  firstName: string,
-  program: Program,
+  programEnrollment: ProgramEnrollment,
 ) {
   const [, authError] = await authenticateServerFunction("admin");
 
@@ -95,6 +38,10 @@ export async function handleApproveProgramApplication(
     return [null, authError];
   }
 
-  await approveProgramEnrollment(email, program);
-  await sendWelcomeEmail(email, firstName, program);
+  await approveProgramEnrollment(programEnrollment);
+  await sendWelcomeEmail(
+    programEnrollment.user.email,
+    programEnrollment.user.firstName,
+    programEnrollment.program,
+  );
 }

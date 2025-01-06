@@ -6,12 +6,10 @@ import React, { Dispatch, SetStateAction } from "react";
 
 import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
 import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
-import { Program } from "@/types";
+import { ProgramEnrollment } from "@/types";
 
 type AcceptPendingApplicationButtonProps = {
-  email: string;
-  firstName: string;
-  program: Program;
+  programEnrollment: ProgramEnrollment;
   rows: Row[];
   setRows: Dispatch<SetStateAction<Row[]>>;
   setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
@@ -19,9 +17,7 @@ type AcceptPendingApplicationButtonProps = {
 };
 
 export default function AcceptPendingApplicationButton({
-  email,
-  firstName,
-  program,
+  programEnrollment,
   rows,
   setRows,
   setSnackbarOpen,
@@ -29,7 +25,9 @@ export default function AcceptPendingApplicationButton({
 }: AcceptPendingApplicationButtonProps) {
   const removePendingApplicationFromRows = () => {
     const rowsWithoutProgramEnrollment = rows.filter(
-      (row) => row.email !== email || row.program !== program,
+      (row) =>
+        row.email !== programEnrollment.user.email ||
+        row.program !== programEnrollment.program,
     );
     setRows(rowsWithoutProgramEnrollment);
   };
@@ -44,7 +42,7 @@ export default function AcceptPendingApplicationButton({
     }
 
     removePendingApplicationFromRows();
-    await handleApproveProgramApplication(email, firstName, program);
+    await handleApproveProgramApplication(programEnrollment);
     setSnackbarMessage("Application successfully approved");
     setSnackbarOpen(true);
   };

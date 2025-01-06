@@ -1,13 +1,82 @@
-// These mutation functions are not exposed to the world for security reasons
-
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
+import { AdminUserRequest } from "@/app/api/users/actions/create-admin-account/route";
 import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import { ApiResponse, User } from "@/types";
+import { AdminUser, ApiResponse, ClientUser, User } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
+import dayjsUtil from "@/utils/dayjsUtil";
+import handleMongooseError from "@/utils/handleMongooseError";
+
+export async function createAdminUser(
+  adminUserRequest: AdminUserRequest,
+): Promise<ApiResponse<AdminUser>> {
+  await dbConnect();
+
+  try {
+    const [existingUser] = await getUserByEmail(adminUserRequest.email);
+
+    if (existingUser) {
+      return [null, apiErrors.user.userAlreadyExists];
+    }
+
+    const objectid = new mongoose.Types.ObjectId().toString();
+    const user: User = {
+      _id: objectid,
+      firstName: adminUserRequest.firstName,
+      lastName: adminUserRequest.lastName,
+      email: adminUserRequest.email,
+      password: adminUserRequest.password,
+      role: "admin",
+      dateCreated: dayjsUtil.utc().toISOString(),
+      isEmailVerified: false,
+    };
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+
+    user.dateCreated = dayjsUtil.utc().toISOString();
+
+    const adminUserDocument = await UserModel.create(user);
+
+    const adminUser = adminUserDocument.toObject() as AdminUser;
+
+    return [adminUser, null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}
+
+export async function createClientUser(
+  user: ClientUser,
+): Promise<ApiResponse<ClientUser>> {
+  await dbConnect();
+
+  try {
+    // don't create user if one already exists
+    const [userInDatabase] = await getUserByEmail(user.email);
+
+    if (userInDatabase) {
+      return [null, apiErrors.user.userAlreadyExists];
+    }
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+
+    const newUserDocument = await UserModel.create(user);
+
+    const newUser = newUserDocument.toObject() as ClientUser;
+
+    return [newUser, null];
+  } catch (error) {
+    return [null, handleMongooseError(error)];
+  }
+}
 
 export async function updateUser(newUser: User): Promise<ApiResponse<User>> {
   await dbConnect();
@@ -21,9 +90,6 @@ export async function updateUser(newUser: User): Promise<ApiResponse<User>> {
   if (!updatedUser) {
     return [null, apiErrors.user.userNotFound];
   }
-
-  // convert ObjectId to string
-  updatedUser._id = String(updatedUser._id);
 
   return [updatedUser, null];
 }

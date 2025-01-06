@@ -14,7 +14,7 @@ import { z } from "zod";
 import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
 import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handleRejectProgramApplication } from "@/server/api/program-enrollments/public-mutations";
-import { Program } from "@/types";
+import { ProgramEnrollment } from "@/types";
 
 const rejectionReasonSchema = z.object({
   rejectionReason: z.string().min(1, { message: "Reason is required" }),
@@ -23,8 +23,7 @@ const rejectionReasonSchema = z.object({
 type RejectButtonFormValues = z.infer<typeof rejectionReasonSchema>;
 
 type RejectPendingApplicationButtonProps = {
-  email: string;
-  program: Program;
+  programEnrollment: ProgramEnrollment;
   rows: Row[];
   setRows: Dispatch<SetStateAction<Row[]>>;
   setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
@@ -32,8 +31,7 @@ type RejectPendingApplicationButtonProps = {
 };
 
 export default function RejectPendingApplicationButton({
-  email,
-  program,
+  programEnrollment,
   rows,
   setRows,
   setSnackbarOpen,
@@ -54,7 +52,9 @@ export default function RejectPendingApplicationButton({
 
   const removePendingApplicationFromRows = () => {
     const rowsWithoutProgramEnrollment = rows.filter(
-      (row) => row.email !== email || row.program !== program,
+      (row) =>
+        row.email !== programEnrollment.user.email ||
+        row.program !== programEnrollment.program,
     );
     setRows(rowsWithoutProgramEnrollment);
   };
@@ -62,7 +62,10 @@ export default function RejectPendingApplicationButton({
   const onSubmit = async (data: RejectButtonFormValues) => {
     setLoading(true);
 
-    await handleRejectProgramApplication(email, program, data.rejectionReason);
+    await handleRejectProgramApplication(
+      programEnrollment,
+      data.rejectionReason,
+    );
     removePendingApplicationFromRows();
     reset({ rejectionReason: "" });
 

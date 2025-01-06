@@ -1,86 +1,77 @@
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel } from "@/server/models";
-import {
-  ApiResponse,
-  EnrollmentForm,
-  Program,
-  ProgramEnrollment,
-} from "@/types";
+import { ApiResponse, Program, ProgramEnrollment } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
-type ProgramEnrollmentFilters = Partial<ProgramEnrollment>;
-
-async function getProgramEnrollments(
-  filters: ProgramEnrollmentFilters,
-  populateEnrollmentForm = false,
-): Promise<ApiResponse<ProgramEnrollment[]>> {
+export async function getPendingProgramEnrollments(): Promise<
+  ApiResponse<ProgramEnrollment[]>
+> {
   await dbConnect();
 
   try {
-    const programEnrollmentsQuery = ProgramEnrollmentModel.find(filters);
-
-    if (populateEnrollmentForm) {
-      programEnrollmentsQuery.populate("enrollmentForm");
-    }
-
-    const programEnrollments = await programEnrollmentsQuery
+    const pendingEnrollments = await ProgramEnrollmentModel.find({
+      status: "pending",
+    })
+      .populate({
+        path: "user",
+        populate: {
+          path: "enrollmentForm",
+        },
+      })
       .lean<ProgramEnrollment[]>()
       .exec();
 
-    // convert ObjectId to string
-    programEnrollments.forEach((programEnrollment) => {
-      programEnrollment._id = String(programEnrollment._id);
-    });
-
-    if (populateEnrollmentForm) {
-      programEnrollments.forEach((programEnrollment) => {
-        programEnrollment.enrollmentForm._id = String(
-          programEnrollment.enrollmentForm._id,
-        );
-      });
-    } else {
-      programEnrollments.forEach((programEnrollment) => {
-        programEnrollment.enrollmentForm = {} as EnrollmentForm;
-      });
-    }
-
-    return [programEnrollments, null];
+    return [serializeMongooseObject(pendingEnrollments), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
-}
-
-async function getProgramEnrollment(
-  filters: ProgramEnrollmentFilters,
-): Promise<ApiResponse<ProgramEnrollment>> {
-  await dbConnect();
-
-  const programEnrollment = await ProgramEnrollmentModel.findOne(filters)
-    .lean<ProgramEnrollment>()
-    .exec();
-
-  if (!programEnrollment) {
-    return [null, apiErrors.programEnrollment.programEnrollmentNotFound];
-  }
-
-  // convert ObjectId to string
-  programEnrollment._id = String(programEnrollment._id);
-
-  return [programEnrollment, null];
-}
-
-export async function getPendingProgramEnrollments() {
-  return getProgramEnrollments({ status: "pending" }, true);
-}
-
-export async function getClientActivePrograms(email: string) {
-  return getProgramEnrollments({ email, status: "accepted" });
 }
 
 export async function getProgramEnrollmentForUser(
   email: string,
   program: Program,
-) {
-  return getProgramEnrollment({ email, program });
+): Promise<ApiResponse<ProgramEnrollment>> {
+  await dbConnect();
+  try {
+    /*
+     * Find the first program enrollment where
+     * 1. programEnrollment.program === program
+     * 2. programEnrollment.user.email === email
+     * Reference: https://stackoverflow.com/questions/45311823/filter-by-referenced-property-in-the-mongoose
+     */
+    const userProgramEnrollment = (await ProgramEnrollmentModel.aggregate([
+      {
+        $match: { program },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $match: { "user.email": email },
+      },
+      {
+        $limit: 1,
+      },
+    ]).exec()) as ProgramEnrollment[];
+
+    if (!userProgramEnrollment.length) {
+      return [null, apiErrors.programEnrollment.programEnrollmentNotFound];
+    }
+
+    return [serializeMongooseObject(userProgramEnrollment[0]), null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
 }

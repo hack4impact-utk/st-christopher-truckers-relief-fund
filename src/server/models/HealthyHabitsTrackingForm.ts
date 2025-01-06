@@ -4,7 +4,11 @@ import { HealthyHabitsTrackingForm } from "@/types";
 
 const HealthyHabitsTrackingFormSchema = new Schema<HealthyHabitsTrackingForm>(
   {
-    email: { type: String, required: true },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     submittedDate: { type: String, required: true },
     healthConditions: { type: String, required: true },
     devices: {

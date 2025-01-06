@@ -4,6 +4,7 @@ import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getPasswordResetTokenByToken(
   token: string,
@@ -27,11 +28,9 @@ export async function getPasswordResetTokenByToken(
       return [null, apiErrors.passwordResetToken.passwordResetTokenExpired];
     }
 
-    // convert ObjectId to string
-    passwordResetToken._id = String(passwordResetToken._id);
-
-    return [passwordResetToken, null];
+    return [serializeMongooseObject(passwordResetToken), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }

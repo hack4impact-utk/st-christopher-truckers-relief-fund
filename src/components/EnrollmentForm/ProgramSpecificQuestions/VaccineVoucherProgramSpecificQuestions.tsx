@@ -117,6 +117,10 @@ export default function VaccineVoucherProgramSpecificQuestions({
         multiline
         rows={3}
       />
+
+      <Typography color="red">
+        {errors.vaccineVoucher?.vaccines?.wantsFluVaccine?.message}
+      </Typography>
     </>
   );
 }

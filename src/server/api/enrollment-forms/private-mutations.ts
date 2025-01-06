@@ -4,6 +4,7 @@ import { EnrollmentFormModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function createEnrollmentForm(
   enrollmentForm: EnrollmentForm,
@@ -25,10 +26,10 @@ export async function createEnrollmentForm(
 
     // convert ObjectId to string
     const newEnrollmentForm = newEnrollmentFormDocument.toObject();
-    newEnrollmentForm._id = String(newEnrollmentForm._id);
 
-    return [newEnrollmentForm, null];
+    return [serializeMongooseObject(newEnrollmentForm), null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }
