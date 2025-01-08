@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     const apiKeyHeader = request.headers.get("x-api-key");
 
-    if (!apiKeyHeader || apiKeyHeader !== process.env.ADMIN_CREATION_KEY) {
+    if (!apiKeyHeader || apiKeyHeader !== process.env.API_KEY) {
       return new Response(
         JSON.stringify({ success: false, error: "Invalid request." }),
         {

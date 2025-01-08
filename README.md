@@ -99,7 +99,7 @@ For your convenience, there are many tools available to test out components, act
 
 Fill out the enrollment form to create client accounts.
 
-To create an admin account, you must set the `ADMIN_CREATION_KEY` environment variable to a secret key and provide it in the `x-api-key` header when making a POST request to `/api/users/actions/create-admin`.
+To create an admin account, you must set the `API_KEY` environment variable to a secret key and provide it in the `x-api-key` header when making a POST request to `/api/users/actions/create-admin`.
 
 #### Testing emails
 
