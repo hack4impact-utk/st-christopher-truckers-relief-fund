@@ -2,9 +2,9 @@
 
 import { Box } from "@mui/material";
 
+import HealthyHabitsTrackingFormList from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList";
 import ModularBarChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularBarChart";
 import ModularLineChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularLineChart";
-import HealthyHabitsTrackingFormList from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList";
 import { HealthyHabitsTrackingForm } from "@/types";
 
 type HealthyHabitsHistoryProps = {

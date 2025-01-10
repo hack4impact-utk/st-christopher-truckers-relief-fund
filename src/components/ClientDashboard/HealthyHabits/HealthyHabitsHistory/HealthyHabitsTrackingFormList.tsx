@@ -1,21 +1,22 @@
-import React, { useState } from "react";
 import {
   Box,
+  Button,
   Card,
   CardContent,
-  Typography,
-  Button,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
   Modal,
+  Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { styled } from "@mui/material/styles";
+import React, { useState } from "react";
+
+import { deleteHealthyHabitsTrackingForm } from "@/server/api/healthy-habits-tracking-forms/queries";
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
-import { deleteHealthyHabitsTrackingForm } from "@/server/api/healthy-habits-tracking-forms/queries";
 
 const Item = styled("div")(({ theme }) => ({
   padding: theme.spacing(),
@@ -29,9 +30,9 @@ type HealthyHabitsTrackingFormListProps = {
   trackingForms: HealthyHabitsTrackingForm[];
 };
 
-const HealthyHabitsTrackingFormList = ({
+function HealthyHabitsTrackingFormList({
   trackingForms,
-}: HealthyHabitsTrackingFormListProps) => {
+}: HealthyHabitsTrackingFormListProps) {
   const [selectedForm, setSelectedForm] =
     useState<HealthyHabitsTrackingForm | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -59,7 +60,7 @@ const HealthyHabitsTrackingFormList = ({
     setFormToDelete(null);
   };
 
-  const handleConfirsmelete = async () => {
+  const handleConfirmDelete = async () => {
     if (!formToDelete) return;
 
     setLoading(true);
@@ -69,6 +70,7 @@ const HealthyHabitsTrackingFormList = ({
         console.error("Error deleting form:", response[1]);
         return;
       }
+      // eslint-disable-next-line no-console
       console.log("Delete form with ID:", formToDelete);
     } finally {
       setLoading(false);
@@ -160,7 +162,7 @@ const HealthyHabitsTrackingFormList = ({
                   <Grid size={{ xs: 12 }}>
                     <Typography variant="h6">Measurements</Typography>
                     <Grid container spacing={2}>
-                      <Grid size={{ xs: 12, sm: 6}}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <Item>
                           <Typography>
                             Weight: {selectedForm.weight} lbs
@@ -278,6 +280,6 @@ const HealthyHabitsTrackingFormList = ({
       </Modal>
     </Box>
   );
-};
+}
 
 export default HealthyHabitsTrackingFormList;
