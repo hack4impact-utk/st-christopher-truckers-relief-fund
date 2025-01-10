@@ -18,7 +18,7 @@ import dayjsUtil from "@/utils/dayjsUtil";
 import { deleteHealthyHabitsTrackingForm } from "@/server/api/healthy-habits-tracking-forms/queries";
 
 const Item = styled("div")(({ theme }) => ({
-  padding: theme.spacing(2),
+  padding: theme.spacing(),
   color: theme.palette.text.primary,
   height: "100%",
   display: "flex",
@@ -59,7 +59,7 @@ const HealthyHabitsTrackingFormList = ({
     setFormToDelete(null);
   };
 
-  const handleConfirmDelete = async () => {
+  const handleConfirsmelete = async () => {
     if (!formToDelete) return;
 
     setLoading(true);
@@ -94,17 +94,17 @@ const HealthyHabitsTrackingFormList = ({
             <Card>
               <CardContent>
                 <Grid container spacing={2}>
-                  <Grid size={{ xs: 12, md: 4 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <Item>
                       <Typography variant="h6">
                         Week of{" "}
                         {dayjsUtil(form.submittedDate, "MM/DD/YYYY").format(
-                          "MMM D, YYYY",
+                          "MM/D/YYYY",
                         )}
                       </Typography>
                     </Item>
                   </Grid>
-                  <Grid size={{ xs: 12, md: 8 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <Item sx={{ justifyContent: "flex-end", gap: 2 }}>
                       <Button
                         variant="contained"
@@ -160,14 +160,14 @@ const HealthyHabitsTrackingFormList = ({
                   <Grid size={{ xs: 12 }}>
                     <Typography variant="h6">Measurements</Typography>
                     <Grid container spacing={2}>
-                      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                      <Grid size={{ xs: 12, sm: 6}}>
                         <Item>
                           <Typography>
                             Weight: {selectedForm.weight} lbs
                           </Typography>
                         </Item>
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                      <Grid size={{ xs: 12, sm: 4 }}>
                         <Item>
                           <Typography>
                             Blood Pressure: {selectedForm.systolicBloodPressure}
@@ -175,7 +175,7 @@ const HealthyHabitsTrackingFormList = ({
                           </Typography>
                         </Item>
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                      <Grid size={{ xs: 12, sm: 4 }}>
                         <Item>
                           <Typography>
                             Blood Glucose: {selectedForm.bloodGlucose}
