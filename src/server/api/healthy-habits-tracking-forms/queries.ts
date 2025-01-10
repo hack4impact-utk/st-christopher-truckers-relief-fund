@@ -43,3 +43,26 @@ export async function getHealthyHabitsTrackingForm(
     return [null, handleMongooseError(error)];
   }
 }
+
+export async function deleteHealthyHabitsTrackingForm(
+  id: string,
+): Promise<ApiResponse<HealthyHabitsTrackingForm>> {
+  await dbConnect();
+
+  try {
+    const healthyHabitsTrackingForm =
+      await HealthyHabitsTrackingFormModel.findByIdAndDelete(id).exec();
+
+    if (!healthyHabitsTrackingForm) {
+      return [
+        null,
+        apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormNotFound,
+      ];
+    }
+
+    return [serializeMongooseObject(healthyHabitsTrackingForm), null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}

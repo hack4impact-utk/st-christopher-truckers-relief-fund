@@ -9,13 +9,17 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Modal,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { styled } from "@mui/material/styles";
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+import { deleteHealthyHabitsTrackingForm } from "@/server/api/healthy-habits-tracking-forms/queries";
 
-const Item = styled('div')(({ theme }) => ({
+const Item = styled("div")(({ theme }) => ({
+  padding: theme.spacing(2),
+  color: theme.palette.text.primary,
   height: "100%",
   display: "flex",
   alignItems: "center",
@@ -31,6 +35,9 @@ const HealthyHabitsTrackingFormList = ({
   const [selectedForm, setSelectedForm] =
     useState<HealthyHabitsTrackingForm | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [formToDelete, setFormToDelete] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleOpenDetails = (form: HealthyHabitsTrackingForm) => {
     setSelectedForm(form);
@@ -42,8 +49,31 @@ const HealthyHabitsTrackingFormList = ({
     setSelectedForm(null);
   };
 
-  const handleDelete = (formId: string) => {
-    console.log("Delete form with ID:", formId);
+  const handleOpenDeleteModal = (formId: string) => {
+    setFormToDelete(formId);
+    setDeleteModalOpen(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModalOpen(false);
+    setFormToDelete(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!formToDelete) return;
+
+    setLoading(true);
+    try {
+      const response = await deleteHealthyHabitsTrackingForm(formToDelete);
+      if (response[1] !== null) {
+        console.error("Error deleting form:", response[1]);
+        return;
+      }
+      console.log("Delete form with ID:", formToDelete);
+    } finally {
+      setLoading(false);
+      handleCloseDeleteModal();
+    }
   };
 
   const groupFormsByWeek = (forms: HealthyHabitsTrackingForm[]) => {
@@ -77,15 +107,15 @@ const HealthyHabitsTrackingFormList = ({
                   <Grid size={{ xs: 12, md: 8 }}>
                     <Item sx={{ justifyContent: "flex-end", gap: 2 }}>
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         onClick={() => handleOpenDetails(form)}
                       >
                         View Details
                       </Button>
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         color="error"
-                        onClick={() => handleDelete(form._id!)}
+                        onClick={() => handleOpenDeleteModal(form._id!)}
                       >
                         Delete
                       </Button>
@@ -98,6 +128,7 @@ const HealthyHabitsTrackingFormList = ({
         ))}
       </Grid>
 
+      {/* Details Dialog */}
       <Dialog
         open={detailsOpen}
         onClose={handleCloseDetails}
@@ -206,6 +237,45 @@ const HealthyHabitsTrackingFormList = ({
           </>
         )}
       </Dialog>
+
+      {/* Delete Confirmation Modal */}
+      <Modal open={deleteModalOpen} onClose={handleCloseDeleteModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "min(90vw, 500px)",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            borderRadius: 2,
+            p: 3,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <Typography variant="h6">Confirm Deletion</Typography>
+          <Typography>
+            Are you sure you want to delete this health tracking record? This
+            action cannot be undone.
+          </Typography>
+          <Box
+            sx={{ display: "flex", gap: 2, justifyContent: "flex-end", mt: 2 }}
+          >
+            <Button onClick={handleCloseDeleteModal}>Cancel</Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleConfirmDelete}
+              disabled={loading}
+            >
+              {loading ? "Deleting..." : "Delete"}
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };
