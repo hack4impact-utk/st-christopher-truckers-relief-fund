@@ -34,6 +34,18 @@ type HealthyHabitsTrackingFormListProps = {
 function HealthyHabitsTrackingFormList({
   trackingForms: initialForms,
 }: HealthyHabitsTrackingFormListProps) {
+  const deviceTranslation: Record<string, string> = {
+    hasScale: "Scale",
+    hasBloodPressureCuff: "Blood Pressure Cuff",
+    hasGlucoseMonitor: "Glucose Monitor",
+    hasA1cHomeTest: "A1c Home Test",
+    hasFitnessTracker: "Fitness Tracker",
+    hasBodyTapeMeasure: "Body Tape Measure",
+    hasResistanceBands: "Resistance Bands",
+    hasOtherExerciseEquipment: "Other Exercise Equipment",
+    noneOfTheAbove: "No Devices",
+  };
+
   const [trackingForms, setTrackingForms] =
     useState<HealthyHabitsTrackingForm[]>(initialForms);
   const [selectedForm, setSelectedForm] =
@@ -171,7 +183,7 @@ function HealthyHabitsTrackingFormList({
               </DialogTitle>
               <DialogContent>
                 <Box sx={{ pt: 2 }}>
-                  <Grid container spacing={3}>
+                  <Grid container spacing={2}>
                     <Grid size={{ xs: 12 }}>
                       <Item>
                         <Typography>
@@ -211,7 +223,17 @@ function HealthyHabitsTrackingFormList({
                         </Grid>
                       </Grid>
                     </Grid>
-
+                    <Grid size={{ xs: 12 }}>
+                      <Typography variant="h6">Devices</Typography>
+                      <Item>
+                        <Typography>
+                          {Object.entries(selectedForm.devices)
+                            .filter(([_, isAvailable]) => isAvailable) // Only include available devices
+                            .map(([deviceKey]) => deviceTranslation[deviceKey]) // Translate device keys
+                            .join(", ")}
+                        </Typography>
+                      </Item>
+                    </Grid>
                     <Grid size={{ xs: 12 }}>
                       <Typography variant="h6">Daily Activity</Typography>
                       <Item>
