@@ -1,10 +1,11 @@
-import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { HealthyHabitsTrackingFormModel } from "@/server/models";
 import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+
+import { getUserByEmail } from "../users/queries";
 
 export async function getHealthyHabitsTrackingForm(
   email: string,

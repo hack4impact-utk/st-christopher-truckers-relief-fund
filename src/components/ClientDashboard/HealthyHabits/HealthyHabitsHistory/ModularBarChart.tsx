@@ -23,13 +23,11 @@ export default function ModularBarChart({
   const getChartData = () => {
     return trackingForms
       .sort((a, b) =>
-        dayjsUtil(a.submittedDate, "MM/DD/YYYY").diff(
-          dayjsUtil(b.submittedDate, "MM/DD/YYYY"),
-        ),
+        dayjsUtil.utc(a.submittedDate).diff(dayjsUtil.utc(b.submittedDate)),
       )
       .map((form) => ({
         value: Number(form[dataKey]) || 0,
-        label: `Week of ${dayjsUtil(form.submittedDate, "MM/DD/YYYY").format("MM/DD/YY")}`,
+        label: `Week of ${dayjsUtil.utc(form.submittedDate).format("MM/DD/YY")}`,
       }));
   };
 

@@ -1,19 +1,42 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useState } from "react";
 
 import HealthyHabitsTrackingFormList from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList";
 import ModularBarChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularBarChart";
 import ModularLineChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularLineChart";
-import { HealthyHabitsTrackingForm } from "@/types";
+import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
 
 type HealthyHabitsHistoryProps = {
-  trackingForms: HealthyHabitsTrackingForm[];
+  initialForms: HealthyHabitsTrackingForm[];
+  user: ClientUser;
 };
 
 export default function HealthyHabitsHistory({
-  trackingForms,
+  initialForms,
+  user,
 }: HealthyHabitsHistoryProps) {
+  const [trackingForms, setTrackingForms] =
+    useState<HealthyHabitsTrackingForm[]>(initialForms);
+
+  if (trackingForms.length === 0) {
+    return (
+      <Box
+        sx={{
+          width: "min(90vw, 700px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 4,
+        }}
+      >
+        <Typography>No forms submitted yet.</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -92,7 +115,11 @@ export default function HealthyHabitsHistory({
         dataKey="emotionalHealthRanking"
         title="Emotional Health"
       />
-      <HealthyHabitsTrackingFormList trackingForms={trackingForms} />
+      <HealthyHabitsTrackingFormList
+        trackingForms={trackingForms}
+        setTrackingForms={setTrackingForms}
+        user={user}
+      />
     </Box>
   );
 }

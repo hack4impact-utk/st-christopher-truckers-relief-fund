@@ -1,4 +1,4 @@
-import dayjsUtil from "@/utils/dayjsUtil";
+import dayjsUtil from "./dayjsUtil";
 
 export default function getClosestPastSunday() {
   const today = dayjsUtil();

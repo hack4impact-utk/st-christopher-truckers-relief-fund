@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import apiErrors from "@/utils/constants/apiErrors";
+import apiErrors from "./constants/apiErrors";
 
 // hand back specific error messages for Mongoose-related errors
 export default function handleMongooseError(error: unknown): string {

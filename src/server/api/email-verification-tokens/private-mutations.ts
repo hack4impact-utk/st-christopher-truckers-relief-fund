@@ -1,9 +1,10 @@
-import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
 import dbConnect from "@/server/dbConnect";
 import { EmailVerificationTokenModel } from "@/server/models";
 import { ApiResponse, EmailVerificationToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
+
+import { getEmailVerificationTokenByToken } from "./queries";
 
 export async function createEmailVerificationToken(
   token: string,

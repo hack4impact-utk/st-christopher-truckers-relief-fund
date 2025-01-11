@@ -42,13 +42,11 @@ export default function ModularLineChart({
 
   const getChartDataAndSeries = (): ChartConfig => {
     const sortedData = trackingForms.sort((a, b) =>
-      dayjsUtil(a.submittedDate, "MM/DD/YYYY").diff(
-        dayjsUtil(b.submittedDate, "MM/DD/YYYY"),
-      ),
+      dayjsUtil.utc(a.submittedDate).diff(dayjsUtil.utc(b.submittedDate)),
     );
 
     const chartData: RegularChartDataPoint[] = sortedData.map((entry) => ({
-      x: dayjsUtil(entry.submittedDate, "MM/DD/YYYY").toDate(),
+      x: dayjsUtil.utc(entry.submittedDate).toDate(),
       y: entry[dataKey] as number,
       ...(dataKey2 && { y2: entry[dataKey2] as number }),
     }));
@@ -96,7 +94,7 @@ export default function ModularLineChart({
             label: "Date",
             scaleType: "time",
             valueFormatter: (value) =>
-              `Week of ${dayjsUtil(value).format("MM/DD/YYYY")}`,
+              `Week of ${dayjsUtil.utc(value).format("MM/DD/YYYY")}`,
             tickInterval: chartData.map((item) => item.x),
           },
         ]}

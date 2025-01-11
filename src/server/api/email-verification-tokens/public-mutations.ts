@@ -1,9 +1,10 @@
 "use server";
 
-import { createEmailVerificationToken } from "@/server/api/email-verification-tokens/private-mutations";
-import { sendEmailVerificationEmail } from "@/server/api/emails/private-mutations";
-import { getUserByEmail } from "@/server/api/users/queries";
 import { EmailVerificationToken } from "@/types";
+
+import { sendEmailVerificationEmail } from "../emails/private-mutations";
+import { getUserByEmail } from "../users/queries";
+import { createEmailVerificationToken } from "./private-mutations";
 
 export async function handleEmailVerificationTokenRequest(
   email: string,

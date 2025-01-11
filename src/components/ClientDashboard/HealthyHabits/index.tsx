@@ -31,7 +31,8 @@ export default function HealthyHabits({ user }: HealthyHabitsProps) {
       case "history":
         return (
           <HealthyHabitsHistory
-            trackingForms={user.healthyHabitsTrackingForms}
+            initialForms={user.healthyHabitsTrackingForms}
+            user={user}
           />
         );
       case "info":

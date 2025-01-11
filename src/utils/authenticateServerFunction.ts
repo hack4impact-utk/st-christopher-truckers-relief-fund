@@ -1,8 +1,9 @@
 import { Session } from "next-auth";
 
 import { ApiResponse } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
-import getUserSession from "@/utils/getUserSession";
+
+import apiErrors from "./constants/apiErrors";
+import getUserSession from "./getUserSession";
 
 export default async function authenticateServerFunction(
   role?: "admin" | "client",

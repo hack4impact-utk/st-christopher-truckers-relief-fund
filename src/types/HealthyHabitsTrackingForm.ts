@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { User } from "@/types";
+import { User } from ".";
 
 export const healthyHabitsValidator = z.object({
   submittedDate: z.string(),

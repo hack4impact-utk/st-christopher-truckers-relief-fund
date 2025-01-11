@@ -49,17 +49,5 @@ module.exports = {
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
-    "no-restricted-imports": [
-      "error",
-      {
-        patterns: [
-          {
-            group: [".*"],
-            message:
-              'Please do not use relative imports. Use "@/..." instead. If this breaks something, disable the rule for that file only.',
-          },
-        ],
-      },
-    ],
   },
 };

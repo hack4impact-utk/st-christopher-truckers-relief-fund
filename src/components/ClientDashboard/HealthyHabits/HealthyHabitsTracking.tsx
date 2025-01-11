@@ -85,6 +85,7 @@ export default function HealthyHabitsTracking({
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
+      submittedDate: dayjsUtil(data.submittedDate).utc().toISOString(),
       user,
     };
 

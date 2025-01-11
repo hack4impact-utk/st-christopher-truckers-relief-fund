@@ -1,10 +1,11 @@
-import { getEnrollmentFormByEmail } from "@/server/api/enrollment-forms/queries";
 import dbConnect from "@/server/dbConnect";
 import { EnrollmentFormModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+
+import { getEnrollmentFormByEmail } from "./queries";
 
 export async function createEnrollmentForm(
   enrollmentForm: EnrollmentForm,

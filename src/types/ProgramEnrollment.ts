@@ -1,4 +1,4 @@
-import { Program, User } from "@/types";
+import { Program, User } from ".";
 
 export type ProgramEnrollment = {
   _id?: string;

@@ -5,7 +5,8 @@ import PasswordChangedEmail from "@/components/emails/PasswordChangedEmail";
 import RejectionEmail from "@/components/emails/RejectionEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
-import sendEmail from "@/server/api/emails/helpers";
+
+import sendEmail from "./helpers";
 
 export async function sendPasswordChangeEmail(
   recipientEmail: string,

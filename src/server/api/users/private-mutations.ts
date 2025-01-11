@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
 import { AdminUserRequest } from "@/app/api/users/actions/create-admin-account/route";
-import { getUserByEmail } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
 import { AdminUser, ApiResponse, ClientUser, User } from "@/types";
@@ -10,6 +9,8 @@ import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 import handleMongooseError from "@/utils/handleMongooseError";
+
+import { getUserByEmail } from "./queries";
 
 export async function createAdminUser(
   adminUserRequest: AdminUserRequest,

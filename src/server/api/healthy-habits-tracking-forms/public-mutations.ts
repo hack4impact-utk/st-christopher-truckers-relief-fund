@@ -1,29 +1,62 @@
 "use server";
 
+import { ApiResponse, ClientUser, HealthyHabitsTrackingForm } from "@/types";
+import authenticateServerFunction from "@/utils/authenticateServerFunction";
+import apiErrors from "@/utils/constants/apiErrors";
+
 import {
   createHealthyHabitsTrackingForm,
   deleteHealthyHabitsTrackingForm,
-} from "@/server/api/healthy-habits-tracking-forms/private-mutations";
-import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
+} from "./private-mutations";
 
 export async function handleHealthyHabitsTrackingFormSubmission(
   healthyHabitsTrackingForm: HealthyHabitsTrackingForm,
 ): Promise<ApiResponse<null>> {
-  const [, error] = await createHealthyHabitsTrackingForm(
+  const [session, authError] = await authenticateServerFunction();
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  if (
+    session.user.role === "client" &&
+    session.user.email !== healthyHabitsTrackingForm.user.email
+  ) {
+    return [null, apiErrors.unauthorized];
+  }
+
+  const [, createError] = await createHealthyHabitsTrackingForm(
     healthyHabitsTrackingForm,
   );
 
-  if (error !== null) {
-    return [null, error];
+  if (createError !== null) {
+    return [null, createError];
   }
 
   return [null, null];
 }
 
 export async function handleHealthyHabitsTrackingFormDeletion(
-  id: string,
+  healthyHabitsTrackingForm: HealthyHabitsTrackingForm,
+  user: ClientUser,
 ): Promise<ApiResponse<null>> {
-  const [, error] = await deleteHealthyHabitsTrackingForm(id);
+  const [session, authError] = await authenticateServerFunction();
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  if (
+    session.user.role === "client" &&
+    session.user.email !== healthyHabitsTrackingForm.user.email
+  ) {
+    return [null, apiErrors.unauthorized];
+  }
+
+  const [, error] = await deleteHealthyHabitsTrackingForm(
+    healthyHabitsTrackingForm,
+    user,
+  );
 
   if (error !== null) {
     return [null, error];

@@ -1,7 +1,9 @@
-import { GeneralInformationSection } from "@/types/EnrollmentForm/GeneralInformationSection";
-import { ProgramSelectionSection } from "@/types/EnrollmentForm/ProgramSelectionSection";
-import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm/ProgramSpecificQuestionsSection";
-import { QualifyingQuestionsSection } from "@/types/EnrollmentForm/QualifyingQuestionsSection";
+import {
+  GeneralInformationSection,
+  ProgramSelectionSection,
+  ProgramSpecificQuestionsSection,
+  QualifyingQuestionsSection,
+} from ".";
 
 export type EnrollmentForm = {
   _id?: string;

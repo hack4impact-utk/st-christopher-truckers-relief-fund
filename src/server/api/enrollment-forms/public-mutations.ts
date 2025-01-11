@@ -1,10 +1,11 @@
 "use server";
 
-import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/public-mutations";
-import { createEnrollmentForm } from "@/server/api/enrollment-forms/private-mutations";
-import { createProgramEnrollmentsFromEnrollmentForm } from "@/server/api/program-enrollments/private-mutations";
-import { createClientUser } from "@/server/api/users/private-mutations";
 import { ApiResponse, ClientUser, EnrollmentForm } from "@/types";
+
+import { handleEmailVerificationTokenRequest } from "../email-verification-tokens/public-mutations";
+import { createProgramEnrollmentsFromEnrollmentForm } from "../program-enrollments/private-mutations";
+import { createClientUser } from "../users/private-mutations";
+import { createEnrollmentForm } from "./private-mutations";
 
 export async function handleEnrollmentFormSubmission(
   enrollmentForm: EnrollmentForm,
