@@ -56,7 +56,7 @@ export async function getUserById(id: string): Promise<ApiResponse<User>> {
   return getUser({ _id: id });
 }
 
-export async function getUsers(
+async function getUsers(
   filters: UserFilters,
   options?: UserPopulateOptions,
 ): Promise<ApiResponse<User[]>> {
@@ -87,4 +87,10 @@ export async function getUsers(
     console.error(error);
     return [null, handleMongooseError(error)];
   }
+}
+
+export async function getClients(
+  options?: UserPopulateOptions,
+): Promise<ApiResponse<User[]>> {
+  return getUsers({ role: "client" }, options);
 }

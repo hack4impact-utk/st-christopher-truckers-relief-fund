@@ -1,9 +1,9 @@
 import { Box, Typography } from "@mui/material";
 
-import { getUsers } from "@/server/api/users/queries";
+import { getClients } from "@/server/api/users/queries";
 
 export default async function AdminClientsPage() {
-  const [users, error] = await getUsers({});
+  const [users, error] = await getClients();
 
   console.log(users);
 
