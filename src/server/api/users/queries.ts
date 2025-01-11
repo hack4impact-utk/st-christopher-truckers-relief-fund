@@ -24,7 +24,7 @@ async function getUser(
     if (options?.populateHealthyHabitsTrackingForms) {
       userQuery.populate({
         path: "healthyHabitsTrackingForms",
-        options: { sort: { submittedDate: -1 } },
+        options: { sort: { weekOfSubmission: -1 } },
       });
     }
 

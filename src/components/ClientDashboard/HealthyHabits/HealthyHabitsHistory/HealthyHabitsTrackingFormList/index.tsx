@@ -3,9 +3,10 @@
 import { Box, List, Snackbar, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 
-import HealthyHabitsTrackingFormListItem from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList/HealthyHabitsTrackingFormListItem";
 import { handleHealthyHabitsTrackingFormDeletion } from "@/server/api/healthy-habits-tracking-forms/public-mutations";
 import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
+
+import HealthyHabitsTrackingFormListItem from "./HealthyHabitsTrackingFormListItem";
 
 type HealthyHabitsTrackingFormListProps = {
   trackingForms: HealthyHabitsTrackingForm[];
@@ -23,7 +24,7 @@ export default function HealthyHabitsTrackingFormList({
 
   const handleDelete = async (form: HealthyHabitsTrackingForm) => {
     const confirm = window.confirm(
-      "Are you sure you want to delete this health tracking record?",
+      "Are you sure you want to delete this tracking form?",
     );
 
     if (!confirm) {

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { ReactNode } from "react";
 
-import getButtonStyles from "@/components/AdminDashboard/Sidebar/getButtonStyles";
+import getButtonStyles from "./getButtonStyles";
 
 type CollapsibleSidebarButtonProps = {
   pathname: string;

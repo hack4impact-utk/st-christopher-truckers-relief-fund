@@ -4,11 +4,12 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Box, Button, Fade, Modal, Typography } from "@mui/material";
 import { useState } from "react";
 
-import GeneralInformationResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/GeneralInformationResponses";
-import ProgramSelectionResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/ProgramSelectionResponses";
-import ProgramSpecificResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/ProgramSpecificResponses";
-import QualifyingQuestionResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/QualifyingQuestionResponses";
 import { EnrollmentForm } from "@/types";
+
+import GeneralInformationResponses from "./GeneralInformationResponses";
+import ProgramSelectionResponses from "./ProgramSelectionResponses";
+import ProgramSpecificResponses from "./ProgramSpecificResponses";
+import QualifyingQuestionResponses from "./QualifyingQuestionResponses";
 
 const style = {
   position: "absolute",

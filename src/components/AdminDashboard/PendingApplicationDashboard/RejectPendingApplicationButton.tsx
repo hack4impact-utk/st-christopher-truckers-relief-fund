@@ -11,10 +11,11 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
 import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handleRejectProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { ProgramEnrollment } from "@/types";
+
+import { Row } from ".";
 
 const rejectionReasonSchema = z.object({
   rejectionReason: z.string().min(1, { message: "Reason is required" }),

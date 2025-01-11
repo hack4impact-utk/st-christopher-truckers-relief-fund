@@ -5,10 +5,11 @@ import { Box, Snackbar, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
-import AcceptPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/AcceptPendingApplicationButton";
-import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal";
-import RejectPendingApplicationButton from "@/components/AdminDashboard/PendingApplicationDashboard/RejectPendingApplicationButton";
 import { ClientUser, Program, ProgramEnrollment } from "@/types";
+
+import AcceptPendingApplicationButton from "./AcceptPendingApplicationButton";
+import PendingApplicationInfoModal from "./PendingApplicationInfoModal";
+import RejectPendingApplicationButton from "./RejectPendingApplicationButton";
 
 export type Row = {
   id?: string;

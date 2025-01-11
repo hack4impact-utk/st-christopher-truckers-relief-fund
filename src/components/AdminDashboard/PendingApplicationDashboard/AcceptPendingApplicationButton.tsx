@@ -4,9 +4,10 @@ import { Check } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import React, { Dispatch, SetStateAction } from "react";
 
-import { Row } from "@/components/AdminDashboard/PendingApplicationDashboard";
 import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { ProgramEnrollment } from "@/types";
+
+import { Row } from ".";
 
 type AcceptPendingApplicationButtonProps = {
   programEnrollment: ProgramEnrollment;

@@ -7,17 +7,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import GetPreventativeScreeningsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/GetPreventativeScreeningsProgramSpecificQuestions";
-import HealthyHabitsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/HealthyHabitsProgramSpecificQuestions";
-import RigsWithoutCigsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/RigsWithoutCigsProgramSpecificQuestions";
-import VaccineVoucherProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/VaccineVoucherProgramSpecificQuestions";
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import { handleEnrollmentFormSubmission } from "@/server/api/enrollment-forms/public-mutations";
 import {
   ProgramSpecificQuestionsSection,
   programSpecificQuestionsSectionValidator,
-} from "@/types/EnrollmentForm";
+} from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+
+import GetPreventativeScreeningsProgramSpecificQuestions from "./GetPreventativeScreeningsProgramSpecificQuestions";
+import HealthyHabitsProgramSpecificQuestions from "./HealthyHabitsProgramSpecificQuestions";
+import RigsWithoutCigsProgramSpecificQuestions from "./RigsWithoutCigsProgramSpecificQuestions";
+import VaccineVoucherProgramSpecificQuestions from "./VaccineVoucherProgramSpecificQuestions";
 
 export default function ProgramSpecificQuestionsFormSection() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);

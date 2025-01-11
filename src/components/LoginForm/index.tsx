@@ -10,7 +10,7 @@ import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextField from "@/components/controlled/ControlledTextField";
+import ControlledTextField from "../controlled/ControlledTextField";
 
 function LoginFormLoadingSkeleton() {
   return <Skeleton variant="rounded" width="100%" height={300} />;

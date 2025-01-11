@@ -3,10 +3,11 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 
-import HealthyHabitsTrackingFormList from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList";
-import ModularBarChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularBarChart";
-import ModularLineChart from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/ModularLineChart";
 import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
+
+import HealthyHabitsTrackingFormList from "./HealthyHabitsTrackingFormList";
+import ModularBarChart from "./ModularBarChart";
+import ModularLineChart from "./ModularLineChart";
 
 type HealthyHabitsHistoryProps = {
   initialForms: HealthyHabitsTrackingForm[];

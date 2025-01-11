@@ -7,8 +7,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import ControlledTextField from "@/components/controlled/ControlledTextField";
 import handlePasswordResetRequest from "@/server/api/password-reset-tokens/public-mutations";
+
+import ControlledTextField from "../controlled/ControlledTextField";
 
 const forgotPasswordFormSchema = z.object({
   email: z.string().email({ message: "Invalid email" }),

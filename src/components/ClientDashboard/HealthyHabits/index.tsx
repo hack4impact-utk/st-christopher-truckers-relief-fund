@@ -1,11 +1,12 @@
 "use client";
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 
-import HealthyHabitsHistory from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory";
-import HealthyHabitsInfo from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsInfo";
-import HealthyHabitsTracking from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsTracking";
 import { ClientUser } from "@/types";
+
+import HealthyHabitsHistory from "./HealthyHabitsHistory";
+import HealthyHabitsInfo from "./HealthyHabitsInfo";
+import HealthyHabitsTracking from "./HealthyHabitsTracking";
 
 type HealthyHabitsSections = "tracking" | "history" | "info";
 
@@ -18,7 +19,7 @@ export default function HealthyHabits({ user }: HealthyHabitsProps) {
     useState<HealthyHabitsSections>("tracking");
 
   const handleTabChange = (
-    _event: React.SyntheticEvent,
+    _event: SyntheticEvent,
     newValue: HealthyHabitsSections,
   ) => {
     setSelectedSection(newValue);

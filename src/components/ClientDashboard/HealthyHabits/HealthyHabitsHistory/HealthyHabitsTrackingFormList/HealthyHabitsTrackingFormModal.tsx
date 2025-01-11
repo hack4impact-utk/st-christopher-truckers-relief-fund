@@ -49,10 +49,14 @@ export default function HealthyHabitsTrackingFormModal({
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-title" variant="h4">
-              {dayjsUtil.utc(form.submittedDate).format("MM/DD/YYYY")}
+              {`Week of ${dayjsUtil.utc(form.weekOfSubmission).format("MM/DD/YYYY")}`}
             </Typography>
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <FormResponse
+                label="Submitted Date"
+                value={dayjsUtil.utc(form.submittedDate).format("MM/DD/YYYY")}
+              />
               <FormResponse
                 label="Health Conditions"
                 value={form.healthConditions}

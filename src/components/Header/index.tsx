@@ -5,9 +5,9 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-import Logo from "@/components/Logo";
+import Logo from "../Logo";
 
-export default function Header() {
+export function Header() {
   const { data: session } = useSession();
 
   return (

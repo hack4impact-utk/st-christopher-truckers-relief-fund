@@ -12,9 +12,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import HealthyHabitsTrackingFormModal from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList/HealthyHabitsTrackingFormModal";
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+
+import HealthyHabitsTrackingFormModal from "./HealthyHabitsTrackingFormModal";
 
 type HealthyHabitsTrackingFormListItemProps = {
   form: HealthyHabitsTrackingForm;
@@ -50,7 +51,7 @@ export default function HealthyHabitsTrackingFormListItem({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={dayjsUtil.utc(form.submittedDate).format("MM/DD/YYYY")}
+        primary={`Week of ${dayjsUtil.utc(form.weekOfSubmission).format("MM/DD/YYYY")}`}
       />
     </ListItem>
   );

@@ -18,7 +18,7 @@ import {
   EnrollmentForm,
   ProgramSelectionSection,
   programSelectionSectionValidator,
-} from "@/types/EnrollmentForm";
+} from "@/types";
 import calculateAge from "@/utils/calculateAge";
 
 function shouldShowDiabetesPreventionButton(enrollmentForm: EnrollmentForm) {

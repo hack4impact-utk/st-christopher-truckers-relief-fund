@@ -18,12 +18,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import ControlledTextField from "@/components/controlled/ControlledTextField";
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   QualifyingQuestionsSection,
   qualifyingQuestionsSectionValidator,
-} from "@/types/EnrollmentForm";
+} from "@/types";
+
+import ControlledTextField from "../controlled/ControlledTextField";
 
 export default function QualifyingQuestionsFormSection() {
   const [isLoading, setIsLoading] = useState(false);

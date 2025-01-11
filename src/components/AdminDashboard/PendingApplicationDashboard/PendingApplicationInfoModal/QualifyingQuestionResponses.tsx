@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 
-import FormResponse from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/FormResponse";
-import { QualifyingQuestionsSection } from "@/types/EnrollmentForm";
+import { QualifyingQuestionsSection } from "@/types";
+
+import FormResponse from "./FormResponse";
 
 type QualifyingQuestionResponsesProps = {
   qualifyingQuestionsSection: QualifyingQuestionsSection;
