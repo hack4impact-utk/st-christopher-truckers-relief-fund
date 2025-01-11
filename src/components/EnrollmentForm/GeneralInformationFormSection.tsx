@@ -26,14 +26,15 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-import ControlledTextField from "@/components/controlled/ControlledTextField";
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
 import {
   Doctor,
   GeneralInformationSection,
   generalInformationSectionValidator,
-} from "@/types/EnrollmentForm";
+} from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+
+import ControlledTextField from "../controlled/ControlledTextField";
 
 function isDisqualified(generalInformationSection: GeneralInformationSection) {
   if (!generalInformationSection.hasClassACdl) {

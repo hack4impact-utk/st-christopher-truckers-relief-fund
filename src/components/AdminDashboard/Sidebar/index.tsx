@@ -13,8 +13,8 @@ import { Box, Collapse, Drawer, List, Toolbar, useTheme } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import CollapsibleSidebarButton from "@/components/AdminDashboard/Sidebar/CollapsibleSidebarButton";
-import SidebarButton from "@/components/AdminDashboard/Sidebar/SidebarButton";
+import CollapsibleSidebarButton from "./CollapsibleSidebarButton";
+import SidebarButton from "./SidebarButton";
 
 const drawerWidth = 200;
 

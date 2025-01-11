@@ -4,7 +4,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
 import NextAuthProvider from "@/providers/NextAuthProvider";
 import theme from "@/styles/theme";
 

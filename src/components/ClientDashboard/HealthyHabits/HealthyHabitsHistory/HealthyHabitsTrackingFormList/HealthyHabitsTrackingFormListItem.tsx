@@ -12,9 +12,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import HealthyHabitsTrackingFormModal from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory/HealthyHabitsTrackingFormList/HealthyHabitsTrackingFormModal";
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+
+import HealthyHabitsTrackingFormModal from "./HealthyHabitsTrackingFormModal";
 
 type HealthyHabitsTrackingFormListItemProps = {
   form: HealthyHabitsTrackingForm;

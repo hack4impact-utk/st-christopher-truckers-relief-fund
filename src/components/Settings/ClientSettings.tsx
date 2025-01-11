@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
 
-import ChangePasswordButton from "@/components/Settings/ChangePasswordButton";
-import SignOutButton from "@/components/Settings/SignOutButton";
 import { User } from "@/types";
+
+import ChangePasswordButton from "./ChangePasswordButton";
+import SignOutButton from "./SignOutButton";
 
 type ClientSettingsProps = {
   user: User;

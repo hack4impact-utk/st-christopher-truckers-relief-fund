@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 
-import FormResponse from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/FormResponse";
-import { ProgramSelectionSection } from "@/types/EnrollmentForm";
+import { ProgramSelectionSection } from "@/types";
+
+import FormResponse from "./FormResponse";
 
 type ProgramSelectionResponsesProps = {
   programSelectionSection: ProgramSelectionSection;

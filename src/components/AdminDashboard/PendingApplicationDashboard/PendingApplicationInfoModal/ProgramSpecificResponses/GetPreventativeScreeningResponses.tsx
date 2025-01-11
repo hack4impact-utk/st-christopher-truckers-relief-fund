@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 
-import FormResponse from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/FormResponse";
 import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm";
+
+import FormResponse from "../FormResponse";
 
 type GetPreventativeScreeningResponsesProps = {
   programSpecificQuestionsSection: ProgramSpecificQuestionsSection;

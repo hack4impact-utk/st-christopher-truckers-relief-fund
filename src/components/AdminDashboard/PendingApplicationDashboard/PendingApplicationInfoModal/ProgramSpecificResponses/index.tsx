@@ -1,10 +1,11 @@
 import { Box, Typography } from "@mui/material";
 
-import GetPreventativeScreeningResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/ProgramSpecificResponses/GetPreventativeScreeningResponses";
-import HealthyHabitsAndDiabetesPreventionResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/ProgramSpecificResponses/HealthyHabitsAndDiabetesPreventionResponses";
-import RigsWithoutCigsResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/ProgramSpecificResponses/RigsWithoutCigsResponses";
-import VaccineVoucherResponses from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/ProgramSpecificResponses/VaccineVoucherResponses";
-import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm";
+import { ProgramSpecificQuestionsSection } from "@/types";
+
+import GetPreventativeScreeningResponses from "./GetPreventativeScreeningResponses";
+import HealthyHabitsAndDiabetesPreventionResponses from "./HealthyHabitsAndDiabetesPreventionResponses";
+import RigsWithoutCigsResponses from "./RigsWithoutCigsResponses";
+import VaccineVoucherResponses from "./VaccineVoucherResponses";
 
 type ProgramSpecificResponsesProps = {
   programSpecificQuestionsSection: ProgramSpecificQuestionsSection;

@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import getButtonStyles from "@/components/AdminDashboard/Sidebar/getButtonStyles";
+import getButtonStyles from "./getButtonStyles";
 
 type SidebarButtonProps = {
   pathname: string;

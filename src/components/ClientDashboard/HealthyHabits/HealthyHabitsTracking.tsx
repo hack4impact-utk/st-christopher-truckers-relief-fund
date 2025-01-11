@@ -24,12 +24,12 @@ import { Controller, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handleHealthyHabitsTrackingFormSubmission } from "@/server/api/healthy-habits-tracking-forms/public-mutations";
-import { ClientUser } from "@/types";
 import {
+  ClientUser,
   HealthyHabitsFormValues,
   HealthyHabitsTrackingForm,
   healthyHabitsValidator,
-} from "@/types/HealthyHabitsTrackingForm";
+} from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
