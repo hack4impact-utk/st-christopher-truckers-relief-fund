@@ -16,7 +16,7 @@ export async function createHealthyHabitsTrackingForm(
     const [existingHealthyHabitsTrackingForm] =
       await getHealthyHabitsTrackingForm(
         healthyHabitsTrackingForm.user.email,
-        healthyHabitsTrackingForm.submittedDate,
+        healthyHabitsTrackingForm.weekOfSubmission,
       );
 
     if (existingHealthyHabitsTrackingForm) {

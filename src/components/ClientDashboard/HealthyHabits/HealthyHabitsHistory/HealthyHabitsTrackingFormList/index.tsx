@@ -23,7 +23,7 @@ export default function HealthyHabitsTrackingFormList({
 
   const handleDelete = async (form: HealthyHabitsTrackingForm) => {
     const confirm = window.confirm(
-      "Are you sure you want to delete this health tracking record?",
+      "Are you sure you want to delete this tracking form?",
     );
 
     if (!confirm) {

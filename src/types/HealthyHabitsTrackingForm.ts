@@ -4,6 +4,7 @@ import { User } from ".";
 
 export const healthyHabitsValidator = z.object({
   submittedDate: z.string(),
+  weekOfSubmission: z.string(),
   healthConditions: z.string(),
   devices: z.object({
     hasScale: z.boolean(),

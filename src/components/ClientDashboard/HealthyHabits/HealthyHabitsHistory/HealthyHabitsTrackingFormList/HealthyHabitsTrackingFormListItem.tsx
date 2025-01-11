@@ -50,7 +50,7 @@ export default function HealthyHabitsTrackingFormListItem({
         </Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={dayjsUtil.utc(form.submittedDate).format("MM/DD/YYYY")}
+        primary={`Week of ${dayjsUtil.utc(form.weekOfSubmission).format("MM/DD/YYYY")}`}
       />
     </ListItem>
   );

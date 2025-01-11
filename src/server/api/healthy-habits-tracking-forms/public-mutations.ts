@@ -46,10 +46,7 @@ export async function handleHealthyHabitsTrackingFormDeletion(
     return [null, authError];
   }
 
-  if (
-    session.user.role === "client" &&
-    session.user.email !== healthyHabitsTrackingForm.user.email
-  ) {
+  if (session.user.role === "client" && session.user.email !== user.email) {
     return [null, apiErrors.unauthorized];
   }
 

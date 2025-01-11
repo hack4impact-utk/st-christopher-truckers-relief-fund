@@ -42,11 +42,11 @@ export default function ModularLineChart({
 
   const getChartDataAndSeries = (): ChartConfig => {
     const sortedData = trackingForms.sort((a, b) =>
-      dayjsUtil.utc(a.submittedDate).diff(dayjsUtil.utc(b.submittedDate)),
+      dayjsUtil.utc(a.weekOfSubmission).diff(dayjsUtil.utc(b.weekOfSubmission)),
     );
 
     const chartData: RegularChartDataPoint[] = sortedData.map((entry) => ({
-      x: dayjsUtil.utc(entry.submittedDate).toDate(),
+      x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
       y: entry[dataKey] as number,
       ...(dataKey2 && { y2: entry[dataKey2] as number }),
     }));

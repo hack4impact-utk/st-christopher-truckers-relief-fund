@@ -9,7 +9,7 @@ import { getUserByEmail } from "../users/queries";
 
 export async function getHealthyHabitsTrackingForm(
   email: string,
-  submittedDate: string,
+  weekOfSubmission: string,
 ): Promise<ApiResponse<HealthyHabitsTrackingForm>> {
   await dbConnect();
 
@@ -26,7 +26,7 @@ export async function getHealthyHabitsTrackingForm(
     const healthyHabitsTrackingForm =
       await HealthyHabitsTrackingFormModel.findOne({
         user: user._id,
-        submittedDate,
+        weekOfSubmission,
       })
         .lean<HealthyHabitsTrackingForm>()
         .exec();
