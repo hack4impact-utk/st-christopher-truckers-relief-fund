@@ -22,7 +22,10 @@ async function getUser(
     const userQuery = UserModel.findOne(filters);
 
     if (options?.populateHealthyHabitsTrackingForms) {
-      userQuery.populate("healthyHabitsTrackingForms");
+      userQuery.populate({
+        path: "healthyHabitsTrackingForms",
+        options: { sort: { submittedDate: -1 } },
+      });
     }
 
     if (options?.populateProgramEnrollments) {

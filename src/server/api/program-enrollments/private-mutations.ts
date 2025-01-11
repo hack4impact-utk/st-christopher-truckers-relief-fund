@@ -1,4 +1,3 @@
-import { getProgramEnrollmentForUser } from "@/server/api/program-enrollments/queries";
 import dbConnect from "@/server/dbConnect";
 import { ProgramEnrollmentModel, UserModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm, ProgramEnrollment, User } from "@/types";
@@ -6,6 +5,8 @@ import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+
+import { getProgramEnrollmentForUser } from "./queries";
 
 export async function createProgramEnrollment(
   programEnrollment: ProgramEnrollment,

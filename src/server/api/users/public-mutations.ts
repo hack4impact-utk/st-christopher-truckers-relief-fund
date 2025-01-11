@@ -1,21 +1,18 @@
 "use server";
-
 import bcrypt from "bcrypt";
 
-import { deleteEmailVerificationToken } from "@/server/api/email-verification-tokens/private-mutations";
-import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
-import { sendPasswordChangeEmail } from "@/server/api/emails/private-mutations";
-import { deletePasswordResetToken } from "@/server/api/password-reset-tokens/private-mutations";
-import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
-import {
-  changePassword,
-  updateUser,
-} from "@/server/api/users/private-mutations";
-import { getUserById } from "@/server/api/users/queries";
 import dbConnect from "@/server/dbConnect";
 import { ApiResponse } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
+
+import { deleteEmailVerificationToken } from "../email-verification-tokens/private-mutations";
+import { getEmailVerificationTokenByToken } from "../email-verification-tokens/queries";
+import { sendPasswordChangeEmail } from "../emails/private-mutations";
+import { deletePasswordResetToken } from "../password-reset-tokens/private-mutations";
+import { getPasswordResetTokenByToken } from "../password-reset-tokens/queries";
+import { changePassword, updateUser } from "./private-mutations";
+import { getUserById } from "./queries";
 
 export async function resetPasswordWithToken(
   token: string,

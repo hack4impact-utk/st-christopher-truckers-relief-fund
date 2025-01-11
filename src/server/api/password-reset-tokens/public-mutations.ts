@@ -1,10 +1,11 @@
 "use server";
 
-import { sendPasswordResetEmail } from "@/server/api/emails/private-mutations";
-import { createPasswordResetToken } from "@/server/api/password-reset-tokens/private-mutations";
-import { getUserByEmail } from "@/server/api/users/queries";
 import { PasswordResetToken } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+
+import { sendPasswordResetEmail } from "../emails/private-mutations";
+import { getUserByEmail } from "../users/queries";
+import { createPasswordResetToken } from "./private-mutations";
 
 export default async function handlePasswordResetRequest(email: string) {
   // check if email exists

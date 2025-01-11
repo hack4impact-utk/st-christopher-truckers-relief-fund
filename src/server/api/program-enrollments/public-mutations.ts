@@ -1,15 +1,16 @@
 "use server";
 
+import { ProgramEnrollment } from "@/types";
+import authenticateServerFunction from "@/utils/authenticateServerFunction";
+
 import {
   sendRejectionEmail,
   sendWelcomeEmail,
-} from "@/server/api/emails/private-mutations";
+} from "../emails/private-mutations";
 import {
   approveProgramEnrollment,
   rejectProgramEnrollment,
-} from "@/server/api/program-enrollments/private-mutations";
-import { ProgramEnrollment } from "@/types";
-import authenticateServerFunction from "@/utils/authenticateServerFunction";
+} from "./private-mutations";
 
 export async function handleRejectProgramApplication(
   programEnrollment: ProgramEnrollment,

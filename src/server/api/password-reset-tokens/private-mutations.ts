@@ -1,10 +1,11 @@
-import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 import dbConnect from "@/server/dbConnect";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+
+import { getPasswordResetTokenByToken } from "./queries";
 
 export async function createPasswordResetToken(
   token: string,

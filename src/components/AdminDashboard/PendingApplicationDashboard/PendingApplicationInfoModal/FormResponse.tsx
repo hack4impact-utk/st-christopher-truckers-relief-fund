@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 
 type FormResponse = {
   label: string;
-  value: string;
+  value: string | number;
   isListItem?: boolean;
 };
 

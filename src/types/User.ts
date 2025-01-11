@@ -2,7 +2,7 @@ import {
   EnrollmentForm,
   HealthyHabitsTrackingForm,
   ProgramEnrollment,
-} from "@/types";
+} from ".";
 
 export type AdminUser = {
   _id?: string;
