@@ -55,3 +55,36 @@ export async function getUserByEmail(
 export async function getUserById(id: string): Promise<ApiResponse<User>> {
   return getUser({ _id: id });
 }
+
+export async function getUsers(
+  filters: UserFilters,
+  options?: UserPopulateOptions,
+): Promise<ApiResponse<User[]>> {
+  await dbConnect();
+
+  try {
+    const usersQuery = UserModel.find(filters);
+
+    if (options?.populateHealthyHabitsTrackingForms) {
+      usersQuery.populate({
+        path: "healthyHabitsTrackingForms",
+        options: { sort: { submittedDate: -1 } },
+      });
+    }
+
+    if (options?.populateProgramEnrollments) {
+      usersQuery.populate("programEnrollments");
+    }
+
+    const users = await usersQuery.lean<User>().exec();
+
+    if (!users) {
+      return [null, apiErrors.user.userNotFound];
+    }
+
+    return [serializeMongooseObject(users), null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}
