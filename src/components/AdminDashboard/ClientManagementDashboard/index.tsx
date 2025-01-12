@@ -5,9 +5,9 @@ import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
-import { ClientUser } from "@/types";
-
-import PendingApplicationInfoModal from "../PendingApplicationDashboard/PendingApplicationInfoModal";
+import ClientProgramManagementForm from "@/components/AdminDashboard/ClientManagementDashboard/ClientProgramManagementForm";
+import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/";
+import { ClientUser, ProgramEnrollment } from "@/types";
 
 export type Row = {
   id?: string;
@@ -15,22 +15,24 @@ export type Row = {
   firstName: string;
   phoneNumber: string;
   email: string;
-  user: ClientUser;
+  programEnrollments: ProgramEnrollment[];
+  client: ClientUser;
 };
 
-const createRowFromProgramEnrollment = (client: ClientUser): Row => {
+const createRowFromClient = (client: ClientUser): Row => {
   return {
     id: client._id,
     lastName: client.enrollmentForm.generalInformationSection.lastName,
     firstName: client.enrollmentForm.generalInformationSection.firstName,
     phoneNumber: client.enrollmentForm.generalInformationSection.phoneNumber,
     email: client.email,
-    user: client,
+    programEnrollments: client.programEnrollments,
+    client,
   };
 };
 
-function getRows(programEnrollments: ClientUser[]): Row[] {
-  return programEnrollments.map(createRowFromProgramEnrollment);
+function getRows(clients: ClientUser[]): Row[] {
+  return clients.map(createRowFromClient);
 }
 
 type ClientManagementDashboardProps = {
@@ -72,7 +74,7 @@ export default function ClientManagementDashboard({
       minWidth: 350,
       flex: 1,
       renderCell: (params) => {
-        const user = params.row.user;
+        const user = params.row.client;
         return (
           <>
             <Box
@@ -85,6 +87,9 @@ export default function ClientManagementDashboard({
             >
               <PendingApplicationInfoModal
                 enrollmentForm={user.enrollmentForm}
+              />
+              <ClientProgramManagementForm
+                programEnrollments={params.row.programEnrollments}
               />
             </Box>
           </>
