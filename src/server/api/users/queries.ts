@@ -1,6 +1,6 @@
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import { ApiResponse, User } from "@/types";
+import { ApiResponse, ClientUser, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
@@ -10,6 +10,7 @@ type UserFilters = Partial<User>;
 type UserPopulateOptions = {
   populateHealthyHabitsTrackingForms?: boolean;
   populateProgramEnrollments?: boolean;
+  populateEnrollmentForm?: boolean;
 };
 
 async function getUser(
@@ -76,6 +77,10 @@ async function getUsers(
       usersQuery.populate("programEnrollments");
     }
 
+    if (options?.populateEnrollmentForm) {
+      usersQuery.populate("enrollmentForm");
+    }
+
     const users = await usersQuery.lean<User>().exec();
 
     if (!users) {
@@ -91,6 +96,8 @@ async function getUsers(
 
 export async function getClients(
   options?: UserPopulateOptions,
-): Promise<ApiResponse<User[]>> {
-  return getUsers({ role: "client" }, options);
+): Promise<ApiResponse<ClientUser[]>> {
+  return getUsers({ role: "client" }, options) as unknown as Promise<
+    ApiResponse<ClientUser[]>
+  >;
 }

@@ -1,11 +1,14 @@
 import { Box, Typography } from "@mui/material";
 
+import ClientManagementDashboard from "@/components/AdminDashboard/ClientManagementDashboard";
 import { getClients } from "@/server/api/users/queries";
 
 export default async function AdminClientsPage() {
-  const [users, error] = await getClients();
-
-  console.log(users);
+  const [clients, error] = await getClients({
+    populateProgramEnrollments: true,
+    populateHealthyHabitsTrackingForms: true,
+    populateEnrollmentForm: true,
+  });
 
   if (error !== null) {
     return (
@@ -33,7 +36,7 @@ export default async function AdminClientsPage() {
         alignItems: "center",
       }}
     >
-      <Typography>Admin Clients Page</Typography>
+      <ClientManagementDashboard clients={clients} />
     </Box>
   );
 }
