@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import HealthyHabitsDashboard from "@/components/AdminDashboard/HealthyHabitsDashboard";
+import { Box } from "@mui/material";
 
-export default function HealthyHabitsProgramPage() {
+export default function HealthyHabits() {
   return (
     <Box
       sx={{
@@ -10,7 +11,7 @@ export default function HealthyHabitsProgramPage() {
         alignItems: "center",
       }}
     >
-      <Typography>Healthy Habits Program</Typography>
+      <HealthyHabitsDashboard />
     </Box>
   );
 }
