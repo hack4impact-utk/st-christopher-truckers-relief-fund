@@ -1,10 +1,18 @@
 "use client";
 
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import { Box, Button, Fade, FormGroup, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Fade,
+  FormControlLabel,
+  FormGroup,
+  Modal,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 
-import ClientProgramManagementFormCheckbox from "@/components/AdminDashboard/ClientManagementDashboard/ClientProgramManagementForm/ClientProgramManagementFormCheckbox";
 import { ProgramEnrollment } from "@/types";
 
 const style = {
@@ -23,14 +31,57 @@ const style = {
   gap: 2,
 };
 
+type ProgramCheckbox = {
+  isDirty: boolean;
+  isChecked: boolean;
+  programEnrollment: ProgramEnrollment;
+};
+
 type ClientManagementDashboardProps = {
   programEnrollments: ProgramEnrollment[];
+};
+
+const programEnrollmentToCheckBox = (programEnrollment: ProgramEnrollment) => {
+  const checkbox: ProgramCheckbox = {
+    isDirty: false,
+    isChecked: programEnrollment.status == "accepted",
+    programEnrollment,
+  };
+  return checkbox;
 };
 
 export default function ClientProgramManagementForm({
   programEnrollments,
 }: ClientManagementDashboardProps) {
   const [open, setOpen] = useState(false);
+  const [programCheckboxes, setProgramCheckboxes] = useState(
+    programEnrollments.map((programEnrollment) =>
+      programEnrollmentToCheckBox(programEnrollment),
+    ),
+  );
+  const initialState = { ...programCheckboxes };
+
+  const handleCheck = (index: number) => {
+    setProgramCheckboxes(
+      programCheckboxes.map((checkbox, i) => {
+        if (index === i) {
+          checkbox.isDirty == true;
+          checkbox.isChecked = !checkbox.isChecked;
+        }
+
+        return checkbox;
+      }),
+    );
+  };
+
+  const handelCancel = () => {
+    setOpen(false);
+    setProgramCheckboxes(initialState);
+  };
+
+  const handelSubmit = () => {
+    setOpen(false);
+  };
 
   return (
     <Box>
@@ -44,26 +95,24 @@ export default function ClientProgramManagementForm({
               Mange Enrolled Programs
             </Typography>
             <FormGroup>
-              {programEnrollments.map((programEnrollment, index) => (
-                <ClientProgramManagementFormCheckbox
-                  programEnrollment={programEnrollment}
+              {programCheckboxes.map((programCheckbox, index) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={programCheckbox.isChecked}
+                      onChange={() => handleCheck(index)}
+                    />
+                  }
+                  label={programCheckbox.programEnrollment.program}
                   key={index}
                 />
               ))}
             </FormGroup>
             <Box display="flex" gap={2}>
-              <Button
-                variant="outlined"
-                onClick={() => setOpen(false)}
-                fullWidth
-              >
+              <Button variant="outlined" onClick={handelCancel} fullWidth>
                 Cancel
               </Button>
-              <Button
-                variant="contained"
-                onClick={() => setOpen(false)}
-                fullWidth
-              >
+              <Button variant="contained" onClick={handelSubmit} fullWidth>
                 Save
               </Button>
             </Box>
