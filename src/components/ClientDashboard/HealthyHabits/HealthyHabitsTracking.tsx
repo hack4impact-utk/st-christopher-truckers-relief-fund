@@ -86,7 +86,7 @@ export default function HealthyHabitsTracking({
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
-      submittedDate: dayjsUtil(data.submittedDate).utc().toISOString(),
+      submittedDate: dayjsUtil(data.submittedDate).local().toISOString(),
       weekOfSubmission: getClosestPastSunday(
         dayjsUtil(data.submittedDate, "MM/DD/YYYY"),
       ),
