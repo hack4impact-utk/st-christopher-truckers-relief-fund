@@ -5,7 +5,9 @@ import { Box, Button, Fade, Modal, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { EnrollmentForm } from "@/types";
+import dayjsUtil from "@/utils/dayjsUtil";
 
+import FormResponse from "./FormResponse";
 import GeneralInformationResponses from "./GeneralInformationResponses";
 import ProgramSelectionResponses from "./ProgramSelectionResponses";
 import ProgramSpecificResponses from "./ProgramSpecificResponses";
@@ -56,6 +58,14 @@ export default function PendingApplicationInfoModal({
             <Typography id="transition-modal-title" variant="h4">
               Enrollment Form Information
             </Typography>
+
+            <FormResponse
+              label="Submitted Date"
+              value={dayjsUtil
+                .utc(enrollmentForm.dateSubmitted)
+                .local()
+                .format("MM/DD/YYYY")}
+            />
 
             <GeneralInformationResponses
               generalInformationSection={

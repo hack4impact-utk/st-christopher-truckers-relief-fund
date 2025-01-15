@@ -53,7 +53,7 @@ export default function HealthyHabitsTracking({
   } = useForm<HealthyHabitsFormValues>({
     resolver: zodResolver(healthyHabitsValidator),
     defaultValues: {
-      submittedDate: dayjsUtil().utc().format("MM/DD/YYYY"),
+      submittedDate: dayjsUtil().local().format("MM/DD/YYYY"),
       weekOfSubmission: "",
       healthConditions: "",
       devices: {
@@ -86,7 +86,7 @@ export default function HealthyHabitsTracking({
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
-      submittedDate: dayjsUtil(data.submittedDate).local().toISOString(),
+      submittedDate: dayjsUtil(data.submittedDate).utc().toISOString(),
       weekOfSubmission: getClosestPastSunday(
         dayjsUtil(data.submittedDate, "MM/DD/YYYY"),
       ),
