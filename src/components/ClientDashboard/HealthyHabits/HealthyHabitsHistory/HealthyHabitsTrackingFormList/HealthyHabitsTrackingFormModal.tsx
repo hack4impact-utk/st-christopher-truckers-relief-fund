@@ -55,7 +55,10 @@ export default function HealthyHabitsTrackingFormModal({
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <FormResponse
                 label="Submitted Date"
-                value={dayjsUtil.utc(form.submittedDate).format("MM/DD/YYYY")}
+                value={dayjsUtil
+                  .utc(form.submittedDate)
+                  .local()
+                  .format("MM/DD/YYYY")}
               />
               <FormResponse
                 label="Health Conditions"
