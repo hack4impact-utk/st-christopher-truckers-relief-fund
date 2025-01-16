@@ -15,9 +15,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const [users, usersError] = await getUsersByProgram(
-      "Healthy Habits For The Long Haul",
-    );
+    const programName = "Healthy Habits For The Long Haul";
+    const [users, usersError] = await getUsersByProgram(programName);
 
     if (usersError !== null) {
       return new Response(
