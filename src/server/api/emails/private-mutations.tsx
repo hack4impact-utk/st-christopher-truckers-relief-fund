@@ -1,5 +1,6 @@
 import { render } from "@react-email/components";
 
+import { SendZoomReminderEmailRequest } from "@/app/api/emails/actions/send-healthy-habits-zoom-link/route";
 import EmailVerificationEmail from "@/components/emails/EmailVerificationEmail";
 import PasswordChangedEmail from "@/components/emails/PasswordChangedEmail";
 import RejectionEmail from "@/components/emails/RejectionEmail";
@@ -65,17 +66,18 @@ export async function sendEmailVerificationEmail(
 }
 
 export async function sendZoomReminderEmail(
-  recipientEmail: string,
-  meetingName: string,
-  meetingLink: string,
+  sendZoomReminderEmailRequest: SendZoomReminderEmailRequest,
 ) {
   const html = await render(
-    <ZoomReminderEmail meetingName={meetingName} meetingLink={meetingLink} />,
+    <ZoomReminderEmail
+      meetingName={sendZoomReminderEmailRequest.meetingName}
+      meetingLink={sendZoomReminderEmailRequest.meetingLink}
+    />,
   );
 
   await sendEmail(
-    recipientEmail,
-    `Reminder: You have an upcoming meeting for ${meetingName}.`,
+    sendZoomReminderEmailRequest.recipientEmail,
+    `Reminder: You have an upcoming meeting for: ${sendZoomReminderEmailRequest.meetingName}.`,
     html,
   );
 }
