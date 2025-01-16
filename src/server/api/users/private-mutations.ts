@@ -154,6 +154,7 @@ export async function getUsersByProgram(
     // Find program enrollments for the given program and populate the associated users
     const enrollments = await ProgramEnrollmentModel.find({
       program: programName,
+      status: "accepted",
     })
       .populate("user")
       .lean()
