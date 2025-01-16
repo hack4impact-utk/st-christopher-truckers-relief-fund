@@ -16,10 +16,12 @@ import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
 
 type ZoomReminderEmailProps = {
   meetingName?: string;
+  meetingLink?: string;
 };
 
 export default function ZoomReminderEmail({
-  meetingName = "Healthy Habits",
+  meetingName = "your SCF program",
+  meetingLink = "https://www.google.com",
 }: ZoomReminderEmailProps) {
   return (
     <Html>
@@ -37,9 +39,9 @@ export default function ZoomReminderEmail({
             />
             <Text style={paragraph}>
               Please click the link below to join the zoom call for{" "}
-              {meetingName} for the Long Haul
+              {meetingName}.
             </Text>
-            <Button style={button} href="https://www.google.com">
+            <Button style={button} href={meetingLink}>
               Join Meeting
             </Button>
             <Text style={paragraph}>
