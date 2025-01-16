@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { AdminUserRequest } from "@/app/api/users/actions/create-admin-account/route";
 import dbConnect from "@/server/dbConnect";
 import { UserModel } from "@/server/models";
-import { AdminUser, ApiResponse, ClientUser, User } from "@/types";
+import { AdminUser, ApiResponse, ClientUser, Program, User } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -137,4 +137,14 @@ export async function changePassword(
   await updateUser(user);
 
   return [null, null];
+}
+
+export async function getUsersByProgram(
+  program: Program,
+): Promise<ApiResponse<User[]>> {
+  await dbConnect();
+
+  const users = await UserModel.find({ program: program }).lean().exec();
+
+  return [users, null];
 }

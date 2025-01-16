@@ -1,21 +1,8 @@
-import { z } from "zod";
-
 import { sendZoomReminderEmail } from "@/server/api/emails/private-mutations";
-
-const sendZoomReminderEmailRequestSchema = z.object({
-  recipientEmail: z.string().email({ message: "Invalid email" }),
-  meetingName: z.string(),
-  meetingLink: z.string(),
-});
-
-export type SendZoomReminderEmailRequest = z.infer<
-  typeof sendZoomReminderEmailRequestSchema
->;
+import { getUsersByProgram } from "@/server/api/users/private-mutations";
 
 export async function POST(request: Request) {
   try {
-    const json = await request.json();
-
     const apiKeyHeader = request.headers.get("x-api-key");
 
     if (!apiKeyHeader || apiKeyHeader !== process.env.API_KEY) {
@@ -28,21 +15,29 @@ export async function POST(request: Request) {
       );
     }
 
-    const parsedJson = sendZoomReminderEmailRequestSchema.safeParse(json);
+    const [users, usersError] = await getUsersByProgram(
+      "Healthy Habits For The Long Haul",
+    );
 
-    if (parsedJson.success === false) {
+    if (usersError !== null) {
       return new Response(
-        JSON.stringify({ success: false, error: "Invalid request body." }),
+        JSON.stringify({ success: false, error: "Internal server error." }),
         {
-          status: 400,
+          status: 500,
           headers: { "Content-Type": "application/json" },
         },
       );
     }
 
-    const sendZoomReminderEmailRequest = parsedJson.data;
-
-    await sendZoomReminderEmail(sendZoomReminderEmailRequest);
+    await Promise.all(
+      users.map((user) =>
+        sendZoomReminderEmail(
+          "Healthy Habits For The Long Haul",
+          "https://google.com",
+          user.email,
+        ),
+      ),
+    );
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
