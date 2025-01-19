@@ -1,13 +1,21 @@
 "use client";
 
-import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+
 import HealthyHabitsClientDashboard from "@/components/AdminDashboard/HealthyHabitsDashboard/HealthyHabitsClientDashboard";
 import HealthyHabitsMetrics from "@/components/AdminDashboard/HealthyHabitsDashboard/HealthyHabitsMetrics";
+import { ProgramEnrollment } from "@/types";
 
 type HealthyHabitsSections = "clients" | "metrics";
 
-export default function HealthyHabitsDashboard() {
+type HealthyHabitsDashboardProps = {
+  healthHabitsProgramEnrollments: ProgramEnrollment[];
+};
+
+export default function HealthyHabitsDashboard({
+  healthHabitsProgramEnrollments,
+}: HealthyHabitsDashboardProps) {
   const [selectedSection, setSelectedSection] =
     useState<HealthyHabitsSections>("clients");
 
@@ -19,11 +27,13 @@ export default function HealthyHabitsDashboard() {
   };
 
   function getSectionContent(section: HealthyHabitsSections) {
-    console.log("here");
-
     switch (section) {
       case "clients":
-        return <HealthyHabitsClientDashboard />;
+        return (
+          <HealthyHabitsClientDashboard
+            healthHabitsProgramEnrollments={healthHabitsProgramEnrollments}
+          />
+        );
       case "metrics":
         return <HealthyHabitsMetrics />;
       default:

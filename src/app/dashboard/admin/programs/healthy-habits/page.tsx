@@ -1,7 +1,27 @@
-import HealthyHabitsDashboard from "@/components/AdminDashboard/HealthyHabitsDashboard";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-export default function HealthyHabits() {
+import HealthyHabitsDashboard from "@/components/AdminDashboard/HealthyHabitsDashboard";
+import { getHealthHabitsProgramEnrollments } from "@/server/api/program-enrollments/queries";
+
+export default async function HealthyHabits() {
+  const [healthHabitsProgramEnrollments, error] =
+    await getHealthHabitsProgramEnrollments();
+
+  if (error !== null) {
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography>There was an error fetching Health Habits</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -11,7 +31,9 @@ export default function HealthyHabits() {
         alignItems: "center",
       }}
     >
-      <HealthyHabitsDashboard />
+      <HealthyHabitsDashboard
+        healthHabitsProgramEnrollments={healthHabitsProgramEnrollments}
+      />
     </Box>
   );
 }
