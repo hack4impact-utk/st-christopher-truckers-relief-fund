@@ -75,3 +75,28 @@ export async function getProgramEnrollmentForUser(
     return [null, handleMongooseError(error)];
   }
 }
+
+export async function getHealthHabitsProgramEnrollments(): Promise<
+  ApiResponse<ProgramEnrollment[]>
+> {
+  await dbConnect();
+  try {
+    const healthHabitsEnrollments = ProgramEnrollmentModel.find({
+      status: "accepted",
+      program: "Healthy Habits For The Long Haul",
+    })
+      .populate({
+        path: "user",
+        populate: {
+          path: "healthyHabitsTrackingForms",
+        },
+      })
+      .lean<ProgramEnrollment[]>()
+      .exec();
+
+    return [await healthHabitsEnrollments, null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}
