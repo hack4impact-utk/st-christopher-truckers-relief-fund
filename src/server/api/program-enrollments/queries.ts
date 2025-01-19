@@ -89,6 +89,7 @@ export async function getHealthHabitsProgramEnrollments(): Promise<
         path: "user",
         populate: {
           path: "healthyHabitsTrackingForms",
+          options: { sort: { submittedDate: -1 } },
         },
       })
       .lean<ProgramEnrollment[]>()

@@ -1,11 +1,14 @@
 "use client";
 
 import { Search } from "@mui/icons-material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
 import { ClientUser, ProgramEnrollment } from "@/types";
+import dayjsUtil from "@/utils/dayjsUtil";
 
 export type Row = {
   id?: string;
@@ -13,18 +16,32 @@ export type Row = {
   firstName: string;
   phoneNumber: string;
   email: string;
+  completed: boolean;
 };
 
 const createRowFromHealthyHabitsProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
 ): Row => {
   const user = programEnrollment.user as ClientUser;
+
+  let completed = false;
+
+  if (user.healthyHabitsTrackingForms.length > 0) {
+    const date = dayjsUtil(user.healthyHabitsTrackingForms[0]?.submittedDate);
+    const lastSunday = dayjsUtil()
+      .subtract(dayjsUtil().day(), "day")
+      .startOf("day");
+
+    completed = date.isSame(lastSunday, "day");
+  }
+
   return {
     id: programEnrollment._id,
     lastName: user.lastName,
     firstName: user.firstName,
     // phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
     email: user.email,
+    completed,
   };
 };
 
@@ -64,6 +81,31 @@ export default function HealthyHabitsClientDashboard({
       minWidth: 200,
       flex: 1,
     },
+    {
+      field: "competed",
+      headerName: "Completed",
+      sortable: false,
+      minWidth: 100,
+      flex: 1,
+      renderCell: (params) => {
+        const completed = params.row.completed;
+
+        return (
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              {completed ? <CheckIcon /> : <CloseIcon />}
+            </Box>
+          </>
+        );
+      },
+    },
   ];
 
   const filteredRows = rows.filter(
@@ -76,7 +118,7 @@ export default function HealthyHabitsClientDashboard({
 
   return (
     <>
-      <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
+      <Box sx={{ width: "95%", height: "75%" }}>
         <Typography align="center" variant="h4" sx={{ m: 2 }}>
           Health Habits
         </Typography>
