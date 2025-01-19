@@ -87,10 +87,15 @@ export async function getHealthHabitsProgramEnrollments(): Promise<
     })
       .populate({
         path: "user",
-        populate: {
-          path: "healthyHabitsTrackingForms",
-          options: { sort: { submittedDate: -1 } },
-        },
+        populate: [
+          {
+            path: "healthyHabitsTrackingForms",
+            options: { sort: { submittedDate: -1 } },
+          },
+          {
+            path: "enrollmentForm",
+          },
+        ],
       })
       .lean<ProgramEnrollment[]>()
       .exec();

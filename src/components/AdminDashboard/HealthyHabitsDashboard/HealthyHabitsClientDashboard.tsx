@@ -39,7 +39,7 @@ const createRowFromHealthyHabitsProgramEnrollment = (
     id: programEnrollment._id,
     lastName: user.lastName,
     firstName: user.firstName,
-    // phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
+    phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
     email: user.email,
     completed,
   };
@@ -112,13 +112,13 @@ export default function HealthyHabitsClientDashboard({
     (row) =>
       row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      // row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <>
-      <Box sx={{ width: "95%", height: "75%" }}>
+      <Box>
         <Typography align="center" variant="h4" sx={{ m: 2 }}>
           Health Habits
         </Typography>
