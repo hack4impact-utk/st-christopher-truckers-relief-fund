@@ -1,7 +1,7 @@
 "use client";
 
 import { Search } from "@mui/icons-material";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Snackbar, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
@@ -44,6 +44,8 @@ export default function ClientManagementDashboard({
 }: ClientManagementDashboardProps) {
   const [rows] = useState(getRows(clients));
   const [searchQuery, setSearchQuery] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const columns: GridColDef<Row>[] = [
     {
@@ -75,6 +77,7 @@ export default function ClientManagementDashboard({
       flex: 1,
       renderCell: (params) => {
         const user = params.row.client;
+        const fullName = user.firstName + " " + user.lastName;
         return (
           <>
             <Box
@@ -90,6 +93,9 @@ export default function ClientManagementDashboard({
               />
               <ClientProgramManagementForm
                 programEnrollments={params.row.programEnrollments}
+                setSnackbarMessage={setSnackbarMessage}
+                setSnackbarOpen={setSnackbarOpen}
+                fullName={fullName}
               />
             </Box>
           </>
@@ -108,6 +114,12 @@ export default function ClientManagementDashboard({
 
   return (
     <>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
       <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
         <Typography align="center" variant="h4" sx={{ m: 2 }}>
           Clients

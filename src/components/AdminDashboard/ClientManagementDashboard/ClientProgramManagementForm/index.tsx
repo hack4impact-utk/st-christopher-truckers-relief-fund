@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   Button,
@@ -11,10 +12,14 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import {
+  approveProgramEnrollment,
+  rejectProgramEnrollment,
+} from "@/server/api/program-enrollments/private-mutations";
 import { Program, ProgramEnrollment } from "@/types";
 
 const style = {
@@ -81,14 +86,39 @@ const getClientManagementFormDefaultValues = (
   } as ClientManagementFormValues;
 };
 
+const fieldToProgramEnrollment = (
+  field: keyof ClientManagementFormValues,
+  programEnrollments: ProgramEnrollment[],
+): ProgramEnrollment | undefined => {
+  const fieldToProgram: Record<keyof ClientManagementFormValues, Program> = {
+    enrolledInHealthyHabits: "Healthy Habits For The Long Haul",
+    enrolledInDiabetesPrevention: "Diabetes Prevention",
+    enrolledInRigsWithoutCigs: "Rigs Without Cigs",
+    enrolledInVaccineVoucher: "Vaccine Voucher",
+    enrolledInGetPreventativeScreenings: "GPS (Get Preventative Screenings)",
+  };
+
+  return programEnrollments.find(
+    (programEnrollment) => programEnrollment.program === fieldToProgram[field],
+  );
+};
+
 type ClientManagementDashboardProps = {
   programEnrollments: ProgramEnrollment[];
+  setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
+  setSnackbarMessage: Dispatch<SetStateAction<string>>;
+  fullName: string;
 };
 
 export default function ClientProgramManagementForm({
   programEnrollments,
+  setSnackbarOpen,
+  setSnackbarMessage,
+  fullName,
 }: ClientManagementDashboardProps) {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const {
     control,
     handleSubmit,
@@ -101,22 +131,57 @@ export default function ClientProgramManagementForm({
 
   const onCancel = () => {
     setOpen(false);
-
     reset();
   };
 
-  const onSubmit = (data: ClientManagementFormValues) => {
-    setOpen(false);
+  const onSubmit = async (data: ClientManagementFormValues) => {
+    setIsLoading(true);
+    setDisabled(true);
+
+    let error = false;
 
     for (const dirtyField in dirtyFields) {
       const field = dirtyField as keyof ClientManagementFormValues;
+      const programEnrollment = fieldToProgramEnrollment(
+        field,
+        programEnrollments,
+      );
+
+      if (!programEnrollment) {
+        return;
+      }
 
       if (data[field]) {
         console.log("Enroll", field);
+        // error = await approveProgramEnrollment(programEnrollment)[1];
+        if (error) {
+          break;
+        }
       } else {
         console.log("Unenroll", field);
+        // error = await rejectProgramEnrollment(programEnrollment)[1];
+        if (error) {
+          break;
+        }
       }
     }
+
+    setIsLoading(false);
+    setDisabled(false);
+    setOpen(false);
+
+    if (!error) {
+      setSnackbarMessage(
+        `You have successfully updated ${fullName} enrolled programs`,
+      );
+    } else {
+      reset();
+      setSnackbarMessage(
+        `There was a issue updating ${fullName} enrolled programs`,
+      );
+    }
+
+    setSnackbarOpen(true);
   };
 
   return (
@@ -191,9 +256,15 @@ export default function ClientProgramManagementForm({
                 <Button variant="outlined" onClick={onCancel} fullWidth>
                   Cancel
                 </Button>
-                <Button variant="contained" type="submit" fullWidth>
+                <LoadingButton
+                  variant="contained"
+                  type="submit"
+                  loading={isLoading}
+                  disabled={disabled}
+                  fullWidth
+                >
                   Save
-                </Button>
+                </LoadingButton>
               </Box>
             </form>
           </Box>
