@@ -5,6 +5,7 @@ import PasswordChangedEmail from "@/components/emails/PasswordChangedEmail";
 import RejectionEmail from "@/components/emails/RejectionEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
+import ZoomReminderEmail from "@/components/emails/ZoomReminderEmail";
 
 import sendEmail from "./helpers";
 
@@ -61,4 +62,20 @@ export async function sendEmailVerificationEmail(
   const html = await render(<EmailVerificationEmail token={token} />);
 
   await sendEmail(recipientEmail, "Verify your SCF email address", html);
+}
+
+export async function sendZoomReminderEmail(
+  meetingName: string,
+  meetingLink: string,
+  recipientEmail: string,
+) {
+  const html = await render(
+    <ZoomReminderEmail meetingName={meetingName} meetingLink={meetingLink} />,
+  );
+
+  await sendEmail(
+    recipientEmail,
+    `Reminder: You have an upcoming meeting for ${meetingName}.`,
+    html,
+  );
 }

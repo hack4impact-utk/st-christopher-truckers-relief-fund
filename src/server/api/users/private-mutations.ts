@@ -3,8 +3,14 @@ import mongoose from "mongoose";
 
 import { AdminUserRequest } from "@/app/api/users/actions/create-admin-account/route";
 import dbConnect from "@/server/dbConnect";
-import { UserModel } from "@/server/models";
-import { AdminUser, ApiResponse, ClientUser, User } from "@/types";
+import { ProgramEnrollmentModel, UserModel } from "@/server/models";
+import {
+  AdminUser,
+  ApiResponse,
+  ClientUser,
+  ProgramEnrollment,
+  User,
+} from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -137,4 +143,30 @@ export async function changePassword(
   await updateUser(user);
 
   return [null, null];
+}
+
+export async function getUsersByProgram(
+  programName: string,
+): Promise<ApiResponse<User[]>> {
+  await dbConnect();
+
+  try {
+    // Find program enrollments for the given program and populate the associated users
+    const enrollments = await ProgramEnrollmentModel.find({
+      program: programName,
+      status: "accepted",
+    })
+      .populate("user")
+      .lean()
+      .exec();
+
+    const users = enrollments.map(
+      (enrollment: ProgramEnrollment) => enrollment.user,
+    );
+
+    return [users, null];
+  } catch (error) {
+    console.error(error);
+    return [null, "Error fetching users by program."];
+  }
 }
