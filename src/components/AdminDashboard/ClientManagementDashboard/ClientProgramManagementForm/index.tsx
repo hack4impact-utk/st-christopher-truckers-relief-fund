@@ -17,9 +17,9 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import {
-  approveProgramEnrollment,
-  rejectProgramEnrollment,
-} from "@/server/api/program-enrollments/private-mutations";
+  handleApproveProgramApplication,
+  handleRejectProgramApplication,
+} from "@/server/api/program-enrollments/public-mutations";
 import { Program, ProgramEnrollment } from "@/types";
 
 const style = {
@@ -56,6 +56,17 @@ const isEnrolledIn = (
     (programEnrollment) =>
       programEnrollment.program === program &&
       programEnrollment.status === "accepted",
+  );
+};
+
+const isPending = (
+  programEnrollments: ProgramEnrollment[],
+  program: Program,
+) => {
+  return programEnrollments.some(
+    (programEnrollment) =>
+      programEnrollment.program === program &&
+      programEnrollment.status === "pending",
   );
 };
 
@@ -123,7 +134,7 @@ export default function ClientProgramManagementForm({
     control,
     handleSubmit,
     reset,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isDirty },
   } = useForm<ClientManagementFormValues>({
     resolver: zodResolver(ClientManagementFormSchema),
     defaultValues: getClientManagementFormDefaultValues(programEnrollments),
@@ -136,9 +147,10 @@ export default function ClientProgramManagementForm({
 
   const onSubmit = async (data: ClientManagementFormValues) => {
     setIsLoading(true);
-    setDisabled(true);
 
     let error = false;
+
+    let newProgramEnrollments = [...programEnrollments];
 
     for (const dirtyField in dirtyFields) {
       const field = dirtyField as keyof ClientManagementFormValues;
@@ -151,38 +163,78 @@ export default function ClientProgramManagementForm({
         return;
       }
 
+      newProgramEnrollments = newProgramEnrollments.map(
+        (prevProgramEnrollment) => {
+          if (prevProgramEnrollment.program === programEnrollment.program) {
+            return {
+              ...prevProgramEnrollment,
+              status: data[field] ? "accepted" : "rejected",
+            };
+          }
+
+          return prevProgramEnrollment;
+        },
+      );
+
       if (data[field]) {
-        console.log("Enroll", field);
-        // error = await approveProgramEnrollment(programEnrollment)[1];
-        if (error) {
+        const [, approveError] =
+          await handleApproveProgramApplication(programEnrollment);
+
+        if (approveError) {
+          error = true;
           break;
         }
       } else {
-        console.log("Unenroll", field);
-        // error = await rejectProgramEnrollment(programEnrollment)[1];
-        if (error) {
+        const [, rejectError] = await handleRejectProgramApplication(
+          programEnrollment,
+          "An admin has unenrolled you from this program",
+        );
+
+        if (rejectError) {
+          error = true;
           break;
         }
       }
     }
 
     setIsLoading(false);
-    setDisabled(false);
     setOpen(false);
 
-    if (!error) {
+    if (error) {
       setSnackbarMessage(
-        `You have successfully updated ${fullName} enrolled programs`,
+        `There was a problem updating ${fullName}'s enrolled programs`,
       );
     } else {
-      reset();
       setSnackbarMessage(
-        `There was a issue updating ${fullName} enrolled programs`,
+        `You have successfully updated ${fullName}'s enrolled programs`,
       );
     }
 
+    reset(getClientManagementFormDefaultValues(newProgramEnrollments));
+
     setSnackbarOpen(true);
   };
+
+  const showHealthyHabitsButton = !isPending(
+    programEnrollments,
+    "Healthy Habits For The Long Haul",
+  );
+  const showDiabetesPreventionButton = !isPending(
+    programEnrollments,
+    "Diabetes Prevention",
+  );
+  const showRigsWithoutCigsButton = !isPending(
+    programEnrollments,
+    "Rigs Without Cigs",
+  );
+  const showVaccineVoucherButton = !isPending(
+    programEnrollments,
+    "Vaccine Voucher",
+  );
+  const showGetPreventativeScreeningsButton = !isPending(
+    programEnrollments,
+    "GPS (Get Preventative Screenings)",
+  );
 
   return (
     <Box>
@@ -194,63 +246,71 @@ export default function ClientProgramManagementForm({
           <Box sx={style}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Typography id="transition-modal-title" variant="h4">
-                Mange Enrolled Programs
+                Manage Enrolled Programs
               </Typography>
               <Box
                 sx={{ display: "flex", flexDirection: "column", paddingY: 1 }}
               >
-                <Controller
-                  name="enrolledInHealthyHabits"
-                  control={control}
-                  render={({ field }) => (
-                    <>
+                {showHealthyHabitsButton && (
+                  <Controller
+                    name="enrolledInHealthyHabits"
+                    control={control}
+                    render={({ field }) => (
                       <FormControlLabel
                         control={<Checkbox {...field} checked={field.value} />}
                         label="Healthy Habits"
                       />
-                    </>
-                  )}
-                />
-                <Controller
-                  name="enrolledInDiabetesPrevention"
-                  control={control}
-                  render={({ field }) => (
-                    <FormControlLabel
-                      control={<Checkbox {...field} checked={field.value} />}
-                      label="Diabetes Prevention"
-                    />
-                  )}
-                />
-                <Controller
-                  name="enrolledInRigsWithoutCigs"
-                  control={control}
-                  render={({ field }) => (
-                    <FormControlLabel
-                      control={<Checkbox {...field} checked={field.value} />}
-                      label="Rigs Without Cigs"
-                    />
-                  )}
-                />
-                <Controller
-                  name="enrolledInVaccineVoucher"
-                  control={control}
-                  render={({ field }) => (
-                    <FormControlLabel
-                      control={<Checkbox {...field} checked={field.value} />}
-                      label="Vaccine Voucher"
-                    />
-                  )}
-                />
-                <Controller
-                  name="enrolledInGetPreventativeScreenings"
-                  control={control}
-                  render={({ field }) => (
-                    <FormControlLabel
-                      control={<Checkbox {...field} checked={field.value} />}
-                      label="Get Preventative Screenings"
-                    />
-                  )}
-                />
+                    )}
+                  />
+                )}
+                {showDiabetesPreventionButton && (
+                  <Controller
+                    name="enrolledInDiabetesPrevention"
+                    control={control}
+                    render={({ field }) => (
+                      <FormControlLabel
+                        control={<Checkbox {...field} checked={field.value} />}
+                        label="Diabetes Prevention"
+                      />
+                    )}
+                  />
+                )}
+                {showRigsWithoutCigsButton && (
+                  <Controller
+                    name="enrolledInRigsWithoutCigs"
+                    control={control}
+                    render={({ field }) => (
+                      <FormControlLabel
+                        control={<Checkbox {...field} checked={field.value} />}
+                        label="Rigs Without Cigs"
+                      />
+                    )}
+                  />
+                )}
+                {showVaccineVoucherButton && (
+                  <Controller
+                    name="enrolledInVaccineVoucher"
+                    control={control}
+                    render={({ field }) => (
+                      <FormControlLabel
+                        control={<Checkbox {...field} checked={field.value} />}
+                        label="Vaccine Voucher"
+                      />
+                    )}
+                  />
+                )}
+                {showGetPreventativeScreeningsButton && (
+                  <Controller
+                    name="enrolledInGetPreventativeScreenings"
+                    control={control}
+                    render={({ field }) => (
+                      <FormControlLabel
+                        control={<Checkbox {...field} checked={field.value} />}
+                        label="Get Preventative Screenings"
+                      />
+                    )}
+                  />
+                )}
               </Box>
               <Box display="flex" gap={2}>
                 <Button variant="outlined" onClick={onCancel} fullWidth>
@@ -260,7 +320,7 @@ export default function ClientProgramManagementForm({
                   variant="contained"
                   type="submit"
                   loading={isLoading}
-                  disabled={disabled}
+                  disabled={disabled || !isDirty}
                   fullWidth
                 >
                   Save

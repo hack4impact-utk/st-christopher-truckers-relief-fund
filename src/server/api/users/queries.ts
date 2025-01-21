@@ -30,7 +30,12 @@ async function getUser(
     }
 
     if (options?.populateProgramEnrollments) {
-      userQuery.populate("programEnrollments");
+      userQuery.populate({
+        path: "programEnrollments",
+        populate: {
+          path: "user",
+        },
+      });
     }
 
     const user = await userQuery.lean<User>().exec();
@@ -74,7 +79,12 @@ async function getUsers(
     }
 
     if (options?.populateProgramEnrollments) {
-      usersQuery.populate("programEnrollments");
+      usersQuery.populate({
+        path: "programEnrollments",
+        populate: {
+          path: "user",
+        },
+      });
     }
 
     if (options?.populateEnrollmentForm) {
