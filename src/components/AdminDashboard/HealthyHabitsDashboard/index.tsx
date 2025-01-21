@@ -10,11 +10,11 @@ import { ProgramEnrollment } from "@/types";
 type HealthyHabitsSections = "clients" | "metrics";
 
 type HealthyHabitsDashboardProps = {
-  healthHabitsProgramEnrollments: ProgramEnrollment[];
+  healthyHabitsProgramEnrollments: ProgramEnrollment[];
 };
 
 export default function HealthyHabitsDashboard({
-  healthHabitsProgramEnrollments,
+  healthyHabitsProgramEnrollments,
 }: HealthyHabitsDashboardProps) {
   const [selectedSection, setSelectedSection] =
     useState<HealthyHabitsSections>("clients");
@@ -31,7 +31,7 @@ export default function HealthyHabitsDashboard({
       case "clients":
         return (
           <HealthyHabitsClientDashboard
-            healthHabitsProgramEnrollments={healthHabitsProgramEnrollments}
+            healthyHabitsProgramEnrollments={healthyHabitsProgramEnrollments}
           />
         );
       case "metrics":
@@ -46,17 +46,15 @@ export default function HealthyHabitsDashboard({
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
           flexDirection: "column",
-          width: "95%",
-          height: "75%",
-          marginTop: "100px",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
         }}
       >
         <Box
           sx={{
-            width: "100%",
+            alignSelf: "flex-start",
           }}
         >
           <Tabs
@@ -69,7 +67,9 @@ export default function HealthyHabitsDashboard({
             <Tab label="Metrics" value="metrics" />
           </Tabs>
         </Box>
-        <Box sx={{ marginTop: 3 }}>{getSectionContent(selectedSection)}</Box>
+        <Box sx={{ marginTop: 3, width: "100%" }}>
+          {getSectionContent(selectedSection)}
+        </Box>
       </Box>
     </>
   );

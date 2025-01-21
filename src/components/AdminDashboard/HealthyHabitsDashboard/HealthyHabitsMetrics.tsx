@@ -1,7 +1,11 @@
 "use client";
 
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function HealthyHabitsMetrics() {
-  return <Typography>Healthy Habits Metrics</Typography>;
+  return (
+    <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+      <Typography variant="h6">Metrics</Typography>
+    </Box>
+  );
 }

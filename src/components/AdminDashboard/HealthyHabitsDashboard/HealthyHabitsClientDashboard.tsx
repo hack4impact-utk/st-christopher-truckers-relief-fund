@@ -27,11 +27,7 @@ const createRowFromHealthyHabitsProgramEnrollment = (
   let completed = false;
 
   if (user.healthyHabitsTrackingForms.length > 0) {
-    const date = dayjsUtil(user.healthyHabitsTrackingForms[0]?.submittedDate);
-    const lastSunday = dayjsUtil()
-      .subtract(dayjsUtil().day(), "day")
-      .startOf("day");
-
+    const latestFormSubmission = user.healthyHabitsTrackingForms[0];
     completed = date.isSame(lastSunday, "day");
   }
 
@@ -50,42 +46,40 @@ function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
 }
 
 type HealthyHabitsClientDashboardProps = {
-  healthHabitsProgramEnrollments: ProgramEnrollment[];
+  healthyHabitsProgramEnrollments: ProgramEnrollment[];
 };
 
 export default function HealthyHabitsClientDashboard({
-  healthHabitsProgramEnrollments,
+  healthyHabitsProgramEnrollments,
 }: HealthyHabitsClientDashboardProps) {
-  const rows = getRows(healthHabitsProgramEnrollments);
+  const rows = getRows(healthyHabitsProgramEnrollments);
   const [searchQuery, setSearchQuery] = useState("");
 
   const columns: GridColDef<Row>[] = [
     {
       field: "firstName",
       headerName: "First name",
-      width: 150,
+      flex: 1,
     },
     {
       field: "lastName",
       headerName: "Last name",
-      width: 150,
+      flex: 1,
     },
     {
       field: "phoneNumber",
       headerName: "Phone Number",
-      width: 125,
+      flex: 1,
     },
     {
       field: "email",
       headerName: "Email",
-      minWidth: 200,
-      flex: 1,
+      flex: 2,
     },
     {
       field: "competed",
-      headerName: "Completed",
+      headerName: "Completed tracking form this week?",
       sortable: false,
-      minWidth: 100,
       flex: 1,
       renderCell: (params) => {
         const completed = params.row.completed;
@@ -120,7 +114,7 @@ export default function HealthyHabitsClientDashboard({
     <>
       <Box>
         <Typography align="center" variant="h4" sx={{ m: 2 }}>
-          Health Habits
+          Healthy Habits Clients
         </Typography>
         <Box display="flex" alignItems="center" sx={{ py: 2 }}>
           <TextField

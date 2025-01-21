@@ -76,12 +76,12 @@ export async function getProgramEnrollmentForUser(
   }
 }
 
-export async function getHealthHabitsProgramEnrollments(): Promise<
+export async function getHealthyHabitsProgramEnrollments(): Promise<
   ApiResponse<ProgramEnrollment[]>
 > {
   await dbConnect();
   try {
-    const healthHabitsEnrollments = ProgramEnrollmentModel.find({
+    const healthyHabitsEnrollments = await ProgramEnrollmentModel.find({
       status: "accepted",
       program: "Healthy Habits For The Long Haul",
     })
@@ -100,7 +100,7 @@ export async function getHealthHabitsProgramEnrollments(): Promise<
       .lean<ProgramEnrollment[]>()
       .exec();
 
-    return [await healthHabitsEnrollments, null];
+    return [serializeMongooseObject(healthyHabitsEnrollments), null];
   } catch (error) {
     console.error(error);
     return [null, handleMongooseError(error)];
