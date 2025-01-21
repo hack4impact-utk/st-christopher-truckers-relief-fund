@@ -3,9 +3,10 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 
-import HealthyHabitsClientDashboard from "@/components/AdminDashboard/HealthyHabitsDashboard/HealthyHabitsClientDashboard";
-import HealthyHabitsMetrics from "@/components/AdminDashboard/HealthyHabitsDashboard/HealthyHabitsMetrics";
 import { ProgramEnrollment } from "@/types";
+
+import HealthyHabitsClientDashboard from "./HealthyHabitsClientDashboard";
+import HealthyHabitsMetrics from "./HealthyHabitsMetrics";
 
 type HealthyHabitsSections = "clients" | "metrics";
 

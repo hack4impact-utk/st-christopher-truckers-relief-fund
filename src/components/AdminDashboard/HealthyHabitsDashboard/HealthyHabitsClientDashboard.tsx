@@ -9,6 +9,7 @@ import { useState } from "react";
 
 import { ClientUser, ProgramEnrollment } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
 export type Row = {
   id?: string;
@@ -28,7 +29,13 @@ const createRowFromHealthyHabitsProgramEnrollment = (
 
   if (user.healthyHabitsTrackingForms.length > 0) {
     const latestFormSubmission = user.healthyHabitsTrackingForms[0];
-    completed = date.isSame(lastSunday, "day");
+    const latestFormSubmissionWeek = dayjsUtil(
+      latestFormSubmission.weekOfSubmission,
+    );
+
+    const lastSunday = getClosestPastSunday();
+
+    completed = latestFormSubmissionWeek.isSame(lastSunday, "day");
   }
 
   return {
