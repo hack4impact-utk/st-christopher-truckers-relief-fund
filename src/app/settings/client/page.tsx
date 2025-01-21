@@ -1,7 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
 import ClientSettings from "@/components/Settings/ClientSettings";
+import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
 export default async function AdminSettingsPage() {
@@ -12,6 +13,26 @@ export default async function AdminSettingsPage() {
   }
 
   const { user } = session;
+
+  const [userWithProgramEnrollments, error] = await getUserByEmail(user.email, {
+    populateProgramEnrollments: true,
+  });
+
+  if (error !== null) {
+    console.error(error);
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography>There was an error loading the settings.</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -25,7 +46,7 @@ export default async function AdminSettingsPage() {
         gap: 2,
       }}
     >
-      <ClientSettings user={user} />
+      <ClientSettings user={userWithProgramEnrollments} />
     </Box>
   );
 }
