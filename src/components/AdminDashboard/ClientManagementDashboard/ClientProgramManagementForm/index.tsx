@@ -129,7 +129,7 @@ export default function ClientProgramManagementForm({
 }: ClientManagementDashboardProps) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const [disabled] = useState(false);
   const {
     control,
     handleSubmit,
