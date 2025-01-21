@@ -1,6 +1,32 @@
 import { Box, Typography } from "@mui/material";
 
-export default function AdminClientsPage() {
+import ClientManagementDashboard from "@/components/AdminDashboard/ClientManagementDashboard";
+import { getClients } from "@/server/api/users/queries";
+
+export default async function AdminClientsPage() {
+  const [clients, error] = await getClients({
+    populateProgramEnrollments: true,
+    populateHealthyHabitsTrackingForms: true,
+    populateEnrollmentForm: true,
+  });
+
+  if (error !== null) {
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography>
+          There was an error fetching pending applications
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -10,7 +36,7 @@ export default function AdminClientsPage() {
         alignItems: "center",
       }}
     >
-      <Typography>Admin Clients Page</Typography>
+      <ClientManagementDashboard clients={clients} />
     </Box>
   );
 }

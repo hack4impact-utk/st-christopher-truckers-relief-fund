@@ -1,6 +1,6 @@
 "use server";
 
-import { ProgramEnrollment } from "@/types";
+import { ApiResponse, ProgramEnrollment } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 
 import {
@@ -15,7 +15,7 @@ import {
 export async function handleRejectProgramApplication(
   programEnrollment: ProgramEnrollment,
   reason: string,
-) {
+): Promise<ApiResponse<null>> {
   const [, authError] = await authenticateServerFunction("admin");
 
   if (authError !== null) {
@@ -28,11 +28,13 @@ export async function handleRejectProgramApplication(
     programEnrollment.program,
     reason,
   );
+
+  return [null, null];
 }
 
 export async function handleApproveProgramApplication(
   programEnrollment: ProgramEnrollment,
-) {
+): Promise<ApiResponse<null>> {
   const [, authError] = await authenticateServerFunction("admin");
 
   if (authError !== null) {
@@ -45,4 +47,6 @@ export async function handleApproveProgramApplication(
     programEnrollment.user.firstName,
     programEnrollment.program,
   );
+
+  return [null, null];
 }
