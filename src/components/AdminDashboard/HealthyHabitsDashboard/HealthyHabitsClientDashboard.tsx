@@ -7,9 +7,16 @@ import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 
-import { ClientUser, ProgramEnrollment } from "@/types";
+import {
+  ClientUser,
+  HealthyHabitsTrackingForm,
+  ProgramEnrollment,
+  User,
+} from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
+
+import HealthyHabitsHistoryModal from "./HealthyHabitsHistoryModal";
 
 export type Row = {
   id?: string;
@@ -17,7 +24,9 @@ export type Row = {
   firstName: string;
   phoneNumber: string;
   email: string;
+  trackingForms: HealthyHabitsTrackingForm[];
   completed: boolean;
+  user: User;
 };
 
 const createRowFromHealthyHabitsProgramEnrollment = (
@@ -44,7 +53,9 @@ const createRowFromHealthyHabitsProgramEnrollment = (
     firstName: user.firstName,
     phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
     email: user.email,
+    trackingForms: user.healthyHabitsTrackingForms,
     completed,
+    user,
   };
 };
 
@@ -67,27 +78,48 @@ export default function HealthyHabitsClientDashboard({
       field: "firstName",
       headerName: "First name",
       flex: 1,
+      minWidth: 150,
     },
     {
       field: "lastName",
       headerName: "Last name",
       flex: 1,
+      minWidth: 150,
     },
     {
       field: "phoneNumber",
       headerName: "Phone Number",
       flex: 1,
+      minWidth: 125,
     },
     {
       field: "email",
       headerName: "Email",
       flex: 2,
+      minWidth: 200,
     },
     {
-      field: "competed",
+      field: "history",
+      headerName: "View history",
+      sortable: false,
+      align: "center",
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params) => {
+        return (
+          <HealthyHabitsHistoryModal
+            trackingForms={params.row.trackingForms}
+            user={params.row.user}
+          />
+        );
+      },
+    },
+    {
+      field: "completed",
       headerName: "Completed tracking form this week?",
       sortable: false,
       flex: 1,
+      minWidth: 250,
       renderCell: (params) => {
         const completed = params.row.completed;
 
