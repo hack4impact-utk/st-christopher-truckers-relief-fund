@@ -1,13 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 
-import HealthyHabits from "@/components/ClientDashboard/HealthyHabits";
 import { getUserByEmail } from "@/server/api/users/queries";
-import { ClientUser } from "@/types";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
-export default async function HealthyHabitsPage() {
+export default async function VaccineVoucherPage() {
   const session = await getUserSession();
 
   if (!session) {
@@ -15,7 +13,6 @@ export default async function HealthyHabitsPage() {
   }
 
   const [user, error] = await getUserByEmail(session.user.email, {
-    populateHealthyHabitsTrackingForms: true,
     populateProgramEnrollments: true,
   });
 
@@ -31,7 +28,7 @@ export default async function HealthyHabitsPage() {
         }}
       >
         <Typography>
-          An error occurred while fetching your healthy habits tracking forms.
+          There was an error fetching your vaccine voucher enrollment.
         </Typography>
       </Box>
     );
@@ -41,27 +38,26 @@ export default async function HealthyHabitsPage() {
     redirect("/dashboard");
   }
 
-  const enrolledInHealthyHabitsProgram = isUserEnrolledInProgram(
+  const enrolledInVaccineVoucherProgram = isUserEnrolledInProgram(
     user.programEnrollments,
-    "Healthy Habits For The Long Haul",
+    "Vaccine Voucher",
   );
 
-  if (!enrolledInHealthyHabitsProgram) {
+  if (!enrolledInVaccineVoucherProgram) {
     redirect("/dashboard/client");
   }
 
   return (
     <Box
       sx={{
+        height: "100vh",
+        width: "100vw",
         display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "100px",
-        padding: 1,
       }}
     >
-      <HealthyHabits user={user as ClientUser} />
+      <Typography>Vaccine Voucher Page</Typography>
     </Box>
   );
 }
