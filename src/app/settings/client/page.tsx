@@ -19,7 +19,6 @@ export default async function AdminSettingsPage() {
   });
 
   if (error !== null) {
-    console.error(error);
     return (
       <Box
         sx={{

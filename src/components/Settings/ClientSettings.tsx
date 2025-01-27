@@ -17,36 +17,48 @@ export default function ClientSettings({ user }: ClientSettingsProps) {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
+        width: "min(90vw, 700px)",
+        boxShadow: 3,
+        borderRadius: 2,
+        padding: 4,
       }}
     >
-      <Typography variant="h4">Client Settings</Typography>
-      <Typography>
-        Name: {user.firstName} {user.lastName}
+      <Typography variant="h4" textAlign="center">
+        Client Settings
       </Typography>
-      <Typography variant="body1">Email: {user.email}</Typography>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <Typography>
+          <strong>Name:</strong> {user.firstName} {user.lastName}
+        </Typography>
+        <Typography>
+          <strong>Email:</strong> {user.email}
+        </Typography>
+      </Box>
 
-      <Divider />
-      <Typography variant="h5">Accepted Programs</Typography>
+      <Divider sx={{ my: 3 }} />
+
+      <Typography variant="h6">Accepted Programs</Typography>
       <List>
         {user.programEnrollments.map((programEnrollment) => {
-          if (programEnrollment.status === "accepted") {
-            return (
-              <ListItem key={programEnrollment._id}>
-                <Typography variant="body1">
-                  {programEnrollment.program}
-                </Typography>
-              </ListItem>
-            );
-          }
+          return programEnrollment.status === "accepted" ? (
+            <ListItem key={programEnrollment._id} disablePadding>
+              <Typography>{programEnrollment.program}</Typography>
+            </ListItem>
+          ) : null;
         })}
       </List>
 
-      <ChangePasswordButton />
-      <SignOutButton />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 2,
+          mt: 4,
+        }}
+      >
+        <ChangePasswordButton />
+        <SignOutButton />
+      </Box>
     </Box>
   );
 }

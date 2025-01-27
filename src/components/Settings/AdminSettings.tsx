@@ -13,19 +13,35 @@ export default function AdminSettings({ user }: AdminSettingsProps) {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
+        width: "min(90vw, 700px)",
+        boxShadow: 3,
+        borderRadius: 2,
+        padding: 4,
       }}
     >
-      <Typography variant="h4">Admin Settings</Typography>
-      <Typography>
-        Name: {user.firstName} {user.lastName}
+      <Typography variant="h4" textAlign="center">
+        Admin Settings
       </Typography>
-      <Typography variant="body1">Email: {user.email}</Typography>
-      <ChangePasswordButton />
-      <SignOutButton />
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <Typography>
+          <strong>Name:</strong> {user.firstName} {user.lastName}
+        </Typography>
+        <Typography>
+          <strong>Email:</strong> {user.email}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 2,
+          mt: 4,
+        }}
+      >
+        <ChangePasswordButton />
+        <SignOutButton />
+      </Box>
     </Box>
   );
 }
