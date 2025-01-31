@@ -9,6 +9,7 @@ export type AdminUser = {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   password: string;
   role: "admin";
   dateCreated: string;
@@ -20,6 +21,7 @@ export type ClientUser = {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   password: string;
   role: "client";
   dateCreated: string;

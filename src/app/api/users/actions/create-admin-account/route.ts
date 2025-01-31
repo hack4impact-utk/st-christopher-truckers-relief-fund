@@ -1,3 +1,7 @@
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import { z } from "zod";
 
 import { createAdminUser } from "@/server/api/users/private-mutations";
@@ -9,6 +13,13 @@ const adminUserRequestSchema = z.object({
   password: z.string().min(8, {
     message: "Password must be at least 8 characters",
   }),
+  phoneNumber: z
+    .string()
+    .refine(
+      (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
+      "Invalid phone number",
+    )
+    .transform((val) => parsePhoneNumberWithError(val, "US").number.toString()),
 });
 
 export type AdminUserRequest = z.infer<typeof adminUserRequestSchema>;
