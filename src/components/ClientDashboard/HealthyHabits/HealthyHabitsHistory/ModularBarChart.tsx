@@ -34,7 +34,7 @@ export default function ModularBarChart({
           .diff(dayjsUtil.utc(b.weekOfSubmission)),
       )
       .map((form) => ({
-        value: Number(form[dataKey]) || 0,
+        value: Number(form[dataKey]) || null,
         label: `Week of ${dayjsUtil.utc(form.weekOfSubmission).format("MM/DD/YY")}`,
       }));
   };

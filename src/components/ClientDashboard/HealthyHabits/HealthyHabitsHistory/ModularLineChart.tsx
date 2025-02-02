@@ -17,7 +17,7 @@ type ModularLineChartProps = {
 
 type RegularChartDataPoint = {
   x: Date;
-  y: number;
+  y?: number;
   y2?: number;
 };
 
@@ -54,7 +54,7 @@ export default function ModularLineChart({
 
     const series = [
       {
-        data: chartData.map((item) => item.y),
+        data: chartData.map((item) => item.y ?? 0),
         label: graphLabel,
         color: theme.palette.primary.main,
         curve: "linear" as const,
@@ -63,7 +63,7 @@ export default function ModularLineChart({
 
     if (dataKey2 && secondaryLabel) {
       series.push({
-        data: chartData.map((item) => item.y2!),
+        data: chartData.map((item) => item.y2 ?? 0),
         label: secondaryLabel,
         color: theme.palette.info.main,
         curve: "linear",
