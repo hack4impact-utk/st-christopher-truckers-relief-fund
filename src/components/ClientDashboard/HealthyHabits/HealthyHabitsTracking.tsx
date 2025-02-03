@@ -83,6 +83,7 @@ export default function HealthyHabitsTracking({
 
   const onSubmit = async (data: HealthyHabitsFormValues): Promise<void> => {
     setIsLoading(true);
+    setDisabled(true);
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
@@ -111,7 +112,7 @@ export default function HealthyHabitsTracking({
     }
 
     setIsLoading(false);
-    setDisabled(true);
+    setDisabled(false);
   };
 
   return (
