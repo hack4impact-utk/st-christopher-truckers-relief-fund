@@ -381,7 +381,7 @@ export default function HealthyHabitsTracking({
           />
 
           {/* A1C - Now Optional */}
-          <ControlledTextField  
+          <ControlledTextField
             control={control}
             name="a1c"
             label="A1C"

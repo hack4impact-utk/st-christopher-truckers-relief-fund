@@ -2,6 +2,14 @@
 import mongoose from "mongoose";
 
 export function serializeMongooseObject(data: any): any {
+  if (data == null) {
+    return null;
+  }
+
+  if (data === undefined) {
+    return undefined;
+  }
+
   // Handle ObjectId specifically
   if (data instanceof mongoose.Types.ObjectId) {
     return data.toString();
