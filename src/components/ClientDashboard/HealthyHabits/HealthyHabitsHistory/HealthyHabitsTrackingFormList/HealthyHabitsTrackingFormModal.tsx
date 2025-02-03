@@ -124,7 +124,17 @@ export default function HealthyHabitsTrackingFormModal({
               />
               <FormResponse
                 label="Blood Glucose"
-                value={form.bloodGlucose}
+                value={form.bloodGlucose ? `${form.bloodGlucose} mg/dL` : "N/A"}
+                isListItem={true}
+              />
+              <FormResponse
+                label="A1c"
+                value={form.a1c ? `${form.a1c}%` : "N/A"}
+                isListItem={true}
+              />
+              <FormResponse
+                label="Cholesterol"
+                value={form.cholesterol ? `${form.cholesterol} mg/dL` : "N/A"}
                 isListItem={true}
               />
 
