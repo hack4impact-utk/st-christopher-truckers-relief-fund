@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { EnrollmentForm } from "@/types/EnrollmentForm";
 import { GeneralInformationSection } from "@/types/EnrollmentForm/GeneralInformationSection";
@@ -15,7 +15,7 @@ import {
 } from "@/utils/constants/formDefaultValues";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-type EnrollmentFormContextType = {
+export type EnrollmentFormContextType = {
   enrollmentForm: EnrollmentForm;
   completedSections: {
     generalInformationSectionCompleted: boolean;
@@ -43,7 +43,7 @@ type EnrollmentFormProviderProps = {
 
 export function EnrollmentFormProvider({
   children,
-}: EnrollmentFormProviderProps) {
+}: EnrollmentFormProviderProps): ReactNode {
   const [enrollmentForm, setEnrollmentForm] = useState<EnrollmentForm>({
     dateSubmitted: dayjsUtil().utc().toISOString(),
     generalInformationSection: generalInformationSectionDefaultValues,
@@ -62,7 +62,7 @@ export function EnrollmentFormProvider({
 
   const updateGeneralInformationSection = (
     section: GeneralInformationSection,
-  ) => {
+  ): void => {
     setEnrollmentForm((prevForm) => ({
       ...prevForm,
       generalInformationSection: section,
@@ -75,7 +75,7 @@ export function EnrollmentFormProvider({
 
   const updateQualifyingQuestionsSection = (
     section: QualifyingQuestionsSection,
-  ) => {
+  ): void => {
     setEnrollmentForm((prevForm) => ({
       ...prevForm,
       qualifyingQuestionsSection: section,
@@ -86,7 +86,9 @@ export function EnrollmentFormProvider({
     }));
   };
 
-  const updateProgramSelectionSection = (section: ProgramSelectionSection) => {
+  const updateProgramSelectionSection = (
+    section: ProgramSelectionSection,
+  ): void => {
     setEnrollmentForm((prevForm) => ({
       ...prevForm,
       programSelectionSection: section,
@@ -108,7 +110,7 @@ export function EnrollmentFormProvider({
 
   const updateProgramSpecificQuestionsSection = (
     section: ProgramSpecificQuestionsSection,
-  ) => {
+  ): void => {
     setEnrollmentForm((prevForm) => ({
       ...prevForm,
       dateSubmitted: dayjsUtil().utc().toISOString(),
@@ -130,7 +132,7 @@ export function EnrollmentFormProvider({
     }));
   };
 
-  const resetEnrollmentForm = () => {
+  const resetEnrollmentForm = (): void => {
     setEnrollmentForm({
       dateSubmitted: dayjsUtil().utc().toISOString(),
       generalInformationSection: generalInformationSectionDefaultValues,
@@ -150,7 +152,7 @@ export function EnrollmentFormProvider({
 
   // show warning on window unload
   useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent): string => {
       if (event.preventDefault) {
         event.preventDefault();
       }
@@ -160,7 +162,7 @@ export function EnrollmentFormProvider({
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
+    return (): void => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);

@@ -23,7 +23,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
@@ -36,7 +36,9 @@ import dayjsUtil from "@/utils/dayjsUtil";
 
 import ControlledTextField from "../controlled/ControlledTextField";
 
-function isDisqualified(generalInformationSection: GeneralInformationSection) {
+function isDisqualified(
+  generalInformationSection: GeneralInformationSection,
+): boolean {
   if (!generalInformationSection.hasClassACdl) {
     return true;
   }
@@ -51,7 +53,7 @@ function isDisqualified(generalInformationSection: GeneralInformationSection) {
   return false;
 }
 
-export default function GeneralInformationFormSection() {
+export default function GeneralInformationFormSection(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const { enrollmentForm, updateGeneralInformationSection } =
     useEnrollmentForm();
@@ -67,7 +69,7 @@ export default function GeneralInformationFormSection() {
     defaultValues: enrollmentForm.generalInformationSection,
   });
 
-  const onSubmit = (data: GeneralInformationSection) => {
+  const onSubmit = (data: GeneralInformationSection): void => {
     setIsLoading(true);
     if (isDisqualified(data)) {
       router.push("/enrollment-form/disqualified");
@@ -77,7 +79,7 @@ export default function GeneralInformationFormSection() {
     }
   };
 
-  const onError = () => {
+  const onError = (): void => {
     window.alert("Please review all fields before continuing.");
   };
 

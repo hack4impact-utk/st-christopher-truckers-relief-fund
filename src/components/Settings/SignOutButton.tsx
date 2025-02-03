@@ -3,8 +3,9 @@
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 import { signOut } from "next-auth/react";
+import { ReactNode } from "react";
 
-export default function SignOutButton() {
+export default function SignOutButton(): ReactNode {
   return (
     <Button
       onClick={() => signOut({ callbackUrl: "/" })}

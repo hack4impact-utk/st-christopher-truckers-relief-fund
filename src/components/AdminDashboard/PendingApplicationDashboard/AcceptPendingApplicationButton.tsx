@@ -2,7 +2,7 @@
 
 import { Check } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { ProgramEnrollment } from "@/types";
@@ -23,8 +23,8 @@ export default function AcceptPendingApplicationButton({
   setRows,
   setSnackbarOpen,
   setSnackbarMessage,
-}: AcceptPendingApplicationButtonProps) {
-  const removePendingApplicationFromRows = () => {
+}: AcceptPendingApplicationButtonProps): ReactNode {
+  const removePendingApplicationFromRows = (): void => {
     const rowsWithoutProgramEnrollment = rows.filter(
       (row) =>
         row.email !== programEnrollment.user.email ||
@@ -33,7 +33,7 @@ export default function AcceptPendingApplicationButton({
     setRows(rowsWithoutProgramEnrollment);
   };
 
-  const handleClick = async () => {
+  const handleClick = async (): Promise<void> => {
     const confirmed = window.confirm(
       "Are you sure you want to approve this application?",
     );

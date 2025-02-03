@@ -1,11 +1,13 @@
 import dbConnect from "@/server/dbConnect";
 import { EnrollmentFormModel } from "@/server/models";
-import { EnrollmentForm } from "@/types";
+import { ApiResponse, EnrollmentForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
-export async function getEnrollmentFormByEmail(email: string) {
+export async function getEnrollmentFormByEmail(
+  email: string,
+): Promise<ApiResponse<EnrollmentForm>> {
   await dbConnect();
 
   try {

@@ -1,13 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import EnrolledProgramsSelectionScreen from "@/components/ClientDashboard/EnrolledProgramSelectionScreen.tsx";
 import { getUserByEmail } from "@/server/api/users/queries";
 import { ClientUser } from "@/types";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function ClientDashboardPage() {
+export default async function ClientDashboardPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session) {

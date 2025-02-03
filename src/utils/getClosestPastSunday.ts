@@ -6,7 +6,7 @@ import dayjsUtil from "./dayjsUtil";
  * @param date The date to get the closest past sunday for. Defaults to the current date.
  * @returns The closest past sunday to the current date in ISO date format
  */
-export default function getClosestPastSunday(date?: Dayjs) {
+export default function getClosestPastSunday(date?: Dayjs): string {
   const today = dayjsUtil(date).utc().startOf("day");
 
   const dayOfWeek = today.day();

@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 import NotFound from "@/components/NotFound";
 
-export default function Custom404() {
+export default function NotFoundPage(): ReactNode {
   return (
     <Box
       sx={{

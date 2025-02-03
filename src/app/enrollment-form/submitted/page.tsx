@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 import SubmittedFormSection from "@/components/EnrollmentForm/SubmittedFormSection";
 
-export default function SubmittedPage() {
+export default function SubmittedPage(): ReactNode {
   return (
     <Box
       sx={{

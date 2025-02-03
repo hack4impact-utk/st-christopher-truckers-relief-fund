@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-export default function NotFound() {
+export default function NotFound(): ReactNode {
   return (
     <Box
       sx={{

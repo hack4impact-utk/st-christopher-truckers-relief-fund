@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Snackbar, Typography } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -17,7 +17,7 @@ const forgotPasswordFormSchema = z.object({
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordFormSchema>;
 
-export default function ForgotPasswordForm() {
+export default function ForgotPasswordForm(): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -31,7 +31,7 @@ export default function ForgotPasswordForm() {
     defaultValues: { email: "" },
   });
 
-  const onSubmit = async (data: ForgotPasswordFormValues) => {
+  const onSubmit = async (data: ForgotPasswordFormValues): Promise<void> => {
     setIsLoading(true);
 
     const { email } = data;

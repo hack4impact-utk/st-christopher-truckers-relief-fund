@@ -7,7 +7,9 @@ import { sendPasswordResetEmail } from "../emails/private-mutations";
 import { getUserByEmail } from "../users/queries";
 import { createPasswordResetToken } from "./private-mutations";
 
-export default async function handlePasswordResetRequest(email: string) {
+export default async function handlePasswordResetRequest(
+  email: string,
+): Promise<void> {
   // check if email exists
   const [user, userError] = await getUserByEmail(email);
 

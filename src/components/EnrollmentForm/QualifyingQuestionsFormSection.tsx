@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
@@ -26,7 +26,7 @@ import {
 
 import ControlledTextField from "../controlled/ControlledTextField";
 
-export default function QualifyingQuestionsFormSection() {
+export default function QualifyingQuestionsFormSection(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const {
     enrollmentForm,
@@ -51,13 +51,13 @@ export default function QualifyingQuestionsFormSection() {
     }
   }, [completedSections.generalInformationSectionCompleted, router]);
 
-  const onSubmit = (data: QualifyingQuestionsSection) => {
+  const onSubmit = (data: QualifyingQuestionsSection): void => {
     setIsLoading(true);
     updateQualifyingQuestionsSection(data);
     router.push("/enrollment-form/program-selection");
   };
 
-  const onError = () => {
+  const onError = (): void => {
     window.alert("Please review all fields before continuing.");
   };
 

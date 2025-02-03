@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import Sidebar from "@/components/AdminDashboard/Sidebar";
 import getUserSession from "@/utils/getUserSession";
@@ -10,7 +11,7 @@ type AdminDashboardLayoutProps = {
 
 export default async function AdminDashboardLayout({
   children,
-}: AdminDashboardLayoutProps) {
+}: AdminDashboardLayoutProps): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "admin") {

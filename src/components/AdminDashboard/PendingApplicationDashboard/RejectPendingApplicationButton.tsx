@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,7 +37,7 @@ export default function RejectPendingApplicationButton({
   setRows,
   setSnackbarOpen,
   setSnackbarMessage,
-}: RejectPendingApplicationButtonProps) {
+}: RejectPendingApplicationButtonProps): ReactNode {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -51,7 +51,7 @@ export default function RejectPendingApplicationButton({
     defaultValues: { rejectionReason: "" },
   });
 
-  const removePendingApplicationFromRows = () => {
+  const removePendingApplicationFromRows = (): void => {
     const rowsWithoutProgramEnrollment = rows.filter(
       (row) =>
         row.email !== programEnrollment.user.email ||
@@ -60,7 +60,7 @@ export default function RejectPendingApplicationButton({
     setRows(rowsWithoutProgramEnrollment);
   };
 
-  const onSubmit = async (data: RejectButtonFormValues) => {
+  const onSubmit = async (data: RejectButtonFormValues): Promise<void> => {
     setLoading(true);
 
     await handleRejectProgramApplication(

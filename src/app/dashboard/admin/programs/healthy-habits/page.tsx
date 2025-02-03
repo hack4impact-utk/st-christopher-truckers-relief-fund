@@ -1,9 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import HealthyHabitsDashboard from "@/components/AdminDashboard/HealthyHabitsDashboard";
 import { getHealthyHabitsProgramEnrollments } from "@/server/api/program-enrollments/queries";
 
-export default async function HealthyHabits() {
+export default async function HealthyHabits(): Promise<ReactNode> {
   const [healthyHabitsProgramEnrollments, error] =
     await getHealthyHabitsProgramEnrollments();
 

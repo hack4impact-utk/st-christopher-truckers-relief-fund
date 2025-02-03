@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import { EnrollmentFormProvider } from "@/providers/EnrollmentFormProvider";
 
 type EnrollmentFormLayoutProps = {
@@ -6,6 +8,6 @@ type EnrollmentFormLayoutProps = {
 
 export default function EnrollmentFormLayout({
   children,
-}: EnrollmentFormLayoutProps) {
+}: EnrollmentFormLayoutProps): ReactNode {
   return <EnrollmentFormProvider>{children}</EnrollmentFormProvider>;
 }

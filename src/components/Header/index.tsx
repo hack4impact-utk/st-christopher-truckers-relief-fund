@@ -4,10 +4,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { ReactNode } from "react";
 
 import Logo from "../Logo";
 
-export function Header() {
+export function Header(): ReactNode {
   const { data: session } = useSession();
 
   return (

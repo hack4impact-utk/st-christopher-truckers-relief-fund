@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import AdminSettings from "@/components/Settings/AdminSettings";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function AdminSettingsPage() {
+export default async function AdminSettingsPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "admin") {

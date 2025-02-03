@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { ProgramSpecificQuestionsSection } from "@/types";
 import getBmiClassification from "@/utils/getBmiClassification";
@@ -11,7 +12,7 @@ type HealthyHabitsAndDiabetesPreventionResponsesProps = {
 
 export default function HealthyHabitsAndDiabetesPreventionResponses({
   programSpecificQuestionsSection,
-}: HealthyHabitsAndDiabetesPreventionResponsesProps) {
+}: HealthyHabitsAndDiabetesPreventionResponsesProps): ReactNode {
   return (
     <Box mb={2}>
       <Typography

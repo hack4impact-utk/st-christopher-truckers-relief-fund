@@ -2,7 +2,7 @@
 
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Snackbar, Typography } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { handleEmailVerificationTokenRequest } from "@/server/api/email-verification-tokens/public-mutations";
 
@@ -10,12 +10,12 @@ type VerifyEmailProps = {
   email: string;
 };
 
-export default function VerifyEmail({ email }: VerifyEmailProps) {
+export default function VerifyEmail({ email }: VerifyEmailProps): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleClick = async () => {
+  const handleClick = async (): Promise<void> => {
     setIsLoading(true);
     await handleEmailVerificationTokenRequest(email);
     setSnackbarOpen(true);

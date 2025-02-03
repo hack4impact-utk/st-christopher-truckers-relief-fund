@@ -43,6 +43,9 @@ const apiErrors = {
     healthyHabitsTrackingFormAlreadyExists:
       "Healthy habits tracking form already exists",
   },
+  urgentMeetingRequest: {
+    urgentMeetingRequestNotFound: "Urgent meeting request not found",
+  },
 };
 
 export default apiErrors;

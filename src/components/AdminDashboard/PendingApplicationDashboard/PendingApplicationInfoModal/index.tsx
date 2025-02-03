@@ -2,7 +2,7 @@
 
 import InfoIcon from "@mui/icons-material/Info";
 import { Box, Button, Fade, Modal, Typography } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { EnrollmentForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -35,7 +35,7 @@ type PendingApplicationInfoModalProps = {
 
 export default function PendingApplicationInfoModal({
   enrollmentForm,
-}: PendingApplicationInfoModalProps) {
+}: PendingApplicationInfoModalProps): ReactNode {
   const [open, setOpen] = useState(false);
 
   return (

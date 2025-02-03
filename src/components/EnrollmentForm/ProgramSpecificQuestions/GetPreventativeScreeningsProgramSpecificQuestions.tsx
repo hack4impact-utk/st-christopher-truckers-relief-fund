@@ -12,6 +12,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
+import { ReactNode } from "react";
 import { Control, Controller } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -24,7 +25,9 @@ type GetPreventativeScreeningsProgramSpecificQuestionsProps = {
   enrollmentForm: EnrollmentForm;
 };
 
-function isEligibleForProstateScreening(enrollmentForm: EnrollmentForm) {
+function isEligibleForProstateScreening(
+  enrollmentForm: EnrollmentForm,
+): boolean {
   if (enrollmentForm.generalInformationSection.sex === "female") {
     return false;
   }
@@ -51,7 +54,7 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
   control,
   errors,
   enrollmentForm,
-}: GetPreventativeScreeningsProgramSpecificQuestionsProps) {
+}: GetPreventativeScreeningsProgramSpecificQuestionsProps): ReactNode {
   const showProstateScreening = isEligibleForProstateScreening(enrollmentForm);
 
   return (

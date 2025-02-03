@@ -4,7 +4,7 @@
 import { Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { verifyEmailWithToken } from "@/server/api/users/public-mutations";
 import { EmailVerificationToken } from "@/types";
@@ -15,12 +15,12 @@ type VerifyEmailSuccessProps = {
 
 export default function VerifyEmailSuccess({
   emailVerificationToken,
-}: VerifyEmailSuccessProps) {
+}: VerifyEmailSuccessProps): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const router = useRouter();
   const { data: session, update } = useSession();
 
-  const verifyEmail = async () => {
+  const verifyEmail = async (): Promise<void> => {
     if (!session || session.user.isEmailVerified) {
       return;
     }

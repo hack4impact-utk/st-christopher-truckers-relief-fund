@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { ProgramSpecificQuestionsSection } from "@/types";
 
@@ -10,7 +11,7 @@ type RigsWithoutCigsResponsesProps = {
 
 export default function RigsWithoutCigsResponses({
   programSpecificQuestionsSection,
-}: RigsWithoutCigsResponsesProps) {
+}: RigsWithoutCigsResponsesProps): ReactNode {
   return (
     <Box mb={2}>
       <Typography

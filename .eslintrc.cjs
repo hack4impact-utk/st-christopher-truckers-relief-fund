@@ -42,6 +42,7 @@ module.exports = {
     "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/await-thenable": "warn",
     "@typescript-eslint/require-await": "warn",
+    "@typescript-eslint/explicit-function-return-type": "error",
 
     // import rules
     "simple-import-sort/imports": "error",

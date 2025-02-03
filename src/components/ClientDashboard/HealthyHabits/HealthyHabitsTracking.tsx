@@ -19,7 +19,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -40,7 +40,7 @@ type HealthyHabitsTrackingFormProps = {
 
 export default function HealthyHabitsTracking({
   user,
-}: HealthyHabitsTrackingFormProps) {
+}: HealthyHabitsTrackingFormProps): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +81,7 @@ export default function HealthyHabitsTracking({
     },
   });
 
-  const onSubmit = async (data: HealthyHabitsFormValues) => {
+  const onSubmit = async (data: HealthyHabitsFormValues): Promise<void> => {
     setIsLoading(true);
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {

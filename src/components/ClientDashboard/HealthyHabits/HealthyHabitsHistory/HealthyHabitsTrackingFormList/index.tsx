@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, List, Snackbar, Typography } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 
 import { handleHealthyHabitsTrackingFormDeletion } from "@/server/api/healthy-habits-tracking-forms/public-mutations";
 import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
@@ -18,11 +18,13 @@ export default function HealthyHabitsTrackingFormList({
   trackingForms,
   setTrackingForms,
   user,
-}: HealthyHabitsTrackingFormListProps) {
+}: HealthyHabitsTrackingFormListProps): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const handleDelete = async (form: HealthyHabitsTrackingForm) => {
+  const handleDelete = async (
+    form: HealthyHabitsTrackingForm,
+  ): Promise<void> => {
     const confirm = window.confirm(
       "Are you sure you want to delete this tracking form?",
     );

@@ -3,6 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { ReactNode } from "react";
 
 import { Header } from "@/components/Header";
 import NextAuthProvider from "@/providers/NextAuthProvider";
@@ -27,7 +28,7 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): ReactNode {
   return (
     <html lang="en">
       <body className={roboto.variable}>

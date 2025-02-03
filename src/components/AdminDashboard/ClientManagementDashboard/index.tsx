@@ -3,7 +3,7 @@
 import { Search } from "@mui/icons-material";
 import { Box, Snackbar, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import ClientProgramManagementForm from "@/components/AdminDashboard/ClientManagementDashboard/ClientProgramManagementForm";
 import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/";
@@ -41,7 +41,7 @@ type ClientManagementDashboardProps = {
 
 export default function ClientManagementDashboard({
   clients,
-}: ClientManagementDashboardProps) {
+}: ClientManagementDashboardProps): ReactNode {
   const [rows] = useState(getRows(clients));
   const [searchQuery, setSearchQuery] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -75,7 +75,7 @@ export default function ClientManagementDashboard({
       sortable: false,
       minWidth: 350,
       flex: 1,
-      renderCell: (params) => {
+      renderCell: (params): ReactNode => {
         const user = params.row.client;
         const fullName = user.firstName + " " + user.lastName;
         return (

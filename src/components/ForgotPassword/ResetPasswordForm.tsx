@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,7 +37,9 @@ type ResetPasswordFormProps = {
   token: string;
 };
 
-export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
+export default function ResetPasswordForm({
+  token,
+}: ResetPasswordFormProps): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +55,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     defaultValues: { newPassword: "", confirmPassword: "" },
   });
 
-  const onSubmit = async (data: ResetPasswordFormValues) => {
+  const onSubmit = async (data: ResetPasswordFormValues): Promise<void> => {
     setIsLoading(true);
 
     const { newPassword } = data;

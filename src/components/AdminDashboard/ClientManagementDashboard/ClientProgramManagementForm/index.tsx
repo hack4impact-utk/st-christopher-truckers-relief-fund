@@ -12,7 +12,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,6 +21,7 @@ import {
   handleRejectProgramApplication,
 } from "@/server/api/program-enrollments/public-mutations";
 import { Program, ProgramEnrollment } from "@/types";
+import isEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
 const style = {
   position: "absolute",
@@ -48,21 +49,10 @@ const ClientManagementFormSchema = z.object({
 
 type ClientManagementFormValues = z.infer<typeof ClientManagementFormSchema>;
 
-const isEnrolledIn = (
-  programEnrollments: ProgramEnrollment[],
-  program: Program,
-) => {
-  return programEnrollments.some(
-    (programEnrollment) =>
-      programEnrollment.program === program &&
-      programEnrollment.status === "accepted",
-  );
-};
-
 const isPending = (
   programEnrollments: ProgramEnrollment[],
   program: Program,
-) => {
+): boolean => {
   return programEnrollments.some(
     (programEnrollment) =>
       programEnrollment.program === program &&
@@ -74,23 +64,23 @@ const getClientManagementFormDefaultValues = (
   programEnrollments: ProgramEnrollment[],
 ): ClientManagementFormValues => {
   return {
-    enrolledInHealthyHabits: isEnrolledIn(
+    enrolledInHealthyHabits: isEnrolledInProgram(
       programEnrollments,
       "Healthy Habits For The Long Haul",
     ),
-    enrolledInDiabetesPrevention: isEnrolledIn(
+    enrolledInDiabetesPrevention: isEnrolledInProgram(
       programEnrollments,
       "Diabetes Prevention",
     ),
-    enrolledInRigsWithoutCigs: isEnrolledIn(
+    enrolledInRigsWithoutCigs: isEnrolledInProgram(
       programEnrollments,
       "Rigs Without Cigs",
     ),
-    enrolledInVaccineVoucher: isEnrolledIn(
+    enrolledInVaccineVoucher: isEnrolledInProgram(
       programEnrollments,
       "Vaccine Voucher",
     ),
-    enrolledInGetPreventativeScreenings: isEnrolledIn(
+    enrolledInGetPreventativeScreenings: isEnrolledInProgram(
       programEnrollments,
       "GPS (Get Preventative Screenings)",
     ),
@@ -126,7 +116,7 @@ export default function ClientProgramManagementForm({
   setSnackbarOpen,
   setSnackbarMessage,
   fullName,
-}: ClientManagementDashboardProps) {
+}: ClientManagementDashboardProps): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [disabled] = useState(false);
@@ -140,12 +130,12 @@ export default function ClientProgramManagementForm({
     defaultValues: getClientManagementFormDefaultValues(programEnrollments),
   });
 
-  const onCancel = () => {
+  const onCancel = (): void => {
     setOpen(false);
     reset();
   };
 
-  const onSubmit = async (data: ClientManagementFormValues) => {
+  const onSubmit = async (data: ClientManagementFormValues): Promise<void> => {
     setIsLoading(true);
 
     let error = false;

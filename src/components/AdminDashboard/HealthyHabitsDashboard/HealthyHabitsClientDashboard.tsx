@@ -5,7 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import {
   ClientUser,
@@ -69,7 +69,7 @@ type HealthyHabitsClientDashboardProps = {
 
 export default function HealthyHabitsClientDashboard({
   healthyHabitsProgramEnrollments,
-}: HealthyHabitsClientDashboardProps) {
+}: HealthyHabitsClientDashboardProps): ReactNode {
   const rows = getRows(healthyHabitsProgramEnrollments);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -105,7 +105,7 @@ export default function HealthyHabitsClientDashboard({
       align: "center",
       flex: 1,
       minWidth: 100,
-      renderCell: (params) => {
+      renderCell: (params): ReactNode => {
         return (
           <HealthyHabitsHistoryModal
             trackingForms={params.row.trackingForms}
@@ -120,7 +120,7 @@ export default function HealthyHabitsClientDashboard({
       sortable: false,
       flex: 1,
       minWidth: 250,
-      renderCell: (params) => {
+      renderCell: (params): ReactNode => {
         const completed = params.row.completed;
 
         return (

@@ -3,7 +3,7 @@
 import { Search } from "@mui/icons-material";
 import { Box, Snackbar, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { ClientUser, Program, ProgramEnrollment } from "@/types";
 
@@ -46,7 +46,7 @@ type PendingApplicationDashboardProps = {
 
 export default function PendingApplicationDashboard({
   programEnrollments,
-}: PendingApplicationDashboardProps) {
+}: PendingApplicationDashboardProps): ReactNode {
   const [rows, setRows] = useState(getRows(programEnrollments));
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -85,7 +85,7 @@ export default function PendingApplicationDashboard({
       sortable: false,
       minWidth: 350,
       flex: 1,
-      renderCell: (params) => {
+      renderCell: (params): void => {
         const user = params.row.programEnrollment.user as ClientUser;
         return (
           <>

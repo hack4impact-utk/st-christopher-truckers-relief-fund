@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import getUserSession from "@/utils/getUserSession";
 
@@ -8,7 +9,7 @@ type ClientDashboardLayoutProps = {
 
 export default async function ClientDashboardLayout({
   children,
-}: ClientDashboardLayoutProps) {
+}: ClientDashboardLayoutProps): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "client") {

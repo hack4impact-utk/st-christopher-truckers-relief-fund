@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
-export default function ServerComponentTestPage() {
+export default function ServerComponentTestPage(): ReactNode {
   return (
     <Box
       sx={{

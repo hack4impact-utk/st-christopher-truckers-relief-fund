@@ -1,7 +1,7 @@
 import { sendZoomReminderEmail } from "@/server/api/emails/private-mutations";
 import { getUsersByProgram } from "@/server/api/users/private-mutations";
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   try {
     const apiKeyHeader = request.headers.get("x-api-key");
 

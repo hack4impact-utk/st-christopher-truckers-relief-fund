@@ -1,6 +1,6 @@
-import { createTransport } from "nodemailer";
+import { createTransport, SentMessageInfo, Transporter } from "nodemailer";
 
-function getTransporter() {
+function getTransporter(): Transporter {
   const email = process.env.SCF_GMAIL;
   const password = process.env.SCF_GMAIL_APP_PASSWORD;
 
@@ -28,7 +28,7 @@ export default async function sendEmail(
   recipient: string,
   subject: string,
   html: string,
-) {
+): Promise<SentMessageInfo> {
   const transporter = getTransporter();
 
   const email = process.env.SCF_GMAIL;

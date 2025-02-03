@@ -1,9 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import ClientManagementDashboard from "@/components/AdminDashboard/ClientManagementDashboard";
 import { getClients } from "@/server/api/users/queries";
 
-export default async function AdminClientsPage() {
+export default async function AdminClientsPage(): Promise<ReactNode> {
   const [clients, error] = await getClients({
     populateProgramEnrollments: true,
     populateHealthyHabitsTrackingForms: true,

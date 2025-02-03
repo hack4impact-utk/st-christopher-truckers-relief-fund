@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { ProgramSelectionSection } from "@/types";
 
@@ -10,7 +11,7 @@ type ProgramSelectionResponsesProps = {
 
 export default function ProgramSelectionResponses({
   programSelectionSection,
-}: ProgramSelectionResponsesProps) {
+}: ProgramSelectionResponsesProps): ReactNode {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>

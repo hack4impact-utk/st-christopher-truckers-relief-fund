@@ -1,6 +1,7 @@
 "use client";
 import { Box, Typography, useTheme } from "@mui/material";
 import { BarChart } from "@mui/x-charts";
+import { ReactNode } from "react";
 
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -12,15 +13,20 @@ type ModularBarChartProps = {
   title: string;
 };
 
+type ChartData = {
+  label: string;
+  value: number;
+};
+
 export default function ModularBarChart({
   trackingForms,
   graphLabel,
   dataKey,
   title,
-}: ModularBarChartProps) {
+}: ModularBarChartProps): ReactNode {
   const theme = useTheme();
 
-  const getChartData = () => {
+  const getChartData = (): ChartData[] => {
     return trackingForms
       .sort((a, b) =>
         dayjsUtil

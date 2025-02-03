@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -44,7 +44,7 @@ type ChangePasswordFormProps = {
 export default function ChangePasswordForm({
   firstName,
   email,
-}: ChangePasswordFormProps) {
+}: ChangePasswordFormProps): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +64,7 @@ export default function ChangePasswordForm({
     },
   });
 
-  const onSubmit = async (data: ChangePasswordFormValues) => {
+  const onSubmit = async (data: ChangePasswordFormValues): Promise<void> => {
     setIsLoading(true);
 
     const { oldPassword, newPassword } = data;

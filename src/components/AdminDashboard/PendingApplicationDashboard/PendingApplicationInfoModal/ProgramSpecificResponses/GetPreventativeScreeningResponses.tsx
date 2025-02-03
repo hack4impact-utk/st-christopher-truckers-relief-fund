@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm";
 
@@ -10,7 +11,7 @@ type GetPreventativeScreeningResponsesProps = {
 
 export default function GetPreventativeScreeningResponses({
   programSpecificQuestionsSection,
-}: GetPreventativeScreeningResponsesProps) {
+}: GetPreventativeScreeningResponsesProps): ReactNode {
   return (
     <Box mb={2}>
       <Typography

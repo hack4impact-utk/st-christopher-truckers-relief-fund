@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Snackbar, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
@@ -20,7 +20,7 @@ import HealthyHabitsProgramSpecificQuestions from "./HealthyHabitsProgramSpecifi
 import RigsWithoutCigsProgramSpecificQuestions from "./RigsWithoutCigsProgramSpecificQuestions";
 import VaccineVoucherProgramSpecificQuestions from "./VaccineVoucherProgramSpecificQuestions";
 
-export default function ProgramSpecificQuestionsFormSection() {
+export default function ProgramSpecificQuestionsFormSection(): ReactNode {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -58,18 +58,18 @@ export default function ProgramSpecificQuestionsFormSection() {
     defaultValues: enrollmentForm.programSpecificQuestionsSection,
   });
 
-  const onSubmit = (data: ProgramSpecificQuestionsSection) => {
+  const onSubmit = (data: ProgramSpecificQuestionsSection): void => {
     setIsLoading(true);
     updateProgramSpecificQuestionsSection(data);
   };
 
-  const onError = () => {
+  const onError = (): void => {
     window.alert("Please review all fields before continuing.");
   };
 
   // submit form if all sections are completed
   useEffect(() => {
-    const submitForm = async () => {
+    const submitForm = async (): Promise<void> => {
       if (completedSections.programSpecificQuestionsSectionCompleted) {
         const [, error] = await handleEnrollmentFormSubmission(enrollmentForm);
 

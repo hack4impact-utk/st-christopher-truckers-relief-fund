@@ -1,10 +1,16 @@
 import { Theme } from "@mui/material";
 
+type ButtonStyles = {
+  backgroundColor: string;
+  hoverBackgroundColor: string;
+  color: string;
+};
+
 export default function getButtonStyles(
   theme: Theme,
   pathname: string,
   href: string,
-) {
+): ButtonStyles {
   const isCurrentPage = pathname === href;
 
   return {

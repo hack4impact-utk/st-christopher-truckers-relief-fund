@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 import DisqualifiedFormSection from "@/components/EnrollmentForm/DisqualifiedFormSection";
 
-export default function DisqualifiedPage() {
+export default function DisqualifiedPage(): ReactNode {
   return (
     <Box
       sx={{

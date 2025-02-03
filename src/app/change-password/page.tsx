@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import ChangePasswordForm from "@/components/ChangePassword/ChangePasswordForm";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function ForgotPasswordPage() {
+export default async function ForgotPasswordPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session) {

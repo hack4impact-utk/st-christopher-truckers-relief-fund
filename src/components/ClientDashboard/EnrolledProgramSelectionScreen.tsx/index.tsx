@@ -9,10 +9,18 @@ import {
   useTheme,
 } from "@mui/material";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 import { Program, ProgramEnrollment } from "@/types";
 
-function programNameToSlug(programName: Program) {
+type ProgramSlugs =
+  | "healthy-habits"
+  | "diabetes-prevention"
+  | "rigs-without-cigs"
+  | "vaccine-voucher"
+  | "get-preventative-screenings";
+
+function programNameToSlug(programName: Program): ProgramSlugs {
   switch (programName) {
     case "Healthy Habits For The Long Haul":
       return "healthy-habits";
@@ -33,7 +41,7 @@ type EnrolledProgramsSelectionScreenProps = {
 
 export default function EnrolledProgramsSelectionScreen({
   programEnrollments,
-}: EnrolledProgramsSelectionScreenProps) {
+}: EnrolledProgramsSelectionScreenProps): ReactNode {
   const theme = useTheme();
 
   return (

@@ -6,13 +6,13 @@ import { Box, Skeleton, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Suspense, useState } from "react";
+import { ReactNode, Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "../controlled/ControlledTextField";
 
-function LoginFormLoadingSkeleton() {
+function LoginFormLoadingSkeleton(): ReactNode {
   return <Skeleton variant="rounded" width="100%" height={300} />;
 }
 
@@ -25,7 +25,7 @@ const loginFormSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginFormSchema>;
 
-function LoginFormFields() {
+function LoginFormFields(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -42,7 +42,7 @@ function LoginFormFields() {
 
   const searchParams = useSearchParams();
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const onSubmit = async (data: LoginFormValues): Promise<void> => {
     setIsLoading(true);
     setError("root", { message: "" });
 
@@ -122,7 +122,7 @@ function LoginFormFields() {
   );
 }
 
-export default function LoginForm() {
+export default function LoginForm(): ReactNode {
   return (
     <Suspense fallback={<LoginFormLoadingSkeleton />}>
       <LoginFormFields />

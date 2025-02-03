@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import VerifyEmail from "@/components/VerifyEmail/VerifyEmail";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function VerifyEmailPage() {
+export default async function VerifyEmailPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session) {

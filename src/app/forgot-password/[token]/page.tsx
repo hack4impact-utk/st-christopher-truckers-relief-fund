@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 import InvalidPasswordResetToken from "@/components/ForgotPassword/InvalidPasswordResetToken";
 import ResetPasswordForm from "@/components/ForgotPassword/ResetPasswordForm";
@@ -12,7 +13,7 @@ type ResetPasswordWithTokenPageProps = {
 
 export default async function ResetPasswordWithTokenPage({
   params,
-}: ResetPasswordWithTokenPageProps) {
+}: ResetPasswordWithTokenPageProps): Promise<ReactNode> {
   const { token } = params;
   const [passwordResetToken, error] = await getPasswordResetTokenByToken(token);
 
