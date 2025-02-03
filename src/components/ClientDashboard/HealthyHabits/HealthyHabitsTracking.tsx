@@ -306,64 +306,66 @@ export default function HealthyHabitsTracking({
           required
         />
 
-        {/* Movement Minutes */}
-        <ControlledTextField
-          control={control}
-          name="movementMinutes"
-          label="Movement Minutes"
-          variant="outlined"
-          error={errors?.movementMinutes}
-          type="number"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">minutes</InputAdornment>
-              ),
-            },
-          }}
-          convertToNumber={true}
-          required
-        />
-        <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+          {/* Movement Minutes */}
           <ControlledTextField
             control={control}
-            name="systolicBloodPressure"
-            label="Systolic Blood Pressure"
+            name="movementMinutes"
+            label="Movement Minutes"
             variant="outlined"
-            error={errors?.systolicBloodPressure}
+            error={errors?.movementMinutes}
             type="number"
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="end">mmHg</InputAdornment>
+                  <InputAdornment position="end">minutes</InputAdornment>
                 ),
               },
             }}
-            required
             convertToNumber={true}
-            sx={{ width: "100%" }}
-          />
-          <ControlledTextField
-            control={control}
-            name="diastolicBloodPressure"
-            label="Diastolic Blood Pressure"
-            variant="outlined"
-            error={errors?.diastolicBloodPressure}
-            type="number"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">mmHg</InputAdornment>
-                ),
-              },
-            }}
             required
-            convertToNumber={true}
-            sx={{ width: "100%" }}
           />
-        </Box>
 
-          {/* Blood Glucose (when fasting) - Now Optional */}
+          {/* Blood Pressure */}
+          <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+            <ControlledTextField
+              control={control}
+              name="systolicBloodPressure"
+              label="Systolic Blood Pressure"
+              variant="outlined"
+              error={errors?.systolicBloodPressure}
+              type="number"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">mmHg</InputAdornment>
+                  ),
+                },
+              }}
+              required
+              convertToNumber={true}
+              sx={{ width: "100%" }}
+            />
+            <ControlledTextField
+              control={control}
+              name="diastolicBloodPressure"
+              label="Diastolic Blood Pressure"
+              variant="outlined"
+              error={errors?.diastolicBloodPressure}
+              type="number"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">mmHg</InputAdornment>
+                  ),
+                },
+              }}
+              required
+              convertToNumber={true}
+              sx={{ width: "100%" }}
+            />
+          </Box>
+
+          {/* Blood Glucose (when fasting) */}
           <ControlledTextField
             control={control}
             name="bloodGlucose"
@@ -381,7 +383,7 @@ export default function HealthyHabitsTracking({
             convertToNumber={true}
           />
 
-          {/* A1C - Now Optional */}
+          {/* A1C */}
           <ControlledTextField
             control={control}
             name="a1c"
@@ -397,7 +399,7 @@ export default function HealthyHabitsTracking({
             convertToNumber={true}
           />
 
-          {/* Cholesterol - Now Optional */}
+          {/* Cholesterol */}
           <ControlledTextField
             control={control}
             name="cholesterol"
