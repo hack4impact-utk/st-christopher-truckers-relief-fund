@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import useEnrollmentForm from "@/hooks/useEnrollmentForm";
@@ -21,7 +21,9 @@ import {
 } from "@/types";
 import calculateAge from "@/utils/calculateAge";
 
-function shouldShowDiabetesPreventionButton(enrollmentForm: EnrollmentForm) {
+function shouldShowDiabetesPreventionButton(
+  enrollmentForm: EnrollmentForm,
+): boolean {
   if (enrollmentForm.qualifyingQuestionsSection.diagnoses.hasType1Diabetes) {
     return false;
   }
@@ -33,7 +35,9 @@ function shouldShowDiabetesPreventionButton(enrollmentForm: EnrollmentForm) {
   return true;
 }
 
-function shouldShowRigsWithoutCigsButton(enrollmentForm: EnrollmentForm) {
+function shouldShowRigsWithoutCigsButton(
+  enrollmentForm: EnrollmentForm,
+): boolean {
   if (
     !enrollmentForm.qualifyingQuestionsSection.hasAppliedForFinancialAssistance
   ) {
@@ -50,7 +54,9 @@ function shouldShowRigsWithoutCigsButton(enrollmentForm: EnrollmentForm) {
   return true;
 }
 
-function shouldShowVaccineVoucherButton(enrollmentForm: EnrollmentForm) {
+function shouldShowVaccineVoucherButton(
+  enrollmentForm: EnrollmentForm,
+): boolean {
   const age = calculateAge(
     enrollmentForm.generalInformationSection.dateOfBirth,
   );
@@ -68,7 +74,7 @@ function shouldShowVaccineVoucherButton(enrollmentForm: EnrollmentForm) {
 
 function shouldShowGetPreventativeScreeningsButton(
   enrollmentForm: EnrollmentForm,
-) {
+): boolean {
   const age = calculateAge(
     enrollmentForm.generalInformationSection.dateOfBirth,
   );
@@ -80,7 +86,7 @@ function shouldShowGetPreventativeScreeningsButton(
   return true;
 }
 
-export default function ProgramSelectionFormSection() {
+export default function ProgramSelectionFormSection(): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const { enrollmentForm, completedSections, updateProgramSelectionSection } =
     useEnrollmentForm();
@@ -109,13 +115,13 @@ export default function ProgramSelectionFormSection() {
     router,
   ]);
 
-  const onSubmit = (data: ProgramSelectionSection) => {
+  const onSubmit = (data: ProgramSelectionSection): void => {
     setIsLoading(true);
     updateProgramSelectionSection(data);
     router.push("/enrollment-form/program-specific-questions");
   };
 
-  const onError = () => {
+  const onError = (): void => {
     window.alert("Please review all fields before continuing.");
   };
 

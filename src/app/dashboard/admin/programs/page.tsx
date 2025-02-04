@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
-export default function AdminProgramsPage() {
+export default function AdminProgramsPage(): ReactNode {
   return (
     <Box
       sx={{

@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { ProgramEnrollment } from "@/types";
 
@@ -16,18 +16,18 @@ type HealthyHabitsDashboardProps = {
 
 export default function HealthyHabitsDashboard({
   healthyHabitsProgramEnrollments,
-}: HealthyHabitsDashboardProps) {
+}: HealthyHabitsDashboardProps): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<HealthyHabitsSections>("clients");
 
   const handleTabChange = (
     _event: React.SyntheticEvent,
     newValue: HealthyHabitsSections,
-  ) => {
+  ): void => {
     setSelectedSection(newValue);
   };
 
-  function getSectionContent(section: HealthyHabitsSections) {
+  function getSectionContent(section: HealthyHabitsSections): ReactNode {
     switch (section) {
       case "clients":
         return (

@@ -1,10 +1,14 @@
+import { ReactNode } from "react";
+
 import SCFEmail from "./SCFEmail";
 
 type ResetPasswordEmailProps = {
   token: string;
 };
 
-export default function ResetPasswordEmail({ token }: ResetPasswordEmailProps) {
+export default function ResetPasswordEmail({
+  token,
+}: ResetPasswordEmailProps): ReactNode {
   const preview = "Reset your SCF password";
   const text = `We have received a request to reset your password. Please click on the link below.`;
   const buttonText = "Reset Password";

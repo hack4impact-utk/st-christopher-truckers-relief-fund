@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { QualifyingQuestionsSection } from "@/types";
 
@@ -10,7 +11,7 @@ type QualifyingQuestionResponsesProps = {
 
 export default function QualifyingQuestionResponses({
   qualifyingQuestionsSection,
-}: QualifyingQuestionResponsesProps) {
+}: QualifyingQuestionResponsesProps): ReactNode {
   const { diagnoses } = qualifyingQuestionsSection;
 
   return (

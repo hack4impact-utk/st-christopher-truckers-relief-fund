@@ -1,6 +1,6 @@
 "use client";
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { ReactNode, SyntheticEvent, useState } from "react";
 
 import { ClientUser } from "@/types";
 
@@ -14,18 +14,18 @@ type HealthyHabitsProps = {
   user: ClientUser;
 };
 
-export default function HealthyHabits({ user }: HealthyHabitsProps) {
+export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<HealthyHabitsSections>("tracking");
 
   const handleTabChange = (
     _event: SyntheticEvent,
     newValue: HealthyHabitsSections,
-  ) => {
+  ): void => {
     setSelectedSection(newValue);
   };
 
-  function getSectionContent(section: HealthyHabitsSections) {
+  function getSectionContent(section: HealthyHabitsSections): ReactNode {
     switch (section) {
       case "tracking":
         return <HealthyHabitsTracking user={user} />;

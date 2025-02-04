@@ -1,5 +1,5 @@
 import { SxProps, TextField, Theme } from "@mui/material";
-import { HTMLInputTypeAttribute } from "react";
+import { HTMLInputTypeAttribute, ReactNode } from "react";
 import { Control, Controller, FieldError } from "react-hook-form";
 
 type ControlledTextFieldProps = {
@@ -18,7 +18,9 @@ type ControlledTextFieldProps = {
   convertToNumber?: boolean;
 };
 
-export default function ControlledTextField(props: ControlledTextFieldProps) {
+export default function ControlledTextField(
+  props: ControlledTextFieldProps,
+): ReactNode {
   return (
     <Controller
       name={props.name}
@@ -38,7 +40,7 @@ export default function ControlledTextField(props: ControlledTextFieldProps) {
           rows={props.rows}
           onChange={
             props.convertToNumber
-              ? (e) => {
+              ? (e): void => {
                   const numericValue = parseFloat(e.target.value);
                   field.onChange(isNaN(numericValue) ? "" : numericValue);
                 }

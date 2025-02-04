@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import SCFEmail from "./SCFEmail";
 
 type RejectionEmailProps = {
@@ -8,7 +10,7 @@ type RejectionEmailProps = {
 export default function RejectionEmail({
   programName,
   rejectReason,
-}: RejectionEmailProps) {
+}: RejectionEmailProps): ReactNode {
   const previewText = `Your SCF Program Application Has Been Rejected`;
   const text = [
     `Your SCF program application for ${programName} has been rejected.`,

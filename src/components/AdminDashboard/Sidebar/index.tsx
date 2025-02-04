@@ -11,7 +11,7 @@ import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
 import { Box, Collapse, Drawer, List, Toolbar, useTheme } from "@mui/material";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import CollapsibleSidebarButton from "./CollapsibleSidebarButton";
 import SidebarButton from "./SidebarButton";
@@ -93,7 +93,7 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar(): ReactNode {
   const theme = useTheme();
   const pathname = usePathname();
 

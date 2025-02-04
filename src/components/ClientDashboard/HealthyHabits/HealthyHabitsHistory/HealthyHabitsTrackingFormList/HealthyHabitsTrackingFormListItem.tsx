@@ -10,7 +10,7 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -25,7 +25,7 @@ type HealthyHabitsTrackingFormListItemProps = {
 export default function HealthyHabitsTrackingFormListItem({
   form,
   handleDelete,
-}: HealthyHabitsTrackingFormListItemProps) {
+}: HealthyHabitsTrackingFormListItemProps): ReactNode {
   const [open, setOpen] = useState(false);
 
   return (

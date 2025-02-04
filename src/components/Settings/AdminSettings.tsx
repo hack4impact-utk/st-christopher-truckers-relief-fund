@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { User } from "@/types";
 
@@ -9,7 +10,7 @@ type AdminSettingsProps = {
   user: User;
 };
 
-export default function AdminSettings({ user }: AdminSettingsProps) {
+export default function AdminSettings({ user }: AdminSettingsProps): ReactNode {
   return (
     <Box
       sx={{

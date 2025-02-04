@@ -1,9 +1,10 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import PendingApplicationDashboard from "@/components/AdminDashboard/PendingApplicationDashboard";
 import { getPendingProgramEnrollments } from "@/server/api/program-enrollments/queries";
 
-export default async function AdminDashboardPage() {
+export default async function AdminDashboardPage(): Promise<ReactNode> {
   const [programEnrollments, error] = await getPendingProgramEnrollments();
 
   if (error !== null) {

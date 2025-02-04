@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
+import { ReactNode } from "react";
 
-type FormResponse = {
+type FormResponseProps = {
   label: string;
   value: string | number;
   isListItem?: boolean;
@@ -10,7 +11,7 @@ export default function FormResponse({
   label,
   value,
   isListItem = false,
-}: FormResponse) {
+}: FormResponseProps): ReactNode {
   if (isListItem) {
     return (
       <Typography>

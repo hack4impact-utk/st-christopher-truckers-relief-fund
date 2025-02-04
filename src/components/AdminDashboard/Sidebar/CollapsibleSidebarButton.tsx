@@ -30,7 +30,7 @@ export default function CollapsibleSidebarButton({
   label,
   onClick,
   open = false,
-}: CollapsibleSidebarButtonProps) {
+}: CollapsibleSidebarButtonProps): ReactNode {
   const { color, backgroundColor, hoverBackgroundColor } = getButtonStyles(
     theme,
     pathname,

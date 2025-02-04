@@ -1,11 +1,12 @@
 import { Box, Button } from "@mui/material";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import LoginForm from "@/components/LoginForm";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function Home() {
+export default async function Home(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (session) {

@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
-export default async function DiabetesPreventionPage() {
+export default async function DiabetesPreventionPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session) {

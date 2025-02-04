@@ -1,6 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
+import { ReactNode } from "react";
 
-export default function AdminDashboardLoadingSkeleton() {
+export default function AdminDashboardLoadingSkeleton(): ReactNode {
   return (
     <Box
       sx={{

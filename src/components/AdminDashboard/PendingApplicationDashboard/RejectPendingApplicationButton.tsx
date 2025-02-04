@@ -7,7 +7,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { useSnackbar } from "notistack";
+import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,19 +28,17 @@ type RejectPendingApplicationButtonProps = {
   programEnrollment: ProgramEnrollment;
   rows: Row[];
   setRows: Dispatch<SetStateAction<Row[]>>;
-  setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
-  setSnackbarMessage: Dispatch<SetStateAction<string>>;
 };
 
 export default function RejectPendingApplicationButton({
   programEnrollment,
   rows,
   setRows,
-  setSnackbarOpen,
-  setSnackbarMessage,
-}: RejectPendingApplicationButtonProps) {
+}: RejectPendingApplicationButtonProps): ReactNode {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     control,
@@ -51,7 +50,7 @@ export default function RejectPendingApplicationButton({
     defaultValues: { rejectionReason: "" },
   });
 
-  const removePendingApplicationFromRows = () => {
+  const removePendingApplicationFromRows = (): void => {
     const rowsWithoutProgramEnrollment = rows.filter(
       (row) =>
         row.email !== programEnrollment.user.email ||
@@ -60,18 +59,22 @@ export default function RejectPendingApplicationButton({
     setRows(rowsWithoutProgramEnrollment);
   };
 
-  const onSubmit = async (data: RejectButtonFormValues) => {
+  const onSubmit = async (data: RejectButtonFormValues): Promise<void> => {
     setLoading(true);
 
-    await handleRejectProgramApplication(
-      programEnrollment,
-      data.rejectionReason,
-    );
     removePendingApplicationFromRows();
     reset({ rejectionReason: "" });
 
-    setSnackbarMessage("Application successfully rejected");
-    setSnackbarOpen(true);
+    const [, error] = await handleRejectProgramApplication(
+      programEnrollment,
+      data.rejectionReason,
+    );
+
+    if (error !== null) {
+      enqueueSnackbar("An unexpected error occurred");
+    } else {
+      enqueueSnackbar("Application successfully rejected");
+    }
 
     setOpen(false);
     setLoading(false);

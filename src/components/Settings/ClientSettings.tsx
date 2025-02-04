@@ -1,4 +1,5 @@
 import { Box, Divider, List, ListItem, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { User } from "@/types";
 
@@ -9,7 +10,9 @@ type ClientSettingsProps = {
   user: User;
 };
 
-export default function ClientSettings({ user }: ClientSettingsProps) {
+export default function ClientSettings({
+  user,
+}: ClientSettingsProps): ReactNode {
   if (user.role !== "client") {
     return null;
   }

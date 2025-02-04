@@ -14,6 +14,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
+import { ReactNode } from "react";
 import { Control, Controller } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -30,7 +31,7 @@ export default function HealthyHabitsProgramSpecificQuestions({
   errors,
   hasOptedInToHealthyHabits,
   hasOptedInToDiabetesPrevention,
-}: HealthyHabitsProgramSpecificQuestionsProps) {
+}: HealthyHabitsProgramSpecificQuestionsProps): ReactNode {
   return (
     <>
       <Divider />

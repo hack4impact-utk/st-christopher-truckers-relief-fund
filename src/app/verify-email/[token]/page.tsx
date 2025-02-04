@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import VerifyEmailSuccess from "@/components/VerifyEmail/VerifyEmailSuccess";
 import { getEmailVerificationTokenByToken } from "@/server/api/email-verification-tokens/queries";
 import InvalidEmailVerificationToken from "@/components/VerifyEmail/InvalidEmailVerificationToken";
+import { ReactNode } from "react";
 
 type VerifyEmailSuccessPageProps = {
   params: {
@@ -13,7 +14,7 @@ type VerifyEmailSuccessPageProps = {
 
 export default async function VerifyEmailSuccessPage({
   params,
-}: VerifyEmailSuccessPageProps) {
+}: VerifyEmailSuccessPageProps): Promise<ReactNode> {
   const { token } = params;
 
   const [emailVerificationToken, error] =

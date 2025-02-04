@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { ProgramSpecificQuestionsSection } from "@/types";
 
@@ -13,7 +14,7 @@ type ProgramSpecificResponsesProps = {
 
 export default function ProgramSpecificResponses({
   programSpecificQuestionsSection,
-}: ProgramSpecificResponsesProps) {
+}: ProgramSpecificResponsesProps): ReactNode {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>

@@ -2,7 +2,7 @@
 
 import InfoIcon from "@mui/icons-material/Info";
 import { Box, Button, Fade, Modal, Typography } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import FormResponse from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/FormResponse";
 import { HealthyHabitsTrackingForm } from "@/types";
@@ -34,7 +34,7 @@ export default function HealthyHabitsTrackingFormModal({
   form,
   open,
   setOpen,
-}: HealthyHabitsTrackingFormModalProps) {
+}: HealthyHabitsTrackingFormModalProps): ReactNode {
   return (
     <>
       <InfoIcon onClick={() => setOpen(true)} />

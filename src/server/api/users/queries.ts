@@ -62,7 +62,7 @@ export async function getUserById(id: string): Promise<ApiResponse<User>> {
   return getUser({ _id: id });
 }
 
-async function getUsers(
+export async function getUsers(
   filters: UserFilters,
   options?: UserPopulateOptions,
 ): Promise<ApiResponse<User[]>> {

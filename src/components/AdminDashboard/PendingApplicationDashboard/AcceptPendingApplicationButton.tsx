@@ -2,7 +2,8 @@
 
 import { Check } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import React, { Dispatch, SetStateAction } from "react";
+import { useSnackbar } from "notistack";
+import React, { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { ProgramEnrollment } from "@/types";
@@ -13,18 +14,16 @@ type AcceptPendingApplicationButtonProps = {
   programEnrollment: ProgramEnrollment;
   rows: Row[];
   setRows: Dispatch<SetStateAction<Row[]>>;
-  setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
-  setSnackbarMessage: Dispatch<SetStateAction<string>>;
 };
 
 export default function AcceptPendingApplicationButton({
   programEnrollment,
   rows,
   setRows,
-  setSnackbarOpen,
-  setSnackbarMessage,
-}: AcceptPendingApplicationButtonProps) {
-  const removePendingApplicationFromRows = () => {
+}: AcceptPendingApplicationButtonProps): ReactNode {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const removePendingApplicationFromRows = (): void => {
     const rowsWithoutProgramEnrollment = rows.filter(
       (row) =>
         row.email !== programEnrollment.user.email ||
@@ -33,7 +32,7 @@ export default function AcceptPendingApplicationButton({
     setRows(rowsWithoutProgramEnrollment);
   };
 
-  const handleClick = async () => {
+  const handleClick = async (): Promise<void> => {
     const confirmed = window.confirm(
       "Are you sure you want to approve this application?",
     );
@@ -43,9 +42,14 @@ export default function AcceptPendingApplicationButton({
     }
 
     removePendingApplicationFromRows();
-    await handleApproveProgramApplication(programEnrollment);
-    setSnackbarMessage("Application successfully approved");
-    setSnackbarOpen(true);
+    const [, error] = await handleApproveProgramApplication(programEnrollment);
+
+    if (error !== null) {
+      enqueueSnackbar("An unexpected error occurred");
+      return;
+    }
+
+    enqueueSnackbar("Application successfully approved");
   };
 
   return (

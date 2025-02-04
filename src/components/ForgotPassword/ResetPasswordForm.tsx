@@ -2,9 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Snackbar, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useSnackbar } from "notistack";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,9 +38,10 @@ type ResetPasswordFormProps = {
   token: string;
 };
 
-export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+export default function ResetPasswordForm({
+  token,
+}: ResetPasswordFormProps): ReactNode {
+  const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
@@ -53,7 +55,7 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     defaultValues: { newPassword: "", confirmPassword: "" },
   });
 
-  const onSubmit = async (data: ResetPasswordFormValues) => {
+  const onSubmit = async (data: ResetPasswordFormValues): Promise<void> => {
     setIsLoading(true);
 
     const { newPassword } = data;
@@ -61,15 +63,13 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     const [, error] = await resetPasswordWithToken(token, newPassword);
 
     if (error === null) {
-      setSnackbarMessage("Password successfully reset");
-      setSnackbarOpen(true);
+      enqueueSnackbar("Password successfully reset");
 
       setTimeout(() => {
         router.push("/");
       }, 1000);
     } else {
-      setSnackbarMessage("Password reset failed. This link is now invalid.");
-      setSnackbarOpen(true);
+      enqueueSnackbar("Password reset failed. This link is now invalid.");
 
       setIsLoading(false);
       setDisabled(true);
@@ -77,56 +77,48 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   };
 
   return (
-    <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        message={snackbarMessage}
-      />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          sx={{
-            width: "min(90vw, 700px)",
-            display: "grid",
-            gap: 1.5,
-            gridTemplateColumns: "1fr",
-            boxShadow: 2,
-            borderRadius: 2,
-            padding: 3,
-          }}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        sx={{
+          width: "min(90vw, 700px)",
+          display: "grid",
+          gap: 1.5,
+          gridTemplateColumns: "1fr",
+          boxShadow: 2,
+          borderRadius: 2,
+          padding: 3,
+        }}
+      >
+        <Typography variant="h4">Reset Password</Typography>
+
+        <ControlledTextField
+          control={control}
+          name="newPassword"
+          label="New Password"
+          variant="outlined"
+          error={errors.newPassword}
+          type="password"
+        />
+
+        <ControlledTextField
+          control={control}
+          name="confirmPassword"
+          label="Confirm Password"
+          variant="outlined"
+          error={errors.confirmPassword}
+          type="password"
+        />
+
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={isLoading}
+          disabled={disabled}
         >
-          <Typography variant="h4">Reset Password</Typography>
-
-          <ControlledTextField
-            control={control}
-            name="newPassword"
-            label="New Password"
-            variant="outlined"
-            error={errors.newPassword}
-            type="password"
-          />
-
-          <ControlledTextField
-            control={control}
-            name="confirmPassword"
-            label="Confirm Password"
-            variant="outlined"
-            error={errors.confirmPassword}
-            type="password"
-          />
-
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            color="primary"
-            loading={isLoading}
-            disabled={disabled}
-          >
-            Reset Password
-          </LoadingButton>
-        </Box>
-      </form>
-    </>
+          Reset Password
+        </LoadingButton>
+      </Box>
+    </form>
   );
 }

@@ -13,7 +13,7 @@ const adminUserRequestSchema = z.object({
 
 export type AdminUserRequest = z.infer<typeof adminUserRequestSchema>;
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
   try {
     const json = await request.json();
 

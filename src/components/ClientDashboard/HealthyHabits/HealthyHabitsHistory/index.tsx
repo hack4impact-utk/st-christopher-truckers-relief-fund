@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
 
@@ -17,7 +17,7 @@ type HealthyHabitsHistoryProps = {
 export default function HealthyHabitsHistory({
   initialForms,
   user,
-}: HealthyHabitsHistoryProps) {
+}: HealthyHabitsHistoryProps): ReactNode {
   const [trackingForms, setTrackingForms] =
     useState<HealthyHabitsTrackingForm[]>(initialForms);
 

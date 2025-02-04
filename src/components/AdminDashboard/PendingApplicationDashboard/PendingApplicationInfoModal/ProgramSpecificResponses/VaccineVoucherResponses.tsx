@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { ProgramSpecificQuestionsSection } from "@/types";
 
@@ -10,7 +11,7 @@ type VaccineVoucherResponsesProps = {
 
 export default function VaccineVoucherResponses({
   programSpecificQuestionsSection,
-}: VaccineVoucherResponsesProps) {
+}: VaccineVoucherResponsesProps): ReactNode {
   const { vaccineVoucher } = programSpecificQuestionsSection;
 
   return (

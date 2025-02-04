@@ -11,6 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import { ReactNode } from "react";
 
 import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
 
@@ -30,7 +31,7 @@ type EmailWithTextAndButtonProps = {
 
 type SCFEmailProps = EmailWithTextProps | EmailWithTextAndButtonProps;
 
-export default function SCFEmail(props: SCFEmailProps) {
+export default function SCFEmail(props: SCFEmailProps): ReactNode {
   return (
     <Html>
       <Head />

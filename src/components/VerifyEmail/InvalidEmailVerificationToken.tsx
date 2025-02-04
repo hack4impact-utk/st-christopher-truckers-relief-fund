@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-export default function InvalidEmailVerificationToken() {
+export default function InvalidEmailVerificationToken(): ReactNode {
   return (
     <Box
       sx={{

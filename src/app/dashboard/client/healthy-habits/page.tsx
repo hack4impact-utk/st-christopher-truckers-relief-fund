@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import HealthyHabits from "@/components/ClientDashboard/HealthyHabits";
 import { getUserByEmail } from "@/server/api/users/queries";
@@ -7,7 +8,7 @@ import { ClientUser } from "@/types";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
-export default async function HealthyHabitsPage() {
+export default async function HealthyHabitsPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session) {

@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 import ForgotPasswordForm from "@/components/ForgotPassword/ForgotPasswordForm";
 
-export default function ForgotPasswordPage() {
+export default function ForgotPasswordPage(): ReactNode {
   return (
     <Box
       sx={{

@@ -2,7 +2,7 @@
 
 import InfoIcon from "@mui/icons-material/Info";
 import { Box, Button, Fade, Modal, Typography } from "@mui/material";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import HealthyHabitsHistory from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory";
 import { ClientUser, HealthyHabitsTrackingForm, User } from "@/types";
@@ -32,7 +32,7 @@ const style = {
 export default function HealthyHabitsHistoryModal({
   trackingForms,
   user,
-}: HealthyHabitsHistoryModalProps) {
+}: HealthyHabitsHistoryModalProps): ReactNode {
   const [open, setOpen] = useState(false);
 
   return (

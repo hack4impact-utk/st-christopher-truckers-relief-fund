@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
+import { ReactNode } from "react";
 
 import GeneralInformationFormSection from "@/components/EnrollmentForm/GeneralInformationFormSection";
 
-export default function GeneralInformationPage() {
+export default function GeneralInformationPage(): ReactNode {
   return (
     <Box
       sx={{

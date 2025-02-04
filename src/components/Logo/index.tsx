@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 import logo from "@/app/icon.svg";
 
@@ -10,7 +10,12 @@ type LogoProps = {
   style?: CSSProperties;
 };
 
-export default function Logo({ width, height, alt, style }: LogoProps) {
+export default function Logo({
+  width,
+  height,
+  alt,
+  style,
+}: LogoProps): ReactNode {
   return (
     <Image src={logo} alt={alt} width={width} height={height} style={style} />
   );

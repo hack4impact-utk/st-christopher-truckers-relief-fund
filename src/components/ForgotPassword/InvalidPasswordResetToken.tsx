@@ -1,7 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-export default function InvalidPasswordResetToken() {
+export default function InvalidPasswordResetToken(): ReactNode {
   return (
     <Box
       sx={{

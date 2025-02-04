@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Snackbar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useSnackbar } from "notistack";
+import { ReactNode } from "react";
 
 import { verifyEmailWithToken } from "@/server/api/users/public-mutations";
 import { EmailVerificationToken } from "@/types";
@@ -15,18 +16,23 @@ type VerifyEmailSuccessProps = {
 
 export default function VerifyEmailSuccess({
   emailVerificationToken,
-}: VerifyEmailSuccessProps) {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+}: VerifyEmailSuccessProps): ReactNode {
+  const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
   const { data: session, update } = useSession();
 
-  const verifyEmail = async () => {
-    if (!session || session.user.isEmailVerified) {
+  const verifyEmail = async (): Promise<void> => {
+    if (!session) {
+      return;
+    }
+
+    if (session.user.isEmailVerified) {
+      router.push("/");
       return;
     }
 
     await verifyEmailWithToken(emailVerificationToken.token);
-    setSnackbarOpen(true);
+    enqueueSnackbar("Email verified");
 
     // Update session to reflect database changes
     await update({
@@ -47,15 +53,5 @@ export default function VerifyEmailSuccess({
     void verifyEmail();
   }
 
-  return (
-    <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-        message="Email verified"
-      />
-      <Typography variant="body1">Verifying email...</Typography>
-    </>
-  );
+  return <Typography variant="body1">Verifying email...</Typography>;
 }

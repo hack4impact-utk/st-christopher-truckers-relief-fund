@@ -2,7 +2,7 @@ export default function calculateBmi(
   heightFeet: number,
   heightInches: number,
   weight: number,
-) {
+): number {
   if (heightFeet == 0 || heightInches == 0 || weight == 0) {
     return 0;
   }

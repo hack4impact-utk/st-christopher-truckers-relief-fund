@@ -1,11 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 import ClientSettings from "@/components/Settings/ClientSettings";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function AdminSettingsPage() {
+export default async function AdminSettingsPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "client") {

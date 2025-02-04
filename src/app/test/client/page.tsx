@@ -1,8 +1,9 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
-export default function ClientComponentTestPage() {
+export default function ClientComponentTestPage(): ReactNode {
   return (
     <Box
       sx={{

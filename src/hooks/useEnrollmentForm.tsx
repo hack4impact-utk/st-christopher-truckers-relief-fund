@@ -1,8 +1,11 @@
 import { useContext } from "react";
 
-import { EnrollmentFormContext } from "@/providers/EnrollmentFormProvider";
+import {
+  EnrollmentFormContext,
+  EnrollmentFormContextType,
+} from "@/providers/EnrollmentFormProvider";
 
-export default function useEnrollmentForm() {
+export default function useEnrollmentForm(): EnrollmentFormContextType {
   const context = useContext(EnrollmentFormContext);
 
   if (!context) {

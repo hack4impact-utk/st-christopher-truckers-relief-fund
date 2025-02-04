@@ -13,6 +13,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
+import { ReactNode } from "react";
 import { Control, Controller } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -25,7 +26,7 @@ type RigsWithoutCigsProgramSpecificQuestionsProps = {
 export default function RigsWithoutCigsProgramSpecificQuestions({
   control,
   errors,
-}: RigsWithoutCigsProgramSpecificQuestionsProps) {
+}: RigsWithoutCigsProgramSpecificQuestionsProps): ReactNode {
   return (
     <>
       <Divider />

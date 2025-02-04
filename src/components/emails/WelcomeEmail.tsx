@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 import SCFEmail from "./SCFEmail";
 
 type WelcomeEmailProps = {
@@ -8,7 +10,7 @@ type WelcomeEmailProps = {
 export default function WelcomeEmail({
   firstName,
   programName,
-}: WelcomeEmailProps) {
+}: WelcomeEmailProps): ReactNode {
   const previewText = `You've been accepted into St. Christopher Truckers Relief Fund!`;
   const text = `Hello ${firstName}! We are pleased to inform you that your application for ${programName} has been accepted. Please click on the link below to access your dashboard.`;
   const buttonText = "View your SCF Dashboard";

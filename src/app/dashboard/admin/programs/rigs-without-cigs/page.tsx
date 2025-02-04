@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
-export default function RigsWithoutCigsProgramPage() {
+export default function RigsWithoutCigsProgramPage(): ReactNode {
   return (
     <Box
       sx={{

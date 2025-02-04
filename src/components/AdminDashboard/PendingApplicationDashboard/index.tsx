@@ -1,9 +1,9 @@
 "use client";
 
 import { Search } from "@mui/icons-material";
-import { Box, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { ClientUser, Program, ProgramEnrollment } from "@/types";
 
@@ -46,10 +46,8 @@ type PendingApplicationDashboardProps = {
 
 export default function PendingApplicationDashboard({
   programEnrollments,
-}: PendingApplicationDashboardProps) {
+}: PendingApplicationDashboardProps): ReactNode {
   const [rows, setRows] = useState(getRows(programEnrollments));
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   const columns: GridColDef<Row>[] = [
@@ -85,7 +83,7 @@ export default function PendingApplicationDashboard({
       sortable: false,
       minWidth: 350,
       flex: 1,
-      renderCell: (params) => {
+      renderCell: (params): ReactNode => {
         const user = params.row.programEnrollment.user as ClientUser;
         return (
           <>
@@ -101,15 +99,11 @@ export default function PendingApplicationDashboard({
                 programEnrollment={params.row.programEnrollment}
                 rows={rows}
                 setRows={setRows}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarMessage={setSnackbarMessage}
               />
               <RejectPendingApplicationButton
                 programEnrollment={params.row.programEnrollment}
                 rows={rows}
                 setRows={setRows}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarMessage={setSnackbarMessage}
               />
               <PendingApplicationInfoModal
                 enrollmentForm={user.enrollmentForm}
@@ -147,13 +141,6 @@ export default function PendingApplicationDashboard({
           />
           <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
         </Box>
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={3000}
-          onClose={() => setSnackbarOpen(false)}
-          message={snackbarMessage}
-          anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-        />
         <DataGrid
           rows={filteredRows}
           columns={columns}

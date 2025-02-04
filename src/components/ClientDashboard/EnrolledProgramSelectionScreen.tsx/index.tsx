@@ -9,10 +9,20 @@ import {
   useTheme,
 } from "@mui/material";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-import { Program, ProgramEnrollment } from "@/types";
+import { Program, ProgramEnrollment, User } from "@/types";
 
-function programNameToSlug(programName: Program) {
+import UrgentMeetingRequestModal from "./UrgentMeetingRequestModal";
+
+type ProgramSlugs =
+  | "healthy-habits"
+  | "diabetes-prevention"
+  | "rigs-without-cigs"
+  | "vaccine-voucher"
+  | "get-preventative-screenings";
+
+function programNameToSlug(programName: Program): ProgramSlugs {
   switch (programName) {
     case "Healthy Habits For The Long Haul":
       return "healthy-habits";
@@ -29,11 +39,13 @@ function programNameToSlug(programName: Program) {
 
 type EnrolledProgramsSelectionScreenProps = {
   programEnrollments: ProgramEnrollment[];
+  user: User;
 };
 
 export default function EnrolledProgramsSelectionScreen({
   programEnrollments,
-}: EnrolledProgramsSelectionScreenProps) {
+  user,
+}: EnrolledProgramsSelectionScreenProps): ReactNode {
   const theme = useTheme();
 
   return (
@@ -55,7 +67,7 @@ export default function EnrolledProgramsSelectionScreen({
           marginBottom: 1,
         }}
       >
-        <Typography variant="h4" component="h1">
+        <Typography variant="h5" component="h1">
           Select Program
         </Typography>
       </Box>
@@ -108,6 +120,10 @@ export default function EnrolledProgramsSelectionScreen({
             </Card>
           </Link>
         ))}
+      </Box>
+
+      <Box sx={{ marginTop: "auto", alignSelf: "center" }}>
+        <UrgentMeetingRequestModal user={user} />
       </Box>
     </Box>
   );

@@ -1,6 +1,7 @@
 "use client";
 import { Box, Typography, useTheme } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
+import { ReactNode } from "react";
 
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -37,7 +38,7 @@ export default function ModularLineChart({
   dataKey2,
   secondaryLabel,
   title,
-}: ModularLineChartProps) {
+}: ModularLineChartProps): ReactNode {
   const theme = useTheme();
 
   const getChartDataAndSeries = (): ChartConfig => {
@@ -93,7 +94,7 @@ export default function ModularLineChart({
             data: chartData.map((item) => item.x),
             label: "Date",
             scaleType: "time",
-            valueFormatter: (value) =>
+            valueFormatter: (value): string =>
               `Week of ${dayjsUtil.utc(value).format("MM/DD/YYYY")}`,
             tickInterval: chartData.map((item) => item.x),
           },

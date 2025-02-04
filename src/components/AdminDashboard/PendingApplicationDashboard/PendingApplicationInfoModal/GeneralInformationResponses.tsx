@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { ReactNode } from "react";
 
 import { GeneralInformationSection } from "@/types/EnrollmentForm";
 
@@ -10,7 +11,7 @@ type GeneralInformationResponsesProps = {
 
 export default function GeneralInformationResponses({
   generalInformationSection,
-}: GeneralInformationResponsesProps) {
+}: GeneralInformationResponsesProps): ReactNode {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
