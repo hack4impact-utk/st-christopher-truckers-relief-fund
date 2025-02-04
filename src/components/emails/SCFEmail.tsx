@@ -15,16 +15,17 @@ import { ReactNode } from "react";
 
 import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
 
-type EmailWithTextProps = {
-  type: "text-only";
+type BaseEmailProps = {
   previewText: string;
   text: string | string[];
 };
 
-type EmailWithTextAndButtonProps = {
+type EmailWithTextProps = BaseEmailProps & {
+  type: "text-only";
+};
+
+type EmailWithTextAndButtonProps = BaseEmailProps & {
   type: "text-and-button";
-  previewText: string;
-  text: string | string[];
   buttonText: string;
   buttonUrl: string;
 };

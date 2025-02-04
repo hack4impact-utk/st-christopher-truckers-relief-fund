@@ -50,37 +50,40 @@ export default function HealthyHabitsHistory({
       }}
     >
       <ModularLineChart
-        trackingForms={trackingForms.filter((form) => form.weight)}
-        graphLabel="Weight (lbs)"
+        type="one-line"
+        trackingForms={trackingForms}
+        primaryLabel="Weight (lbs)"
         dataKey="weight"
         title="Weight"
       />
       <ModularLineChart
-        trackingForms={trackingForms.filter((form) => form.bloodGlucose)}
-        graphLabel="Blood Glucose When Fasting (mg/dL)"
+        type="one-line"
+        trackingForms={trackingForms}
+        primaryLabel="Blood Glucose When Fasting (mg/dL)"
         dataKey="bloodGlucose"
         title="Blood Glucose"
       />
 
       <ModularLineChart
-        trackingForms={trackingForms.filter((form) => form.a1c)}
-        graphLabel="A1C (%)"
+        type="one-line"
+        trackingForms={trackingForms}
+        primaryLabel="A1C (%)"
         dataKey="a1c"
         title="A1C"
       />
 
       <ModularLineChart
-        trackingForms={trackingForms.filter((form) => form.cholesterol)}
-        graphLabel="Cholesterol (mg/dL)"
+        type="one-line"
+        trackingForms={trackingForms}
+        primaryLabel="Cholesterol (mg/dL)"
         dataKey="cholesterol"
         title="Cholesterol"
       />
 
       <ModularLineChart
-        trackingForms={trackingForms.filter(
-          (form) => form.systolicBloodPressure && form.diastolicBloodPressure,
-        )}
-        graphLabel="Systolic"
+        type="two-line"
+        trackingForms={trackingForms}
+        primaryLabel="Systolic"
         secondaryLabel="Diastolic"
         dataKey="systolicBloodPressure"
         dataKey2="diastolicBloodPressure"
