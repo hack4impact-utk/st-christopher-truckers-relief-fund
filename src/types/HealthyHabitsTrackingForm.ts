@@ -21,15 +21,9 @@ export const healthyHabitsValidator = z.object({
   movementMinutes: z.number().int().positive(),
   systolicBloodPressure: z.number().int().positive(),
   diastolicBloodPressure: z.number().int().positive(),
-  bloodGlucose: z
-    .union([z.number().int().positive(), z.null(), z.literal("")])
-    .nullable(),
-  a1c: z
-    .union([z.number().int().positive(), z.null(), z.literal("")])
-    .nullable(),
-  cholesterol: z
-    .union([z.number().int().positive(), z.null(), z.literal("")])
-    .nullable(),
+  bloodGlucose: z.number().int().positive().nullable(),
+  a1c: z.number().int().positive().nullable(),
+  cholesterol: z.number().int().positive().nullable(),
   qualitativeGoals: z.string(),
   sleepRanking: z.number().int().min(1).max(5),
   energyRanking: z.number().int().min(1).max(5),

@@ -42,7 +42,6 @@ export default function HealthyHabitsTracking({
   user,
 }: HealthyHabitsTrackingFormProps): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -83,7 +82,6 @@ export default function HealthyHabitsTracking({
 
   const onSubmit = async (data: HealthyHabitsFormValues): Promise<void> => {
     setIsLoading(true);
-    setDisabled(true);
 
     const healthyHabitsTrackingForm: HealthyHabitsTrackingForm = {
       ...data,
@@ -112,7 +110,6 @@ export default function HealthyHabitsTracking({
     }
 
     setIsLoading(false);
-    setDisabled(false);
   };
 
   return (
@@ -306,116 +303,116 @@ export default function HealthyHabitsTracking({
           required
         />
 
-          {/* Movement Minutes */}
+        {/* Movement Minutes */}
+        <ControlledTextField
+          control={control}
+          name="movementMinutes"
+          label="Movement Minutes"
+          variant="outlined"
+          error={errors?.movementMinutes}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">minutes</InputAdornment>
+              ),
+            },
+          }}
+          convertToNumber={true}
+          required
+        />
+
+        {/* Blood Pressure */}
+        <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
           <ControlledTextField
             control={control}
-            name="movementMinutes"
-            label="Movement Minutes"
+            name="systolicBloodPressure"
+            label="Systolic Blood Pressure"
             variant="outlined"
-            error={errors?.movementMinutes}
+            error={errors?.systolicBloodPressure}
             type="number"
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="end">minutes</InputAdornment>
+                  <InputAdornment position="end">mmHg</InputAdornment>
                 ),
               },
             }}
-            convertToNumber={true}
             required
+            convertToNumber={true}
+            sx={{ width: "100%" }}
           />
-
-          {/* Blood Pressure */}
-          <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-            <ControlledTextField
-              control={control}
-              name="systolicBloodPressure"
-              label="Systolic Blood Pressure"
-              variant="outlined"
-              error={errors?.systolicBloodPressure}
-              type="number"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">mmHg</InputAdornment>
-                  ),
-                },
-              }}
-              required
-              convertToNumber={true}
-              sx={{ width: "100%" }}
-            />
-            <ControlledTextField
-              control={control}
-              name="diastolicBloodPressure"
-              label="Diastolic Blood Pressure"
-              variant="outlined"
-              error={errors?.diastolicBloodPressure}
-              type="number"
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">mmHg</InputAdornment>
-                  ),
-                },
-              }}
-              required
-              convertToNumber={true}
-              sx={{ width: "100%" }}
-            />
-          </Box>
-
-          {/* Blood Glucose (when fasting) */}
           <ControlledTextField
             control={control}
-            name="bloodGlucose"
-            label="Blood Glucose (when fasting)"
+            name="diastolicBloodPressure"
+            label="Diastolic Blood Pressure"
             variant="outlined"
-            error={errors?.bloodGlucose}
+            error={errors?.diastolicBloodPressure}
             type="number"
             slotProps={{
               input: {
                 endAdornment: (
-                  <InputAdornment position="end">mg/dL</InputAdornment>
+                  <InputAdornment position="end">mmHg</InputAdornment>
                 ),
               },
             }}
+            required
             convertToNumber={true}
+            sx={{ width: "100%" }}
           />
+        </Box>
 
-          {/* A1C */}
-          <ControlledTextField
-            control={control}
-            name="a1c"
-            label="A1C"
-            variant="outlined"
-            error={errors?.a1c}
-            type="number"
-            slotProps={{
-              input: {
-                endAdornment: <InputAdornment position="end">%</InputAdornment>,
-              },
-            }}
-            convertToNumber={true}
-          />
+        {/* Blood Glucose (when fasting) */}
+        <ControlledTextField
+          control={control}
+          name="bloodGlucose"
+          label="Blood Glucose (when fasting)"
+          variant="outlined"
+          error={errors?.bloodGlucose}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mg/dL</InputAdornment>
+              ),
+            },
+          }}
+          convertToNumber={true}
+        />
 
-          {/* Cholesterol */}
-          <ControlledTextField
-            control={control}
-            name="cholesterol"
-            label="Cholesterol"
-            variant="outlined"
-            error={errors?.cholesterol}
-            type="number"
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">mg/dL</InputAdornment>
-                ),
-              },
-            }}
-            convertToNumber={true}
-          />
+        {/* A1C */}
+        <ControlledTextField
+          control={control}
+          name="a1c"
+          label="A1C"
+          variant="outlined"
+          error={errors?.a1c}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">%</InputAdornment>,
+            },
+          }}
+          convertToNumber={true}
+        />
+
+        {/* Cholesterol */}
+        <ControlledTextField
+          control={control}
+          name="cholesterol"
+          label="Cholesterol"
+          variant="outlined"
+          error={errors?.cholesterol}
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mg/dL</InputAdornment>
+              ),
+            },
+          }}
+          convertToNumber={true}
+        />
 
         {/* Qualitative Goals */}
         <ControlledTextField
@@ -531,7 +528,6 @@ export default function HealthyHabitsTracking({
           variant="contained"
           color="primary"
           loading={isLoading}
-          disabled={disabled}
         >
           Submit
         </LoadingButton>

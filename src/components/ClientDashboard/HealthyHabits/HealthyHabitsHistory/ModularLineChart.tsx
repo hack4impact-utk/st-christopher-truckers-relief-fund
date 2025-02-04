@@ -17,7 +17,7 @@ type ModularLineChartProps = {
 
 type RegularChartDataPoint = {
   x: Date;
-  y?: number;
+  y: number;
   y2?: number;
 };
 
@@ -42,15 +42,18 @@ export default function ModularLineChart({
   const theme = useTheme();
 
   const getChartDataAndSeries = (): ChartConfig => {
-    const sortedData = trackingForms.sort((a, b) =>
-      dayjsUtil.utc(a.weekOfSubmission).diff(dayjsUtil.utc(b.weekOfSubmission)),
-    );
-
-    const chartData: RegularChartDataPoint[] = sortedData.map((entry) => ({
-      x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
-      y: entry[dataKey] as number,
-      ...(dataKey2 && { y2: entry[dataKey2] as number }),
-    }));
+    const chartData: RegularChartDataPoint[] = trackingForms
+      .filter((entry) => entry[dataKey] !== null)
+      .sort((a, b) =>
+        dayjsUtil
+          .utc(a.weekOfSubmission)
+          .diff(dayjsUtil.utc(b.weekOfSubmission)),
+      )
+      .map((entry) => ({
+        x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
+        y: Number(entry[dataKey]) || 0,
+        ...(dataKey2 && { y2: Number(entry[dataKey2]) || 0 }),
+      }));
 
     const series = [
       {
