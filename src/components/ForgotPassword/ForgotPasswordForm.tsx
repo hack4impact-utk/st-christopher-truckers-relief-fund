@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Snackbar, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +19,7 @@ const forgotPasswordFormSchema = z.object({
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordFormSchema>;
 
 export default function ForgotPasswordForm(): ReactNode {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -36,53 +37,45 @@ export default function ForgotPasswordForm(): ReactNode {
 
     const { email } = data;
     await handlePasswordResetRequest(email);
-    setSnackbarOpen(true);
+    enqueueSnackbar("Password reset email sent");
 
     setIsLoading(false);
     setDisabled(true);
   };
 
   return (
-    <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        message="Password reset email sent"
-      />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          sx={{
-            width: "min(90vw, 700px)",
-            display: "grid",
-            gap: 1.5,
-            gridTemplateColumns: "1fr",
-            boxShadow: 2,
-            borderRadius: 2,
-            padding: 3,
-          }}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        sx={{
+          width: "min(90vw, 700px)",
+          display: "grid",
+          gap: 1.5,
+          gridTemplateColumns: "1fr",
+          boxShadow: 2,
+          borderRadius: 2,
+          padding: 3,
+        }}
+      >
+        <Typography variant="h4">Forgot Password?</Typography>
+
+        <ControlledTextField
+          control={control}
+          name="email"
+          label="Email"
+          variant="outlined"
+          error={errors.email}
+        />
+
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={isLoading}
+          disabled={disabled}
         >
-          <Typography variant="h4">Forgot Password?</Typography>
-
-          <ControlledTextField
-            control={control}
-            name="email"
-            label="Email"
-            variant="outlined"
-            error={errors.email}
-          />
-
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            color="primary"
-            loading={isLoading}
-            disabled={disabled}
-          >
-            Reset Password
-          </LoadingButton>
-        </Box>
-      </form>
-    </>
+          Reset Password
+        </LoadingButton>
+      </Box>
+    </form>
   );
 }

@@ -69,6 +69,9 @@ export default async function ClientDashboardPage(): Promise<ReactNode> {
   }
 
   return (
-    <EnrolledProgramsSelectionScreen programEnrollments={programEnrollments} />
+    <EnrolledProgramsSelectionScreen
+      programEnrollments={programEnrollments}
+      user={session.user}
+    />
   );
 }

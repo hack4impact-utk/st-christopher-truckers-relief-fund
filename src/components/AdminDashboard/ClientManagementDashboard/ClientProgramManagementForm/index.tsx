@@ -12,7 +12,8 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { useSnackbar } from "notistack";
+import { ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -84,7 +85,7 @@ const getClientManagementFormDefaultValues = (
       programEnrollments,
       "GPS (Get Preventative Screenings)",
     ),
-  } as ClientManagementFormValues;
+  };
 };
 
 const fieldToProgramEnrollment = (
@@ -106,20 +107,19 @@ const fieldToProgramEnrollment = (
 
 type ClientManagementDashboardProps = {
   programEnrollments: ProgramEnrollment[];
-  setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
-  setSnackbarMessage: Dispatch<SetStateAction<string>>;
   fullName: string;
 };
 
 export default function ClientProgramManagementForm({
   programEnrollments,
-  setSnackbarOpen,
-  setSnackbarMessage,
   fullName,
 }: ClientManagementDashboardProps): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [disabled] = useState(false);
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
     control,
     handleSubmit,
@@ -191,18 +191,16 @@ export default function ClientProgramManagementForm({
     setOpen(false);
 
     if (error) {
-      setSnackbarMessage(
+      enqueueSnackbar(
         `There was a problem updating ${fullName}'s enrolled programs`,
       );
     } else {
-      setSnackbarMessage(
+      enqueueSnackbar(
         `You have successfully updated ${fullName}'s enrolled programs`,
       );
     }
 
     reset(getClientManagementFormDefaultValues(newProgramEnrollments));
-
-    setSnackbarOpen(true);
   };
 
   const showHealthyHabitsButton = !isPending(

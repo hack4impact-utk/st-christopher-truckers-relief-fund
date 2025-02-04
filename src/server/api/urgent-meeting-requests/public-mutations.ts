@@ -4,6 +4,7 @@ import { ApiResponse, UrgentMeetingRequest } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 
+import { sendUrgentMeetingRequestCreatedEmail } from "../emails/private-mutations";
 import {
   createUrgentMeetingRequest,
   deleteUrgentMeetingRequest,
@@ -12,7 +13,7 @@ import {
 export async function handleCreateUrgentMeetingRequest(
   urgentMeetingRequest: UrgentMeetingRequest,
 ): Promise<ApiResponse<null>> {
-  const [session, authError] = await authenticateServerFunction("admin");
+  const [session, authError] = await authenticateServerFunction();
 
   if (authError !== null) {
     return [null, authError];
@@ -27,6 +28,12 @@ export async function handleCreateUrgentMeetingRequest(
   if (error !== null) {
     return [null, error];
   }
+
+  await sendUrgentMeetingRequestCreatedEmail(
+    urgentMeetingRequest.client.firstName,
+    urgentMeetingRequest.client.lastName,
+    urgentMeetingRequest.reason,
+  );
 
   return [null, null];
 }

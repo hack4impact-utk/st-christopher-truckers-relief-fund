@@ -11,7 +11,9 @@ import {
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import { Program, ProgramEnrollment } from "@/types";
+import { Program, ProgramEnrollment, User } from "@/types";
+
+import UrgentMeetingRequestModal from "./UrgentMeetingRequestModal";
 
 type ProgramSlugs =
   | "healthy-habits"
@@ -37,10 +39,12 @@ function programNameToSlug(programName: Program): ProgramSlugs {
 
 type EnrolledProgramsSelectionScreenProps = {
   programEnrollments: ProgramEnrollment[];
+  user: User;
 };
 
 export default function EnrolledProgramsSelectionScreen({
   programEnrollments,
+  user,
 }: EnrolledProgramsSelectionScreenProps): ReactNode {
   const theme = useTheme();
 
@@ -63,7 +67,7 @@ export default function EnrolledProgramsSelectionScreen({
           marginBottom: 1,
         }}
       >
-        <Typography variant="h4" component="h1">
+        <Typography variant="h5" component="h1">
           Select Program
         </Typography>
       </Box>
@@ -116,6 +120,10 @@ export default function EnrolledProgramsSelectionScreen({
             </Card>
           </Link>
         ))}
+      </Box>
+
+      <Box sx={{ marginTop: "auto", alignSelf: "center" }}>
+        <UrgentMeetingRequestModal user={user} />
       </Box>
     </Box>
   );

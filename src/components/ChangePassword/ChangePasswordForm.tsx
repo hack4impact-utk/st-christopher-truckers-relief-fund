@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Snackbar, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -45,10 +46,11 @@ export default function ChangePasswordForm({
   firstName,
   email,
 }: ChangePasswordFormProps): ReactNode {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const router = useRouter();
 
   const {
@@ -76,18 +78,13 @@ export default function ChangePasswordForm({
     );
 
     if (error === null) {
-      setSnackbarMessage("Password successfully changed");
-      setSnackbarOpen(true);
+      enqueueSnackbar("Password successfully changed");
 
       setTimeout(() => {
         router.push("/settings");
       }, 1000);
     } else {
-      setSnackbarMessage("Password change failed.");
-      setSnackbarOpen(true);
-
-      setIsLoading(false);
-      setDisabled(true);
+      enqueueSnackbar("Password change failed.");
     }
 
     setIsLoading(false);
@@ -95,65 +92,57 @@ export default function ChangePasswordForm({
   };
 
   return (
-    <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        message={snackbarMessage}
-      />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          sx={{
-            width: "min(90vw, 700px)",
-            display: "grid",
-            gap: 1.5,
-            gridTemplateColumns: "1fr",
-            boxShadow: 2,
-            borderRadius: 2,
-            padding: 3,
-          }}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        sx={{
+          width: "min(90vw, 700px)",
+          display: "grid",
+          gap: 1.5,
+          gridTemplateColumns: "1fr",
+          boxShadow: 2,
+          borderRadius: 2,
+          padding: 3,
+        }}
+      >
+        <Typography variant="h4">Change Password?</Typography>
+
+        <ControlledTextField
+          control={control}
+          name="oldPassword"
+          label="Old Password"
+          variant="outlined"
+          error={errors.oldPassword}
+          type="password"
+        />
+
+        <ControlledTextField
+          control={control}
+          name="newPassword"
+          label="New Password"
+          variant="outlined"
+          error={errors.newPassword}
+          type="password"
+        />
+
+        <ControlledTextField
+          control={control}
+          name="confirmPassword"
+          label="Confirm New Password"
+          variant="outlined"
+          error={errors.confirmPassword}
+          type="password"
+        />
+
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={isLoading}
+          disabled={disabled}
         >
-          <Typography variant="h4">Change Password?</Typography>
-
-          <ControlledTextField
-            control={control}
-            name="oldPassword"
-            label="Old Password"
-            variant="outlined"
-            error={errors.oldPassword}
-            type="password"
-          />
-
-          <ControlledTextField
-            control={control}
-            name="newPassword"
-            label="New Password"
-            variant="outlined"
-            error={errors.newPassword}
-            type="password"
-          />
-
-          <ControlledTextField
-            control={control}
-            name="confirmPassword"
-            label="Confirm New Password"
-            variant="outlined"
-            error={errors.confirmPassword}
-            type="password"
-          />
-
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            color="primary"
-            loading={isLoading}
-            disabled={disabled}
-          >
-            Change Password
-          </LoadingButton>
-        </Box>
-      </form>
-    </>
+          Change Password
+        </LoadingButton>
+      </Box>
+    </form>
   );
 }

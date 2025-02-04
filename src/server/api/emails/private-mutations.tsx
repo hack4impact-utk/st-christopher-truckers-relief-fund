@@ -106,7 +106,7 @@ export async function sendUrgentMeetingRequestCreatedEmail(
     allAdmins.map(async (admin) => {
       await sendEmail(
         admin.email,
-        `Urgent meeting requested for ${firstName} ${lastName}.`,
+        `Urgent meeting requested by ${firstName} ${lastName}.`,
         html,
       );
     }),

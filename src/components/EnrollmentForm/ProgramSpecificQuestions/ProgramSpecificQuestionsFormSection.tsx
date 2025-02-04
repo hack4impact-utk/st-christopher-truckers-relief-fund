@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Snackbar, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useSnackbar } from "notistack";
 import { ReactNode, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -21,8 +22,7 @@ import RigsWithoutCigsProgramSpecificQuestions from "./RigsWithoutCigsProgramSpe
 import VaccineVoucherProgramSpecificQuestions from "./VaccineVoucherProgramSpecificQuestions";
 
 export default function ProgramSpecificQuestionsFormSection(): ReactNode {
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -74,22 +74,18 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
         const [, error] = await handleEnrollmentFormSubmission(enrollmentForm);
 
         if (error === null) {
-          setSnackbarMessage("Enrollment form submitted successfully");
-          setSnackbarOpen(true);
+          enqueueSnackbar("Enrollment form submitted successfully");
           router.push("/enrollment-form/submitted");
         } else if (error === apiErrors.user.userAlreadyExists) {
-          setSnackbarMessage("You already have an account");
-          setSnackbarOpen(true);
+          enqueueSnackbar("You already have an account");
           setIsLoading(false);
         } else if (
           error === apiErrors.enrollmentForm.enrollmentFormAlreadyExists
         ) {
-          setSnackbarMessage("You have already submitted this form");
-          setSnackbarOpen(true);
+          enqueueSnackbar("You have already submitted this form");
           setIsLoading(false);
         } else {
-          setSnackbarMessage("An unknown error occurred");
-          setSnackbarOpen(true);
+          enqueueSnackbar("An unknown error occurred");
           setIsLoading(false);
         }
       }
@@ -100,6 +96,7 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
     completedSections.programSpecificQuestionsSectionCompleted,
     enrollmentForm,
     router,
+    enqueueSnackbar,
   ]);
 
   const hasOptedInToHealthyHabits =
@@ -114,92 +111,83 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
     enrollmentForm.programSelectionSection.optedInToGetPreventativeScreenings;
 
   return (
-    <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={() => setSnackbarOpen(false)}
-        message={snackbarMessage}
-      />
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <Box
+        sx={{
+          width: "min(90vw, 700px)",
+          display: "grid",
+          gap: 1.5,
+          gridTemplateColumns: "1fr",
+        }}
+      >
+        {(hasOptedInToHealthyHabits || hasOptedInToDiabetesPrevention) && (
+          <HealthyHabitsProgramSpecificQuestions
+            control={control}
+            errors={errors}
+            hasOptedInToHealthyHabits={hasOptedInToHealthyHabits}
+            hasOptedInToDiabetesPrevention={hasOptedInToDiabetesPrevention}
+          />
+        )}
 
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
+        {hasOptedInToRigsWithoutCigs && (
+          <RigsWithoutCigsProgramSpecificQuestions
+            control={control}
+            errors={errors}
+          />
+        )}
+
+        {hasOptedInToVaccineVoucher && (
+          <VaccineVoucherProgramSpecificQuestions
+            control={control}
+            errors={errors}
+          />
+        )}
+
+        {hasOptedInToGetPreventativeScreenings && (
+          <GetPreventativeScreeningsProgramSpecificQuestions
+            control={control}
+            errors={errors}
+            enrollmentForm={enrollmentForm}
+          />
+        )}
+
         <Box
           sx={{
-            width: "min(90vw, 700px)",
-            display: "grid",
-            gap: 1.5,
-            gridTemplateColumns: "1fr",
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            gap: 2,
           }}
         >
-          {(hasOptedInToHealthyHabits || hasOptedInToDiabetesPrevention) && (
-            <HealthyHabitsProgramSpecificQuestions
-              control={control}
-              errors={errors}
-              hasOptedInToHealthyHabits={hasOptedInToHealthyHabits}
-              hasOptedInToDiabetesPrevention={hasOptedInToDiabetesPrevention}
-            />
-          )}
-
-          {hasOptedInToRigsWithoutCigs && (
-            <RigsWithoutCigsProgramSpecificQuestions
-              control={control}
-              errors={errors}
-            />
-          )}
-
-          {hasOptedInToVaccineVoucher && (
-            <VaccineVoucherProgramSpecificQuestions
-              control={control}
-              errors={errors}
-            />
-          )}
-
-          {hasOptedInToGetPreventativeScreenings && (
-            <GetPreventativeScreeningsProgramSpecificQuestions
-              control={control}
-              errors={errors}
-              enrollmentForm={enrollmentForm}
-            />
-          )}
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              gap: 2,
+          <LoadingButton
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/enrollment-form/program-selection");
             }}
+            loading={isLoading}
+            sx={{ width: "100%" }}
           >
-            <LoadingButton
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                setIsLoading(true);
-                router.push("/enrollment-form/program-selection");
-              }}
-              loading={isLoading}
-              sx={{ width: "100%" }}
-            >
-              Back
-            </LoadingButton>
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              color="primary"
-              loading={isLoading}
-              sx={{ width: "100%" }}
-            >
-              Submit
-            </LoadingButton>
-          </Box>
-
-          <Typography color="red">
-            {submitCount && !isSubmitSuccessful
-              ? "Please review all fields before continuing."
-              : ""}
-          </Typography>
+            Back
+          </LoadingButton>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            loading={isLoading}
+            sx={{ width: "100%" }}
+          >
+            Submit
+          </LoadingButton>
         </Box>
-      </form>
-    </>
+
+        <Typography color="red">
+          {submitCount && !isSubmitSuccessful
+            ? "Please review all fields before continuing."
+            : ""}
+        </Typography>
+      </Box>
+    </form>
   );
 }

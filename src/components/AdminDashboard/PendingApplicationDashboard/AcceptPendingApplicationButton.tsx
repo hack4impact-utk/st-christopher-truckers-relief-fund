@@ -2,6 +2,7 @@
 
 import { Check } from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import { useSnackbar } from "notistack";
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
@@ -13,17 +14,15 @@ type AcceptPendingApplicationButtonProps = {
   programEnrollment: ProgramEnrollment;
   rows: Row[];
   setRows: Dispatch<SetStateAction<Row[]>>;
-  setSnackbarOpen: Dispatch<SetStateAction<boolean>>;
-  setSnackbarMessage: Dispatch<SetStateAction<string>>;
 };
 
 export default function AcceptPendingApplicationButton({
   programEnrollment,
   rows,
   setRows,
-  setSnackbarOpen,
-  setSnackbarMessage,
 }: AcceptPendingApplicationButtonProps): ReactNode {
+  const { enqueueSnackbar } = useSnackbar();
+
   const removePendingApplicationFromRows = (): void => {
     const rowsWithoutProgramEnrollment = rows.filter(
       (row) =>
@@ -43,9 +42,14 @@ export default function AcceptPendingApplicationButton({
     }
 
     removePendingApplicationFromRows();
-    await handleApproveProgramApplication(programEnrollment);
-    setSnackbarMessage("Application successfully approved");
-    setSnackbarOpen(true);
+    const [, error] = await handleApproveProgramApplication(programEnrollment);
+
+    if (error !== null) {
+      enqueueSnackbar("An unexpected error occurred");
+      return;
+    }
+
+    enqueueSnackbar("Application successfully approved");
   };
 
   return (
