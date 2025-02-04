@@ -23,8 +23,6 @@ type TwoLineChart = BaseChart & {
   secondaryLabel: string;
 };
 
-type ModularLineChartProps = OneLineChart | TwoLineChart;
-
 type ChartData = {
   x: Date;
   y: number;
@@ -38,75 +36,69 @@ type Series = {
   curve: "linear";
 };
 
-export default function ModularLineChart(
-  props: ModularLineChartProps,
-): ReactNode {
+function useChartData(props: OneLineChart | TwoLineChart): {
+  chartData: ChartData[];
+  series: Series[];
+} {
   const theme = useTheme();
 
-  const getChartData = (chartProps: ModularLineChartProps): ChartData[] => {
-    const { trackingForms, dataKey, type } = chartProps;
+  const chartData = props.trackingForms
+    .filter((entry) => entry[props.dataKey] !== null)
+    .sort((a, b) =>
+      dayjsUtil.utc(a.weekOfSubmission).diff(dayjsUtil.utc(b.weekOfSubmission)),
+    )
+    .map((entry) => {
+      const baseData: ChartData = {
+        x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
+        y: Number(entry[props.dataKey]) || 0,
+      };
 
-    return trackingForms
-      .filter((entry) => entry[dataKey] !== null)
-      .sort((a, b) =>
-        dayjsUtil
-          .utc(a.weekOfSubmission)
-          .diff(dayjsUtil.utc(b.weekOfSubmission)),
-      )
-      .map((entry) => {
-        const baseData: ChartData = {
-          x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
-          y: Number(entry[dataKey]) || 0,
+      if (props.type === "two-line") {
+        return {
+          ...baseData,
+          y2: Number(entry[props.dataKey2]) || 0,
         };
+      }
 
-        if (type === "two-line") {
-          return {
-            ...baseData,
-            y2: Number(entry[chartProps.dataKey2]) || 0,
-          };
-        }
+      return baseData;
+    });
 
-        return baseData;
-      });
-  };
+  const series: Series[] = [
+    {
+      data: chartData.map((item) => item.y),
+      label: props.primaryLabel,
+      color: theme.palette.primary.main,
+      curve: "linear",
+    },
+  ];
 
-  const chartData = getChartData(props);
+  if (props.type === "two-line") {
+    series.push({
+      data: chartData.map((item) => item.y2 ?? 0),
+      label: props.secondaryLabel,
+      color: theme.palette.info.main,
+      curve: "linear",
+    });
+  }
 
-  const getSeries = (chartProps: ModularLineChartProps): Series[] => {
-    const { type } = chartProps;
+  return { chartData, series };
+}
 
-    const series: Series[] = [
-      {
-        data: chartData.map((item) => item.y),
-        label: chartProps.primaryLabel,
-        color: theme.palette.primary.main,
-        curve: "linear" as const,
-      },
-    ];
+type ChartDisplayProps = {
+  title: string;
+  chartData: ChartData[];
+  series: Series[];
+};
 
-    if (type === "two-line") {
-      series.push({
-        data: chartData.map((item) => item.y2 ?? 0),
-        label: chartProps.secondaryLabel,
-        color: theme.palette.info.main,
-        curve: "linear",
-      });
-    }
-
-    return series;
-  };
-
-  const series = getSeries(props);
-
+function ChartDisplay({
+  title,
+  chartData,
+  series,
+}: ChartDisplayProps): ReactNode {
   return (
-    <Box
-      sx={{
-        height: 200,
-        width: "100%",
-      }}
-    >
+    <Box sx={{ height: 200, width: "100%" }}>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        {props.title}
+        {title}
       </Typography>
       <LineChart
         xAxis={[
@@ -122,5 +114,15 @@ export default function ModularLineChart(
         series={series}
       />
     </Box>
+  );
+}
+
+export default function ModularLineChart(
+  props: OneLineChart | TwoLineChart,
+): ReactNode {
+  const { chartData, series } = useChartData(props);
+
+  return (
+    <ChartDisplay title={props.title} chartData={chartData} series={series} />
   );
 }
