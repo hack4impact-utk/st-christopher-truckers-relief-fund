@@ -38,6 +38,7 @@ export default function ControlledTextField(
           multiline={props.multiline}
           required={props.required}
           rows={props.rows}
+          value={field.value === null ? "" : field.value}
           onChange={
             props.convertToNumber
               ? (e): void => {

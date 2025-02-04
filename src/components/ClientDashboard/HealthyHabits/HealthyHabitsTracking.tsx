@@ -42,7 +42,6 @@ export default function HealthyHabitsTracking({
   user,
 }: HealthyHabitsTrackingFormProps): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -71,9 +70,9 @@ export default function HealthyHabitsTracking({
       movementMinutes: 0,
       systolicBloodPressure: 0,
       diastolicBloodPressure: 0,
-      bloodGlucose: 0,
-      a1c: 0,
-      cholesterol: 0,
+      bloodGlucose: null,
+      a1c: null,
+      cholesterol: null,
       qualitativeGoals: "",
       sleepRanking: 1,
       energyRanking: 1,
@@ -111,7 +110,6 @@ export default function HealthyHabitsTracking({
     }
 
     setIsLoading(false);
-    setDisabled(true);
   };
 
   return (
@@ -323,6 +321,8 @@ export default function HealthyHabitsTracking({
           convertToNumber={true}
           required
         />
+
+        {/* Blood Pressure */}
         <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
           <ControlledTextField
             control={control}
@@ -378,7 +378,6 @@ export default function HealthyHabitsTracking({
             },
           }}
           convertToNumber={true}
-          required
         />
 
         {/* A1C */}
@@ -395,7 +394,6 @@ export default function HealthyHabitsTracking({
             },
           }}
           convertToNumber={true}
-          required
         />
 
         {/* Cholesterol */}
@@ -414,7 +412,6 @@ export default function HealthyHabitsTracking({
             },
           }}
           convertToNumber={true}
-          required
         />
 
         {/* Qualitative Goals */}
@@ -531,7 +528,6 @@ export default function HealthyHabitsTracking({
           variant="contained"
           color="primary"
           loading={isLoading}
-          disabled={disabled}
         >
           Submit
         </LoadingButton>

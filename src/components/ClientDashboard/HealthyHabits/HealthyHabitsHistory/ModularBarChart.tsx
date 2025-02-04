@@ -28,6 +28,7 @@ export default function ModularBarChart({
 
   const getChartData = (): ChartData[] => {
     return trackingForms
+      .filter((form) => form[dataKey] !== null)
       .sort((a, b) =>
         dayjsUtil
           .utc(a.weekOfSubmission)

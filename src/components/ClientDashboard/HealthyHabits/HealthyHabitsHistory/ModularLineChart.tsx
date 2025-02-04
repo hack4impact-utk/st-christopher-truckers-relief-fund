@@ -6,77 +6,97 @@ import { ReactNode } from "react";
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-type ModularLineChartProps = {
+type BaseChart = {
   trackingForms: HealthyHabitsTrackingForm[];
-  graphLabel: string;
+  primaryLabel: string;
   dataKey: keyof HealthyHabitsTrackingForm;
-  dataKey2?: keyof HealthyHabitsTrackingForm;
   title: string;
-  secondaryLabel?: string;
 };
 
-type RegularChartDataPoint = {
+type OneLineChart = BaseChart & {
+  type: "one-line";
+};
+
+type TwoLineChart = BaseChart & {
+  type: "two-line";
+  dataKey2: keyof HealthyHabitsTrackingForm;
+  secondaryLabel: string;
+};
+
+type ModularLineChartProps = OneLineChart | TwoLineChart;
+
+type ChartData = {
   x: Date;
   y: number;
   y2?: number;
 };
 
-type ChartConfig = {
-  chartData: RegularChartDataPoint[];
-  series: {
-    data: number[];
-    label: string;
-    color: string;
-    curve: "linear";
-  }[];
+type Series = {
+  data: number[];
+  label: string;
+  color: string;
+  curve: "linear";
 };
 
-export default function ModularLineChart({
-  trackingForms,
-  graphLabel,
-  dataKey,
-  dataKey2,
-  secondaryLabel,
-  title,
-}: ModularLineChartProps): ReactNode {
+export default function ModularLineChart(
+  props: ModularLineChartProps,
+): ReactNode {
   const theme = useTheme();
 
-  const getChartDataAndSeries = (): ChartConfig => {
-    const sortedData = trackingForms.sort((a, b) =>
-      dayjsUtil.utc(a.weekOfSubmission).diff(dayjsUtil.utc(b.weekOfSubmission)),
-    );
+  const getChartData = (chartProps: ModularLineChartProps): ChartData[] => {
+    const { trackingForms, dataKey, type } = chartProps;
 
-    const chartData: RegularChartDataPoint[] = sortedData.map((entry) => ({
-      x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
-      y: entry[dataKey] as number,
-      ...(dataKey2 && { y2: entry[dataKey2] as number }),
-    }));
+    return trackingForms
+      .filter((entry) => entry[dataKey] !== null)
+      .sort((a, b) =>
+        dayjsUtil
+          .utc(a.weekOfSubmission)
+          .diff(dayjsUtil.utc(b.weekOfSubmission)),
+      )
+      .map((entry) => {
+        const baseData: ChartData = {
+          x: dayjsUtil.utc(entry.weekOfSubmission).toDate(),
+          y: Number(entry[dataKey]) || 0,
+        };
 
-    const series = [
+        if (type === "two-line") {
+          return {
+            ...baseData,
+            y2: Number(entry[chartProps.dataKey2]) || 0,
+          };
+        }
+
+        return baseData;
+      });
+  };
+
+  const chartData = getChartData(props);
+
+  const getSeries = (chartProps: ModularLineChartProps): Series[] => {
+    const { type } = chartProps;
+
+    const series: Series[] = [
       {
         data: chartData.map((item) => item.y),
-        label: graphLabel,
+        label: chartProps.primaryLabel,
         color: theme.palette.primary.main,
         curve: "linear" as const,
       },
     ];
 
-    if (dataKey2 && secondaryLabel) {
+    if (type === "two-line") {
       series.push({
-        data: chartData.map((item) => item.y2!),
-        label: secondaryLabel,
+        data: chartData.map((item) => item.y2 ?? 0),
+        label: chartProps.secondaryLabel,
         color: theme.palette.info.main,
         curve: "linear",
       });
     }
 
-    return {
-      chartData,
-      series,
-    };
+    return series;
   };
 
-  const { chartData, series } = getChartDataAndSeries();
+  const series = getSeries(props);
 
   return (
     <Box
@@ -86,7 +106,7 @@ export default function ModularLineChart({
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        {title}
+        {props.title}
       </Typography>
       <LineChart
         xAxis={[
