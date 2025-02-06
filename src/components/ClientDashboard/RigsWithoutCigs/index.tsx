@@ -30,11 +30,11 @@ export default function RigsWithoutCigs({
   function getSectionContent(section: RigsWithoutCigsSections): ReactNode {
     switch (section) {
       case "fagerstrom_test":
-        return <FagerstromTest user={user} />;
+        return <FagerstromTest />;
       case "history":
         return <RigsWithoutCigsHistory user={user} />;
       case "info":
-        return <RigsWithoutCigsInfo />;
+        return <RigsWithoutCigsInfo user={user} />;
       default:
         return <Typography>Invalid section</Typography>;
     }
