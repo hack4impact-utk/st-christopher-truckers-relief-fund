@@ -24,12 +24,12 @@ export default function SmokelessTobaccoFagerstromTest(): ReactNode {
   } = useForm<SmokelessTobaccoFagerstromTestForm>({
     resolver: zodResolver(smokelessTobaccoFagerstromTestFormValidator),
     defaultValues: {
-      firstDip: 0,
-      intentionallySwallow: 0,
-      whichGiveUpHate: 0,
-      dipPerWeek: 0,
-      frequentlyInMorning: 0,
-      dipWhenSickInBed: 0,
+      firstDip: -1,
+      intentionallySwallow: -1,
+      whichGiveUpHate: -1,
+      dipPerWeek: -1,
+      frequentlyInMorning: -1,
+      dipWhenSickInBed: -1,
     },
   });
 
@@ -116,7 +116,6 @@ export default function SmokelessTobaccoFagerstromTest(): ReactNode {
                   label="Sometimes"
                 />
                 <FormControlLabel value="0" control={<Radio />} label="Never" />
-                <FormControlLabel value="0" control={<Radio />} label="Never" />
               </RadioGroup>
             )}
           />
@@ -178,11 +177,6 @@ export default function SmokelessTobaccoFagerstromTest(): ReactNode {
                 />
                 <FormControlLabel value="1" control={<Radio />} label="2-3" />
                 <FormControlLabel value="0" control={<Radio />} label="0" />
-                <FormControlLabel
-                  value="0"
-                  control={<Radio />}
-                  label="Not Applicable"
-                />
               </RadioGroup>
             )}
           />

@@ -2,20 +2,12 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
-import { ClientUser } from "@/types";
-
 import CigaretteFagerstromTest from "./CigaretteFagerstromTest";
 import SmokelessTobaccoFagerstromTest from "./SmokelessTobaccoFagerstromTest";
 
 type FagerstromTestSections = "cigarette" | "smokeless_tobacco";
 
-type FagerstromTestProps = {
-  user: ClientUser;
-};
-
-export default function FagerstromTest({
-  user,
-}: FagerstromTestProps): ReactNode {
+export default function FagerstromTest(): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<FagerstromTestSections>("cigarette");
 
@@ -43,13 +35,10 @@ export default function FagerstromTest({
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "start",
           flexDirection: "column",
         }}
       >
-        <Typography sx={{ fontSize: "1.5rem", marginBottom: 2 }}>
-          Fagerstrom Test
-        </Typography>
         <Tabs
           value={selectedSection}
           onChange={handleTabChange}

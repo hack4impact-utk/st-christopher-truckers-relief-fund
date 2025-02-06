@@ -24,12 +24,12 @@ export default function CigaretteFagerstromTest(): ReactNode {
   } = useForm<CigaretteFagerstromTestForm>({
     resolver: zodResolver(cigaretteFagerstromTestFormValidator),
     defaultValues: {
-      firstCigarette: 0,
-      refrainInForbiddenAreas: 0,
-      whichGiveUpHate: 0,
-      cigarettesPerDay: 0,
-      frequentlyInMorning: 0,
-      smokeWhenSickInBed: 0,
+      firstCigarette: -1,
+      refrainInForbiddenAreas: -1,
+      whichGiveUpHate: -1,
+      cigarettesPerDay: -1,
+      frequentlyInMorning: -1,
+      smokeWhenSickInBed: -1,
     },
   });
 
@@ -131,7 +131,7 @@ export default function CigaretteFagerstromTest(): ReactNode {
                 <FormControlLabel
                   value="1"
                   control={<Radio />}
-                  label="The first one in the morning morning"
+                  label="The first one in the morning"
                 />
                 <FormControlLabel
                   value="0"
