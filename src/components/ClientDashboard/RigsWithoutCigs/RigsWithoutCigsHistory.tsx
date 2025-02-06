@@ -11,19 +11,20 @@ type RigsWithoutCigsHistoryProps = {
 export default function RigsWithoutCigsHistory({
   user,
 }: RigsWithoutCigsHistoryProps): ReactNode {
+  const PRICE_PER_CIGARETTE = 0.4;
   const daysSinceStartOfProgram = dayjs(user.enrollmentForm.dateSubmitted).diff(
     dayjs(),
     "day",
   );
+
   const moneySaved =
     user.enrollmentForm.programSpecificQuestionsSection.rigsWithoutCigs
       .cigarettesPerDay *
-    0.4 *
+    PRICE_PER_CIGARETTE *
     daysSinceStartOfProgram;
 
   return (
     <>
-      <Typography>Rigs Without Cigs History</Typography>
       <Typography>Money saved: ${moneySaved.toFixed(2)}</Typography>
       <Typography>
         Tobacco Free for: {daysSinceStartOfProgram} day

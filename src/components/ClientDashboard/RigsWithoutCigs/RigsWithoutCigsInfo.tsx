@@ -16,10 +16,12 @@ export default function RigsWithoutCigsInfo({
 
   return (
     <>
-      <Typography>Rigs Without Cigs Info</Typography>
       <Typography>
         Accountability Person: {accountabilityPerson.firstName}{" "}
-        {accountabilityPerson.lastName} | {accountabilityPerson.phoneNumber}
+        {accountabilityPerson.lastName} |{" "}
+        <a href={`tel:${accountabilityPerson.phoneNumber}`}>
+          {accountabilityPerson.phoneNumber}
+        </a>
       </Typography>
     </>
   );
