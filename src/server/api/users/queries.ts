@@ -38,6 +38,10 @@ async function getUser(
       });
     }
 
+    if (options?.populateEnrollmentForm) {
+      userQuery.populate("enrollmentForm");
+    }
+
     const user = await userQuery.lean<User>().exec();
 
     if (!user) {
