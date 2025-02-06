@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
   FormControl,
@@ -7,6 +8,7 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Typography,
 } from "@mui/material";
 import { ReactNode } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -229,6 +231,19 @@ export default function CigaretteFagerstromTest(): ReactNode {
             {errors.smokeWhenSickInBed?.message}
           </FormHelperText>
         </FormControl>
+
+        <LoadingButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          loading={false}
+        >
+          Submit
+        </LoadingButton>
+
+        <Typography variant="h6" fontWeight="normal" color="red">
+          {errors.root?.message}
+        </Typography>
       </Box>
     </form>
   );

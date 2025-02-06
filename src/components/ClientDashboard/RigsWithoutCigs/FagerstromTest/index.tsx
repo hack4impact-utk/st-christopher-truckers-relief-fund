@@ -35,7 +35,7 @@ export default function FagerstromTest(): ReactNode {
         sx={{
           display: "flex",
           justifyContent: "center",
-          alignItems: "start",
+          alignItems: "center",
           flexDirection: "column",
         }}
       >
