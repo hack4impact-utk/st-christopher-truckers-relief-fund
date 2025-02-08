@@ -11,6 +11,12 @@ export async function getAllUrgentMeetingRequests(): Promise<
 
   try {
     const urgentMeetingRequests = await UrgentMeetingRequestModel.find()
+      .populate({
+        path: "client",
+        populate: {
+          path: "enrollmentForm",
+        },
+      })
       .lean<UrgentMeetingRequest[]>()
       .exec();
 
@@ -19,4 +25,14 @@ export async function getAllUrgentMeetingRequests(): Promise<
     console.error(error);
     return [null, handleMongooseError(error)];
   }
+}
+
+export async function getNumberOfUrgentMeetingRequests(): Promise<number> {
+  const [urgentMeetingRequests, error] = await getAllUrgentMeetingRequests();
+
+  if (error !== null) {
+    return 0;
+  }
+
+  return urgentMeetingRequests.length;
 }

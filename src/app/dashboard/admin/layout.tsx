@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 import Sidebar from "@/components/AdminDashboard/Sidebar";
+import { getNumberOfUrgentMeetingRequests } from "@/server/api/urgent-meeting-requests/queries";
 import getUserSession from "@/utils/getUserSession";
 
 type AdminDashboardLayoutProps = {
@@ -18,9 +19,12 @@ export default async function AdminDashboardLayout({
     redirect("/dashboard");
   }
 
+  const numberOfUrgentMeetingRequests =
+    await getNumberOfUrgentMeetingRequests();
+
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
-      <Sidebar />
+      <Sidebar numberOfUrgentMeetingRequests={numberOfUrgentMeetingRequests} />
       <Box sx={{ flex: 1 }}>{children}</Box>
     </Box>
   );
