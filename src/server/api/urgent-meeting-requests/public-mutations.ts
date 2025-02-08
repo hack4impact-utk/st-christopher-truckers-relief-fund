@@ -39,7 +39,7 @@ export async function handleCreateUrgentMeetingRequest(
 }
 
 export async function handleDeleteUrgentMeetingRequest(
-  urgentMeetingRequest: UrgentMeetingRequest,
+  _id: string,
 ): Promise<ApiResponse<null>> {
   const [, authError] = await authenticateServerFunction("admin");
 
@@ -47,7 +47,7 @@ export async function handleDeleteUrgentMeetingRequest(
     return [null, authError];
   }
 
-  const [, error] = await deleteUrgentMeetingRequest(urgentMeetingRequest);
+  const [, error] = await deleteUrgentMeetingRequest(_id);
 
   if (error !== null) {
     return [null, error];

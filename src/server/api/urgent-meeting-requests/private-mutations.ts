@@ -24,15 +24,13 @@ export async function createUrgentMeetingRequest(
 }
 
 export async function deleteUrgentMeetingRequest(
-  urgentMeetingRequest: UrgentMeetingRequest,
+  _id: string,
 ): Promise<ApiResponse<null>> {
   await dbConnect();
 
   try {
     const urgentMeetingRequestToDelete =
-      await UrgentMeetingRequestModel.findByIdAndDelete(
-        urgentMeetingRequest._id,
-      );
+      await UrgentMeetingRequestModel.findByIdAndDelete(_id);
 
     if (!urgentMeetingRequestToDelete) {
       return [

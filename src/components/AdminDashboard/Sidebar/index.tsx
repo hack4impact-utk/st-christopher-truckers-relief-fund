@@ -9,7 +9,15 @@ import People from "@mui/icons-material/People";
 import SmokeFreeIcon from "@mui/icons-material/SmokeFree";
 import TroubleshootIcon from "@mui/icons-material/Troubleshoot";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
-import { Box, Collapse, Drawer, List, Toolbar, useTheme } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Collapse,
+  Drawer,
+  List,
+  Toolbar,
+  useTheme,
+} from "@mui/material";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 
@@ -39,67 +47,82 @@ type SidebarItem =
       children: SidebarChildItem[];
     };
 
-const sidebarItems: SidebarItem[] = [
-  {
-    type: "collapsible",
-    label: "Programs",
-    icon: <Apps />,
-    href: "/dashboard/admin/programs",
-    children: [
-      {
-        label: "Healthy Habits",
-        icon: <Insights />,
-        href: "/dashboard/admin/programs/healthy-habits",
-      },
-      {
-        label: "Diabetes Prevention",
-        icon: <MedicationIcon />,
-        href: "/dashboard/admin/programs/diabetes-prevention",
-      },
-      {
-        label: "Rigs Without Cigs",
-        icon: <SmokeFreeIcon />,
-        href: "/dashboard/admin/programs/rigs-without-cigs",
-      },
-      {
-        label: "Vaccine Voucher",
-        icon: <VaccinesIcon />,
-        href: "/dashboard/admin/programs/vaccine-voucher",
-      },
-      {
-        label: "Get Preventative Screenings",
-        icon: <TroubleshootIcon />,
-        href: "/dashboard/admin/programs/get-preventative-screenings",
-      },
-    ],
-  },
-  {
-    type: "standard",
-    label: "Clients",
-    icon: <People />,
-    href: "/dashboard/admin/clients",
-  },
-  {
-    type: "standard",
-    label: "Notifications",
-    icon: <Notifications />,
-    href: "/dashboard/admin/notifications",
-  },
-  {
-    type: "standard",
-    label: "Applications",
-    icon: <Description />,
-    href: "/dashboard/admin/applications",
-  },
-];
+function getSidebarItems(numberOfUrgentMeetingRequests: number): SidebarItem[] {
+  return [
+    {
+      type: "collapsible",
+      label: "Programs",
+      icon: <Apps />,
+      href: "/dashboard/admin/programs",
+      children: [
+        {
+          label: "Healthy Habits",
+          icon: <Insights />,
+          href: "/dashboard/admin/programs/healthy-habits",
+        },
+        {
+          label: "Diabetes Prevention",
+          icon: <MedicationIcon />,
+          href: "/dashboard/admin/programs/diabetes-prevention",
+        },
+        {
+          label: "Rigs Without Cigs",
+          icon: <SmokeFreeIcon />,
+          href: "/dashboard/admin/programs/rigs-without-cigs",
+        },
+        {
+          label: "Vaccine Voucher",
+          icon: <VaccinesIcon />,
+          href: "/dashboard/admin/programs/vaccine-voucher",
+        },
+        {
+          label: "Get Preventative Screenings",
+          icon: <TroubleshootIcon />,
+          href: "/dashboard/admin/programs/get-preventative-screenings",
+        },
+      ],
+    },
+    {
+      type: "standard",
+      label: "Clients",
+      icon: <People />,
+      href: "/dashboard/admin/clients",
+    },
+    {
+      type: "standard",
+      label: "Notifications",
+      icon: (
+        <Badge badgeContent={numberOfUrgentMeetingRequests} color="error">
+          <Notifications />
+        </Badge>
+      ),
 
-export default function Sidebar(): ReactNode {
+      href: "/dashboard/admin/notifications",
+    },
+    {
+      type: "standard",
+      label: "Applications",
+      icon: <Description />,
+      href: "/dashboard/admin/applications",
+    },
+  ];
+}
+
+type SidebarProps = {
+  numberOfUrgentMeetingRequests: number;
+};
+
+export default function Sidebar({
+  numberOfUrgentMeetingRequests,
+}: SidebarProps): ReactNode {
   const theme = useTheme();
   const pathname = usePathname();
 
   const isOnProgramsSubpage = pathname.startsWith("/dashboard/admin/programs");
 
   const [open, setOpen] = useState(isOnProgramsSubpage);
+
+  const sidebarItems = getSidebarItems(numberOfUrgentMeetingRequests);
 
   return (
     <Drawer
