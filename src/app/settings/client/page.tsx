@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 import ClientSettings from "@/components/Settings/ClientSettings";
+import SignOutButton from "@/components/Settings/SignOutButton";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
@@ -27,9 +28,12 @@ export default async function AdminSettingsPage(): Promise<ReactNode> {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
+          gap: 2,
         }}
       >
         <Typography>There was an error loading the settings.</Typography>
+        <SignOutButton />
       </Box>
     );
   }
