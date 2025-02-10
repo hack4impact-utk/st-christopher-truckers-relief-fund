@@ -134,6 +134,8 @@ export const programSpecificQuestionsSectionValidator = z
         "Walgreens",
         "Kroger and Kroger Family of Pharmacies",
         "The Little Clinic",
+        "Walmart",
+        "Sam's Club",
       ]),
       additionalQuestions: z.string(),
     }),

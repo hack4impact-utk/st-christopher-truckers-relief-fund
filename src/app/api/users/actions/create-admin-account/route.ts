@@ -1,3 +1,7 @@
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import { z } from "zod";
 
 import { createAdminUser } from "@/server/api/users/private-mutations";
@@ -5,10 +9,20 @@ import { createAdminUser } from "@/server/api/users/private-mutations";
 const adminUserRequestSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  email: z.string().email({ message: "Invalid email" }),
+  email: z
+    .string()
+    .email({ message: "Invalid email" })
+    .transform((val) => val.toLowerCase()),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters",
   }),
+  phoneNumber: z
+    .string()
+    .refine(
+      (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
+      "Invalid phone number",
+    )
+    .transform((val) => parsePhoneNumberWithError(val, "US").number.toString()),
 });
 
 export type AdminUserRequest = z.infer<typeof adminUserRequestSchema>;

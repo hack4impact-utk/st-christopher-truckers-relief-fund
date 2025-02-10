@@ -22,9 +22,9 @@ export type Row = {
 const createRowFromClient = (client: ClientUser): Row => {
   return {
     id: client._id,
-    lastName: client.enrollmentForm.generalInformationSection.lastName,
-    firstName: client.enrollmentForm.generalInformationSection.firstName,
-    phoneNumber: client.enrollmentForm.generalInformationSection.phoneNumber,
+    lastName: client.lastName,
+    firstName: client.firstName,
+    phoneNumber: client.phoneNumber,
     email: client.email,
     programEnrollments: client.programEnrollments,
     client,

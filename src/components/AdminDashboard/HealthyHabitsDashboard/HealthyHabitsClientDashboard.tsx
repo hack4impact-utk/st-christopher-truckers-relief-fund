@@ -51,7 +51,7 @@ const createRowFromHealthyHabitsProgramEnrollment = (
     id: programEnrollment._id,
     lastName: user.lastName,
     firstName: user.firstName,
-    phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
+    phoneNumber: user.phoneNumber,
     email: user.email,
     trackingForms: user.healthyHabitsTrackingForms,
     completed,

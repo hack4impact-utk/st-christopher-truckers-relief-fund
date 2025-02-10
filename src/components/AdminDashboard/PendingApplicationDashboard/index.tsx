@@ -27,9 +27,9 @@ const createRowFromProgramEnrollment = (
   const user = programEnrollment.user as ClientUser;
   return {
     id: programEnrollment._id,
-    lastName: user.enrollmentForm.generalInformationSection.lastName,
-    firstName: user.enrollmentForm.generalInformationSection.firstName,
-    phoneNumber: user.enrollmentForm.generalInformationSection.phoneNumber,
+    lastName: user.lastName,
+    firstName: user.firstName,
+    phoneNumber: user.phoneNumber,
     email: user.email,
     program: programEnrollment.program,
     programEnrollment: programEnrollment,
