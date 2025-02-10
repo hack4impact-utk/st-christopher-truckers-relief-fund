@@ -1,6 +1,6 @@
 "use client";
 
-import SettingsIcon from "@mui/icons-material/Settings";
+import AccountIcon from "@mui/icons-material/AccountCircle";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -36,10 +36,10 @@ export function Header(): ReactNode {
           variant="outlined"
           color="primary"
           component={Link}
-          href="/settings"
-          endIcon={<SettingsIcon />}
+          href="/profile"
+          endIcon={<AccountIcon />}
         >
-          Settings
+          Profile
         </Button>
       )}
     </header>
