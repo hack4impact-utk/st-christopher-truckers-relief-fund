@@ -19,7 +19,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { useSnackbar } from "notistack";
-import { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
@@ -34,11 +34,31 @@ import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
+function hasCompletedFormForSelectedWeek(
+  date: string,
+  trackingForms: HealthyHabitsTrackingForm[],
+): boolean {
+  const sundayForSelectedDate = getClosestPastSunday(
+    dayjsUtil(date, "MM/DD/YYYY"),
+  );
+
+  return trackingForms.some((trackingForm) =>
+    dayjsUtil(trackingForm.weekOfSubmission).isSame(
+      sundayForSelectedDate,
+      "day",
+    ),
+  );
+}
+
 type HealthyHabitsTrackingFormProps = {
+  trackingForms: HealthyHabitsTrackingForm[];
+  setTrackingForms: Dispatch<SetStateAction<HealthyHabitsTrackingForm[]>>;
   user: ClientUser;
 };
 
 export default function HealthyHabitsTracking({
+  trackingForms,
+  setTrackingForms,
   user,
 }: HealthyHabitsTrackingFormProps): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +69,7 @@ export default function HealthyHabitsTracking({
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<HealthyHabitsFormValues>({
     resolver: zodResolver(healthyHabitsValidator),
     defaultValues: {
@@ -97,6 +118,10 @@ export default function HealthyHabitsTracking({
     );
 
     if (error === null) {
+      setTrackingForms((prevTrackingForms) => [
+        ...prevTrackingForms,
+        healthyHabitsTrackingForm,
+      ]);
       enqueueSnackbar("Healthy Habits Tracking Form submitted successfully");
     } else if (
       error ===
@@ -111,6 +136,8 @@ export default function HealthyHabitsTracking({
 
     setIsLoading(false);
   };
+
+  const date = watch("submittedDate");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -144,6 +171,11 @@ export default function HealthyHabitsTracking({
             </FormControl>
           )}
         />
+        <Typography>
+          {hasCompletedFormForSelectedWeek(date, trackingForms)
+            ? "You have already submitted the form for the selected week."
+            : "You have not submitted the form for the selected week."}
+        </Typography>
 
         {/* Section Title: Account Information */}
         <Typography variant="h6">Account Information</Typography>

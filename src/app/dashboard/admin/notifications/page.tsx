@@ -2,12 +2,22 @@ import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import NotificationsDashboard from "@/components/AdminDashboard/NotificationsDashboard";
+import { getAllScheduledMeetings } from "@/server/api/scheduled-meetings/queries";
 import { getAllUrgentMeetingRequests } from "@/server/api/urgent-meeting-requests/queries";
+import { getClients } from "@/server/api/users/queries";
 
 export default async function AdminNotificationsPage(): Promise<ReactNode> {
-  const [urgentMeetingRequests, error] = await getAllUrgentMeetingRequests();
+  const [urgentMeetingRequests, urgentMeetingsError] =
+    await getAllUrgentMeetingRequests();
 
-  if (error !== null) {
+  const [scheduledMeetings, scheduledMeetingsError] =
+    await getAllScheduledMeetings();
+
+  const [allClients, allClientsError] = await getClients({
+    populateEnrollmentForm: true,
+  });
+
+  if (urgentMeetingsError !== null) {
     return (
       <Box
         sx={{
@@ -24,6 +34,38 @@ export default async function AdminNotificationsPage(): Promise<ReactNode> {
     );
   }
 
+  if (scheduledMeetingsError !== null) {
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography>
+          An error occurred while fetching your scheduled meetings.
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (allClientsError !== null) {
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography>An error occurred while fetching your clients.</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -35,7 +77,11 @@ export default async function AdminNotificationsPage(): Promise<ReactNode> {
         padding: 4,
       }}
     >
-      <NotificationsDashboard urgentMeetingRequests={urgentMeetingRequests} />
+      <NotificationsDashboard
+        urgentMeetingRequests={urgentMeetingRequests}
+        scheduledMeetings={scheduledMeetings}
+        allClients={allClients}
+      />
     </Box>
   );
 }
