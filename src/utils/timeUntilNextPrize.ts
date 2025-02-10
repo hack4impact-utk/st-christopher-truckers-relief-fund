@@ -1,4 +1,6 @@
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
+
+import dayjsUtil from "./dayjsUtil";
 
 export type PrizeTimes = {
   timeUntil1Month: number;
@@ -7,7 +9,7 @@ export type PrizeTimes = {
 };
 
 export default function timeUntilNextPrize(date: Dayjs): PrizeTimes {
-  const now = dayjs();
+  const now = dayjsUtil();
 
   const oneMonth = date.add(1, "month");
   const sixMonths = date.add(6, "month");
