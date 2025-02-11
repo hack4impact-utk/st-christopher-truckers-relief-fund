@@ -29,11 +29,11 @@ export function createRowFromScheduledMeeting(
     firstName: scheduledMeeting.client.firstName,
     lastName: scheduledMeeting.client.lastName,
     email: scheduledMeeting.client.email,
-    phoneNumber:
-      scheduledMeeting.client.enrollmentForm.generalInformationSection
-        .phoneNumber,
+    phoneNumber: scheduledMeeting.client.phoneNumber,
     reason: scheduledMeeting.reason,
-    date: dayjsUtil(scheduledMeeting.date).local().format("MM/DD/YYYY HH:mm A"),
+    date: dayjsUtil(scheduledMeeting.date)
+      .local()
+      .format("MM/DD/YYYY [at] hh:mm A"),
   };
 }
 

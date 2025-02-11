@@ -15,19 +15,12 @@ export async function createScheduledMeeting(
       await ScheduledMeetingModel.create(scheduledMeeting);
 
     const newScheduledMeetingWithPopulatedClient =
-      await newScheduledMeeting.populate({
-        path: "client",
-        populate: {
-          path: "enrollmentForm",
-        },
-      });
+      await newScheduledMeeting.populate("client");
 
-    return [
-      serializeMongooseObject(
-        newScheduledMeetingWithPopulatedClient.toObject(),
-      ),
-      null,
-    ];
+    const newScheduledMeetingDocument =
+      newScheduledMeetingWithPopulatedClient.toObject();
+
+    return [serializeMongooseObject(newScheduledMeetingDocument), null];
   } catch (error) {
     console.error(error);
     return [null, serializeMongooseObject(error)];

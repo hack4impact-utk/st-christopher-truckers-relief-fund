@@ -30,7 +30,7 @@ function createRowFromUrgentMeetingRequest(
     firstName: client.firstName,
     lastName: client.lastName,
     email: client.email,
-    phoneNumber: client.enrollmentForm.generalInformationSection.phoneNumber,
+    phoneNumber: client.phoneNumber,
     reason: urgentMeetingRequest.reason,
     client,
   };

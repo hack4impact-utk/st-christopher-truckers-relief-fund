@@ -30,6 +30,9 @@ export default function AdminSettings({ user }: AdminSettingsProps): ReactNode {
         <Typography>
           <strong>Email:</strong> {user.email}
         </Typography>
+        <Typography>
+          <strong>Phone Number:</strong> {user.phoneNumber}
+        </Typography>
       </Box>
 
       <Box

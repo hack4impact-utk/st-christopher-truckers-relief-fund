@@ -13,9 +13,7 @@ export default async function AdminNotificationsPage(): Promise<ReactNode> {
   const [scheduledMeetings, scheduledMeetingsError] =
     await getAllScheduledMeetings();
 
-  const [allClients, allClientsError] = await getClients({
-    populateEnrollmentForm: true,
-  });
+  const [allClients, allClientsError] = await getClients();
 
   if (urgentMeetingsError !== null) {
     return (

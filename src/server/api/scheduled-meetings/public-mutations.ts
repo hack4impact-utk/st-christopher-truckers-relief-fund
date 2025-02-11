@@ -2,7 +2,9 @@
 
 import { ApiResponse, ScheduledMeeting } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
+import dayjsUtil from "@/utils/dayjsUtil";
 
+import { sendScheduledMeetingEmail } from "../emails/private-mutations";
 import {
   createScheduledMeeting,
   deleteScheduledMeeting,
@@ -23,6 +25,14 @@ export async function handleCreateScheduledMeeting(
   if (createScheduledMeetingError !== null) {
     return [null, createScheduledMeetingError];
   }
+
+  await sendScheduledMeetingEmail(
+    scheduledMeetingInDatabase.client.email,
+    dayjsUtil(scheduledMeetingInDatabase.date).format(
+      "MM/DD/YYYY [at] hh:mm A",
+    ),
+    scheduledMeetingInDatabase.reason,
+  );
 
   return [scheduledMeetingInDatabase, null];
 }
