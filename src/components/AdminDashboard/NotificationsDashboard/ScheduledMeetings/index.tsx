@@ -1,59 +1,62 @@
-"use client";
-
-import { Search } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Search from "@mui/icons-material/Search";
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 
-import { handleDeleteUrgentMeetingRequest } from "@/server/api/urgent-meeting-requests/public-mutations";
-import { ClientUser, UrgentMeetingRequest } from "@/types";
+import { handleDeleteScheduledMeeting } from "@/server/api/scheduled-meetings/public-mutations";
+import { ClientUser, ScheduledMeeting } from "@/types";
+import dayjsUtil from "@/utils/dayjsUtil";
 
-type Row = {
+import CreateNewMeeting from "./CreateNewMeeting";
+
+export type Row = {
   id?: string;
   firstName: string;
   lastName: string;
   email: string;
   phoneNumber: string;
   reason: string;
-  client: ClientUser;
+  date: string;
 };
 
-function createRowFromUrgentMeetingRequest(
-  urgentMeetingRequest: UrgentMeetingRequest,
+export function createRowFromScheduledMeeting(
+  scheduledMeeting: ScheduledMeeting,
 ): Row {
-  const client = urgentMeetingRequest.client as ClientUser;
-
   return {
-    id: urgentMeetingRequest._id,
-    firstName: client.firstName,
-    lastName: client.lastName,
-    email: client.email,
-    phoneNumber: client.phoneNumber,
-    reason: urgentMeetingRequest.reason,
-    client,
+    id: scheduledMeeting._id,
+    firstName: scheduledMeeting.client.firstName,
+    lastName: scheduledMeeting.client.lastName,
+    email: scheduledMeeting.client.email,
+    phoneNumber: scheduledMeeting.client.phoneNumber,
+    reason: scheduledMeeting.reason,
+    date: dayjsUtil(scheduledMeeting.date)
+      .local()
+      .format("MM/DD/YYYY [at] hh:mm A"),
   };
 }
 
-function getRows(urgentMeetingRequests: UrgentMeetingRequest[]): Row[] {
-  return urgentMeetingRequests.map(createRowFromUrgentMeetingRequest);
+function getRows(scheduledMeetings: ScheduledMeeting[]): Row[] {
+  return scheduledMeetings.map(createRowFromScheduledMeeting);
 }
 
-type UrgentMeetingRequestsProps = {
-  urgentMeetingRequests: UrgentMeetingRequest[];
+type ScheduledMeetingsProps = {
+  scheduledMeetings: ScheduledMeeting[];
+  allClients: ClientUser[];
 };
 
-export default function UrgentMeetingRequests({
-  urgentMeetingRequests,
-}: UrgentMeetingRequestsProps): ReactNode {
-  const [rows, setRows] = useState(getRows(urgentMeetingRequests));
+export default function ScheduledMeetings({
+  scheduledMeetings,
+  allClients,
+}: ScheduledMeetingsProps): ReactNode {
+  const [rows, setRows] = useState(getRows(scheduledMeetings));
   const [searchQuery, setSearchQuery] = useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   async function handleDelete(id: string): Promise<void> {
     const confirm = window.confirm(
-      "Are you sure you want to delete this urgent meeting request?",
+      "Are you sure you want to delete this scheduled meeting?",
     );
 
     if (!confirm) {
@@ -62,11 +65,11 @@ export default function UrgentMeetingRequests({
 
     setRows((prevRows) => prevRows.filter((prevRow) => prevRow.id !== id));
 
-    const [, error] = await handleDeleteUrgentMeetingRequest(id);
+    const [, error] = await handleDeleteScheduledMeeting(id);
 
     if (error !== null) {
       enqueueSnackbar(
-        "There was an error deleting the urgent meeting request",
+        "There was an error deleting the scheduled meeting request",
         {
           variant: "error",
         },
@@ -74,7 +77,7 @@ export default function UrgentMeetingRequests({
       return;
     }
 
-    enqueueSnackbar("Urgent meeting request deleted successfully", {
+    enqueueSnackbar("Scheduled meeting deleted successfully", {
       variant: "success",
     });
   }
@@ -111,6 +114,7 @@ export default function UrgentMeetingRequests({
       flex: 1,
       minWidth: 100,
     },
+    { field: "date", headerName: "Date", flex: 1, minWidth: 100 },
     {
       field: "delete",
       headerName: "Delete",
@@ -140,11 +144,11 @@ export default function UrgentMeetingRequests({
   );
 
   return (
-    <>
-      <Box>
-        <Typography align="center" variant="h4" sx={{ m: 2 }}>
-          Urgent Meeting Requests
-        </Typography>
+    <Box>
+      <Typography align="center" variant="h4" sx={{ m: 2 }}>
+        Scheduled Meetings
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
         <Box display="flex" alignItems="center" sx={{ py: 2 }}>
           <TextField
             id="search-bar"
@@ -157,22 +161,25 @@ export default function UrgentMeetingRequests({
           />
           <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
         </Box>
-        <DataGrid
-          rows={filteredRows}
-          columns={columns}
-          disableRowSelectionOnClick
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          sx={{
-            height: "300px",
-          }}
-        />
+        <Box sx={{ marginLeft: "auto" }}>
+          <CreateNewMeeting allClients={allClients} setRows={setRows} />
+        </Box>
       </Box>
-    </>
+      <DataGrid
+        rows={filteredRows}
+        columns={columns}
+        disableRowSelectionOnClick
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        sx={{
+          height: "300px",
+        }}
+      />
+    </Box>
   );
 }

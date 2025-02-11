@@ -4,6 +4,7 @@ import EmailVerificationEmail from "@/components/emails/EmailVerificationEmail";
 import PasswordChangedEmail from "@/components/emails/PasswordChangedEmail";
 import RejectionEmail from "@/components/emails/RejectionEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
+import ScheduledMeetingEmail from "@/components/emails/ScheduledMeetingEmail";
 import UrgentMeetingRequestCreated from "@/components/emails/UrgentMeetingRequestCreated";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 import ZoomReminderEmail from "@/components/emails/ZoomReminderEmail";
@@ -78,6 +79,22 @@ export async function sendZoomReminderEmail(
   await sendEmail(
     recipientEmail,
     `Reminder: You have an upcoming meeting for ${meetingName}.`,
+    html,
+  );
+}
+
+export async function sendScheduledMeetingEmail(
+  email: string,
+  date: string,
+  reason: string,
+): Promise<void> {
+  const html = await render(
+    <ScheduledMeetingEmail date={date} reason={reason} />,
+  );
+
+  await sendEmail(
+    email,
+    "You have been scheduled for a meeting with SCF.",
     html,
   );
 }

@@ -46,6 +46,9 @@ const apiErrors = {
   urgentMeetingRequest: {
     urgentMeetingRequestNotFound: "Urgent meeting request not found",
   },
+  scheduledMeeting: {
+    scheduledMeetingNotFound: "Scheduled meeting not found",
+  },
 };
 
 export default apiErrors;

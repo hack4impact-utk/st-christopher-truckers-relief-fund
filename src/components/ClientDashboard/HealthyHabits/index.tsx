@@ -2,7 +2,7 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
-import { ClientUser } from "@/types";
+import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
 
 import HealthyHabitsHistory from "./HealthyHabitsHistory";
 import HealthyHabitsInfo from "./HealthyHabitsInfo";
@@ -18,6 +18,10 @@ export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<HealthyHabitsSections>("tracking");
 
+  const [trackingForms, setTrackingForms] = useState<
+    HealthyHabitsTrackingForm[]
+  >(user.healthyHabitsTrackingForms);
+
   const handleTabChange = (
     _event: SyntheticEvent,
     newValue: HealthyHabitsSections,
@@ -28,11 +32,18 @@ export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
   function getSectionContent(section: HealthyHabitsSections): ReactNode {
     switch (section) {
       case "tracking":
-        return <HealthyHabitsTracking user={user} />;
+        return (
+          <HealthyHabitsTracking
+            user={user}
+            trackingForms={trackingForms}
+            setTrackingForms={setTrackingForms}
+          />
+        );
       case "history":
         return (
           <HealthyHabitsHistory
-            initialForms={user.healthyHabitsTrackingForms}
+            trackingForms={trackingForms}
+            setTrackingForms={setTrackingForms}
             user={user}
           />
         );

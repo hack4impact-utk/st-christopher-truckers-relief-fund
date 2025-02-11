@@ -1,8 +1,8 @@
 "use client";
 
-import { Search } from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import Search from "@mui/icons-material/Search";
 import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
@@ -108,7 +108,7 @@ export default function HealthyHabitsClientDashboard({
       renderCell: (params): ReactNode => {
         return (
           <HealthyHabitsHistoryModal
-            trackingForms={params.row.trackingForms}
+            initialForms={params.row.trackingForms}
             user={params.row.user}
           />
         );
