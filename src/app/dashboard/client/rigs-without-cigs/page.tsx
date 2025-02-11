@@ -48,6 +48,11 @@ export default async function RigsWithoutCigsPage(): Promise<ReactNode> {
   if (!enrolledInRigsWithoutCigsProgram) {
     redirect("/dashboard/client");
   }
+
+  const rigsWithoutCigsEnrollment = user.programEnrollments.find(
+    (enrollment) => enrollment.program === "Rigs Without Cigs",
+  );
+
   return (
     <Box
       sx={{
@@ -59,7 +64,10 @@ export default async function RigsWithoutCigsPage(): Promise<ReactNode> {
         padding: 1,
       }}
     >
-      <RigsWithoutCigs user={user} />
+      <RigsWithoutCigs
+        user={user}
+        programEnrollment={rigsWithoutCigsEnrollment!}
+      />
     </Box>
   );
 }

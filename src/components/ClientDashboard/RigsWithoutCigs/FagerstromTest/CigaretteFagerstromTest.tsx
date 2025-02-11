@@ -26,12 +26,12 @@ export default function CigaretteFagerstromTest(): ReactNode {
   } = useForm<CigaretteFagerstromTestForm>({
     resolver: zodResolver(cigaretteFagerstromTestFormValidator),
     defaultValues: {
-      firstCigarette: -1,
-      refrainInForbiddenAreas: -1,
-      whichGiveUpHate: -1,
-      cigarettesPerDay: -1,
-      frequentlyInMorning: -1,
-      smokeWhenSickInBed: -1,
+      firstCigarette: 3,
+      refrainInForbiddenAreas: 1,
+      whichGiveUpHate: 1,
+      cigarettesPerDay: 0,
+      frequentlyInMorning: 1,
+      smokeWhenSickInBed: 1,
     },
   });
 
@@ -48,6 +48,7 @@ export default function CigaretteFagerstromTest(): ReactNode {
           display: "grid",
           gap: 1.5,
           gridTemplateColumns: "1fr",
+          marginInline: "auto",
         }}
       >
         <FormControl

@@ -23,7 +23,7 @@ export async function createScheduledMeeting(
     return [serializeMongooseObject(newScheduledMeetingDocument), null];
   } catch (error) {
     console.error(error);
-    return [null, serializeMongooseObject(error)];
+    return [null, handleMongooseError(error)];
   }
 }
 

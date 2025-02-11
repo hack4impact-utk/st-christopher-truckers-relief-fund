@@ -1,19 +1,21 @@
-import { Typography } from "@mui/material";
-import dayjs from "dayjs";
+import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import { ClientUser } from "@/types";
+import { ClientUser, ProgramEnrollment } from "@/types";
+import dayjsUtil from "@/utils/dayjsUtil";
 
 type RigsWithoutCigsHistoryProps = {
   user: ClientUser;
+  programEnrollment: ProgramEnrollment;
 };
 
 export default function RigsWithoutCigsHistory({
   user,
+  programEnrollment,
 }: RigsWithoutCigsHistoryProps): ReactNode {
   const PRICE_PER_CIGARETTE = 0.4;
-  const daysSinceStartOfProgram = dayjs(user.enrollmentForm.dateSubmitted).diff(
-    dayjs(),
+  const daysSinceStartOfProgram = dayjsUtil().diff(
+    dayjsUtil(programEnrollment.dateEnrolled),
     "day",
   );
 
@@ -24,13 +26,29 @@ export default function RigsWithoutCigsHistory({
     daysSinceStartOfProgram;
 
   return (
-    <>
-      <Typography>Money saved: ${moneySaved.toFixed(2)}</Typography>
-      <Typography>
-        Tobacco Free for: {daysSinceStartOfProgram} day
-        {daysSinceStartOfProgram % 2 === 0 ? "s" : ""}
+    <Box
+      sx={{
+        width: "min(90vw, 700px)",
+        boxShadow: 3,
+        borderRadius: 2,
+        padding: 4,
+      }}
+    >
+      <Typography variant="h5" textAlign="center" gutterBottom>
+        History
       </Typography>
-      <Typography>Next prize in: 2 days</Typography>
-    </>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <Typography>
+          <strong>Money Saved:</strong> ${moneySaved.toFixed(2)}
+        </Typography>
+        <Typography>
+          <strong>Tobacco Free for:</strong> {daysSinceStartOfProgram} day
+          {daysSinceStartOfProgram !== 1 ? "s" : ""}
+        </Typography>
+        <Typography>
+          <strong>Next prize in:</strong> 2 days
+        </Typography>
+      </Box>
+    </Box>
   );
 }

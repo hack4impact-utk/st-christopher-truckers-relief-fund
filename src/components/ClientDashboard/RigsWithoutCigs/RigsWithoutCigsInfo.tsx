@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { ClientUser } from "@/types";
@@ -15,14 +15,29 @@ export default function RigsWithoutCigsInfo({
       .accountabilityPerson;
 
   return (
-    <>
-      <Typography>
-        Accountability Person: {accountabilityPerson.firstName}{" "}
-        {accountabilityPerson.lastName} |{" "}
-        <a href={`tel:${accountabilityPerson.phoneNumber}`}>
-          {accountabilityPerson.phoneNumber}
-        </a>
+    <Box
+      sx={{
+        width: "min(90vw, 700px)",
+        boxShadow: 3,
+        borderRadius: 2,
+        padding: 4,
+      }}
+    >
+      <Typography variant="h5" textAlign="center" gutterBottom>
+        Info
       </Typography>
-    </>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <Typography>
+          <strong>Accountability Person:</strong>{" "}
+          {accountabilityPerson.firstName} {accountabilityPerson.lastName}
+        </Typography>
+        <Typography>
+          <strong>Phone Number:</strong>{" "}
+          <a href={`tel:${accountabilityPerson.phoneNumber}`}>
+            {accountabilityPerson.phoneNumber}
+          </a>
+        </Typography>
+      </Box>
+    </Box>
   );
 }

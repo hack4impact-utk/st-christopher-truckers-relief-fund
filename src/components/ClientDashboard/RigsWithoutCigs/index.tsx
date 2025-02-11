@@ -2,7 +2,7 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
-import { ClientUser } from "@/types";
+import { ClientUser, ProgramEnrollment } from "@/types";
 
 import FagerstromTest from "./FagerstromTest";
 import RigsWithoutCigsHistory from "./RigsWithoutCigsHistory";
@@ -12,10 +12,12 @@ type RigsWithoutCigsSections = "fagerstrom_test" | "history" | "info";
 
 type RigsWithoutCigsProps = {
   user: ClientUser;
+  programEnrollment: ProgramEnrollment;
 };
 
 export default function RigsWithoutCigs({
   user,
+  programEnrollment,
 }: RigsWithoutCigsProps): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<RigsWithoutCigsSections>("fagerstrom_test");
@@ -32,7 +34,12 @@ export default function RigsWithoutCigs({
       case "fagerstrom_test":
         return <FagerstromTest />;
       case "history":
-        return <RigsWithoutCigsHistory user={user} />;
+        return (
+          <RigsWithoutCigsHistory
+            user={user}
+            programEnrollment={programEnrollment}
+          />
+        );
       case "info":
         return <RigsWithoutCigsInfo user={user} />;
       default:
