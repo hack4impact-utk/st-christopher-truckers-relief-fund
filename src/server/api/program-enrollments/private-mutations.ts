@@ -137,6 +137,7 @@ export async function approveProgramEnrollment(
   const [, updateProgramEnrollmentError] = await updateProgramEnrollment({
     ...programEnrollment,
     status: "accepted",
+    dateEnrolled: dayjsUtil().utc().toISOString(),
   });
 
   if (updateProgramEnrollmentError !== null) {
