@@ -108,7 +108,7 @@ export default function HealthyHabitsClientDashboard({
       renderCell: (params): ReactNode => {
         return (
           <HealthyHabitsHistoryModal
-            trackingForms={params.row.trackingForms}
+            initialForms={params.row.trackingForms}
             user={params.row.user}
           />
         );

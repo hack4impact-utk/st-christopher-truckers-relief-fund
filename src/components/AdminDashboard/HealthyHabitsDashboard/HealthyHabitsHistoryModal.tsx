@@ -8,7 +8,7 @@ import HealthyHabitsHistory from "@/components/ClientDashboard/HealthyHabits/Hea
 import { ClientUser, HealthyHabitsTrackingForm, User } from "@/types";
 
 type HealthyHabitsHistoryModalProps = {
-  trackingForms: HealthyHabitsTrackingForm[];
+  initialForms: HealthyHabitsTrackingForm[];
   user: User;
 };
 
@@ -30,10 +30,11 @@ const style = {
 };
 
 export default function HealthyHabitsHistoryModal({
-  trackingForms,
+  initialForms,
   user,
 }: HealthyHabitsHistoryModalProps): ReactNode {
   const [open, setOpen] = useState(false);
+  const [trackingForms, setTrackingForms] = useState(initialForms);
 
   return (
     <Box width="100%">
@@ -56,7 +57,8 @@ export default function HealthyHabitsHistoryModal({
               Healthy Habits Tracking Form History
             </Typography>
             <HealthyHabitsHistory
-              initialForms={trackingForms}
+              trackingForms={trackingForms}
+              setTrackingForms={setTrackingForms}
               user={user as ClientUser}
             />
             <Button
