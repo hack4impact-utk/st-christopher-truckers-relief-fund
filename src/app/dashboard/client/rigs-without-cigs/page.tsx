@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
+import RigsWithoutCigs from "@/components/ClientDashboard/RigsWithoutCigs";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
@@ -15,6 +16,7 @@ export default async function RigsWithoutCigsPage(): Promise<ReactNode> {
 
   const [user, error] = await getUserByEmail(session.user.email, {
     populateProgramEnrollments: true,
+    populateEnrollmentForm: true,
   });
 
   if (error !== null) {
@@ -46,17 +48,26 @@ export default async function RigsWithoutCigsPage(): Promise<ReactNode> {
   if (!enrolledInRigsWithoutCigsProgram) {
     redirect("/dashboard/client");
   }
+
+  const rigsWithoutCigsEnrollment = user.programEnrollments.find(
+    (enrollment) => enrollment.program === "Rigs Without Cigs",
+  );
+
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100vw",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        marginTop: "100px",
+        padding: 1,
       }}
     >
-      <Typography>Rigs Without Cigs Page</Typography>
+      <RigsWithoutCigs
+        user={user}
+        programEnrollment={rigsWithoutCigsEnrollment!}
+      />
     </Box>
   );
 }

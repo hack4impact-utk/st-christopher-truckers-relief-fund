@@ -3,21 +3,25 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
 
-import { UrgentMeetingRequest } from "@/types";
+import { ClientUser, ScheduledMeeting, UrgentMeetingRequest } from "@/types";
 
-import RecurringMeetings from "./RecurringMeetings";
+import ScheduledMeetings from "./ScheduledMeetings";
 import UrgentMeetingRequests from "./UrgentMeetingRequests";
 
 type NotificationDashboardSections =
   | "urgent-meeting-requests"
-  | "recurring-meetings";
+  | "scheduled-meetings";
 
 type NotificationsDashboardProps = {
   urgentMeetingRequests: UrgentMeetingRequest[];
+  scheduledMeetings: ScheduledMeeting[];
+  allClients: ClientUser[];
 };
 
 export default function NotificationsDashboard({
   urgentMeetingRequests,
+  scheduledMeetings,
+  allClients,
 }: NotificationsDashboardProps): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<NotificationDashboardSections>("urgent-meeting-requests");
@@ -39,8 +43,13 @@ export default function NotificationsDashboard({
             urgentMeetingRequests={urgentMeetingRequests}
           />
         );
-      case "recurring-meetings":
-        return <RecurringMeetings />;
+      case "scheduled-meetings":
+        return (
+          <ScheduledMeetings
+            scheduledMeetings={scheduledMeetings}
+            allClients={allClients}
+          />
+        );
       default:
         return <Typography>Invalid section</Typography>;
     }
@@ -71,7 +80,7 @@ export default function NotificationsDashboard({
             label="Urgent Meeting Requests"
             value="urgent-meeting-requests"
           />
-          <Tab label="Recurring Meetings" value="recurring-meetings" />
+          <Tab label="Scheduled Meetings" value="scheduled-meetings" />
         </Tabs>
       </Box>
       <Box sx={{ marginTop: 3, width: "100%" }}>

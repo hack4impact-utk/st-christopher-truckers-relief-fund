@@ -22,6 +22,7 @@ export async function handleEnrollmentFormSubmission(
     firstName: enrollmentForm.generalInformationSection.firstName,
     lastName: enrollmentForm.generalInformationSection.lastName,
     email: enrollmentForm.generalInformationSection.email,
+    phoneNumber: enrollmentForm.generalInformationSection.phoneNumber,
     password: enrollmentForm.generalInformationSection.password,
     role: "client",
     dateCreated: new Date().toISOString(),

@@ -101,6 +101,16 @@ export default function VaccineVoucherProgramSpecificQuestions({
                 control={<Radio />}
                 label="The Little Clinic"
               />
+              <FormControlLabel
+                value="Walmart"
+                control={<Radio />}
+                label="Walmart"
+              />
+              <FormControlLabel
+                value="Sam's Club"
+                control={<Radio />}
+                label="Sam's Club"
+              />
             </RadioGroup>
           )}
         />

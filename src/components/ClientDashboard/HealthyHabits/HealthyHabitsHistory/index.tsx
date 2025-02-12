@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Typography } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
 
@@ -10,17 +10,16 @@ import ModularBarChart from "./ModularBarChart";
 import ModularLineChart from "./ModularLineChart";
 
 type HealthyHabitsHistoryProps = {
-  initialForms: HealthyHabitsTrackingForm[];
+  trackingForms: HealthyHabitsTrackingForm[];
+  setTrackingForms: Dispatch<SetStateAction<HealthyHabitsTrackingForm[]>>;
   user: ClientUser;
 };
 
 export default function HealthyHabitsHistory({
-  initialForms,
+  trackingForms,
+  setTrackingForms,
   user,
 }: HealthyHabitsHistoryProps): ReactNode {
-  const [trackingForms, setTrackingForms] =
-    useState<HealthyHabitsTrackingForm[]>(initialForms);
-
   if (trackingForms.length === 0) {
     return (
       <Box

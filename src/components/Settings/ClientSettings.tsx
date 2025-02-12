@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, List, ListItem, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { User } from "@/types";
@@ -6,12 +6,14 @@ import { User } from "@/types";
 import ChangePasswordButton from "./ChangePasswordButton";
 import SignOutButton from "./SignOutButton";
 
-type AdminProfileProps = {
+type ClientSettingsProps = {
   user: User;
 };
 
-export default function AdminProfile({ user }: AdminProfileProps): ReactNode {
-  if (user.role !== "admin") {
+export default function ClientSettings({
+  user,
+}: ClientSettingsProps): ReactNode {
+  if (user.role !== "client") {
     return null;
   }
 
@@ -25,7 +27,7 @@ export default function AdminProfile({ user }: AdminProfileProps): ReactNode {
       }}
     >
       <Typography variant="h4" textAlign="center">
-        Admin Profile
+        Client Settings
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <Typography>
@@ -38,6 +40,19 @@ export default function AdminProfile({ user }: AdminProfileProps): ReactNode {
           <strong>Phone Number:</strong> {user.phoneNumber}
         </Typography>
       </Box>
+
+      <Divider sx={{ my: 3 }} />
+
+      <Typography variant="h6">Accepted Programs</Typography>
+      <List>
+        {user.programEnrollments.map((programEnrollment) => {
+          return programEnrollment.status === "accepted" ? (
+            <ListItem key={programEnrollment._id} disablePadding>
+              <Typography>{programEnrollment.program}</Typography>
+            </ListItem>
+          ) : null;
+        })}
+      </List>
 
       <Box
         sx={{
@@ -53,3 +68,4 @@ export default function AdminProfile({ user }: AdminProfileProps): ReactNode {
     </Box>
   );
 }
+

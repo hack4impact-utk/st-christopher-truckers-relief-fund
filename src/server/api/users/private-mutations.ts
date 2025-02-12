@@ -36,6 +36,7 @@ export async function createAdminUser(
       firstName: adminUserRequest.firstName,
       lastName: adminUserRequest.lastName,
       email: adminUserRequest.email,
+      phoneNumber: adminUserRequest.phoneNumber,
       password: adminUserRequest.password,
       role: "admin",
       dateCreated: dayjsUtil.utc().toISOString(),

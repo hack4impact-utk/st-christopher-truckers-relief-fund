@@ -2,53 +2,46 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
-import { ClientUser, HealthyHabitsTrackingForm } from "@/types";
+import { ClientUser, ProgramEnrollment } from "@/types";
 
-import HealthyHabitsHistory from "./HealthyHabitsHistory";
-import HealthyHabitsInfo from "./HealthyHabitsInfo";
-import HealthyHabitsTracking from "./HealthyHabitsTracking";
+import FagerstromTest from "./FagerstromTest";
+import RigsWithoutCigsHistory from "./RigsWithoutCigsHistory";
+import RigsWithoutCigsInfo from "./RigsWithoutCigsInfo";
 
-type HealthyHabitsSections = "tracking" | "history" | "info";
+type RigsWithoutCigsSections = "fagerstrom_test" | "history" | "info";
 
-type HealthyHabitsProps = {
+type RigsWithoutCigsProps = {
   user: ClientUser;
+  programEnrollment: ProgramEnrollment;
 };
 
-export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
+export default function RigsWithoutCigs({
+  user,
+  programEnrollment,
+}: RigsWithoutCigsProps): ReactNode {
   const [selectedSection, setSelectedSection] =
-    useState<HealthyHabitsSections>("tracking");
-
-  const [trackingForms, setTrackingForms] = useState<
-    HealthyHabitsTrackingForm[]
-  >(user.healthyHabitsTrackingForms);
+    useState<RigsWithoutCigsSections>("fagerstrom_test");
 
   const handleTabChange = (
     _event: SyntheticEvent,
-    newValue: HealthyHabitsSections,
+    newValue: RigsWithoutCigsSections,
   ): void => {
     setSelectedSection(newValue);
   };
 
-  function getSectionContent(section: HealthyHabitsSections): ReactNode {
+  function getSectionContent(section: RigsWithoutCigsSections): ReactNode {
     switch (section) {
-      case "tracking":
-        return (
-          <HealthyHabitsTracking
-            user={user}
-            trackingForms={trackingForms}
-            setTrackingForms={setTrackingForms}
-          />
-        );
+      case "fagerstrom_test":
+        return <FagerstromTest />;
       case "history":
         return (
-          <HealthyHabitsHistory
-            trackingForms={trackingForms}
-            setTrackingForms={setTrackingForms}
+          <RigsWithoutCigsHistory
             user={user}
+            programEnrollment={programEnrollment}
           />
         );
       case "info":
-        return <HealthyHabitsInfo user={user} />;
+        return <RigsWithoutCigsInfo user={user} />;
       default:
         return <Typography>Invalid section</Typography>;
     }
@@ -65,7 +58,7 @@ export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
         }}
       >
         <Typography sx={{ fontSize: "1.5rem", marginBottom: 2 }}>
-          Healthy Habits Dashboard
+          Rigs Without Cigs Dashboard
         </Typography>
         <Tabs
           value={selectedSection}
@@ -74,7 +67,7 @@ export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
           textColor="primary"
           centered
         >
-          <Tab label="Track" value="tracking" />
+          <Tab label="Fagerstrom Test" value="fagerstrom_test" />
           <Tab label="History" value="history" />
           <Tab label="Info" value="info" />
         </Tabs>

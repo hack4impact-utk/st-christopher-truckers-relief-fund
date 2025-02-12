@@ -103,8 +103,11 @@ export default function UrgentMeetingRequestModal({
             <form onSubmit={handleSubmit(onSubmit)}>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 <Typography id="transition-modal-title" variant="h4">
-                  Need to meet with SCF urgently? Please fill out the following
-                  form.
+                  Need to meet with SCF urgently?
+                </Typography>
+                <Typography>
+                  Please fill out the following form to schedule an urgent
+                  meeting.
                 </Typography>
                 <ControlledTextField
                   control={control}
