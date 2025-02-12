@@ -12,7 +12,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { ProgramEnrollment, User } from "@/types";
-import isEnrolledInProgram from "@/utils/isEnrolledInProgram"; // utility function
+import isEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
 import UrgentMeetingRequestModal from "./UrgentMeetingRequestModal";
 
@@ -27,7 +27,6 @@ export default function EnrolledProgramsSelectionScreen({
 }: EnrolledProgramsSelectionScreenProps): ReactNode {
   const theme = useTheme();
 
-  // Determine enrollment status using the provided utility function
   const enrolledInHealthyHabits = isEnrolledInProgram(
     programEnrollments,
     "Healthy Habits For The Long Haul",
@@ -64,7 +63,6 @@ export default function EnrolledProgramsSelectionScreen({
         width: "100vw",
       }}
     >
-      {/* Centered "Select Program" at the top */}
       <Box
         sx={{
           width: "100%",
@@ -78,7 +76,6 @@ export default function EnrolledProgramsSelectionScreen({
         </Typography>
       </Box>
 
-      {/* Hard-coded program cards */}
       <Box
         sx={{
           display: "flex",
