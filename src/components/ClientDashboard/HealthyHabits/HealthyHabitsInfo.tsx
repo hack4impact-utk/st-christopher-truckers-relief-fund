@@ -10,7 +10,9 @@ type HealthyHabitsInfoProps = {
 export default function HealthyHabitsInfo({
   user,
 }: HealthyHabitsInfoProps): ReactNode {
-  const enrolledDate = user.programEnrollments[0]?.dateEnrolled;
+  const enrolledDate = user.programEnrollments.find(
+    (enrollment) => enrollment.program === "Healthy Habits For The Long Haul",
+  )?.dateEnrolled;
 
   const formattedDate = enrolledDate
     ? new Date(enrolledDate).toLocaleDateString()
