@@ -53,7 +53,7 @@ export default async function HealthyHabitsPage(): Promise<ReactNode> {
   );
 
   const enrolledInHHOrDiabetes =
-  enrolledInHealthyHabitsProgram || enrolledInDiabetesPreventionProgram;
+    enrolledInHealthyHabitsProgram || enrolledInDiabetesPreventionProgram;
 
   if (!enrolledInHHOrDiabetes) {
     redirect("/dashboard/client");
