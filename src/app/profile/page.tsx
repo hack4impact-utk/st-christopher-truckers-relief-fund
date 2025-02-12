@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 import getUserSession from "@/utils/getUserSession";
 
-export default async function SettingsPage(): Promise<ReactNode> {
+export default async function ProfilePage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session) {
@@ -12,10 +12,10 @@ export default async function SettingsPage(): Promise<ReactNode> {
 
   switch (session.user.role) {
     case "admin":
-      redirect("/settings/admin");
+      redirect("/profile/admin");
       break;
     case "client":
-      redirect("/settings/client");
+      redirect("/profile/client");
       break;
   }
 }
