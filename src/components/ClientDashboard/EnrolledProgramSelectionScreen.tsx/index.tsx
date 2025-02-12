@@ -11,31 +11,10 @@ import {
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import { Program, ProgramEnrollment, User } from "@/types";
+import { ProgramEnrollment, User } from "@/types";
+import isEnrolledInProgram from "@/utils/isEnrolledInProgram"; // utility function
 
 import UrgentMeetingRequestModal from "./UrgentMeetingRequestModal";
-
-type ProgramSlugs =
-  | "healthy-habits"
-  | "diabetes-prevention"
-  | "rigs-without-cigs"
-  | "vaccine-voucher"
-  | "get-preventative-screenings";
-
-function programNameToSlug(programName: Program): ProgramSlugs {
-  switch (programName) {
-    case "Healthy Habits For The Long Haul":
-      return "healthy-habits";
-    case "Diabetes Prevention":
-      return "diabetes-prevention";
-    case "Rigs Without Cigs":
-      return "rigs-without-cigs";
-    case "Vaccine Voucher":
-      return "vaccine-voucher";
-    case "GPS (Get Preventative Screenings)":
-      return "get-preventative-screenings";
-  }
-}
 
 type EnrolledProgramsSelectionScreenProps = {
   programEnrollments: ProgramEnrollment[];
@@ -47,6 +26,33 @@ export default function EnrolledProgramsSelectionScreen({
   user,
 }: EnrolledProgramsSelectionScreenProps): ReactNode {
   const theme = useTheme();
+
+  // Determine enrollment status using the provided utility function
+  const enrolledInHealthyHabits = isEnrolledInProgram(
+    programEnrollments,
+    "Healthy Habits For The Long Haul",
+  );
+  const enrolledInDiabetesPrevention = isEnrolledInProgram(
+    programEnrollments,
+    "Diabetes Prevention",
+  );
+  const enrolledInHHOrDiabetes =
+    enrolledInHealthyHabits || enrolledInDiabetesPrevention;
+
+  const enrolledInRWC = isEnrolledInProgram(
+    programEnrollments,
+    "Rigs Without Cigs",
+  );
+
+  const enrolledInVV = isEnrolledInProgram(
+    programEnrollments,
+    "Vaccine Voucher",
+  );
+
+  const enrolledInGPS = isEnrolledInProgram(
+    programEnrollments,
+    "GPS (Get Preventative Screenings)",
+  );
 
   return (
     <Box
@@ -72,7 +78,7 @@ export default function EnrolledProgramsSelectionScreen({
         </Typography>
       </Box>
 
-      {/* Center the program cards as well */}
+      {/* Hard-coded program cards */}
       <Box
         sx={{
           display: "flex",
@@ -83,10 +89,9 @@ export default function EnrolledProgramsSelectionScreen({
           margin: 4,
         }}
       >
-        {programEnrollments.map((enrollment) => (
+        {enrolledInHHOrDiabetes && (
           <Link
-            key={enrollment._id}
-            href={`/dashboard/client/${programNameToSlug(enrollment.program)}`}
+            href="/dashboard/client/healthy-habits-and-diabetes-prevention"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Card
@@ -100,7 +105,7 @@ export default function EnrolledProgramsSelectionScreen({
                 color: theme.palette.primary.contrastText,
                 backgroundColor: theme.palette.primary.main,
                 boxShadow: 3,
-                borderRadius: 2, // Rounded corners
+                borderRadius: 2,
               }}
             >
               <CardActionArea sx={{ height: "100%" }}>
@@ -113,13 +118,124 @@ export default function EnrolledProgramsSelectionScreen({
                   }}
                 >
                   <Typography variant="h5" textAlign="center">
-                    {enrollment.program}
+                    Healthy Habits & Diabetes Prevention
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
           </Link>
-        ))}
+        )}
+
+        {enrolledInRWC && (
+          <Link
+            href="/dashboard/client/rigs-without-cigs"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Card
+              sx={{
+                width: 300,
+                height: 200,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                boxShadow: 3,
+                borderRadius: 2,
+              }}
+            >
+              <CardActionArea sx={{ height: "100%" }}>
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                >
+                  <Typography variant="h5" textAlign="center">
+                    Rigs Without Cigs
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>
+        )}
+
+        {enrolledInVV && (
+          <Link
+            href="/dashboard/client/vaccine-voucher"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Card
+              sx={{
+                width: 300,
+                height: 200,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                boxShadow: 3,
+                borderRadius: 2,
+              }}
+            >
+              <CardActionArea sx={{ height: "100%" }}>
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                >
+                  <Typography variant="h5" textAlign="center">
+                    Vaccine Voucher
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>
+        )}
+
+        {enrolledInGPS && (
+          <Link
+            href="/dashboard/client/get-preventative-screenings"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Card
+              sx={{
+                width: 300,
+                height: 200,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                boxShadow: 3,
+                borderRadius: 2,
+              }}
+            >
+              <CardActionArea sx={{ height: "100%" }}>
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                >
+                  <Typography variant="h5" textAlign="center">
+                    GPS (Get Preventative Screenings)
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>
+        )}
       </Box>
 
       <Box sx={{ marginTop: "auto", alignSelf: "center" }}>
