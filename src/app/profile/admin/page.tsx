@@ -2,10 +2,10 @@ import { Box } from "@mui/material";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-import AdminSettings from "@/components/Settings/AdminSettings";
+import AdminProfile from "@/components/Profile/AdminProfile";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function AdminSettingsPage(): Promise<ReactNode> {
+export default async function AdminProfilePage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "admin") {
@@ -26,7 +26,7 @@ export default async function AdminSettingsPage(): Promise<ReactNode> {
         gap: 2,
       }}
     >
-      <AdminSettings user={user} />
+      <AdminProfile user={user} />
     </Box>
   );
 }
