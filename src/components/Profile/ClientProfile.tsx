@@ -46,6 +46,9 @@ export default function ClientProfile({ user }: ClientProfileProps): ReactNode {
         <Typography>
           <strong>Email:</strong> {user.email}
         </Typography>
+        <Typography>
+          <strong>Phone Number:</strong> {user.phoneNumber}
+        </Typography>
       </Box>
 
       <Divider sx={{ my: 3 }} />
