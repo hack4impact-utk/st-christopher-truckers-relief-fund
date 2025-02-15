@@ -41,13 +41,14 @@ export default async function ClientProfilePage(): Promise<ReactNode> {
   return (
     <Box
       sx={{
-        height: "100vh",
         width: "100vw",
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         gap: 2,
+        marginTop: "100px",
+        padding: 2,
+        overflowX: "hidden",
       }}
     >
       <ClientProfile user={userWithProgramEnrollments} />
