@@ -64,9 +64,11 @@ export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
           flexDirection: "column",
         }}
       >
-        <Typography sx={{ fontSize: "1.5rem", marginBottom: 2 }}>
-          Healthy Habits Dashboard
-        </Typography>
+        <Box sx={{ width: "min(90vw, 700px)", marginBottom: 2 }}>
+          <Typography sx={{ fontSize: "1.5rem", textAlign: "center" }}>
+            Healthy Habits & Diabetes Prevention Dashboard
+          </Typography>
+        </Box>
         <Tabs
           value={selectedSection}
           onChange={handleTabChange}
