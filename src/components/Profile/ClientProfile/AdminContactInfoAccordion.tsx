@@ -8,7 +8,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 const adminContacts = [
   {
@@ -38,64 +38,70 @@ const adminContacts = [
 ];
 
 export default function AdminContactInfoAccordion(): ReactNode {
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <Accordion
-      sx={{
-        width: "100%",
-        boxShadow: "none",
-        mt: 2,
-        "&::before": { display: "none" },
-        "& .MuiAccordionSummary-root": {
-          padding: "0", // Remove default padding on the summary
-        },
-        "& .MuiAccordionDetails-root": {
-          padding: "0", // Remove default padding on the details
-        },
-      }}
-    >
-      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography>Program Admin Contact</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-          }}
-        >
+    <Box>
+      <Accordion
+        sx={{
+          width: "100%",
+          boxShadow: "none",
+          "&::before": { display: "none" },
+          "& .MuiAccordionSummary-root": {
+            padding: "0", // Remove default padding on the summary
+          },
+          "& .MuiAccordionDetails-root": {
+            padding: "0", // Remove default padding on the details
+          },
+        }}
+        onChange={() => setExpanded(!expanded)}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography>
-            <strong>Phone Number:</strong> 865-202-9428
+            {expanded ? "Hide" : "Show"} SCF Contact Information
           </Typography>
-          <Typography>
-            <strong>Fax:</strong> 865-851-8396
-          </Typography>
-          <Typography>
-            <strong>Hours of Operation:</strong> Mon-Thur 9 a.m.-3 p.m.
-          </Typography>
-
-          {adminContacts.map((contact, index) => (
-            <Box key={index}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                {contact.title}:
-              </Typography>
-              {contact.name && <Typography>{contact.name}</Typography>}
-              <Typography>
-                <a href={`mailto:${contact.email}`}>{contact.email}</a>
-              </Typography>
-            </Box>
-          ))}
-
-          <Box>
-            <Typography variant="subtitle1" fontWeight="bold">
-              Mail:
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+            }}
+          >
+            <Typography>
+              <strong>Phone Number:</strong> 865-202-9428
             </Typography>
             <Typography>
-              St. Christopher Fund PO Box 30763 Knoxville, TN 37930
+              <strong>Fax:</strong> 865-851-8396
             </Typography>
+            <Typography>
+              <strong>Hours of Operation:</strong> Mon-Thur 9 a.m.-3 p.m.
+            </Typography>
+
+            {adminContacts.map((contact, index) => (
+              <Box key={index}>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  {contact.title}:
+                </Typography>
+                {contact.name && <Typography>{contact.name}</Typography>}
+                <Typography>
+                  <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                </Typography>
+              </Box>
+            ))}
+
+            <Box>
+              <Typography variant="subtitle1" fontWeight="bold">
+                Mail:
+              </Typography>
+              <Typography>
+                St. Christopher Fund PO Box 30763 Knoxville, TN 37930
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      </AccordionDetails>
-    </Accordion>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 }
