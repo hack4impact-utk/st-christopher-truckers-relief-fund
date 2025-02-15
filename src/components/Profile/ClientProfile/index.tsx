@@ -3,16 +3,15 @@ import { ReactNode } from "react";
 
 import { User } from "@/types";
 
-import ChangePasswordButton from "./ChangePasswordButton";
-import SignOutButton from "./SignOutButton";
+import ChangePasswordButton from "../ChangePasswordButton";
+import SignOutButton from "../SignOutButton";
+import AdminContactInfoAccordion from "./AdminContactInfoAccordion";
 
-type ClientSettingsProps = {
+type ClientProfileProps = {
   user: User;
 };
 
-export default function ClientSettings({
-  user,
-}: ClientSettingsProps): ReactNode {
+export default function ClientProfile({ user }: ClientProfileProps): ReactNode {
   if (user.role !== "client") {
     return null;
   }
@@ -27,7 +26,7 @@ export default function ClientSettings({
       }}
     >
       <Typography variant="h4" textAlign="center">
-        Client Settings
+        Client Profile
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <Typography>
@@ -41,18 +40,22 @@ export default function ClientSettings({
         </Typography>
       </Box>
 
+      <AdminContactInfoAccordion />
+
       <Divider sx={{ my: 3 }} />
 
       <Typography variant="h6">Accepted Programs</Typography>
       <List>
-        {user.programEnrollments.map((programEnrollment) => {
-          return programEnrollment.status === "accepted" ? (
+        {user.programEnrollments.map((programEnrollment) =>
+          programEnrollment.status === "accepted" ? (
             <ListItem key={programEnrollment._id} disablePadding>
               <Typography>{programEnrollment.program}</Typography>
             </ListItem>
-          ) : null;
-        })}
+          ) : null,
+        )}
       </List>
+
+      <Divider sx={{ my: 3 }} />
 
       <Box
         sx={{

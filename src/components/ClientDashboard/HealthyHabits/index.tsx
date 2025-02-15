@@ -48,7 +48,7 @@ export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
           />
         );
       case "info":
-        return <HealthyHabitsInfo />;
+        return <HealthyHabitsInfo user={user} />;
       default:
         return <Typography>Invalid section</Typography>;
     }

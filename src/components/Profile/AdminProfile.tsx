@@ -6,11 +6,15 @@ import { User } from "@/types";
 import ChangePasswordButton from "./ChangePasswordButton";
 import SignOutButton from "./SignOutButton";
 
-type AdminSettingsProps = {
+type AdminProfileProps = {
   user: User;
 };
 
-export default function AdminSettings({ user }: AdminSettingsProps): ReactNode {
+export default function AdminProfile({ user }: AdminProfileProps): ReactNode {
+  if (user.role !== "admin") {
+    return null;
+  }
+
   return (
     <Box
       sx={{
@@ -21,7 +25,7 @@ export default function AdminSettings({ user }: AdminSettingsProps): ReactNode {
       }}
     >
       <Typography variant="h4" textAlign="center">
-        Admin Settings
+        Admin Profile
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <Typography>

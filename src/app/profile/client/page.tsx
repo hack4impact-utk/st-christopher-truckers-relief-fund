@@ -2,12 +2,12 @@ import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-import ClientSettings from "@/components/Settings/ClientSettings";
-import SignOutButton from "@/components/Settings/SignOutButton";
+import ClientProfile from "@/components/Profile/ClientProfile";
+import SignOutButton from "@/components/Profile/SignOutButton";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
-export default async function AdminSettingsPage(): Promise<ReactNode> {
+export default async function ClientProfilePage(): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "client") {
@@ -32,7 +32,7 @@ export default async function AdminSettingsPage(): Promise<ReactNode> {
           gap: 2,
         }}
       >
-        <Typography>There was an error loading the settings.</Typography>
+        <Typography>There was an error loading the profile.</Typography>
         <SignOutButton />
       </Box>
     );
@@ -41,16 +41,13 @@ export default async function AdminSettingsPage(): Promise<ReactNode> {
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        gap: 2,
+        width: "min(90vw, 700px)",
+        maxWidth: "100%",
+        marginTop: "150px",
+        marginInline: "auto",
       }}
     >
-      <ClientSettings user={userWithProgramEnrollments} />
+      <ClientProfile user={userWithProgramEnrollments} />
     </Box>
   );
 }
