@@ -58,10 +58,17 @@ export default function HealthyHabitsAndDiabetesPreventionResponses({
           isListItem={true}
         />
         <FormResponse
-          label="Blood Pressure"
+          label="Systolic Blood Pressure"
           value={
             programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
-              .bloodPressure
+              .systolicBloodPressure
+          }
+        />
+        <FormResponse
+          label="Diastolic Blood Pressure"
+          value={
+            programSpecificQuestionsSection.healthyHabitsAndDiabetesPrevention
+              .diastolicBloodPressure
           }
         />
         <FormResponse
