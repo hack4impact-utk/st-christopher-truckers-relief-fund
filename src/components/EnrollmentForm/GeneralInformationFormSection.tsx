@@ -620,9 +620,11 @@ export default function GeneralInformationFormSection(): ReactNode {
         {/* HIPAA Notice */}
         <Typography variant="h6">HIPAA Notice</Typography>
         <Typography>
-          By submitting this form, you acknowledge that your health information
-          is protected under the Health Insurance Portability and Accountability
-          Act (HIPAA).
+          SCF employees are not doctors, do not diagnose or treat medical
+          conditions, and will not provide information outside of their scope of
+          practice. By submitting this form, you acknowledge that your health
+          information is protected under the Health Insurance Portability and
+          Accountability Act (HIPAA).
         </Typography>
         <Box
           sx={{
