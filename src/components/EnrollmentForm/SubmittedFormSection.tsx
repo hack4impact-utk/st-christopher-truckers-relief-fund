@@ -27,7 +27,11 @@ export default function SubmittedFormSection(): ReactNode {
     >
       <Typography>Thank you for completing the enrollment form!</Typography>
       <Typography>
-        We will review your application and get back to you soon.
+        We will review your application and get back to you soon via email.
+      </Typography>
+      <Typography>
+        If you don&apos;t see our email in your inbox, please check your spam or
+        junk folder.
       </Typography>
       <Link href="/" style={{ textDecoration: "none" }}>
         <Typography color="primary">Return to home</Typography>
