@@ -51,6 +51,7 @@ export const generalInformationSectionValidator = z
     isUsCitizen: z.boolean(),
     hasClassACdl: z.boolean(),
     cdlNumber: z.string().optional(), // Required if hasClassACdl is true
+    cdlVerification: z.boolean().optional(), // Required if hasClassACdl is true
     truckingIndustryAffiliation: z.enum(["driver", "spouse", "other"]),
     jobDescription: z.enum([
       "OTR Driver, away 4+ nights a week",
@@ -81,12 +82,21 @@ export const generalInformationSectionValidator = z
     }),
   })
   .superRefine((val, ctx) => {
-    // Add custom conditional validation for CDL
+    // Add custom conditional validation for CDL number
     if (val.hasClassACdl === true && !val.cdlNumber) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "CDL Number is required if you have a Class A CDL",
         path: ["cdlNumber"],
+      });
+    }
+
+    // Add custom conditional validation for CDL verification
+    if (val.hasClassACdl === true && !val.cdlVerification) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "You must confirm submission of your CDL",
+        path: ["cdlVerification"],
       });
     }
 

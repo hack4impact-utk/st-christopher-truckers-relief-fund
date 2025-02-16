@@ -327,14 +327,38 @@ export default function GeneralInformationFormSection(): ReactNode {
           </FormHelperText>
         </FormControl>
         {watch("hasClassACdl") === true && (
-          <ControlledTextField
-            control={control}
-            name="cdlNumber"
-            label="CDL Number"
-            variant="outlined"
-            error={errors.cdlNumber}
-            required
-          />
+          <>
+            <ControlledTextField
+              control={control}
+              name="cdlNumber"
+              label="CDL Number"
+              variant="outlined"
+              error={errors.cdlNumber}
+              required
+            />
+            <Controller
+              name="cdlVerification"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={<Checkbox {...field} checked={field.value} />}
+                  label={
+                    <>
+                      I confirm that I have submitted a copy of my CDL to{" "}
+                      <a href="tel:+8655448145">865-544-8145</a> or{" "}
+                      <a href="mailto:Health@truckersfund.org">
+                        Health@truckersfund.org
+                      </a>
+                      .
+                    </>
+                  }
+                />
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }} error>
+              {errors.cdlVerification?.message}
+            </FormHelperText>
+          </>
         )}
 
         <FormControl
