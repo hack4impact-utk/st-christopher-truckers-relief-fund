@@ -101,18 +101,48 @@ export default function HealthyHabitsProgramSpecificQuestions({
         />
       </Box>
 
-      <ControlledTextField
-        control={control}
-        name="healthyHabitsAndDiabetesPrevention.bloodPressure"
-        label="Blood Pressure (e.g. 120/80)"
-        variant="outlined"
-        error={errors.healthyHabitsAndDiabetesPrevention?.bloodPressure}
-        slotProps={{
-          input: {
-            endAdornment: <InputAdornment position="end">mmHg</InputAdornment>,
-          },
-        }}
-      />
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+        <ControlledTextField
+          control={control}
+          name="healthyHabitsAndDiabetesPrevention.systolicBloodPressure"
+          label="Systolic Blood Pressure"
+          variant="outlined"
+          error={
+            errors.healthyHabitsAndDiabetesPrevention?.systolicBloodPressure
+          }
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mmHg</InputAdornment>
+              ),
+            },
+          }}
+          required
+          convertToNumber={true}
+          sx={{ width: "100%" }}
+        />
+        <ControlledTextField
+          control={control}
+          name="healthyHabitsAndDiabetesPrevention.diastolicBloodPressure"
+          label="Diastolic Blood Pressure"
+          variant="outlined"
+          error={
+            errors.healthyHabitsAndDiabetesPrevention?.diastolicBloodPressure
+          }
+          type="number"
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">mmHg</InputAdornment>
+              ),
+            },
+          }}
+          required
+          convertToNumber={true}
+          sx={{ width: "100%" }}
+        />
+      </Box>
 
       <Divider />
 
