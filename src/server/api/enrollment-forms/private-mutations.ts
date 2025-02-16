@@ -12,9 +12,6 @@ export async function createEnrollmentForm(
 ): Promise<ApiResponse<EnrollmentForm>> {
   await dbConnect();
 
-  enrollmentForm.generalInformationSection.password = "";
-  enrollmentForm.generalInformationSection.confirmPassword = "";
-
   try {
     // don't create enrollment form if one already exists
     const [existingEnrollmentForm] = await getEnrollmentFormByEmail(
