@@ -415,7 +415,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         )}
       />
       <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedColdTurkey"
+        name="rigsWithoutCigs.methodsUsedToQuit.hasTriedColdTurkey"
         control={control}
         render={({ field }) => (
           <FormControlLabel

@@ -69,6 +69,17 @@ export default function RigsWithoutCigsResponses({
           </Typography>
 
           <FormResponse
+            label="Not Tried To Quit"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasNotTriedToQuit
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
             label="Cold Turkey"
             value={
               programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
@@ -78,16 +89,62 @@ export default function RigsWithoutCigsResponses({
             }
             isListItem={true}
           />
+
           <FormResponse
-            label="Nicotine Patch"
+            label="Audiobook"
             value={
               programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
-                .hasUsedNicotinePatch
+                .hasUsedAudiobook
                 ? "Yes"
                 : "No"
             }
             isListItem={true}
           />
+
+          <FormResponse
+            label="Chantix"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedChantix
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="Cold Turkey"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedColdTurkey
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="E-Cigarettes"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedECigarettes
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="Grinds Coffee Pouches"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedGrindsCoffeePouches
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
           <FormResponse
             label="Gum"
             value={
@@ -98,6 +155,7 @@ export default function RigsWithoutCigsResponses({
             }
             isListItem={true}
           />
+
           <FormResponse
             label="Hypnosis"
             value={
@@ -108,16 +166,51 @@ export default function RigsWithoutCigsResponses({
             }
             isListItem={true}
           />
+
           <FormResponse
-            label="e-Cigarettes"
+            label="Lozenges"
             value={
               programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
-                .hasUsedECigarettes
+                .hasUsedLozenges
                 ? "Yes"
                 : "No"
             }
             isListItem={true}
           />
+
+          <FormResponse
+            label="Medication"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedMedication
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="Mobile App"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedMobileApp
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="Nicotine Patch"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedNicotinePatch
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
           <FormResponse
             label="Other"
             value={
@@ -128,11 +221,34 @@ export default function RigsWithoutCigsResponses({
             }
             isListItem={true}
           />
+
           <FormResponse
-            label="I Have Not Tried to Quit"
+            label="Taper Method"
             value={
               programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
-                .hasNotTriedToQuit
+                .hasUsedTaperMethod
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="Varenicline"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedVarenicline
+                ? "Yes"
+                : "No"
+            }
+            isListItem={true}
+          />
+
+          <FormResponse
+            label="Wellbutrin"
+            value={
+              programSpecificQuestionsSection.rigsWithoutCigs.methodsUsedToQuit
+                .hasUsedWellbutrin
                 ? "Yes"
                 : "No"
             }
