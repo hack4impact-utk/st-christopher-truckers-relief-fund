@@ -395,22 +395,52 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
       </FormControl>
       <Typography>What methods have you used to quit in the past?</Typography>
       <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedAudiobook"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Audiobook"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedChantix"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Chantix"
+          />
+        )}
+      />
+      <Controller
         name="rigsWithoutCigs.methodsUsedToQuit.hasTriedColdTurkey"
         control={control}
         render={({ field }) => (
           <FormControlLabel
             control={<Checkbox {...field} checked={field.value} />}
-            label="Cold turkey"
+            label="Cold Turkey"
           />
         )}
       />
       <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedNicotinePatch"
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedECigarettes"
         control={control}
         render={({ field }) => (
           <FormControlLabel
             control={<Checkbox {...field} checked={field.value} />}
-            label="Nicotine patch"
+            label="E-cigarettes"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedGrindsCoffeePouches"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Grinds Coffee Pouches"
           />
         )}
       />
@@ -435,6 +465,16 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         )}
       />
       <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedLozenges"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Lozenges"
+          />
+        )}
+      />
+      <Controller
         name="rigsWithoutCigs.methodsUsedToQuit.hasUsedMedication"
         control={control}
         render={({ field }) => (
@@ -445,12 +485,22 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         )}
       />
       <Controller
-        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedECigarettes"
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedMobileApp"
         control={control}
         render={({ field }) => (
           <FormControlLabel
             control={<Checkbox {...field} checked={field.value} />}
-            label="E-cigarettes"
+            label="Mobile App"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedNicotinePatch"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Nicotine Patch"
           />
         )}
       />
@@ -461,6 +511,36 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           <FormControlLabel
             control={<Checkbox {...field} checked={field.value} />}
             label="Other"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedTaperMethod"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Taper Method"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedVarenicline"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Varenicline"
+          />
+        )}
+      />
+      <Controller
+        name="rigsWithoutCigs.methodsUsedToQuit.hasUsedWellbutrin"
+        control={control}
+        render={({ field }) => (
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Wellbutrin"
           />
         )}
       />

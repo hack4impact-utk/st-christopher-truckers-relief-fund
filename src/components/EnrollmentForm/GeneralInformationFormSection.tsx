@@ -327,14 +327,38 @@ export default function GeneralInformationFormSection(): ReactNode {
           </FormHelperText>
         </FormControl>
         {watch("hasClassACdl") === true && (
-          <ControlledTextField
-            control={control}
-            name="cdlNumber"
-            label="CDL Number"
-            variant="outlined"
-            error={errors.cdlNumber}
-            required
-          />
+          <>
+            <ControlledTextField
+              control={control}
+              name="cdlNumber"
+              label="CDL Number"
+              variant="outlined"
+              error={errors.cdlNumber}
+              required
+            />
+            <Controller
+              name="cdlVerification"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={<Checkbox {...field} checked={field.value} />}
+                  label={
+                    <>
+                      I confirm that I have submitted a copy of my CDL to{" "}
+                      <a href="tel:+8655448145">865-544-8145</a> or{" "}
+                      <a href="mailto:Health@truckersfund.org">
+                        Health@truckersfund.org
+                      </a>
+                      .
+                    </>
+                  }
+                />
+              )}
+            />
+            <FormHelperText sx={{ m: 0 }} error>
+              {errors.cdlVerification?.message}
+            </FormHelperText>
+          </>
         )}
 
         <FormControl
@@ -620,9 +644,11 @@ export default function GeneralInformationFormSection(): ReactNode {
         {/* HIPAA Notice */}
         <Typography variant="h6">HIPAA Notice</Typography>
         <Typography>
-          By submitting this form, you acknowledge that your health information
-          is protected under the Health Insurance Portability and Accountability
-          Act (HIPAA).
+          SCF employees are not doctors, do not diagnose or treat medical
+          conditions, and will not provide information outside of their scope of
+          practice. By submitting this form, you acknowledge that your health
+          information is protected under the Health Insurance Portability and
+          Accountability Act (HIPAA).
         </Typography>
         <Box
           sx={{

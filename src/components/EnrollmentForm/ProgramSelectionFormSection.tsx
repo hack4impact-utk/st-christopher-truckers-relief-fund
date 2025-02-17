@@ -39,12 +39,6 @@ function shouldShowRigsWithoutCigsButton(
   enrollmentForm: EnrollmentForm,
 ): boolean {
   if (
-    !enrollmentForm.qualifyingQuestionsSection.hasAppliedForFinancialAssistance
-  ) {
-    return false;
-  }
-
-  if (
     !enrollmentForm.qualifyingQuestionsSection
       .hasHealthConditionCausedByTobaccoUse
   ) {
