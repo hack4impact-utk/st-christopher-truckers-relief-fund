@@ -101,20 +101,21 @@ export const programSpecificQuestionsSectionValidator = z
       tobaccoChewMoreAfterAwakening: z.boolean(),
       tobaccoChewWhenIll: z.boolean(),
 
-      firstCigaretteTime: z.enum([
+      firstSmokeTime: z.enum([
         "Within 5 minutes",
-        "Within 5-30 minutes",
-        "Within 30-60 minutes",
-        "Longer than 60 minutes",
+        "6-30 minutes",
+        "31-60 minutes",
+        "After 60 minutes",
       ]),
-      doesFindItDifficultToNotSmokeInNonSmokingAreas: z.boolean(),
-      hardestCigaretteToGiveUp: z.enum([
+      isDifficultToNotSmokeInForbiddenAreas: z.boolean(),
+      cigaretteHateToGiveUp: z.enum([
         "The first one in the morning",
-        "Any other",
+        "All others",
       ]),
-      cigarettesPerDay: z.number(),
-      smokesMoreOftenInTheMorning: z.boolean(),
-      smokesEvenWhenSickInBed: z.boolean(),
+      cigarettesPerDay: z.enum(["31 or more", "21-30", "11-20", "10 or less"]),
+      smokeMoreInMorning: z.boolean(),
+      smokeWhenIll: z.boolean(),
+
       plansToJoinFacebookGroup: z.boolean(),
       whyDoYouWantToQuitSmoking: z.string(),
       howCanWeHelpYou: z.string(),
@@ -263,14 +264,6 @@ export const programSpecificQuestionsSectionValidator = z
     }
 
     if (hasOptedInToRigsWithoutCigs) {
-      if (val.rigsWithoutCigs.cigarettesPerDay <= 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Cigarettes per day is required",
-          path: ["rigsWithoutCigs", "cigarettesPerDay"],
-        });
-      }
-
       if (
         !isValidPhoneNumber(
           val.rigsWithoutCigs.accountabilityPerson.phoneNumber,

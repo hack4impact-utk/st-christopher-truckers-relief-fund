@@ -8,7 +8,6 @@ import {
   FormControlLabel,
   FormHelperText,
   FormLabel,
-  InputAdornment,
   Radio,
   RadioGroup,
   Typography,
@@ -17,6 +16,7 @@ import { ReactNode } from "react";
 import { Control, Controller, UseFormWatch } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import CigarettesFagerstormQuestionsQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstormQuestions/CigarettesFagerstormQuestions";
 import SmokelessTobaccoFagerstormQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstormQuestions/SmokelessTobaccoFagerstormQuestions";
 
 type RigsWithoutCigsProgramSpecificQuestionsProps = {
@@ -34,9 +34,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
     <>
       <Divider />
       <Typography variant="h4">Rigs for Cigs</Typography>
-
       <Typography variant="h6">General</Typography>
-
       <Typography>What form of tobacco do you use?</Typography>
       <Controller
         name="rigsWithoutCigs.tobaccoForm.doesUseCigarettes"
@@ -59,6 +57,12 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         )}
       />
 
+      {watch("rigsWithoutCigs.tobaccoForm.doesUseCigarettes") && (
+        <CigarettesFagerstormQuestionsQuestions
+          control={control}
+          errors={errors}
+        />
+      )}
       {watch("rigsWithoutCigs.tobaccoForm.doesUseSmokelessTobacco") && (
         <SmokelessTobaccoFagerstormQuestions
           control={control}
@@ -75,175 +79,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         error={errors.rigsWithoutCigs?.tobaccoUsageLength}
         required
       />
-
-      <FormControl
-        error={!!errors.rigsWithoutCigs?.firstCigaretteTime?.message}
-        sx={{ width: "100%" }}
-      >
-        <FormLabel>
-          How soon after waking do you smoke your first cigarette?
-        </FormLabel>
-        <Controller
-          name="rigsWithoutCigs.firstCigaretteTime"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup {...field}>
-              <FormControlLabel
-                value="Within 5 minutes"
-                control={<Radio />}
-                label="Within 5 minutes"
-              />
-              <FormControlLabel
-                value="Within 5-30 minutes"
-                control={<Radio />}
-                label="Within 5-30 minutes"
-              />
-              <FormControlLabel
-                value="Within 30-60 minutes"
-                control={<Radio />}
-                label="Within 30-60 minutes"
-              />
-              <FormControlLabel
-                value="Longer than 60 minutes"
-                control={<Radio />}
-                label="Longer than 60 minutes"
-              />
-            </RadioGroup>
-          )}
-        />
-        <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.firstCigaretteTime?.message}
-        </FormHelperText>
-      </FormControl>
-
-      <FormControl
-        error={
-          !!errors.rigsWithoutCigs
-            ?.doesFindItDifficultToNotSmokeInNonSmokingAreas?.message
-        }
-        sx={{ width: "100%" }}
-      >
-        <FormLabel>
-          Do you find it difficult to not smoke in non-smoking areas?
-        </FormLabel>
-        <Controller
-          name="rigsWithoutCigs.doesFindItDifficultToNotSmokeInNonSmokingAreas"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup
-              {...field}
-              value={field.value !== undefined ? String(field.value) : ""}
-              onChange={(e) => field.onChange(e.target.value === "true")}
-            >
-              <FormControlLabel value="true" control={<Radio />} label="Yes" />
-              <FormControlLabel value="false" control={<Radio />} label="No" />
-            </RadioGroup>
-          )}
-        />
-        <FormHelperText sx={{ m: 0 }}>
-          {
-            errors.rigsWithoutCigs
-              ?.doesFindItDifficultToNotSmokeInNonSmokingAreas?.message
-          }
-        </FormHelperText>
-      </FormControl>
-
-      <FormControl
-        error={!!errors.rigsWithoutCigs?.hardestCigaretteToGiveUp?.message}
-        sx={{ width: "100%" }}
-      >
-        <FormLabel>What is your hardest cigarette to give up?</FormLabel>
-        <Controller
-          name="rigsWithoutCigs.hardestCigaretteToGiveUp"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup {...field}>
-              <FormControlLabel
-                value="The first one in the morning"
-                control={<Radio />}
-                label="The first one in the morning"
-              />
-              <FormControlLabel
-                value="Any other"
-                control={<Radio />}
-                label="Any other"
-              />
-            </RadioGroup>
-          )}
-        />
-        <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.hardestCigaretteToGiveUp?.message}
-        </FormHelperText>
-      </FormControl>
-
-      <Typography>How many cigarettes do you smoke daily? (1-100)</Typography>
-      <ControlledTextField
-        control={control}
-        name="rigsWithoutCigs.cigarettesPerDay"
-        label="How many cigarettes do you smoke daily? (1-100)"
-        variant="outlined"
-        error={errors.rigsWithoutCigs?.cigarettesPerDay}
-        type="number"
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">cigarettes</InputAdornment>
-            ),
-          },
-        }}
-        convertToNumber={true}
-        required
-      />
-
-      <FormControl
-        error={!!errors.rigsWithoutCigs?.smokesMoreOftenInTheMorning?.message}
-        sx={{ width: "100%" }}
-      >
-        <FormLabel>Do you smoke more often in the morning?</FormLabel>
-        <Controller
-          name="rigsWithoutCigs.smokesMoreOftenInTheMorning"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup
-              {...field}
-              value={field.value !== undefined ? String(field.value) : ""}
-              onChange={(e) => field.onChange(e.target.value === "true")}
-            >
-              <FormControlLabel value="true" control={<Radio />} label="Yes" />
-              <FormControlLabel value="false" control={<Radio />} label="No" />
-            </RadioGroup>
-          )}
-        />
-        <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.smokesMoreOftenInTheMorning?.message}
-        </FormHelperText>
-      </FormControl>
-
-      <FormControl
-        error={!!errors.rigsWithoutCigs?.smokesEvenWhenSickInBed?.message}
-        sx={{ width: "100%" }}
-      >
-        <FormLabel>
-          Do you smoke even when sick in bed most of the day?
-        </FormLabel>
-        <Controller
-          name="rigsWithoutCigs.smokesEvenWhenSickInBed"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup
-              {...field}
-              value={field.value !== undefined ? String(field.value) : ""}
-              onChange={(e) => field.onChange(e.target.value === "true")}
-            >
-              <FormControlLabel value="true" control={<Radio />} label="Yes" />
-              <FormControlLabel value="false" control={<Radio />} label="No" />
-            </RadioGroup>
-          )}
-        />
-        <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.smokesEvenWhenSickInBed?.message}
-        </FormHelperText>
-      </FormControl>
 
       <FormControl
         error={!!errors.rigsWithoutCigs?.plansToJoinFacebookGroup?.message}
@@ -270,7 +105,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           {errors.rigsWithoutCigs?.plansToJoinFacebookGroup?.message}
         </FormHelperText>
       </FormControl>
-
       <Typography>Why do you want to quit smoking?</Typography>
       <ControlledTextField
         control={control}
@@ -282,7 +116,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         rows={3}
         required
       />
-
       <Typography>How can we help you?</Typography>
       <ControlledTextField
         control={control}
@@ -294,7 +127,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         rows={3}
         required
       />
-
       <FormControl
         error={!!errors.rigsWithoutCigs?.referralSource?.message}
         sx={{ width: "100%" }}
@@ -376,9 +208,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           {errors.rigsWithoutCigs?.referralSource?.message}
         </FormHelperText>
       </FormControl>
-
       <Divider />
-
       <Typography variant="h6">Methods of Quitting</Typography>
       <FormControl
         error={!!errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
@@ -564,15 +394,12 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           />
         )}
       />
-
       <Divider />
-
       <Typography variant="h6">Accountability Person</Typography>
       <Typography>
         Please provide the name, phone number, and relationship to a person who
         can help you quit smoking.
       </Typography>
-
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.accountabilityPerson.firstName"
@@ -581,7 +408,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         error={errors.rigsWithoutCigs?.accountabilityPerson?.firstName}
         required
       />
-
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.accountabilityPerson.lastName"
@@ -590,7 +416,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         error={errors.rigsWithoutCigs?.accountabilityPerson?.lastName}
         required
       />
-
       <ControlledTextField
         control={control}
         name="rigsWithoutCigs.accountabilityPerson.phoneNumber"
@@ -600,7 +425,6 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         type="tel"
         required
       />
-
       <FormControl
         error={
           !!errors.rigsWithoutCigs?.accountabilityPerson
@@ -651,10 +475,8 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           }
         </FormHelperText>
       </FormControl>
-
       <Divider />
       <Typography variant="h6">Healthcare</Typography>
-
       <FormControl
         error={
           !!errors.rigsWithoutCigs?.currentlyHasPrimaryCarePhysician?.message
