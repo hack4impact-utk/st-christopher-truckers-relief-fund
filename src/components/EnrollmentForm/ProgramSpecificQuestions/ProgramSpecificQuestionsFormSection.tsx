@@ -53,6 +53,7 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
     control,
     handleSubmit,
     formState: { errors, submitCount, isSubmitSuccessful },
+    watch,
   } = useForm<ProgramSpecificQuestionsSection>({
     resolver: zodResolver(programSpecificQuestionsSectionValidator),
     defaultValues: enrollmentForm.programSpecificQuestionsSection,
@@ -133,6 +134,7 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
           <RigsWithoutCigsProgramSpecificQuestions
             control={control}
             errors={errors}
+            watch={watch}
           />
         )}
 

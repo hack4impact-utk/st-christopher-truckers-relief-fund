@@ -20,8 +20,8 @@ export const programSpecificQuestionsSectionValidator = z
       bmi: z.number(),
       hasHadGlucoseOrA1CTestInPastYear: z.boolean(),
       glucoseOrA1CTestResult: z.string(),
-      systolicBloodPressure: z.number().int().positive(),
-      diastolicBloodPressure: z.number().int().positive(),
+      systolicBloodPressure: z.number().int(),
+      diastolicBloodPressure: z.number().int(),
       movementAndActivityRanking: z.enum(["1", "2", "3", "4", "5"]),
       energyRanking: z.enum(["1", "2", "3", "4", "5"]),
       sleepRanking: z.enum(["1", "2", "3", "4", "5"]),
@@ -85,6 +85,21 @@ export const programSpecificQuestionsSectionValidator = z
         hasUsedVarenicline: z.boolean(),
         hasUsedWellbutrin: z.boolean(),
       }),
+
+      firstTobaccoTime: z.enum([
+        "Within 5 minutes",
+        "6-30 minutes",
+        "31-60 minutes",
+        "After 60 minutes",
+      ]),
+      swallowTobaccoJuice: z.enum(["Always", "Sometimes", "Never"]),
+      tobaccoHateToGiveUp: z.enum([
+        "The first one in the morning",
+        "All others",
+      ]),
+      tobaccoCansPerWeek: z.enum(["More than 3", "2-3", "1"]),
+      tobaccoChewMoreAfterAwakening: z.boolean(),
+      tobaccoChewWhenIll: z.boolean(),
 
       firstCigaretteTime: z.enum([
         "Within 5 minutes",
@@ -192,6 +207,25 @@ export const programSpecificQuestionsSectionValidator = z
           code: z.ZodIssueCode.custom,
           message: "Invalid height",
           path: ["healthyHabitsAndDiabetesPrevention", "heightInches"],
+        });
+      }
+
+      if (val.healthyHabitsAndDiabetesPrevention.systolicBloodPressure <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid Systolic Blood Pressure",
+          path: ["healthyHabitsAndDiabetesPrevention", "systolicBloodPressure"],
+        });
+      }
+
+      if (val.healthyHabitsAndDiabetesPrevention.diastolicBloodPressure <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid Diastolic Blood Pressure",
+          path: [
+            "healthyHabitsAndDiabetesPrevention",
+            "diastolicBloodPressure",
+          ],
         });
       }
     }

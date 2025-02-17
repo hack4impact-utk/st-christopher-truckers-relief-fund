@@ -14,18 +14,21 @@ import {
   Typography,
 } from "@mui/material";
 import { ReactNode } from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, UseFormWatch } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import SmokelessTobaccoFagerstormQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstormQuestions/SmokelessTobaccoFagerstormQuestions";
 
 type RigsWithoutCigsProgramSpecificQuestionsProps = {
   control: Control<any>;
   errors: any;
+  watch: UseFormWatch<any>;
 };
 
 export default function RigsWithoutCigsProgramSpecificQuestions({
   control,
   errors,
+  watch,
 }: RigsWithoutCigsProgramSpecificQuestionsProps): ReactNode {
   return (
     <>
@@ -55,6 +58,13 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           />
         )}
       />
+
+      {watch("rigsWithoutCigs.tobaccoForm.doesUseSmokelessTobacco") && (
+        <SmokelessTobaccoFagerstormQuestions
+          control={control}
+          errors={errors}
+        />
+      )}
 
       <Typography>How long have you been using tobacco?</Typography>
       <ControlledTextField
