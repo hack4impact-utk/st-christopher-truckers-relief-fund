@@ -34,12 +34,7 @@ export default function RigsWithoutCigs({
       case "fagerstrom_test":
         return <FagerstromTest />;
       case "history":
-        return (
-          <RigsWithoutCigsHistory
-            user={user}
-            programEnrollment={programEnrollment}
-          />
-        );
+        return <RigsWithoutCigsHistory programEnrollment={programEnrollment} />;
       case "info":
         return <RigsWithoutCigsInfo user={user} />;
       default:

@@ -1,29 +1,20 @@
 import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import { ClientUser, ProgramEnrollment } from "@/types";
+import { ProgramEnrollment } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
 type RigsWithoutCigsHistoryProps = {
-  user: ClientUser;
   programEnrollment: ProgramEnrollment;
 };
 
 export default function RigsWithoutCigsHistory({
-  user,
   programEnrollment,
 }: RigsWithoutCigsHistoryProps): ReactNode {
-  const PRICE_PER_CIGARETTE = 0.4;
   const daysSinceStartOfProgram = dayjsUtil().diff(
     dayjsUtil(programEnrollment.dateEnrolled),
     "day",
   );
-
-  const moneySaved =
-    user.enrollmentForm.programSpecificQuestionsSection.rigsWithoutCigs
-      .cigarettesPerDay *
-    PRICE_PER_CIGARETTE *
-    daysSinceStartOfProgram;
 
   return (
     <Box
@@ -38,9 +29,6 @@ export default function RigsWithoutCigsHistory({
         History
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-        <Typography>
-          <strong>Money Saved:</strong> ${moneySaved.toFixed(2)}
-        </Typography>
         <Typography>
           <strong>Tobacco Free for:</strong> {daysSinceStartOfProgram} day
           {daysSinceStartOfProgram !== 1 ? "s" : ""}
