@@ -34,7 +34,6 @@ export const generalInformationSectionDefaultValues: GeneralInformationSection =
       businessIncome: 0,
       businessExpenses: 0,
     },
-    hasAcknowledgedPrivacyNotice: false,
     hasAcknowledgedHipaaNotice: false,
   };
 
@@ -131,12 +130,14 @@ export const programSpecificQuestionsSectionDefaultValues: ProgramSpecificQuesti
         hasUsedVarenicline: false,
         hasUsedWellbutrin: false,
       },
+      tobaccoFagerstromScore: 0,
       firstTobaccoTime: "After 60 minutes",
       swallowTobaccoJuice: "Never",
       tobaccoHateToGiveUp: "All others",
       tobaccoCansPerWeek: "1",
       tobaccoChewMoreAfterAwakening: false,
       tobaccoChewWhenIll: false,
+      cigaretteFagerstromScore: 0,
       firstSmokeTime: "After 60 minutes",
       isDifficultToNotSmokeInForbiddenAreas: false,
       cigaretteHateToGiveUp: "All others",

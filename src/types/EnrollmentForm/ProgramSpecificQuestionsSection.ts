@@ -86,6 +86,7 @@ export const programSpecificQuestionsSectionValidator = z
         hasUsedWellbutrin: z.boolean(),
       }),
 
+      tobaccoFagerstromScore: z.number(),
       firstTobaccoTime: z.enum([
         "Within 5 minutes",
         "6-30 minutes",
@@ -101,6 +102,7 @@ export const programSpecificQuestionsSectionValidator = z
       tobaccoChewMoreAfterAwakening: z.boolean(),
       tobaccoChewWhenIll: z.boolean(),
 
+      cigaretteFagerstromScore: z.number(),
       firstSmokeTime: z.enum([
         "Within 5 minutes",
         "6-30 minutes",

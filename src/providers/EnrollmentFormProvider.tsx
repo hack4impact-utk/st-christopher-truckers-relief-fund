@@ -7,8 +7,8 @@ import { ProgramSelectionSection } from "@/types/EnrollmentForm/ProgramSelection
 import { ProgramSpecificQuestionsSection } from "@/types/EnrollmentForm/ProgramSpecificQuestionsSection";
 import { QualifyingQuestionsSection } from "@/types/EnrollmentForm/QualifyingQuestionsSection";
 import calculateBmi from "@/utils/calculateBmi";
-import calculateCigaretteFagerstormScore from "@/utils/calculateCigaretteFagerstormScore";
-import calculateTobaccoFagerstormScore from "@/utils/calculateTobaccoFagerstormScore";
+import calculateCigaretteFagerstromScore from "@/utils/calculateCigaretteFagerstromScore";
+import calculateTobaccoFagerstromScore from "@/utils/calculateTobaccoFagerstromScore";
 import {
   generalInformationSectionDefaultValues,
   programSelectionSectionDefaultValues,
@@ -128,7 +128,7 @@ export function EnrollmentFormProvider({
         },
         rigsWithoutCigs: {
           ...section.rigsWithoutCigs,
-          tobaccoFagerstormScore: calculateTobaccoFagerstormScore(
+          tobaccoFagerstromScore: calculateTobaccoFagerstromScore(
             section.rigsWithoutCigs.firstTobaccoTime,
             section.rigsWithoutCigs.swallowTobaccoJuice,
             section.rigsWithoutCigs.tobaccoHateToGiveUp,
@@ -136,7 +136,7 @@ export function EnrollmentFormProvider({
             section.rigsWithoutCigs.tobaccoChewMoreAfterAwakening,
             section.rigsWithoutCigs.tobaccoChewWhenIll,
           ),
-          cigaretteFagerstormScore: calculateCigaretteFagerstormScore(
+          cigaretteFagerstromScore: calculateCigaretteFagerstromScore(
             section.rigsWithoutCigs.firstSmokeTime,
             section.rigsWithoutCigs.isDifficultToNotSmokeInForbiddenAreas,
             section.rigsWithoutCigs.cigaretteHateToGiveUp,

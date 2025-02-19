@@ -14,29 +14,29 @@ import {
 import { ReactNode } from "react";
 import { Control, Controller } from "react-hook-form";
 
-type SmokelessTobaccoFagerstormQuestionsProps = {
+type CigarettesFagerstromQuestionsProps = {
   control: Control<any>;
   errors: any;
 };
 
-export default function SmokelessTobaccoFagerstormQuestions({
+export default function CigarettesFagerstromQuestions({
   control,
   errors,
-}: SmokelessTobaccoFagerstormQuestionsProps): ReactNode {
+}: CigarettesFagerstromQuestionsProps): ReactNode {
   return (
     <>
       <Divider />
-      <Typography variant="h6">Smokeless Tobacco Fagerstorm Test</Typography>
+      <Typography variant="h6">Cigarettes Fagerstrom Test</Typography>
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.firstTobaccoTime?.message}
+        error={!!errors.rigsWithoutCigs?.firstSmokeTime?.message}
         sx={{ width: "100%" }}
       >
         <FormLabel>
-          How soon after you wake up do you place your first dip?
+          How soon after waking do you smoke your first cigarette?
         </FormLabel>
         <Controller
-          name="rigsWithoutCigs.firstTobaccoTime"
+          name="rigsWithoutCigs.firstSmokeTime"
           control={control}
           render={({ field }) => (
             <RadioGroup {...field}>
@@ -64,52 +64,57 @@ export default function SmokelessTobaccoFagerstormQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.firstTobaccoTime?.message}
+          {errors.rigsWithoutCigs?.firstSmokeTime?.message}
         </FormHelperText>
       </FormControl>
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.swallowTobaccoJuice?.message}
+        error={
+          !!errors.rigsWithoutCigs?.isDifficultToNotSmokeInForbiddenAreas
+            ?.message
+        }
         sx={{ width: "100%" }}
       >
         <FormLabel>
-          How often do you intentionally swallow tobacco juice?
+          Do you find it difficult to refrain from smoking in places where it is
+          forbidden?
         </FormLabel>
         <Controller
-          name="rigsWithoutCigs.swallowTobaccoJuice"
+          name="rigsWithoutCigs.isDifficultToNotSmokeInForbiddenAreas"
           control={control}
           render={({ field }) => (
-            <RadioGroup {...field}>
+            <RadioGroup
+              {...field}
+              onChange={(e) => field.onChange(e.target.value === "true")}
+            >
               <FormControlLabel
-                value="Always"
+                value={"true"}
                 control={<Radio />}
-                label="Always"
+                label="Yes"
               />
               <FormControlLabel
-                value="Sometimes"
+                value={"false"}
                 control={<Radio />}
-                label="Sometimes"
-              />
-              <FormControlLabel
-                value="Never"
-                control={<Radio />}
-                label="Never"
+                label="No"
               />
             </RadioGroup>
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.swallowTobaccoJuice?.message}
+          {
+            errors.rigsWithoutCigs?.isDifficultToNotSmokeInForbiddenAreas
+              ?.message
+          }
         </FormHelperText>
       </FormControl>
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.tobaccoHateToGiveUp?.message}
+        error={!!errors.rigsWithoutCigs?.cigaretteHateToGiveUp?.message}
         sx={{ width: "100%" }}
       >
-        <FormLabel>Which chew would you hate to give up most?</FormLabel>
+        <FormLabel>Which cigarette would you hate to give up?</FormLabel>
         <Controller
-          name="rigsWithoutCigs.tobaccoHateToGiveUp"
+          name="rigsWithoutCigs.cigaretteHateToGiveUp"
           control={control}
           render={({ field }) => (
             <RadioGroup {...field}>
@@ -127,45 +132,55 @@ export default function SmokelessTobaccoFagerstormQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.tobaccoHateToGiveUp?.message}
+          {errors.rigsWithoutCigs?.cigaretteHateToGiveUp?.message}
         </FormHelperText>
       </FormControl>
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.tobaccoCansPerWeek?.message}
+        error={!!errors.rigsWithoutCigs?.cigarettesPerDay?.message}
         sx={{ width: "100%" }}
       >
-        <FormLabel>How many cans/pouches per week do you use?</FormLabel>
+        <FormLabel>How many cigarettes a day do you smoke?</FormLabel>
         <Controller
-          name="rigsWithoutCigs.tobaccoCansPerWeek"
+          name="rigsWithoutCigs.cigarettesPerDay"
           control={control}
           render={({ field }) => (
             <RadioGroup {...field}>
               <FormControlLabel
-                value="More than 3"
+                value="31 or more"
                 control={<Radio />}
-                label="More than 3"
+                label="31 or more"
               />
-              <FormControlLabel value="2-3" control={<Radio />} label="2-3" />
-              <FormControlLabel value="1" control={<Radio />} label="1" />
+              <FormControlLabel
+                value="21-30"
+                control={<Radio />}
+                label="21-30"
+              />
+              <FormControlLabel
+                value="11-20"
+                control={<Radio />}
+                label="11-20"
+              />
+              <FormControlLabel
+                value="10 or less"
+                control={<Radio />}
+                label="10 or less"
+              />
             </RadioGroup>
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.tobaccoCansPerWeek?.message}
+          {errors.rigsWithoutCigs?.cigarettesPerDay?.message}
         </FormHelperText>
       </FormControl>
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.tobaccoChewMoreAfterAwakening?.message}
+        error={!!errors.rigsWithoutCigs?.smokeMoreInMorning?.message}
         sx={{ width: "100%" }}
       >
-        <FormLabel>
-          Do you chew more frequently during the first hours after awakening
-          than during the rest of the day?
-        </FormLabel>
+        <FormLabel>Do you smoke more frequently in the morning?</FormLabel>
         <Controller
-          name="rigsWithoutCigs.tobaccoChewMoreAfterAwakening"
+          name="rigsWithoutCigs.smokeMoreInMorning"
           control={control}
           render={({ field }) => (
             <RadioGroup
@@ -186,19 +201,19 @@ export default function SmokelessTobaccoFagerstormQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.tobaccoChewMoreAfterAwakening?.message}
+          {errors.rigsWithoutCigs?.smokeMoreInMorning?.message}
         </FormHelperText>
       </FormControl>
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.tobaccoChewWhenIll?.message}
+        error={!!errors.rigsWithoutCigs?.smokeWhenIll?.message}
         sx={{ width: "100%" }}
       >
         <FormLabel>
-          Do you chew if you are so ill that you are in bed most of the day?
+          Do you smoke even if you are sick in bed most of the day?
         </FormLabel>
         <Controller
-          name="rigsWithoutCigs.tobaccoChewWhenIll"
+          name="rigsWithoutCigs.smokeWhenIll"
           control={control}
           render={({ field }) => (
             <RadioGroup
@@ -219,7 +234,7 @@ export default function SmokelessTobaccoFagerstormQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.tobaccoChewWhenIll?.message}
+          {errors.rigsWithoutCigs?.smokeWhenIll?.message}
         </FormHelperText>
       </FormControl>
     </>

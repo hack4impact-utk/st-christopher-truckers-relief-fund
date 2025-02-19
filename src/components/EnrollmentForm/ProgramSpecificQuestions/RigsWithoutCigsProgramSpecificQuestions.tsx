@@ -16,8 +16,8 @@ import { ReactNode } from "react";
 import { Control, Controller, UseFormWatch } from "react-hook-form";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
-import CigarettesFagerstormQuestionsQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstormQuestions/CigarettesFagerstormQuestions";
-import SmokelessTobaccoFagerstormQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstormQuestions/SmokelessTobaccoFagerstormQuestions";
+import CigarettesFagerstromQuestionsQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstromQuestions/CigarettesFagerstromQuestions";
+import SmokelessTobaccoFagerstromQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/FagerstromQuestions/SmokelessTobaccoFagerstromQuestions";
 
 type RigsWithoutCigsProgramSpecificQuestionsProps = {
   control: Control<any>;
@@ -58,13 +58,13 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
       />
 
       {watch("rigsWithoutCigs.tobaccoForm.doesUseCigarettes") && (
-        <CigarettesFagerstormQuestionsQuestions
+        <CigarettesFagerstromQuestionsQuestions
           control={control}
           errors={errors}
         />
       )}
       {watch("rigsWithoutCigs.tobaccoForm.doesUseSmokelessTobacco") && (
-        <SmokelessTobaccoFagerstormQuestions
+        <SmokelessTobaccoFagerstromQuestions
           control={control}
           errors={errors}
         />
