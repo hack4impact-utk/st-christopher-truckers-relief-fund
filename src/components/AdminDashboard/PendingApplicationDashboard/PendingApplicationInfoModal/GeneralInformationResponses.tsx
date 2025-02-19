@@ -119,14 +119,7 @@ export default function GeneralInformationResponses({
             />
           </Box>
         )}
-        <FormResponse
-          label="Acknowledged Privacy Notice"
-          value={
-            generalInformationSection.hasAcknowledgedPrivacyNotice
-              ? "Yes"
-              : "No"
-          }
-        />
+
         <FormResponse
           label="Acknowledged HIPAA Notice"
           value={

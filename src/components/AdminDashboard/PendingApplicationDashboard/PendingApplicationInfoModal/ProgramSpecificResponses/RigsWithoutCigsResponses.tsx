@@ -48,6 +48,134 @@ export default function RigsWithoutCigsResponses({
           />
         </Box>
 
+        {programSpecificQuestionsSection.rigsWithoutCigs.tobaccoForm
+          .doesUseCigarettes && (
+          <>
+            <FormResponse
+              label="Cigarette Fagerstrom Test"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .cigaretteFagerstromScore
+              }
+            />
+            <FormResponse
+              label="First Smoke Time"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs.firstSmokeTime
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Is Difficult to Not Smoke in Forbidden Areas"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .isDifficultToNotSmokeInForbiddenAreas
+                  ? "Yes"
+                  : "No"
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Cigarette Hate to Give Up"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .cigaretteHateToGiveUp
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Cigarettes Per Day"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs.cigarettesPerDay
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Smoke More in Morning"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .smokeMoreInMorning
+                  ? "Yes"
+                  : "No"
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Smoke When Ill"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs.smokeWhenIll
+                  ? "Yes"
+                  : "No"
+              }
+              isListItem={true}
+            />
+          </>
+        )}
+
+        {programSpecificQuestionsSection.rigsWithoutCigs.tobaccoForm
+          .doesUseSmokelessTobacco && (
+          <>
+            <FormResponse
+              label="Smokeless Tobacco Fagerstrom Test"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .tobaccoFagerstromScore
+              }
+            />
+            <FormResponse
+              label="First Tobacco Time"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs.firstTobaccoTime
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Swallow Tobacco Juice"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .swallowTobaccoJuice
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Tobacco Hate to Give Up"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .tobaccoHateToGiveUp
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Tobacco Cans Per Week"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .tobaccoCansPerWeek
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Tobacco Chew More After Awakening"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .tobaccoChewMoreAfterAwakening
+                  ? "Yes"
+                  : "No"
+              }
+              isListItem={true}
+            />
+            <FormResponse
+              label="Tobacco Chew When Ill"
+              value={
+                programSpecificQuestionsSection.rigsWithoutCigs
+                  .tobaccoChewWhenIll
+                  ? "Yes"
+                  : "No"
+              }
+              isListItem={true}
+            />
+          </>
+        )}
+
         <FormResponse
           label="Tobacco Usage Length"
           value={
@@ -256,50 +384,6 @@ export default function RigsWithoutCigsResponses({
           />
         </Box>
 
-        <FormResponse
-          label="First Cigarette Time"
-          value={
-            programSpecificQuestionsSection.rigsWithoutCigs.firstCigaretteTime
-          }
-        />
-        <FormResponse
-          label="Does Find It Difficult to Not Smoke in Non-Smoking Areas"
-          value={
-            programSpecificQuestionsSection.rigsWithoutCigs
-              .doesFindItDifficultToNotSmokeInNonSmokingAreas
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Hardest Cigarette to Give Up"
-          value={
-            programSpecificQuestionsSection.rigsWithoutCigs
-              .hardestCigaretteToGiveUp
-          }
-        />
-        <FormResponse
-          label="Cigarettes Per Day"
-          value={programSpecificQuestionsSection.rigsWithoutCigs.cigarettesPerDay.toString()}
-        />
-        <FormResponse
-          label="Smokes More Often in the Morning"
-          value={
-            programSpecificQuestionsSection.rigsWithoutCigs
-              .smokesMoreOftenInTheMorning
-              ? "Yes"
-              : "No"
-          }
-        />
-        <FormResponse
-          label="Smokes Even When Sick in Bed"
-          value={
-            programSpecificQuestionsSection.rigsWithoutCigs
-              .smokesEvenWhenSickInBed
-              ? "Yes"
-              : "No"
-          }
-        />
         <FormResponse
           label="Plans to Join Facebook Group"
           value={

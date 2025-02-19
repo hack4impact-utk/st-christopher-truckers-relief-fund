@@ -74,9 +74,6 @@ export const generalInformationSectionValidator = z
       businessIncome: z.number().optional(),
       businessExpenses: z.number().optional(),
     }),
-    hasAcknowledgedPrivacyNotice: z.boolean().refine((val) => val, {
-      message: "You must acknowledge the privacy notice",
-    }),
     hasAcknowledgedHipaaNotice: z.boolean().refine((val) => val, {
       message: "You must acknowledge the HIPAA notice",
     }),

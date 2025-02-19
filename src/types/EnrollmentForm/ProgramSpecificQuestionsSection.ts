@@ -20,8 +20,8 @@ export const programSpecificQuestionsSectionValidator = z
       bmi: z.number(),
       hasHadGlucoseOrA1CTestInPastYear: z.boolean(),
       glucoseOrA1CTestResult: z.string(),
-      systolicBloodPressure: z.number().int().positive(),
-      diastolicBloodPressure: z.number().int().positive(),
+      systolicBloodPressure: z.number().int(),
+      diastolicBloodPressure: z.number().int(),
       movementAndActivityRanking: z.enum(["1", "2", "3", "4", "5"]),
       energyRanking: z.enum(["1", "2", "3", "4", "5"]),
       sleepRanking: z.enum(["1", "2", "3", "4", "5"]),
@@ -86,20 +86,38 @@ export const programSpecificQuestionsSectionValidator = z
         hasUsedWellbutrin: z.boolean(),
       }),
 
-      firstCigaretteTime: z.enum([
+      tobaccoFagerstromScore: z.number(),
+      firstTobaccoTime: z.enum([
         "Within 5 minutes",
-        "Within 5-30 minutes",
-        "Within 30-60 minutes",
-        "Longer than 60 minutes",
+        "6-30 minutes",
+        "31-60 minutes",
+        "After 60 minutes",
       ]),
-      doesFindItDifficultToNotSmokeInNonSmokingAreas: z.boolean(),
-      hardestCigaretteToGiveUp: z.enum([
+      swallowTobaccoJuice: z.enum(["Always", "Sometimes", "Never"]),
+      tobaccoHateToGiveUp: z.enum([
         "The first one in the morning",
-        "Any other",
+        "All others",
       ]),
-      cigarettesPerDay: z.number(),
-      smokesMoreOftenInTheMorning: z.boolean(),
-      smokesEvenWhenSickInBed: z.boolean(),
+      tobaccoCansPerWeek: z.enum(["More than 3", "2-3", "1"]),
+      tobaccoChewMoreAfterAwakening: z.boolean(),
+      tobaccoChewWhenIll: z.boolean(),
+
+      cigaretteFagerstromScore: z.number(),
+      firstSmokeTime: z.enum([
+        "Within 5 minutes",
+        "6-30 minutes",
+        "31-60 minutes",
+        "After 60 minutes",
+      ]),
+      isDifficultToNotSmokeInForbiddenAreas: z.boolean(),
+      cigaretteHateToGiveUp: z.enum([
+        "The first one in the morning",
+        "All others",
+      ]),
+      cigarettesPerDay: z.enum(["31 or more", "21-30", "11-20", "10 or less"]),
+      smokeMoreInMorning: z.boolean(),
+      smokeWhenIll: z.boolean(),
+
       plansToJoinFacebookGroup: z.boolean(),
       whyDoYouWantToQuitSmoking: z.string(),
       howCanWeHelpYou: z.string(),
@@ -194,6 +212,25 @@ export const programSpecificQuestionsSectionValidator = z
           path: ["healthyHabitsAndDiabetesPrevention", "heightInches"],
         });
       }
+
+      if (val.healthyHabitsAndDiabetesPrevention.systolicBloodPressure <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid Systolic Blood Pressure",
+          path: ["healthyHabitsAndDiabetesPrevention", "systolicBloodPressure"],
+        });
+      }
+
+      if (val.healthyHabitsAndDiabetesPrevention.diastolicBloodPressure <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Invalid Diastolic Blood Pressure",
+          path: [
+            "healthyHabitsAndDiabetesPrevention",
+            "diastolicBloodPressure",
+          ],
+        });
+      }
     }
 
     if (hasOptedInToHealthyHabits) {
@@ -229,14 +266,6 @@ export const programSpecificQuestionsSectionValidator = z
     }
 
     if (hasOptedInToRigsWithoutCigs) {
-      if (val.rigsWithoutCigs.cigarettesPerDay <= 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Cigarettes per day is required",
-          path: ["rigsWithoutCigs", "cigarettesPerDay"],
-        });
-      }
-
       if (
         !isValidPhoneNumber(
           val.rigsWithoutCigs.accountabilityPerson.phoneNumber,

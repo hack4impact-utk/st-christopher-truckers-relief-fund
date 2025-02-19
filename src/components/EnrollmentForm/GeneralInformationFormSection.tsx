@@ -597,50 +597,6 @@ export default function GeneralInformationFormSection(): ReactNode {
 
         <Divider />
 
-        {/* Privacy Policy */}
-        <Typography variant="h6">Privacy Policy</Typography>
-        <Typography>We will sell all your data! &gt;:)</Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-          }}
-        >
-          <FormControl
-            error={!!errors.hasAcknowledgedPrivacyNotice}
-            sx={{ width: "100%" }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-              }}
-            >
-              <Controller
-                name="hasAcknowledgedPrivacyNotice"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox {...field} checked={field.value} />
-                )}
-              />
-              <Typography sx={{ pl: 1 }}>I agree.</Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                width: "100%",
-              }}
-            >
-              <FormHelperText sx={{ m: 0 }}>
-                {errors.hasAcknowledgedPrivacyNotice?.message}
-              </FormHelperText>
-            </Box>
-          </FormControl>
-        </Box>
-
         {/* HIPAA Notice */}
         <Typography variant="h6">HIPAA Notice</Typography>
         <Typography>
