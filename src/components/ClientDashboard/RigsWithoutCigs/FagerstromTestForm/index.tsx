@@ -106,6 +106,8 @@ export default function FagerstromTestForm({
   const onSubmit = async (data: FagerstromTestFormValues): Promise<void> => {
     setIsLoading(true);
 
+    console.log("test");
+
     const { rigsWithoutCigs } = data;
 
     const fagerstromTest: FagerstromTest = {
