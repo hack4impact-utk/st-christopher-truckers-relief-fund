@@ -1,5 +1,6 @@
 import {
   EnrollmentForm,
+  FagerstromTest,
   HealthyHabitsTrackingForm,
   ProgramEnrollment,
 } from ".";
@@ -29,6 +30,7 @@ export type ClientUser = {
   enrollmentForm: EnrollmentForm;
   programEnrollments: ProgramEnrollment[];
   healthyHabitsTrackingForms: HealthyHabitsTrackingForm[];
+  fagerstromTests: FagerstromTest[];
 };
 
 export type User = AdminUser | ClientUser;

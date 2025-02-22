@@ -5,7 +5,7 @@ type FirstSmokeTime =
   | "After 60 minutes";
 
 type CigaretteHateToGiveUp = "The first one in the morning" | "All others";
-type TobaccoCansPerWeek = "31 or more" | "21-30" | "11-20" | "10 or less";
+type CigarettesPerDay = "31 or more" | "21-30" | "11-20" | "10 or less";
 
 const firstSmokeTimeScore: Record<FirstSmokeTime, number> = {
   "Within 5 minutes": 3,
@@ -17,7 +17,7 @@ const cigaretteHateToGiveUpScore: Record<CigaretteHateToGiveUp, number> = {
   "The first one in the morning": 1,
   "All others": 0,
 };
-const tobaccoCansPerWeekScores: Record<TobaccoCansPerWeek, number> = {
+const cigarettesPerDayObject: Record<CigarettesPerDay, number> = {
   "31 or more": 3,
   "21-30": 2,
   "11-20": 1,
@@ -28,7 +28,7 @@ export default function calculateCigaretteFagerstromScore(
   firstSmokeTime: FirstSmokeTime,
   isDifficultToNotSmokeInForbiddenAreas: boolean,
   cigaretteHateToGiveUp: CigaretteHateToGiveUp,
-  cigarettesPerDay: TobaccoCansPerWeek,
+  cigarettesPerDay: CigarettesPerDay,
   smokeMoreInMorning: boolean,
   smokeWhenIll: boolean,
 ): number {
@@ -36,7 +36,7 @@ export default function calculateCigaretteFagerstromScore(
 
   fagerstromScore += firstSmokeTimeScore[firstSmokeTime];
   fagerstromScore += cigaretteHateToGiveUpScore[cigaretteHateToGiveUp];
-  fagerstromScore += tobaccoCansPerWeekScores[cigarettesPerDay];
+  fagerstromScore += cigarettesPerDayObject[cigarettesPerDay];
 
   fagerstromScore += Number(isDifficultToNotSmokeInForbiddenAreas);
   fagerstromScore += Number(smokeMoreInMorning);

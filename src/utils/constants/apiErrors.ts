@@ -49,6 +49,9 @@ const apiErrors = {
   scheduledMeeting: {
     scheduledMeetingNotFound: "Scheduled meeting not found",
   },
+  fagerstromTest: {
+    fagerstromTestNotFound: "Fagerstrom test not found",
+  },
 };
 
 export default apiErrors;

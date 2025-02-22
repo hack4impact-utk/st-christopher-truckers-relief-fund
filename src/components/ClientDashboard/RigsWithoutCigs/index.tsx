@@ -4,7 +4,7 @@ import { ReactNode, SyntheticEvent, useState } from "react";
 
 import { ClientUser, ProgramEnrollment } from "@/types";
 
-import FagerstromTest from "./FagerstromTest";
+import FagerstromTest from "./FagerstromTestForm";
 import RigsWithoutCigsHistory from "./RigsWithoutCigsHistory";
 import RigsWithoutCigsInfo from "./RigsWithoutCigsInfo";
 
@@ -32,7 +32,7 @@ export default function RigsWithoutCigs({
   function getSectionContent(section: RigsWithoutCigsSections): ReactNode {
     switch (section) {
       case "fagerstrom_test":
-        return <FagerstromTest />;
+        return <FagerstromTest user={user} />;
       case "history":
         return <RigsWithoutCigsHistory programEnrollment={programEnrollment} />;
       case "info":
