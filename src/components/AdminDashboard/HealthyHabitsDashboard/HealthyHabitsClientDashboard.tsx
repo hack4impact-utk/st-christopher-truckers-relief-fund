@@ -1,9 +1,8 @@
 "use client";
 
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
+import { Alarm, Check, Close, Warning } from "@mui/icons-material";
 import Search from "@mui/icons-material/Search";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
 
@@ -18,6 +17,8 @@ import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
 import HealthyHabitsHistoryModal from "./HealthyHabitsHistoryModal";
 
+type ActivityStatus = "complete" | "waiting" | "inactive4" | "inactive8";
+
 export type Row = {
   id?: string;
   lastName: string;
@@ -25,7 +26,7 @@ export type Row = {
   phoneNumber: string;
   email: string;
   trackingForms: HealthyHabitsTrackingForm[];
-  completed: boolean;
+  activityStatus: ActivityStatus;
   user: User;
 };
 
@@ -34,17 +35,24 @@ const createRowFromHealthyHabitsProgramEnrollment = (
 ): Row => {
   const user = programEnrollment.user as ClientUser;
 
-  let completed = false;
+  let status: ActivityStatus = "inactive8";
 
   if (user.healthyHabitsTrackingForms.length > 0) {
     const latestFormSubmission = user.healthyHabitsTrackingForms[0];
     const latestFormSubmissionWeek = dayjsUtil(
       latestFormSubmission.weekOfSubmission,
     );
-
     const lastSunday = getClosestPastSunday();
 
-    completed = latestFormSubmissionWeek.isSame(lastSunday, "day");
+    if (latestFormSubmissionWeek.isSame(lastSunday, "day")) {
+      status = "complete";
+    } else if (latestFormSubmissionWeek.diff(lastSunday, "week") >= 8) {
+      status = "inactive8";
+    } else if (latestFormSubmissionWeek.diff(lastSunday, "week") >= 4) {
+      status = "inactive4";
+    } else if (latestFormSubmissionWeek.isBefore(lastSunday, "day")) {
+      status = "waiting";
+    }
   }
 
   return {
@@ -54,7 +62,7 @@ const createRowFromHealthyHabitsProgramEnrollment = (
     phoneNumber: user.phoneNumber,
     email: user.email,
     trackingForms: user.healthyHabitsTrackingForms,
-    completed,
+    activityStatus: status,
     user,
   };
 };
@@ -66,6 +74,35 @@ function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
 type HealthyHabitsClientDashboardProps = {
   healthyHabitsProgramEnrollments: ProgramEnrollment[];
 };
+
+function getStatusIcon(status: ActivityStatus): ReactNode {
+  switch (status) {
+    case "complete":
+      return (
+        <Tooltip title="Completed">
+          <Check color="success" />
+        </Tooltip>
+      );
+    case "waiting":
+      return (
+        <Tooltip title="Waiting">
+          <Alarm color="primary" />
+        </Tooltip>
+      );
+    case "inactive4":
+      return (
+        <Tooltip title="Inactive for 4 Weeks">
+          <Warning color="warning" />
+        </Tooltip>
+      );
+    case "inactive8":
+      return (
+        <Tooltip title="Inactive for 8 Weeks">
+          <Close color="error" />
+        </Tooltip>
+      );
+  }
+}
 
 export default function HealthyHabitsClientDashboard({
   healthyHabitsProgramEnrollments,
@@ -115,13 +152,13 @@ export default function HealthyHabitsClientDashboard({
       },
     },
     {
-      field: "completed",
-      headerName: "Completed tracking form this week?",
+      field: "status",
+      headerName: "Status",
       sortable: false,
       flex: 1,
       minWidth: 250,
       renderCell: (params): ReactNode => {
-        const completed = params.row.completed;
+        const status = params.row.activityStatus;
 
         return (
           <>
@@ -133,7 +170,7 @@ export default function HealthyHabitsClientDashboard({
                 height: "100%",
               }}
             >
-              {completed ? <CheckIcon /> : <CloseIcon />}
+              {getStatusIcon(status)}
             </Box>
           </>
         );
