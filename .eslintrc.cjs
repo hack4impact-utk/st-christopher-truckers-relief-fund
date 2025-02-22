@@ -26,9 +26,9 @@ module.exports = {
 
   rules: {
     // formatting / style rules
-    "prettier/prettier": "warn",
+    "prettier/prettier": "error",
     "no-console": ["error", { allow: ["error"] }],
-    camelcase: "warn",
+    camelcase: ["error", { properties: "always" }],
     "react/function-component-definition": [
       "error",
       {
@@ -39,9 +39,9 @@ module.exports = {
 
     // typescript rules
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-    "@typescript-eslint/no-floating-promises": "warn",
-    "@typescript-eslint/await-thenable": "warn",
-    "@typescript-eslint/require-await": "warn",
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/await-thenable": "error",
+    "@typescript-eslint/require-await": "error",
     "@typescript-eslint/explicit-function-return-type": "error",
 
     // import rules
