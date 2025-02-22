@@ -36,7 +36,11 @@ export default function HealthyHabitsDashboard({
           />
         );
       case "metrics":
-        return <HealthyHabitsMetrics />;
+        return (
+          <HealthyHabitsMetrics
+            healthyHabitsProgramEnrollments={healthyHabitsProgramEnrollments}
+          />
+        );
       default:
         return <Typography>Invalid section</Typography>;
     }
