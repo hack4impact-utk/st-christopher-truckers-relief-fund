@@ -1,6 +1,7 @@
 export * from "./ApiResponse";
 export * from "./EmailVerificationToken";
 export * from "./EnrollmentForm";
+export * from "./FagerstromTest";
 export * from "./HealthyHabitsTrackingForm";
 export * from "./PasswordResetToken";
 export * from "./Program";

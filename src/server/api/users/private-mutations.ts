@@ -40,7 +40,7 @@ export async function createAdminUser(
       password: adminUserRequest.password,
       role: "admin",
       dateCreated: dayjsUtil.utc().toISOString(),
-      isEmailVerified: false,
+      isEmailVerified: true,
     };
 
     const hashedPassword = await bcrypt.hash(user.password, 10);

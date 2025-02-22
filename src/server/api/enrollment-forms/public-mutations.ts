@@ -1,8 +1,16 @@
 "use server";
 
-import { ApiResponse, ClientUser, EnrollmentForm } from "@/types";
+import {
+  ApiResponse,
+  ClientUser,
+  EnrollmentForm,
+  FagerstromTest,
+  User,
+} from "@/types";
+import dayjsUtil from "@/utils/dayjsUtil";
 
 import { handleEmailVerificationTokenRequest } from "../email-verification-tokens/public-mutations";
+import { createFagerstromTest } from "../fagerstrom-tests/private-mutations";
 import { createProgramEnrollmentsFromEnrollmentForm } from "../program-enrollments/private-mutations";
 import { createClientUser } from "../users/private-mutations";
 import { createEnrollmentForm } from "./private-mutations";
@@ -30,6 +38,7 @@ export async function handleEnrollmentFormSubmission(
     enrollmentForm: enrollmentFormInDatabase,
     programEnrollments: [],
     healthyHabitsTrackingForms: [],
+    fagerstromTests: [],
   };
 
   // create user
@@ -50,5 +59,51 @@ export async function handleEnrollmentFormSubmission(
     userInDatabase,
   );
 
+  // add fagerstrom test
+  await createFagerstromTestsFromEnrollmentForm(
+    enrollmentFormInDatabase,
+    userInDatabase,
+  );
+
   return [null, null];
+}
+
+async function createFagerstromTestsFromEnrollmentForm(
+  enrollmentForm: EnrollmentForm,
+  user: User,
+): Promise<void> {
+  const isEnrolledInRigsWithoutCigs =
+    enrollmentForm.programSelectionSection.optedInToRigsWithoutCigs;
+
+  if (!isEnrolledInRigsWithoutCigs) {
+    return;
+  }
+
+  const rigsWithoutCigs =
+    enrollmentForm.programSpecificQuestionsSection.rigsWithoutCigs;
+
+  const fagerstromTest: FagerstromTest = {
+    client: user,
+    submittedDate: dayjsUtil().utc().toISOString(),
+
+    cigaretteFagerstromScore: rigsWithoutCigs.cigaretteFagerstromScore,
+    firstSmokeTime: rigsWithoutCigs.firstSmokeTime,
+    isDifficultToNotSmokeInForbiddenAreas:
+      rigsWithoutCigs.isDifficultToNotSmokeInForbiddenAreas,
+    cigaretteHateToGiveUp: rigsWithoutCigs.cigaretteHateToGiveUp,
+    cigarettesPerDay: rigsWithoutCigs.cigarettesPerDay,
+    smokeMoreInMorning: rigsWithoutCigs.smokeMoreInMorning,
+    smokeWhenIll: rigsWithoutCigs.smokeWhenIll,
+
+    tobaccoFagerstromScore: rigsWithoutCigs.tobaccoFagerstromScore,
+    firstTobaccoTime: rigsWithoutCigs.firstTobaccoTime,
+    swallowTobaccoJuice: rigsWithoutCigs.swallowTobaccoJuice,
+    tobaccoHateToGiveUp: rigsWithoutCigs.tobaccoHateToGiveUp,
+    tobaccoCansPerWeek: rigsWithoutCigs.tobaccoCansPerWeek,
+    tobaccoChewMoreAfterAwakening:
+      rigsWithoutCigs.tobaccoChewMoreAfterAwakening,
+    tobaccoChewWhenIll: rigsWithoutCigs.tobaccoChewWhenIll,
+  };
+
+  await createFagerstromTest(fagerstromTest);
 }

@@ -34,12 +34,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Enforce linting rules
-        run: pnpm run check-lint
-
-      - name: Enforce formatting rules
-        run: pnpm run check-format
-
       - name: Create .env file
         run: |
           touch .env

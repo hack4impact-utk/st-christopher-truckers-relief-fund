@@ -52,6 +52,12 @@ const UserSchema = new Schema<User>(
         ref: "HealthyHabitsTrackingForm",
       },
     ],
+    fagerstromTests: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "FagerstromTest",
+      },
+    ],
   },
   { versionKey: false },
 );
