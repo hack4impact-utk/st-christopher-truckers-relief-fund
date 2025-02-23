@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
+import GetPreventativeScreenings from "@/components/ClientDashboard/GetPreventativeScreenings";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
@@ -51,14 +52,15 @@ export default async function GetPreventativeScreeningsPage(): Promise<ReactNode
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100vw",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        marginTop: "100px",
+        padding: 1,
       }}
     >
-      <Typography>Get Preventative Screenings Page</Typography>
+      <GetPreventativeScreenings />
     </Box>
   );
 }

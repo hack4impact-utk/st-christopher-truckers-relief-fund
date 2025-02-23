@@ -1,7 +1,7 @@
 "use client";
 
-import { Search } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Search from "@mui/icons-material/Search";
 import { Box, IconButton, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";

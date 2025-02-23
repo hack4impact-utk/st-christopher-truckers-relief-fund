@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";

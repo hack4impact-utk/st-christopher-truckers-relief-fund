@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Clear } from "@mui/icons-material";
+import Clear from "@mui/icons-material/Clear";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "@mui/icons-material";
+import Check from "@mui/icons-material/Check";
 import Button from "@mui/material/Button";
 import { useSnackbar } from "notistack";
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
