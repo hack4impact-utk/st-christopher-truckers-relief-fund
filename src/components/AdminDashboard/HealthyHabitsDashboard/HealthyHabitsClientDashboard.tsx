@@ -28,7 +28,7 @@ type ActivityStatus =
   | "inactiveFor8Weeks"
   | "noTrackingForms";
 
-export type Row = {
+type Row = {
   id?: string;
   lastName: string;
   firstName: string;
@@ -206,7 +206,7 @@ export default function HealthyHabitsClientDashboard({
   return (
     <>
       <Box>
-        <Typography align="center" variant="h4" sx={{ m: 2 }}>
+        <Typography align="center" variant="h6">
           Healthy Habits Clients
         </Typography>
         <Box display="flex" alignItems="center" sx={{ py: 2 }}>

@@ -2,9 +2,9 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
-import { ClientUser, ProgramEnrollment } from "@/types";
+import { ClientUser, FagerstromTest, ProgramEnrollment } from "@/types";
 
-import FagerstromTest from "./FagerstromTestForm";
+import FagerstromTestForm from "./FagerstromTestForm";
 import RigsWithoutCigsHistory from "./RigsWithoutCigsHistory";
 import RigsWithoutCigsInfo from "./RigsWithoutCigsInfo";
 
@@ -22,6 +22,10 @@ export default function RigsWithoutCigs({
   const [selectedSection, setSelectedSection] =
     useState<RigsWithoutCigsSections>("fagerstrom_test");
 
+  const [fagerstromTests, setFagerstromTests] = useState<FagerstromTest[]>(
+    user.fagerstromTests,
+  );
+
   const handleTabChange = (
     _event: SyntheticEvent,
     newValue: RigsWithoutCigsSections,
@@ -32,9 +36,21 @@ export default function RigsWithoutCigs({
   function getSectionContent(section: RigsWithoutCigsSections): ReactNode {
     switch (section) {
       case "fagerstrom_test":
-        return <FagerstromTest user={user} />;
+        return (
+          <FagerstromTestForm
+            user={user}
+            setFagerstromTests={setFagerstromTests}
+          />
+        );
       case "history":
-        return <RigsWithoutCigsHistory programEnrollment={programEnrollment} />;
+        return (
+          <RigsWithoutCigsHistory
+            user={user}
+            programEnrollment={programEnrollment}
+            fagerstromTests={fagerstromTests}
+            setFagerstromTests={setFagerstromTests}
+          />
+        );
       case "info":
         return <RigsWithoutCigsInfo user={user} />;
       default:

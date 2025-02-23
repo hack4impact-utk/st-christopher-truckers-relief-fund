@@ -145,7 +145,7 @@ export default function ScheduledMeetings({
 
   return (
     <Box>
-      <Typography align="center" variant="h4" sx={{ m: 2 }}>
+      <Typography align="center" variant="h6">
         Scheduled Meetings
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>

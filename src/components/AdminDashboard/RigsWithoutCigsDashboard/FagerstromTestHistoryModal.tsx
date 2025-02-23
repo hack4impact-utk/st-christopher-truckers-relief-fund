@@ -4,12 +4,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Box, Button, Fade, Modal, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
 
-import HealthyHabitsHistory from "@/components/ClientDashboard/HealthyHabits/HealthyHabitsHistory";
-import { ClientUser, HealthyHabitsTrackingForm, User } from "@/types";
+import RigsWithoutCigsHistory from "@/components/ClientDashboard/RigsWithoutCigs/RigsWithoutCigsHistory";
+import { ClientUser, FagerstromTest, ProgramEnrollment, User } from "@/types";
 
-type HealthyHabitsHistoryModalProps = {
-  initialForms: HealthyHabitsTrackingForm[];
+type FagerstromTestHistoryModalProps = {
+  initialFagerstromTests: FagerstromTest[];
   user: User;
+  programEnrollment: ProgramEnrollment;
 };
 
 const style = {
@@ -29,12 +30,15 @@ const style = {
   gap: 2,
 };
 
-export default function HealthyHabitsHistoryModal({
-  initialForms,
+export default function FagerstromTestHistoryModal({
+  initialFagerstromTests,
   user,
-}: HealthyHabitsHistoryModalProps): ReactNode {
+  programEnrollment,
+}: FagerstromTestHistoryModalProps): ReactNode {
   const [open, setOpen] = useState(false);
-  const [trackingForms, setTrackingForms] = useState(initialForms);
+  const [fagerstromTests, setFagerstromTests] = useState(
+    initialFagerstromTests,
+  );
 
   return (
     <Box width="100%">
@@ -53,13 +57,12 @@ export default function HealthyHabitsHistoryModal({
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography variant="h4">
-              Healthy Habits Tracking Form History
-            </Typography>
-            <HealthyHabitsHistory
-              trackingForms={trackingForms}
-              setTrackingForms={setTrackingForms}
+            <Typography variant="h4">Fagerstrom Test History</Typography>
+            <RigsWithoutCigsHistory
               user={user as ClientUser}
+              fagerstromTests={fagerstromTests}
+              setFagerstromTests={setFagerstromTests}
+              programEnrollment={programEnrollment}
             />
             <Button
               variant="outlined"

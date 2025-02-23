@@ -1,115 +1,93 @@
-"use client";
-
-import Search from "@mui/icons-material/Search";
+import { Search } from "@mui/icons-material";
 import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
 
-import { ClientUser, Program, ProgramEnrollment } from "@/types";
+import { ClientUser, FagerstromTest, ProgramEnrollment, User } from "@/types";
 
-import AcceptPendingApplicationButton from "./AcceptPendingApplicationButton";
-import PendingApplicationInfoModal from "./PendingApplicationInfoModal";
-import RejectPendingApplicationButton from "./RejectPendingApplicationButton";
+import FagerstromTestHistoryModal from "./FagerstromTestHistoryModal";
 
-export type Row = {
+type Row = {
   id?: string;
-  lastName: string;
   firstName: string;
+  lastName: string;
   phoneNumber: string;
   email: string;
-  program: Program;
+  fagerstromTests: FagerstromTest[];
   programEnrollment: ProgramEnrollment;
+  user: User;
 };
 
-const createRowFromProgramEnrollment = (
+const createRowFromRigsWithoutCigsProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
 ): Row => {
   const user = programEnrollment.user as ClientUser;
+
   return {
     id: programEnrollment._id,
-    lastName: user.lastName,
     firstName: user.firstName,
+    lastName: user.lastName,
     phoneNumber: user.phoneNumber,
     email: user.email,
-    program: programEnrollment.program,
-    programEnrollment: programEnrollment,
+    fagerstromTests: user.fagerstromTests,
+    programEnrollment,
+    user,
   };
 };
 
 function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
-  return programEnrollments.map(createRowFromProgramEnrollment);
+  return programEnrollments.map(createRowFromRigsWithoutCigsProgramEnrollment);
 }
 
-type PendingApplicationDashboardProps = {
-  programEnrollments: ProgramEnrollment[];
+type RigsWithoutCigsClientDashboardProps = {
+  rigsWithoutCigsProgramEnrollments: ProgramEnrollment[];
 };
 
-export default function PendingApplicationDashboard({
-  programEnrollments,
-}: PendingApplicationDashboardProps): ReactNode {
-  const [rows, setRows] = useState(getRows(programEnrollments));
+export default function RigsWithoutCigsClientDashboard({
+  rigsWithoutCigsProgramEnrollments,
+}: RigsWithoutCigsClientDashboardProps): ReactNode {
+  const rows = getRows(rigsWithoutCigsProgramEnrollments);
   const [searchQuery, setSearchQuery] = useState("");
 
   const columns: GridColDef<Row>[] = [
     {
       field: "firstName",
       headerName: "First name",
-      width: 150,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: "lastName",
       headerName: "Last name",
-      width: 150,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: "phoneNumber",
       headerName: "Phone Number",
-      width: 125,
+      flex: 1,
+      minWidth: 125,
     },
     {
       field: "email",
       headerName: "Email",
+      flex: 2,
       minWidth: 200,
-      flex: 1,
     },
     {
-      field: "program",
-      headerName: "Program",
-      width: 250,
-    },
-    {
-      field: "action",
-      headerName: "Actions",
+      field: "history",
+      headerName: "View history",
       sortable: false,
-      minWidth: 350,
+      align: "center",
       flex: 1,
+      minWidth: 100,
       renderCell: (params): ReactNode => {
-        const user = params.row.programEnrollment.user as ClientUser;
         return (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <AcceptPendingApplicationButton
-                programEnrollment={params.row.programEnrollment}
-                rows={rows}
-                setRows={setRows}
-              />
-              <RejectPendingApplicationButton
-                programEnrollment={params.row.programEnrollment}
-                rows={rows}
-                setRows={setRows}
-              />
-              <PendingApplicationInfoModal
-                enrollmentForm={user.enrollmentForm}
-              />
-            </Box>
-          </>
+          <FagerstromTestHistoryModal
+            initialFagerstromTests={params.row.fagerstromTests}
+            programEnrollment={params.row.programEnrollment}
+            user={params.row.user}
+          />
         );
       },
     },
@@ -125,9 +103,9 @@ export default function PendingApplicationDashboard({
 
   return (
     <>
-      <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
+      <Box>
         <Typography align="center" variant="h6">
-          Pending Applications
+          Rigs Without Cigs Clients
         </Typography>
         <Box display="flex" alignItems="center" sx={{ py: 2 }}>
           <TextField

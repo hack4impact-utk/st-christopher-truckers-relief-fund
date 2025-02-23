@@ -86,6 +86,7 @@ async function createFagerstromTestsFromEnrollmentForm(
     client: user,
     submittedDate: dayjsUtil().utc().toISOString(),
 
+    doesUseCigarettes: rigsWithoutCigs.tobaccoForm.doesUseCigarettes,
     cigaretteFagerstromScore: rigsWithoutCigs.cigaretteFagerstromScore,
     firstSmokeTime: rigsWithoutCigs.firstSmokeTime,
     isDifficultToNotSmokeInForbiddenAreas:
@@ -95,6 +96,8 @@ async function createFagerstromTestsFromEnrollmentForm(
     smokeMoreInMorning: rigsWithoutCigs.smokeMoreInMorning,
     smokeWhenIll: rigsWithoutCigs.smokeWhenIll,
 
+    doesUseSmokelessTobacco:
+      rigsWithoutCigs.tobaccoForm.doesUseSmokelessTobacco,
     tobaccoFagerstromScore: rigsWithoutCigs.tobaccoFagerstromScore,
     firstTobaccoTime: rigsWithoutCigs.firstTobaccoTime,
     swallowTobaccoJuice: rigsWithoutCigs.swallowTobaccoJuice,
