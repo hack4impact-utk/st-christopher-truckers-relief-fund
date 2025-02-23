@@ -110,7 +110,7 @@ export default function ClientManagementDashboard({
 
   return (
     <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
-      <Typography align="center" variant="h4" sx={{ m: 2 }}>
+      <Typography align="center" variant="h6">
         Clients
       </Typography>
       <Box display="flex" alignItems="center" sx={{ py: 2 }}>

@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -62,10 +62,12 @@ type FagerstromTestFormValues = z.infer<typeof fagerstromTestValidator>;
 
 type FagerstromTestFormProps = {
   user: User;
+  setFagerstromTests: Dispatch<SetStateAction<FagerstromTest[]>>;
 };
 
 export default function FagerstromTestForm({
   user,
+  setFagerstromTests,
 }: FagerstromTestFormProps): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -106,8 +108,6 @@ export default function FagerstromTestForm({
   const onSubmit = async (data: FagerstromTestFormValues): Promise<void> => {
     setIsLoading(true);
 
-    console.log("test");
-
     const { rigsWithoutCigs } = data;
 
     const fagerstromTest: FagerstromTest = {
@@ -141,6 +141,8 @@ export default function FagerstromTestForm({
       setIsLoading(false);
       return;
     }
+
+    setFagerstromTests((prevTests) => [fagerstromTest, ...prevTests]);
 
     enqueueSnackbar("Fagerstrom test submitted successfully.", {
       variant: "success",

@@ -14,6 +14,10 @@ const FagerstromTestSchema = new Schema<FagerstromTest>(
       required: true,
     },
 
+    doesUseCigarettes: {
+      type: Boolean,
+      required: true,
+    },
     cigaretteFagerstromScore: {
       type: Number,
       required: true,
@@ -43,6 +47,10 @@ const FagerstromTestSchema = new Schema<FagerstromTest>(
       required: true,
     },
 
+    doesUseSmokelessTobacco: {
+      type: Boolean,
+      required: true,
+    },
     tobaccoFagerstromScore: {
       type: Number,
       required: true,

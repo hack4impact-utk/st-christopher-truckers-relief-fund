@@ -5,6 +5,7 @@ export type FagerstromTest = {
   submittedDate: string;
   client: User;
 
+  doesUseCigarettes: boolean;
   cigaretteFagerstromScore: number;
   firstSmokeTime:
     | "Within 5 minutes"
@@ -17,6 +18,7 @@ export type FagerstromTest = {
   smokeMoreInMorning: boolean;
   smokeWhenIll: boolean;
 
+  doesUseSmokelessTobacco: boolean;
   tobaccoFagerstromScore: number;
   firstTobaccoTime:
     | "Within 5 minutes"

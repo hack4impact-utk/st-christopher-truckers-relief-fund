@@ -30,6 +30,7 @@ export default async function AdminDashboardPage(): Promise<ReactNode> {
         height: "100vh",
         display: "flex",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <PendingApplicationDashboard programEnrollments={programEnrollments} />

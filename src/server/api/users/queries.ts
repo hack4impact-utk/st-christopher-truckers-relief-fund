@@ -11,6 +11,7 @@ type UserPopulateOptions = {
   populateHealthyHabitsTrackingForms?: boolean;
   populateProgramEnrollments?: boolean;
   populateEnrollmentForm?: boolean;
+  populateFagerstromTests?: boolean;
 };
 
 async function getUser(
@@ -40,6 +41,13 @@ async function getUser(
 
     if (options?.populateEnrollmentForm) {
       userQuery.populate("enrollmentForm");
+    }
+
+    if (options?.populateFagerstromTests) {
+      userQuery.populate({
+        path: "fagerstromTests",
+        options: { sort: { submittedDate: -1 } },
+      });
     }
 
     const user = await userQuery.lean<User>().exec();
@@ -93,6 +101,13 @@ export async function getUsers(
 
     if (options?.populateEnrollmentForm) {
       usersQuery.populate("enrollmentForm");
+    }
+
+    if (options?.populateFagerstromTests) {
+      usersQuery.populate({
+        path: "fagerstromTests",
+        options: { sort: { submittedDate: -1 } },
+      });
     }
 
     const users = await usersQuery.lean<User>().exec();

@@ -17,6 +17,7 @@ export default async function RigsWithoutCigsPage(): Promise<ReactNode> {
   const [user, error] = await getUserByEmail(session.user.email, {
     populateProgramEnrollments: true,
     populateEnrollmentForm: true,
+    populateFagerstromTests: true,
   });
 
   if (error !== null) {

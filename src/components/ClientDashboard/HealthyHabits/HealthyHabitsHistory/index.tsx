@@ -45,7 +45,7 @@ export default function HealthyHabitsHistory({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: 4,
+        gap: 6,
       }}
     >
       <ModularLineChart

@@ -142,7 +142,7 @@ export default function UrgentMeetingRequests({
   return (
     <>
       <Box>
-        <Typography align="center" variant="h4" sx={{ m: 2 }}>
+        <Typography align="center" variant="h6">
           Urgent Meeting Requests
         </Typography>
         <Box display="flex" alignItems="center" sx={{ py: 2 }}>
