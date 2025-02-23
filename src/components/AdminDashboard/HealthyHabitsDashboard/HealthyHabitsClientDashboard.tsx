@@ -1,7 +1,11 @@
 "use client";
 
-import { Alarm, Check, Close, Warning } from "@mui/icons-material";
+import Alarm from "@mui/icons-material/Alarm";
+import Check from "@mui/icons-material/Check";
+import Close from "@mui/icons-material/Close";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import Search from "@mui/icons-material/Search";
+import Warning from "@mui/icons-material/Warning";
 import { Box, TextField, Tooltip, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
@@ -17,7 +21,12 @@ import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
 import HealthyHabitsHistoryModal from "./HealthyHabitsHistoryModal";
 
-type ActivityStatus = "complete" | "waiting" | "inactive4" | "inactive8";
+type ActivityStatus =
+  | "complete"
+  | "waiting"
+  | "inactiveFor4Weeks"
+  | "inactiveFor8Weeks"
+  | "noTrackingForms";
 
 export type Row = {
   id?: string;
@@ -35,7 +44,7 @@ const createRowFromHealthyHabitsProgramEnrollment = (
 ): Row => {
   const user = programEnrollment.user as ClientUser;
 
-  let status: ActivityStatus = "inactive8";
+  let status: ActivityStatus = "noTrackingForms";
 
   if (user.healthyHabitsTrackingForms.length > 0) {
     const latestFormSubmission = user.healthyHabitsTrackingForms[0];
@@ -44,12 +53,14 @@ const createRowFromHealthyHabitsProgramEnrollment = (
     );
     const lastSunday = getClosestPastSunday();
 
+    const lastSundayDayJs = dayjsUtil(lastSunday);
+
     if (latestFormSubmissionWeek.isSame(lastSunday, "day")) {
       status = "complete";
-    } else if (latestFormSubmissionWeek.diff(lastSunday, "week") >= 8) {
-      status = "inactive8";
-    } else if (latestFormSubmissionWeek.diff(lastSunday, "week") >= 4) {
-      status = "inactive4";
+    } else if (lastSundayDayJs.diff(latestFormSubmissionWeek, "week") >= 8) {
+      status = "inactiveFor8Weeks";
+    } else if (lastSundayDayJs.diff(latestFormSubmissionWeek, "week") >= 4) {
+      status = "inactiveFor4Weeks";
     } else if (latestFormSubmissionWeek.isBefore(lastSunday, "day")) {
       status = "waiting";
     }
@@ -85,20 +96,26 @@ function getStatusIcon(status: ActivityStatus): ReactNode {
       );
     case "waiting":
       return (
-        <Tooltip title="Waiting">
+        <Tooltip title="Not submitted this week">
           <Alarm color="primary" />
         </Tooltip>
       );
-    case "inactive4":
+    case "inactiveFor4Weeks":
       return (
         <Tooltip title="Inactive for 4 Weeks">
           <Warning color="warning" />
         </Tooltip>
       );
-    case "inactive8":
+    case "inactiveFor8Weeks":
       return (
         <Tooltip title="Inactive for 8 Weeks">
           <Close color="error" />
+        </Tooltip>
+      );
+    case "noTrackingForms":
+      return (
+        <Tooltip title="No tracking forms">
+          <QuestionMarkIcon color="primary" />
         </Tooltip>
       );
   }

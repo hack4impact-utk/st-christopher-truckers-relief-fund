@@ -25,8 +25,9 @@ export default function HealthyHabitsMetrics({
         latestFormSubmission.weekOfSubmission,
       );
       const lastSunday = getClosestPastSunday();
+      const lastSundayDayJs = dayjsUtil(lastSunday);
 
-      if (latestFormSubmissionWeek.diff(lastSunday, "week") < 4) acc++;
+      if (lastSundayDayJs.diff(latestFormSubmissionWeek, "week") < 4) acc++;
 
       return acc;
     },
@@ -66,7 +67,7 @@ export default function HealthyHabitsMetrics({
           }}
         >
           <Typography>
-            <strong>Total Erolled:</strong> {totalEnrolled}
+            <strong>Total Enrolled:</strong> {totalEnrolled}
           </Typography>
           <Typography>
             <strong>Total Active:</strong> {totalActive}
