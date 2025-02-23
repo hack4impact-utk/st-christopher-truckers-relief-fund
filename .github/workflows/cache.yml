@@ -29,29 +29,5 @@ jobs:
           node-version: "lts/iron"
           cache: "pnpm"
 
-      - name: Restore dependencies and Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pnpm-store
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Create .env file
-        run: |
-          touch .env
-          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
-          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
-          echo "SCF_GMAIL=${{ secrets.SCF_GMAIL }}" >> .env
-          echo "SCF_GMAIL_APP_PASSWORD=${{ secrets.SCF_GMAIL_APP_PASSWORD }}" >> .env
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
-
-      - name: Run build to cache build
-        run: pnpm run build
