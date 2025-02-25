@@ -3,6 +3,7 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { FagerstromTest, ProgramEnrollment, User } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+import timeUntilNextPrize from "@/utils/timeUntilNextPrize";
 
 import FagerstromTestLineCharts from "./FagerstromTestLineCharts";
 import SubmittedFagerstromTestList from "./SubmittedFagerstromTestList";
@@ -24,6 +25,12 @@ export default function RigsWithoutCigsHistory({
     dayjsUtil(programEnrollment.dateEnrolled),
     "day",
   );
+
+  const prizes = timeUntilNextPrize(dayjsUtil(programEnrollment.dateEnrolled));
+
+  const displayPrizeTime = (time: number): string => {
+    return time === 0 ? "Earned" : `${time} days`;
+  };
 
   return (
     <Box
@@ -53,7 +60,16 @@ export default function RigsWithoutCigsHistory({
             {daysSinceStartOfProgram !== 1 ? "s" : ""}
           </Typography>
           <Typography>
-            <strong>Next prize in:</strong> 2 days
+            <strong>1 month prize:</strong>{" "}
+            {displayPrizeTime(prizes.timeUntil1Month)}
+          </Typography>
+          <Typography>
+            <strong>6 month prize:</strong>{" "}
+            {displayPrizeTime(prizes.timeUntil6Months)}
+          </Typography>
+          <Typography>
+            <strong>1 year prize:</strong>{" "}
+            {displayPrizeTime(prizes.timeUntil1Year)}
           </Typography>
         </Box>
       </Box>
