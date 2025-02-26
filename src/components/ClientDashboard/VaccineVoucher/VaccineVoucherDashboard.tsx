@@ -4,6 +4,7 @@ import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
 import VaccineVoucherApplyForm from "@/components/ClientDashboard/VaccineVoucher/VaccineVoucherApplyForm";
+import VaccineVoucherHistory from "@/components/ClientDashboard/VaccineVoucher/VaccineVoucherHistory";
 import { ClientUser } from "@/types";
 
 type VaccineVoucherSections = "apply" | "history";
@@ -30,7 +31,7 @@ export default function VaccineVoucherDashboard({
       case "apply":
         return <VaccineVoucherApplyForm user={user} />;
       case "history":
-        return <Typography>history</Typography>;
+        return <VaccineVoucherHistory />;
       default:
         return <Typography>Invalid section</Typography>;
     }

@@ -1,14 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -44,6 +45,7 @@ export default function VaccineVoucherApplyForm({
 }: VaccineVoucherApplyFormProps): JSX.Element {
   // fixes linting error
   void user;
+  const [isLoading] = useState(false);
 
   const { control, handleSubmit } = useForm<VaccineRequestFormValues>({
     resolver: zodResolver(vaccineRequestFormValidator),
@@ -74,8 +76,7 @@ export default function VaccineVoucherApplyForm({
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        width: "100%",
-        maxWidth: 600,
+        width: "min(90vw, 700px)",
       }}
     >
       <Typography variant="h5">Vaccine Voucher Form</Typography>
@@ -165,13 +166,15 @@ export default function VaccineVoucherApplyForm({
         )}
       />
 
-      <Button
+      {/* Submit */}
+      <LoadingButton
         type="submit"
         variant="contained"
-        sx={{ mt: 2, width: "fit-content" }}
+        color="primary"
+        loading={isLoading}
       >
         Submit
-      </Button>
+      </LoadingButton>
     </Box>
   );
 }
