@@ -30,7 +30,7 @@ export default async function VaccineVoucherPage(): Promise<ReactNode> {
         }}
       >
         <Typography>
-          There was an error fetching your rigs without cigs enrollment.
+          There was an error fetching your Vaccine Voucher enrollment.
         </Typography>
       </Box>
     );
