@@ -1,69 +1,107 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Typography } from "@mui/material";
-import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useSnackbar } from "notistack";
+import { ReactNode, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { getUserByEmail } from "@/server/api/users/queries";
-import getUserSession from "@/utils/getUserSession";
+import RigsWithoutCigsProgramSpecificQuestions from "@/components/EnrollmentForm/ProgramSpecificQuestions/RigsWithoutCigsProgramSpecificQuestions";
+import { updateProgramInformation } from "@/server/api/rigs-without-cigs/public-mutations";
+import {
+  ProgramSpecificQuestionsSection,
+  programSpecificQuestionsSectionValidator,
+} from "@/types";
 
-export default async function AddRigsWithoutCigsInformationPage(): Promise<ReactNode> {
-  const session = await getUserSession();
+export default function AddRigsWithoutCigsInformationPage(): ReactNode {
+  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(false);
 
-  if (!session) {
-    redirect("/");
-  }
-
-  if (session.user.role !== "client") {
-    redirect("/dashboard");
-  }
-
-  const [user, error] = await getUserByEmail(session.user.email, {
-    populateEnrollmentForm: true,
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, submitCount, isSubmitSuccessful },
+    watch,
+  } = useForm<ProgramSpecificQuestionsSection>({
+    resolver: zodResolver(programSpecificQuestionsSectionValidator),
+    defaultValues: {
+      hasOptedInToRigsWithoutCigs: true,
+      rigsWithoutCigs: {
+        tobaccoForm: {
+          doesUseCigarettes: false,
+          doesUseSmokelessTobacco: false,
+        },
+      },
+    },
   });
 
-  if (error !== null) {
-    return (
-      <Box
-        sx={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography>
-          There was an error fetching your user information.
-        </Typography>
-      </Box>
-    );
-  }
+  const onSubmit = async (
+    data: ProgramSpecificQuestionsSection,
+  ): Promise<void> => {
+    try {
+      setIsLoading(true);
 
-  if (user.role !== "client") {
-    redirect("/dashboard");
-  }
+      const [, error] = await updateProgramInformation(data);
 
-  // if enrollment form information already exists, redirect to normal dashboard
+      if (error !== null) {
+        throw error;
+      }
 
-  const hasRigsWithoutCigsEnrollmentInformation =
-    user.enrollmentForm.programSpecificQuestionsSection
-      .hasOptedInToRigsWithoutCigs;
+      enqueueSnackbar("Information saved successfully", { variant: "success" });
+      router.push("/dashboard/client/rigs-without-cigs");
+    } catch (err) {
+      console.error("Failed to save information:", err);
+      enqueueSnackbar("Failed to save information", { variant: "error" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  if (hasRigsWithoutCigsEnrollmentInformation) {
-    redirect("/dashboard/client/rigs-without-cigs");
-  }
+  const onError = (): void => {
+    enqueueSnackbar("Please review all fields before continuing", {
+      variant: "error",
+    });
+  };
 
   return (
     <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit, onError)}
       sx={{
-        width: "100vw",
-        height: "100vh",
+        width: "min(90vw, 700px)",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        gap: 2,
       }}
     >
-      <Typography>Add Rigs Without Cigs Information</Typography>
+      <Typography variant="h4" gutterBottom>
+        Add Rigs Without Cigs Information
+      </Typography>
+
+      <RigsWithoutCigsProgramSpecificQuestions
+        control={control}
+        errors={errors}
+        watch={watch}
+      />
+
+      <LoadingButton
+        type="submit"
+        variant="contained"
+        color="primary"
+        loading={isLoading}
+        sx={{ mt: 2 }}
+      >
+        Save Information
+      </LoadingButton>
+
+      {submitCount > 0 && !isSubmitSuccessful && (
+        <Typography color="error">
+          Please review all fields before continuing.
+        </Typography>
+      )}
     </Box>
   );
 }
