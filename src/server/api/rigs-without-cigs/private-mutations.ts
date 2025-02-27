@@ -18,6 +18,8 @@ export async function updateRigsWithoutCigsInformation(
         $set: {
           "enrollmentForm.programSpecificQuestionsSection":
             programSpecificQuestionsSection,
+          "enrollmentForm.programSpecificQuestionsSection.hasOptedInToRigsWithoutCigs":
+            programSpecificQuestionsSection.hasOptedInToRigsWithoutCigs,
         },
       },
       { new: true, lean: true },
