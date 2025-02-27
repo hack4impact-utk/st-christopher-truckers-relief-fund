@@ -75,6 +75,8 @@ export default function AddRigsWithoutCigsInformationPage(): ReactNode {
         display: "flex",
         flexDirection: "column",
         gap: 2,
+        mx: "auto",
+        pt: 16,
       }}
     >
       <Typography variant="h4" gutterBottom>
@@ -97,11 +99,11 @@ export default function AddRigsWithoutCigsInformationPage(): ReactNode {
         Save Information
       </LoadingButton>
 
-      {submitCount > 0 && !isSubmitSuccessful && (
-        <Typography color="error">
-          Please review all fields before continuing.
-        </Typography>
-      )}
+      <Typography color="red">
+        {submitCount && !isSubmitSuccessful
+          ? "Please review all fields before continuing."
+          : ""}
+      </Typography>
     </Box>
   );
 }
