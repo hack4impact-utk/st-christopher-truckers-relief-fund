@@ -41,6 +41,13 @@ export default function AddRigsWithoutCigsInformationPage(): ReactNode {
   const onSubmit = async (
     data: ProgramSpecificQuestionsSection,
   ): Promise<void> => {
+    console.log("Form Submission State:", {
+      data,
+      errors,
+      isValid: Object.keys(errors).length === 0,
+      submitCount,
+      isSubmitSuccessful,
+    });
     try {
       setIsLoading(true);
 
@@ -61,6 +68,12 @@ export default function AddRigsWithoutCigsInformationPage(): ReactNode {
   };
 
   const onError = (): void => {
+    console.log("Form Validation Failed:", {
+      errors,
+      submitCount,
+      isSubmitSuccessful,
+      values: watch(),
+    });
     enqueueSnackbar("Please review all fields before continuing", {
       variant: "error",
     });
