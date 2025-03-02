@@ -56,6 +56,10 @@ export default function RigsWithoutCigsHistory({
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography>
+            <strong>Program Start Date:</strong>{" "}
+            {dayjsUtil(programEnrollment.dateEnrolled).format("MM/DD/YYYY")}
+          </Typography>
+          <Typography>
             <strong>Tobacco Free for:</strong> {daysSinceStartOfProgram} day
             {daysSinceStartOfProgram !== 1 ? "s" : ""}
           </Typography>
