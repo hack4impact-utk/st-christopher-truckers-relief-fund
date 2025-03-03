@@ -1,3 +1,4 @@
+export * from "./AdditionalInfo";
 export * from "./EnrollmentForm";
 export * from "./GeneralInformationSection";
 export * from "./ProgramSelectionSection";
