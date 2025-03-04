@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
-import RigsWithoutCigsAddInfo from "@/components/EnrollmentForm/ProgramSpecificQuestions/RigsWithoutCigsAddInfo";
+import RigsWithoutCigsAddInfo from "@/components/ClientDashboard/RigsWithoutCigsAddInfo";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
@@ -51,5 +51,6 @@ export default async function AddRigsWithoutCigsInformationPage(): Promise<React
   if (hasRigsWithoutCigsEnrollmentInformation) {
     redirect("/dashboard/client/rigs-without-cigs");
   }
-  return <RigsWithoutCigsAddInfo />;
+
+  return <RigsWithoutCigsAddInfo user={session.user} />;
 }
