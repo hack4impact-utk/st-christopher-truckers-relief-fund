@@ -34,3 +34,29 @@ export async function createEnrollmentForm(
     return [null, handleMongooseError(error)];
   }
 }
+
+export async function updateEnrollmentForm(
+  enrollmentForm: EnrollmentForm,
+): Promise<ApiResponse<EnrollmentForm>> {
+  await dbConnect();
+
+  try {
+    const updatedEnrollmentForm = await EnrollmentFormModel.findOneAndUpdate(
+      { _id: enrollmentForm._id },
+      enrollmentForm,
+      { new: true, lean: true },
+    ).exec();
+
+    if (!updatedEnrollmentForm) {
+      return [null, apiErrors.enrollmentForm.enrollmentFormNotFound];
+    }
+
+    // convert ObjectId to string
+    updatedEnrollmentForm._id = String(updatedEnrollmentForm._id);
+
+    return [serializeMongooseObject(updatedEnrollmentForm), null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}

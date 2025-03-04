@@ -50,6 +50,14 @@ export default async function RigsWithoutCigsPage(): Promise<ReactNode> {
     redirect("/dashboard/client");
   }
 
+  const hasRigsWithoutCigsEnrollmentInformation =
+    user.enrollmentForm.programSpecificQuestionsSection
+      .hasOptedInToRigsWithoutCigs;
+
+  if (!hasRigsWithoutCigsEnrollmentInformation) {
+    redirect("/dashboard/client/rigs-without-cigs/add-information");
+  }
+
   const rigsWithoutCigsEnrollment = user.programEnrollments.find(
     (enrollment) => enrollment.program === "Rigs Without Cigs",
   );

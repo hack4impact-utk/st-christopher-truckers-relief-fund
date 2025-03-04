@@ -1,5 +1,6 @@
 "use server";
 
+import { RigsWithoutCigsInformationFormValues } from "@/components/ClientDashboard/RigsWithoutCigsAddInfo";
 import {
   ApiResponse,
   ClientUser,
@@ -7,13 +8,19 @@ import {
   FagerstromTest,
   User,
 } from "@/types";
+import authenticateServerFunction from "@/utils/authenticateServerFunction";
+import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 
 import { handleEmailVerificationTokenRequest } from "../email-verification-tokens/public-mutations";
 import { createFagerstromTest } from "../fagerstrom-tests/private-mutations";
 import { createProgramEnrollmentsFromEnrollmentForm } from "../program-enrollments/private-mutations";
 import { createClientUser } from "../users/private-mutations";
-import { createEnrollmentForm } from "./private-mutations";
+import {
+  createEnrollmentForm,
+  updateEnrollmentForm,
+} from "./private-mutations";
+import { getEnrollmentFormByEmail } from "./queries";
 
 export async function handleEnrollmentFormSubmission(
   enrollmentForm: EnrollmentForm,
@@ -64,6 +71,46 @@ export async function handleEnrollmentFormSubmission(
     enrollmentFormInDatabase,
     userInDatabase,
   );
+
+  return [null, null];
+}
+
+export async function handleAddRigsWithoutCigsInformation(
+  data: RigsWithoutCigsInformationFormValues,
+  user: User,
+): Promise<ApiResponse<null>> {
+  const [session, authError] = await authenticateServerFunction();
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  if (session.user.email !== user.email) {
+    return [null, apiErrors.unauthorized];
+  }
+
+  const [enrollmentForm, enrollmentFormError] = await getEnrollmentFormByEmail(
+    user.email,
+  );
+
+  if (enrollmentFormError !== null) {
+    return [null, enrollmentFormError];
+  }
+
+  const updatedEnrollmentForm = {
+    ...enrollmentForm,
+    programSpecificQuestionsSection: {
+      ...enrollmentForm.programSpecificQuestionsSection,
+      hasOptedInToRigsWithoutCigs: true,
+      rigsWithoutCigs: data.rigsWithoutCigs,
+    },
+  };
+
+  const [, updateError] = await updateEnrollmentForm(updatedEnrollmentForm);
+
+  if (updateError !== null) {
+    return [null, updateError];
+  }
 
   return [null, null];
 }

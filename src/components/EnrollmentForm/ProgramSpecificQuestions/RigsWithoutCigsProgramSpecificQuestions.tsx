@@ -30,6 +30,8 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
   errors,
   watch,
 }: RigsWithoutCigsProgramSpecificQuestionsProps): ReactNode {
+  const rigsWithoutCigsErrors = errors?.rigsWithoutCigs;
+
   return (
     <>
       <Divider />
@@ -76,12 +78,12 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         name="rigsWithoutCigs.tobaccoUsageLength"
         label="How long have you been using tobacco?"
         variant="outlined"
-        error={errors.rigsWithoutCigs?.tobaccoUsageLength}
+        error={rigsWithoutCigsErrors?.tobaccoUsageLength}
         required
       />
 
       <FormControl
-        error={!!errors.rigsWithoutCigs?.plansToJoinFacebookGroup?.message}
+        error={!!rigsWithoutCigsErrors?.plansToJoinFacebookGroup?.message}
         sx={{ width: "100%" }}
       >
         <FormLabel>
@@ -102,7 +104,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.plansToJoinFacebookGroup?.message}
+          {rigsWithoutCigsErrors?.plansToJoinFacebookGroup?.message}
         </FormHelperText>
       </FormControl>
       <Typography>Why do you want to quit smoking?</Typography>
@@ -111,7 +113,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         name="rigsWithoutCigs.whyDoYouWantToQuitSmoking"
         label="Why do you want to quit smoking?"
         variant="outlined"
-        error={errors.rigsWithoutCigs?.whyDoYouWantToQuitSmoking}
+        error={rigsWithoutCigsErrors?.whyDoYouWantToQuitSmoking}
         multiline
         rows={3}
         required
@@ -122,13 +124,13 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         name="rigsWithoutCigs.howCanWeHelpYou"
         label="How can we help you?"
         variant="outlined"
-        error={errors.rigsWithoutCigs?.howCanWeHelpYou}
+        error={rigsWithoutCigsErrors?.howCanWeHelpYou}
         multiline
         rows={3}
         required
       />
       <FormControl
-        error={!!errors.rigsWithoutCigs?.referralSource?.message}
+        error={!!rigsWithoutCigsErrors?.referralSource?.message}
         sx={{ width: "100%" }}
       >
         <FormLabel>
@@ -205,13 +207,13 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.referralSource?.message}
+          {rigsWithoutCigsErrors?.referralSource?.message}
         </FormHelperText>
       </FormControl>
       <Divider />
       <Typography variant="h6">Methods of Quitting</Typography>
       <FormControl
-        error={!!errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
+        error={!!rigsWithoutCigsErrors?.isFirstTimeTryingToQuit?.message}
         sx={{ width: "100%" }}
       >
         <FormLabel>Is this your first time trying to quit?</FormLabel>
@@ -230,7 +232,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.isFirstTimeTryingToQuit?.message}
+          {rigsWithoutCigsErrors?.isFirstTimeTryingToQuit?.message}
         </FormHelperText>
       </FormControl>
       <Typography>What methods have you used to quit in the past?</Typography>
@@ -405,7 +407,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         name="rigsWithoutCigs.accountabilityPerson.firstName"
         label="Accountability Person's First Name"
         variant="outlined"
-        error={errors.rigsWithoutCigs?.accountabilityPerson?.firstName}
+        error={rigsWithoutCigsErrors?.accountabilityPerson?.firstName}
         required
       />
       <ControlledTextField
@@ -413,7 +415,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         name="rigsWithoutCigs.accountabilityPerson.lastName"
         label="Accountability Person's Last Name"
         variant="outlined"
-        error={errors.rigsWithoutCigs?.accountabilityPerson?.lastName}
+        error={rigsWithoutCigsErrors?.accountabilityPerson?.lastName}
         required
       />
       <ControlledTextField
@@ -421,13 +423,13 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         name="rigsWithoutCigs.accountabilityPerson.phoneNumber"
         label="Accountability Person's Phone Number"
         variant="outlined"
-        error={errors.rigsWithoutCigs?.accountabilityPerson?.phoneNumber}
+        error={rigsWithoutCigsErrors?.accountabilityPerson?.phoneNumber}
         type="tel"
         required
       />
       <FormControl
         error={
-          !!errors.rigsWithoutCigs?.accountabilityPerson
+          !!rigsWithoutCigsErrors?.accountabilityPerson
             ?.relationshipToAccountabilityPerson?.message
         }
         sx={{ width: "100%" }}
@@ -470,7 +472,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
         />
         <FormHelperText sx={{ m: 0 }}>
           {
-            errors.rigsWithoutCigs?.accountabilityPerson
+            rigsWithoutCigsErrors?.accountabilityPerson
               ?.relationshipToAccountabilityPerson?.message
           }
         </FormHelperText>
@@ -479,7 +481,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
       <Typography variant="h6">Healthcare</Typography>
       <FormControl
         error={
-          !!errors.rigsWithoutCigs?.currentlyHasPrimaryCarePhysician?.message
+          !!rigsWithoutCigsErrors?.currentlyHasPrimaryCarePhysician?.message
         }
         sx={{ width: "100%" }}
       >
@@ -499,7 +501,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
           )}
         />
         <FormHelperText sx={{ m: 0 }}>
-          {errors.rigsWithoutCigs?.currentlyHasPrimaryCarePhysician?.message}
+          {rigsWithoutCigsErrors?.currentlyHasPrimaryCarePhysician?.message}
         </FormHelperText>
       </FormControl>
     </>
