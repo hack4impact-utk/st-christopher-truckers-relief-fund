@@ -154,8 +154,6 @@ export default function ClientProgramManagementForm({
 
     let error = false;
 
-    let newProgramEnrollments = [...programEnrollments];
-
     for (const dirtyField in dirtyFields) {
       const field = dirtyField as keyof ClientManagementFormValues;
 
@@ -175,25 +173,14 @@ export default function ClientProgramManagementForm({
       );
 
       if (!programEnrollment) {
+        error = true;
         return;
       }
 
-      newProgramEnrollments = newProgramEnrollments.map(
-        (prevProgramEnrollment) => {
-          if (prevProgramEnrollment.program === programEnrollment.program) {
-            const enrollmentStatus = data[field] ? "accepted" : "rejected";
+      const enrollmentStatus = data[field] ? "accepted" : "rejected";
+      programEnrollment.status = enrollmentStatus;
 
-            return {
-              ...prevProgramEnrollment,
-              status: enrollmentStatus,
-            };
-          }
-
-          return prevProgramEnrollment;
-        },
-      );
-
-      if (data[field]) {
+      if (enrollmentStatus === "accepted") {
         const [, approveError] =
           await handleApproveProgramApplication(programEnrollment);
 
@@ -217,7 +204,7 @@ export default function ClientProgramManagementForm({
 
     enqueueSnackbar(snakeBarMessage);
 
-    reset(getClientManagementFormDefaultValues(newProgramEnrollments, client));
+    reset(getClientManagementFormDefaultValues(programEnrollments, client));
   };
 
   const showHealthyHabitsButton = !isPending(
