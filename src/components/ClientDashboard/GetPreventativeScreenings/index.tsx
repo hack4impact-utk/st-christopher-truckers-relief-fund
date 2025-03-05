@@ -2,14 +2,26 @@
 import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import { ReactNode, SyntheticEvent, useState } from "react";
 
-import GetPreventativeScreeningsApply from "./GetPreventativeScreeningsApply";
-import GetPreventativeScreeningsInfo from "./GetPreventativeScreeningsInfo";
+import { ClientUser, ScreeningRequest } from "@/types";
+
+import GetPreventativeScreeningsHistory from "./GetPreventativeScreeningsHistory";
+import GetPreventativeScreeningsRequestForm from "./GetPreventativeScreeningsRequestForm";
 
 type GetPreventativeScreeningsSections = "apply" | "history";
 
-export default function GetPreventativeScreenings(): ReactNode {
+type GetPreventativeScreeningsProps = {
+  user: ClientUser;
+};
+
+export default function GetPreventativeScreenings({
+  user,
+}: GetPreventativeScreeningsProps): ReactNode {
   const [selectedSection, setSelectedSection] =
     useState<GetPreventativeScreeningsSections>("apply");
+
+  const [screeningRequests, setScreeningRequests] = useState<
+    ScreeningRequest[]
+  >(user.screeningRequests);
 
   const handleTabChange = (
     _event: SyntheticEvent,
@@ -23,9 +35,21 @@ export default function GetPreventativeScreenings(): ReactNode {
   ): ReactNode {
     switch (section) {
       case "apply":
-        return <GetPreventativeScreeningsApply />;
+        return (
+          <GetPreventativeScreeningsRequestForm
+            user={user}
+            screeningRequests={screeningRequests}
+            setScreeningRequests={setScreeningRequests}
+          />
+        );
       case "history":
-        return <GetPreventativeScreeningsInfo />;
+        return (
+          <GetPreventativeScreeningsHistory
+            user={user}
+            screeningRequests={screeningRequests}
+            setScreeningRequests={setScreeningRequests}
+          />
+        );
       default:
         return <Typography>Invalid section</Typography>;
     }
@@ -41,9 +65,11 @@ export default function GetPreventativeScreenings(): ReactNode {
           flexDirection: "column",
         }}
       >
-        <Typography sx={{ fontSize: "1.5rem", marginBottom: 2 }}>
-          Get Preventative Screenings Dashboard
-        </Typography>
+        <Box sx={{ width: "min(90vw, 700px)", marginBottom: 2 }}>
+          <Typography sx={{ fontSize: "1.5rem", textAlign: "center" }}>
+            Get Preventative Screenings Dashboard
+          </Typography>
+        </Box>
         <Tabs
           value={selectedSection}
           onChange={handleTabChange}

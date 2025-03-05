@@ -4,6 +4,7 @@ import {
   HealthyHabitsTrackingForm,
   ProgramEnrollment,
 } from ".";
+import { ScreeningRequest } from "./ScreeningRequest";
 
 export type AdminUser = {
   _id?: string;
@@ -31,6 +32,7 @@ export type ClientUser = {
   programEnrollments: ProgramEnrollment[];
   healthyHabitsTrackingForms: HealthyHabitsTrackingForm[];
   fagerstromTests: FagerstromTest[];
+  screeningRequests: ScreeningRequest[];
   comments: string;
 };
 

@@ -47,9 +47,11 @@ export default function VaccineVoucherDashboard({
           flexDirection: "column",
         }}
       >
-        <Typography sx={{ fontSize: "1.5rem", marginBottom: 2 }}>
-          Vaccine Voucher Dashboard
-        </Typography>
+        <Box sx={{ width: "min(90vw, 700px)", marginBottom: 2 }}>
+          <Typography sx={{ fontSize: "1.5rem", textAlign: "center" }}>
+            Vaccine Voucher Dashboard
+          </Typography>
+        </Box>
         <Tabs
           value={selectedSection}
           onChange={handleTabChange}
