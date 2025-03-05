@@ -82,6 +82,7 @@ export async function createClientUser(
 
     return [newUser, null];
   } catch (error) {
+    console.error(error);
     return [null, handleMongooseError(error)];
   }
 }
