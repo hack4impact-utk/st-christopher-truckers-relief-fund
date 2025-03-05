@@ -17,11 +17,13 @@ import { ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import ControlledTextField from "@/components/controlled/ControlledTextField";
 import {
   handleApproveProgramApplication,
   handleRejectProgramApplication,
 } from "@/server/api/program-enrollments/public-mutations";
-import { Program, ProgramEnrollment } from "@/types";
+import { handleClientUpdate } from "@/server/api/users/public-mutations";
+import { ClientUser, Program, ProgramEnrollment } from "@/types";
 import isEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
 const style = {
@@ -46,6 +48,7 @@ const ClientManagementFormSchema = z.object({
   enrolledInRigsWithoutCigs: z.boolean(),
   enrolledInVaccineVoucher: z.boolean(),
   enrolledInGetPreventativeScreenings: z.boolean(),
+  comments: z.string(),
 });
 
 type ClientManagementFormValues = z.infer<typeof ClientManagementFormSchema>;
@@ -63,6 +66,7 @@ const isPending = (
 
 const getClientManagementFormDefaultValues = (
   programEnrollments: ProgramEnrollment[],
+  client: ClientUser,
 ): ClientManagementFormValues => {
   return {
     enrolledInHealthyHabits: isEnrolledInProgram(
@@ -85,6 +89,7 @@ const getClientManagementFormDefaultValues = (
       programEnrollments,
       "GPS (Get Preventative Screenings)",
     ),
+    comments: client.comments,
   };
 };
 
@@ -92,12 +97,16 @@ const fieldToProgramEnrollment = (
   field: keyof ClientManagementFormValues,
   programEnrollments: ProgramEnrollment[],
 ): ProgramEnrollment | undefined => {
-  const fieldToProgram: Record<keyof ClientManagementFormValues, Program> = {
+  const fieldToProgram: Record<
+    keyof ClientManagementFormValues,
+    Program | null
+  > = {
     enrolledInHealthyHabits: "Healthy Habits For The Long Haul",
     enrolledInDiabetesPrevention: "Diabetes Prevention",
     enrolledInRigsWithoutCigs: "Rigs Without Cigs",
     enrolledInVaccineVoucher: "Vaccine Voucher",
     enrolledInGetPreventativeScreenings: "GPS (Get Preventative Screenings)",
+    comments: null,
   };
 
   return programEnrollments.find(
@@ -107,12 +116,14 @@ const fieldToProgramEnrollment = (
 
 type ClientManagementDashboardProps = {
   programEnrollments: ProgramEnrollment[];
+  client: ClientUser;
   fullName: string;
 };
 
 export default function ClientProgramManagementForm({
   programEnrollments,
   fullName,
+  client,
 }: ClientManagementDashboardProps): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -127,7 +138,10 @@ export default function ClientProgramManagementForm({
     formState: { dirtyFields, isDirty },
   } = useForm<ClientManagementFormValues>({
     resolver: zodResolver(ClientManagementFormSchema),
-    defaultValues: getClientManagementFormDefaultValues(programEnrollments),
+    defaultValues: getClientManagementFormDefaultValues(
+      programEnrollments,
+      client,
+    ),
   });
 
   const onCancel = (): void => {
@@ -144,6 +158,17 @@ export default function ClientProgramManagementForm({
 
     for (const dirtyField in dirtyFields) {
       const field = dirtyField as keyof ClientManagementFormValues;
+
+      if (field == "comments") {
+        const comment = data[field];
+        client.comments = comment;
+
+        const [, commentError] = await handleClientUpdate(client);
+        error = error || commentError !== null;
+
+        continue;
+      }
+
       const programEnrollment = fieldToProgramEnrollment(
         field,
         programEnrollments,
@@ -156,9 +181,11 @@ export default function ClientProgramManagementForm({
       newProgramEnrollments = newProgramEnrollments.map(
         (prevProgramEnrollment) => {
           if (prevProgramEnrollment.program === programEnrollment.program) {
+            const enrollmentStatus = data[field] ? "accepted" : "rejected";
+
             return {
               ...prevProgramEnrollment,
-              status: data[field] ? "accepted" : "rejected",
+              status: enrollmentStatus,
             };
           }
 
@@ -170,37 +197,27 @@ export default function ClientProgramManagementForm({
         const [, approveError] =
           await handleApproveProgramApplication(programEnrollment);
 
-        if (approveError) {
-          error = true;
-          break;
-        }
+        error = error || approveError !== null;
       } else {
         const [, rejectError] = await handleRejectProgramApplication(
           programEnrollment,
           "An admin has unenrolled you from this program",
         );
 
-        if (rejectError) {
-          error = true;
-          break;
-        }
+        error = error || rejectError !== null;
       }
     }
 
     setIsLoading(false);
     setOpen(false);
 
-    if (error) {
-      enqueueSnackbar(
-        `There was a problem updating ${fullName}'s enrolled programs`,
-      );
-    } else {
-      enqueueSnackbar(
-        `You have successfully updated ${fullName}'s enrolled programs`,
-      );
-    }
+    const snakeBarMessage = error
+      ? `There was a problem updating ${fullName}'s enrolled programs`
+      : `You have successfully updated ${fullName}'s enrolled programs`;
 
-    reset(getClientManagementFormDefaultValues(newProgramEnrollments));
+    enqueueSnackbar(snakeBarMessage);
+
+    reset(getClientManagementFormDefaultValues(newProgramEnrollments, client));
   };
 
   const showHealthyHabitsButton = !isPending(
@@ -300,6 +317,19 @@ export default function ClientProgramManagementForm({
                   />
                 )}
               </Box>
+
+              <Box>
+                <ControlledTextField
+                  sx={{ width: "100%", mb: 3 }}
+                  name="comments"
+                  control={control}
+                  label="Comments"
+                  variant="outlined"
+                  multiline
+                  rows={3}
+                />
+              </Box>
+
               <Box display="flex" gap={2}>
                 <Button variant="outlined" onClick={onCancel} fullWidth>
                   Cancel
