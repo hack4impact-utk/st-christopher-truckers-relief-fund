@@ -7,18 +7,15 @@ import {
   handleScreeningRequestUpdate,
 } from "@/server/api/screening-requests.ts/public-mutations";
 import { ScreeningRequest } from "@/types";
-import { ClientUser } from "@/types/User";
 
 import HistoryListItem from "./HistoryListItem";
 
 type GetPreventativeScreeningsHistoryProps = {
-  user: ClientUser;
   screeningRequests: ScreeningRequest[];
   setScreeningRequests: Dispatch<SetStateAction<ScreeningRequest[]>>;
 };
 
 export default function GetPreventativeScreeningsHistory({
-  user,
   screeningRequests,
   setScreeningRequests,
 }: GetPreventativeScreeningsHistoryProps): ReactNode {

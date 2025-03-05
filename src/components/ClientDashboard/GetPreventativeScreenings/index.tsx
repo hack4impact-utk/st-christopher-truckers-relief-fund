@@ -45,7 +45,6 @@ export default function GetPreventativeScreenings({
       case "history":
         return (
           <GetPreventativeScreeningsHistory
-            user={user}
             screeningRequests={screeningRequests}
             setScreeningRequests={setScreeningRequests}
           />
