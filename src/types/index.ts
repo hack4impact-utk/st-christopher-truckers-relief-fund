@@ -7,6 +7,7 @@ export * from "./PasswordResetToken";
 export * from "./Program";
 export * from "./ProgramEnrollment";
 export * from "./ScheduledMeeting";
+export * from "./ScreeningRequest";
 export * from "./SearchParams";
 export * from "./UrgentMeetingRequest";
 export * from "./User";

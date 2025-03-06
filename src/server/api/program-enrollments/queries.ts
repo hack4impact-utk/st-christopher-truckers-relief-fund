@@ -182,3 +182,35 @@ export async function getVaccineVoucherProgramEnrollments(): Promise<
     return [null, handleMongooseError(error)];
   }
 }
+
+export async function getGetPreventativeScreeningsProgramEnrollments(): Promise<
+  ApiResponse<ProgramEnrollment[]>
+> {
+  await dbConnect();
+  try {
+    const getPreventativeScreeningsEnrollments =
+      await ProgramEnrollmentModel.find({
+        status: "accepted",
+        program: "GPS (Get Preventative Screenings)",
+      })
+        .populate({
+          path: "user",
+          populate: [
+            {
+              path: "screeningRequests",
+              options: { sort: { submittedDate: -1 } },
+            },
+          ],
+        })
+        .lean<ProgramEnrollment[]>()
+        .exec();
+
+    return [
+      serializeMongooseObject(getPreventativeScreeningsEnrollments),
+      null,
+    ];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}

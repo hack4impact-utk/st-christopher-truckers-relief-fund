@@ -23,7 +23,7 @@ export default function VaccineVoucherDashboard({
           title: "Clients",
           content: (
             <VaccineVoucherClientDashboard
-              VaccineVoucherProgramEnrollments={
+              vaccineVoucherProgramEnrollments={
                 vaccineVoucherProgramEnrollments
               }
             />

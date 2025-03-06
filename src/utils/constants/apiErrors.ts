@@ -52,6 +52,9 @@ const apiErrors = {
   fagerstromTest: {
     fagerstromTestNotFound: "Fagerstrom test not found",
   },
+  screeningRequest: {
+    screeningRequestNotFound: "Screening request not found",
+  },
 };
 
 export default apiErrors;

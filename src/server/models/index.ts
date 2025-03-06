@@ -5,5 +5,6 @@ export { default as HealthyHabitsTrackingFormModel } from "./HealthyHabitsTracki
 export { default as PasswordResetTokenModel } from "./PasswordResetToken";
 export { default as ProgramEnrollmentModel } from "./ProgramEnrollment";
 export { default as ScheduledMeetingModel } from "./ScheduledMeeting";
+export { default as ScreeningRequestModel } from "./ScreeningRequest";
 export { default as UrgentMeetingRequestModel } from "./UrgentMeetingRequest";
 export { default as UserModel } from "./User";

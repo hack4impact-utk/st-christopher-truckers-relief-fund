@@ -1,7 +1,16 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { ReactNode } from "react";
 
-export default function ServerComponentTestPage(): ReactNode {
+import ScreeningRequestManagementTable from "@/components/AdminDashboard/GetPreventativeScreeningsDashboard/ScreeningRequestManagementTable";
+import { getAllScreeningRequests } from "@/server/api/screening-requests.ts/queries";
+
+export default async function ServerComponentTestPage(): Promise<ReactNode> {
+  const [screeningRequests, error] = await getAllScreeningRequests();
+
+  if (error !== null) {
+    return <>{error}</>;
+  }
+
   return (
     <Box
       sx={{
@@ -12,7 +21,7 @@ export default function ServerComponentTestPage(): ReactNode {
         alignItems: "center",
       }}
     >
-      <Typography>Server component test page</Typography>
+      <ScreeningRequestManagementTable screeningRequests={screeningRequests} />
     </Box>
   );
 }

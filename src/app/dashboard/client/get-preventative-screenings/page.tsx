@@ -16,6 +16,8 @@ export default async function GetPreventativeScreeningsPage(): Promise<ReactNode
 
   const [user, error] = await getUserByEmail(session.user.email, {
     populateProgramEnrollments: true,
+    populateScreeningRequests: true,
+    populateEnrollmentForm: true,
   });
 
   if (error !== null) {
@@ -60,7 +62,7 @@ export default async function GetPreventativeScreeningsPage(): Promise<ReactNode
         padding: 1,
       }}
     >
-      <GetPreventativeScreenings />
+      <GetPreventativeScreenings user={user} />
     </Box>
   );
 }

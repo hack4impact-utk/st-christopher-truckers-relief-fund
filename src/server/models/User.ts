@@ -58,6 +58,12 @@ const UserSchema = new Schema<User>(
         ref: "FagerstromTest",
       },
     ],
+    screeningRequests: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "ScreeningRequest",
+      },
+    ],
     comments: {
       type: String,
     },

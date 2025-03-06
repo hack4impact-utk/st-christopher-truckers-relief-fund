@@ -68,9 +68,11 @@ export default function RigsWithoutCigs({
           flexDirection: "column",
         }}
       >
-        <Typography sx={{ fontSize: "1.5rem", marginBottom: 2 }}>
-          Rigs Without Cigs Dashboard
-        </Typography>
+        <Box sx={{ width: "min(90vw, 700px)", marginBottom: 2 }}>
+          <Typography sx={{ fontSize: "1.5rem", textAlign: "center" }}>
+            Rigs Without Cigs Dashboard
+          </Typography>
+        </Box>
         <Tabs
           value={selectedSection}
           onChange={handleTabChange}

@@ -12,6 +12,7 @@ type UserPopulateOptions = {
   populateProgramEnrollments?: boolean;
   populateEnrollmentForm?: boolean;
   populateFagerstromTests?: boolean;
+  populateScreeningRequests?: boolean;
 };
 
 async function getUser(
@@ -47,6 +48,16 @@ async function getUser(
       userQuery.populate({
         path: "fagerstromTests",
         options: { sort: { submittedDate: -1 } },
+      });
+    }
+
+    if (options?.populateScreeningRequests) {
+      userQuery.populate({
+        path: "screeningRequests",
+        options: { sort: { submittedDate: -1 } },
+        populate: {
+          path: "user",
+        },
       });
     }
 
@@ -107,6 +118,16 @@ export async function getUsers(
       usersQuery.populate({
         path: "fagerstromTests",
         options: { sort: { submittedDate: -1 } },
+      });
+    }
+
+    if (options?.populateScreeningRequests) {
+      usersQuery.populate({
+        path: "screeningRequests",
+        options: { sort: { submittedDate: -1 } },
+        populate: {
+          path: "user",
+        },
       });
     }
 
