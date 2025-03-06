@@ -199,8 +199,8 @@ export default function ClientProgramManagementForm({
     setOpen(false);
 
     const snakeBarMessage = error
-      ? `There was a problem updating ${fullName}'s enrolled programs`
-      : `You have successfully updated ${fullName}'s enrolled programs`;
+      ? `There was a problem updating ${fullName}'s information`
+      : `You have successfully updated ${fullName}'s information`;
 
     enqueueSnackbar(snakeBarMessage);
 
@@ -238,7 +238,7 @@ export default function ClientProgramManagementForm({
           <Box sx={style}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Typography id="transition-modal-title" variant="h4">
-                Manage Enrolled Programs
+                Manage Client
               </Typography>
               <Box
                 sx={{ display: "flex", flexDirection: "column", paddingY: 1 }}
