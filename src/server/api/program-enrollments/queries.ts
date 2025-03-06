@@ -131,3 +131,32 @@ export async function getRigsWithoutCigsProgramEnrollments(): Promise<
     return [null, handleMongooseError(error)];
   }
 }
+
+export async function getDiabetesPreventionProgramEnrollments(): Promise<
+  ApiResponse<ProgramEnrollment[]>
+> {
+  await dbConnect();
+  try {
+    const diabetesPreventionEnrollments = await ProgramEnrollmentModel.find({
+      status: "accepted",
+      program: "Diabetes Prevention",
+    })
+      .populate({
+        path: "user",
+        populate: [
+          {
+            // Rename in the future
+            path: "healthyHabitsTrackingForms",
+            options: { sort: { submittedDate: -1 } },
+          },
+        ],
+      })
+      .lean<ProgramEnrollment[]>()
+      .exec();
+
+    return [serializeMongooseObject(diabetesPreventionEnrollments), null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}

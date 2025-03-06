@@ -18,7 +18,7 @@ export default async function HealthyHabits(): Promise<ReactNode> {
           alignItems: "center",
         }}
       >
-        <Typography>There was an error fetching Health Habits</Typography>
+        <Typography>There was an error fetching Healthy Habits</Typography>
       </Box>
     );
   }
