@@ -1,18 +1,20 @@
+"use client";
+
 import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { ProgramEnrollment } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-type RigsWithoutCigsMetricProps = {
-  rigsWithoutCigsProgramEnrollments: ProgramEnrollment[];
+type VaccineVoucherMetricsProps = {
+  VaccineVoucherProgramEnrollments: ProgramEnrollment[];
 };
 
-export default function RigsWithoutCigsMetric({
-  rigsWithoutCigsProgramEnrollments,
-}: RigsWithoutCigsMetricProps): ReactNode {
-  const totalEnrolled = rigsWithoutCigsProgramEnrollments.length;
-  const registrationsInPast3Months = rigsWithoutCigsProgramEnrollments.reduce(
+export default function VaccineVoucherMetrics({
+  VaccineVoucherProgramEnrollments,
+}: VaccineVoucherMetricsProps): ReactNode {
+  const totalEnrolled = VaccineVoucherProgramEnrollments.length;
+  const registrationsInPast3Months = VaccineVoucherProgramEnrollments.reduce(
     (acc, programEnrollment) => {
       const registrationDate = dayjsUtil(programEnrollment.dateEnrolled);
       if (registrationDate.diff(dayjsUtil(), "month") > -3) acc++;
@@ -25,7 +27,7 @@ export default function RigsWithoutCigsMetric({
   return (
     <Box>
       <Typography align="center" variant="h4" sx={{ m: 2 }}>
-        Rigs Without Cigs Metrics
+        Vaccine Voucher Metrics
       </Typography>
       <Box
         sx={{

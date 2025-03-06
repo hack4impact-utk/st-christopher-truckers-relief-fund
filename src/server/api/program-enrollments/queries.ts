@@ -160,3 +160,25 @@ export async function getDiabetesPreventionProgramEnrollments(): Promise<
     return [null, handleMongooseError(error)];
   }
 }
+
+export async function getVaccineVoucherProgramEnrollments(): Promise<
+  ApiResponse<ProgramEnrollment[]>
+> {
+  await dbConnect();
+  try {
+    const vaccineVoucherEnrollments = await ProgramEnrollmentModel.find({
+      status: "accepted",
+      program: "Vaccine Voucher",
+    })
+      .populate({
+        path: "user",
+      })
+      .lean<ProgramEnrollment[]>()
+      .exec();
+
+    return [serializeMongooseObject(vaccineVoucherEnrollments), null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}
