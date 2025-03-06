@@ -58,6 +58,9 @@ const UserSchema = new Schema<User>(
         ref: "FagerstromTest",
       },
     ],
+    comments: {
+      type: String,
+    },
   },
   { versionKey: false },
 );

@@ -2,7 +2,7 @@
 import bcrypt from "bcrypt";
 
 import dbConnect from "@/server/dbConnect";
-import { ApiResponse } from "@/types";
+import { ApiResponse, ClientUser } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 
@@ -96,6 +96,24 @@ export async function verifyEmailWithToken(
   await updateUser(user);
 
   await deleteEmailVerificationToken(token);
+
+  return [null, null];
+}
+
+export async function handleClientUpdate(
+  client: ClientUser,
+): Promise<ApiResponse<null>> {
+  const [, authError] = await authenticateServerFunction("admin");
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  const [, updateError] = await updateUser(client);
+
+  if (updateError !== null) {
+    return [null, updateError];
+  }
 
   return [null, null];
 }

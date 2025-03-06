@@ -46,6 +46,7 @@ export async function handleEnrollmentFormSubmission(
     programEnrollments: [],
     healthyHabitsTrackingForms: [],
     fagerstromTests: [],
+    comments: "",
   };
 
   // create user

@@ -74,8 +74,8 @@ export default function ClientManagementDashboard({
       minWidth: 350,
       flex: 1,
       renderCell: (params): ReactNode => {
-        const user = params.row.client;
-        const fullName = user.firstName + " " + user.lastName;
+        const client = params.row.client;
+        const fullName = client.firstName + " " + client.lastName;
         return (
           <>
             <Box
@@ -87,10 +87,11 @@ export default function ClientManagementDashboard({
               }}
             >
               <PendingApplicationInfoModal
-                enrollmentForm={user.enrollmentForm}
+                enrollmentForm={client.enrollmentForm}
               />
               <ClientProgramManagementForm
                 programEnrollments={params.row.programEnrollments}
+                client={client}
                 fullName={fullName}
               />
             </Box>

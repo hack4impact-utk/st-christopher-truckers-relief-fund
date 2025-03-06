@@ -31,6 +31,7 @@ export type ClientUser = {
   programEnrollments: ProgramEnrollment[];
   healthyHabitsTrackingForms: HealthyHabitsTrackingForm[];
   fagerstromTests: FagerstromTest[];
+  comments: string;
 };
 
 export type User = AdminUser | ClientUser;
