@@ -12,7 +12,12 @@ export async function getAllScreeningRequests(): Promise<
   try {
     const screeningRequests = await ScreeningRequestModel.find()
       .sort({ submittedDate: -1 })
-      .populate("user")
+      .populate({
+        path: "user",
+        populate: {
+          path: "enrollmentForm",
+        },
+      })
       .lean<ScreeningRequest[]>()
       .exec();
 

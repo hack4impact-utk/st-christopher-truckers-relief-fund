@@ -1,10 +1,9 @@
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DescriptionIcon from "@mui/icons-material/Description";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import {
   Avatar,
   Box,
+  Button,
   IconButton,
   ListItem,
   ListItemAvatar,
@@ -66,38 +65,36 @@ export default function HistoryListItem({
           message: "Your request has been approved. Please report your result.",
           buttons: (
             <>
-              <Tooltip title="Report positive">
-                <IconButton
-                  edge="end"
-                  onClick={() =>
-                    handleUpdate(
-                      {
-                        ...screeningRequest,
-                        status: "initial positive",
-                      },
-                      "Are you sure you want to report a positive result?",
-                    )
-                  }
-                >
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Report negative">
-                <IconButton
-                  edge="end"
-                  onClick={() =>
-                    handleUpdate(
-                      {
-                        ...screeningRequest,
-                        status: "negative",
-                      },
-                      "Are you sure you want to report a negative result?",
-                    )
-                  }
-                >
-                  <RemoveCircleOutlineIcon />
-                </IconButton>
-              </Tooltip>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() =>
+                  handleUpdate(
+                    {
+                      ...screeningRequest,
+                      status: "initial positive",
+                    },
+                    "Are you sure you want to report a positive result?",
+                  )
+                }
+              >
+                Report positive
+              </Button>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={() =>
+                  handleUpdate(
+                    {
+                      ...screeningRequest,
+                      status: "negative",
+                    },
+                    "Are you sure you want to report a negative result?",
+                  )
+                }
+              >
+                Report negative
+              </Button>
             </>
           ),
         };
@@ -112,38 +109,36 @@ export default function HistoryListItem({
             "Your first result was positive. Please reach out to SCF to receive a second screening to confirm your result. Then, report the second result here.",
           buttons: (
             <>
-              <Tooltip title="Report positive">
-                <IconButton
-                  edge="end"
-                  onClick={() =>
-                    handleUpdate(
-                      {
-                        ...screeningRequest,
-                        status: "true positive",
-                      },
-                      "Are you sure you want to report a positive result?",
-                    )
-                  }
-                >
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Report negative">
-                <IconButton
-                  edge="end"
-                  onClick={() =>
-                    handleUpdate(
-                      {
-                        ...screeningRequest,
-                        status: "false positive",
-                      },
-                      "Are you sure you want to report a negative result?",
-                    )
-                  }
-                >
-                  <RemoveCircleOutlineIcon />
-                </IconButton>
-              </Tooltip>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() =>
+                  handleUpdate(
+                    {
+                      ...screeningRequest,
+                      status: "true positive",
+                    },
+                    "Are you sure you want to report a positive result?",
+                  )
+                }
+              >
+                Report Positive
+              </Button>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={() =>
+                  handleUpdate(
+                    {
+                      ...screeningRequest,
+                      status: "false positive",
+                    },
+                    "Are you sure you want to report a negative result?",
+                  )
+                }
+              >
+                Report negative
+              </Button>
             </>
           ),
         };
@@ -184,7 +179,9 @@ export default function HistoryListItem({
       </ListItemAvatar>
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <ListItemText primary={`${screeningRequest.name}: ${message}`} />
-        <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
+        <Box
+          sx={{ display: "flex", gap: 2, justifyContent: "flex-end", pt: 2 }}
+        >
           {buttons}
         </Box>
       </Box>

@@ -42,7 +42,10 @@ export async function handleScreeningRequestDeletion(
     return [null, authError];
   }
 
-  if (session.user.email !== screeningRequest.user.email) {
+  if (
+    session.user.role === "client" &&
+    session.user.email !== screeningRequest.user.email
+  ) {
     return [null, apiErrors.unauthorized];
   }
 
