@@ -5,7 +5,7 @@ import VaccineVoucherDashboard from "@/components/AdminDashboard/VaccineVaccineD
 import { getVaccineVoucherProgramEnrollments } from "@/server/api/program-enrollments/queries";
 
 export default async function VaccineVoucher(): Promise<ReactNode> {
-  const [VaccineVoucherProgramEnrollments, error] =
+  const [vaccineVoucherProgramEnrollments, error] =
     await getVaccineVoucherProgramEnrollments();
 
   if (error !== null) {
@@ -35,7 +35,7 @@ export default async function VaccineVoucher(): Promise<ReactNode> {
       }}
     >
       <VaccineVoucherDashboard
-        vaccineVoucherProgramEnrollments={VaccineVoucherProgramEnrollments}
+        vaccineVoucherProgramEnrollments={vaccineVoucherProgramEnrollments}
       />
     </Box>
   );

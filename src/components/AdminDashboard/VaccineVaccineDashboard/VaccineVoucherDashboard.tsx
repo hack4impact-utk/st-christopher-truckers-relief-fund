@@ -35,11 +35,11 @@ function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
 }
 
 type VaccineVoucherClientDashboardProps = {
-  VaccineVoucherProgramEnrollments: ProgramEnrollment[];
+  vaccineVoucherProgramEnrollments: ProgramEnrollment[];
 };
 
 export default function VaccineVoucherClientDashboard({
-  VaccineVoucherProgramEnrollments,
+  vaccineVoucherProgramEnrollments: VaccineVoucherProgramEnrollments,
 }: VaccineVoucherClientDashboardProps): ReactNode {
   const rows = getRows(VaccineVoucherProgramEnrollments);
 

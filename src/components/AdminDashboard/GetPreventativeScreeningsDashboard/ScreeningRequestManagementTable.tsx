@@ -262,39 +262,38 @@ export default function ScreeningRequestManagementTable({
   );
 
   return (
-    <>
-      <Box>
-        <Typography align="center" variant="h6">
-          Screening Requests
-        </Typography>
-        <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-          <TextField
-            id="search-bar"
-            className="text"
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-            placeholder="Search..."
-            size="small"
-          />
-          <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-        </Box>
-        <DataGrid
-          rows={filteredRows}
-          columns={columns}
-          disableRowSelectionOnClick
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
+    <Box sx={{ maxWidth: "100vw" }}>
+      <Typography align="center" variant="h6">
+        Screening Requests
+      </Typography>
+      <Box display="flex" alignItems="center" sx={{ py: 2 }}>
+        <TextField
+          id="search-bar"
+          className="text"
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
           }}
-          sx={{
-            height: "300px",
-          }}
+          placeholder="Search..."
+          size="small"
         />
+        <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
       </Box>
-    </>
+      <DataGrid
+        rows={filteredRows}
+        columns={columns}
+        disableRowSelectionOnClick
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        sx={{
+          height: "300px",
+          overflowX: "auto",
+        }}
+      />
+    </Box>
   );
 }
