@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ClientUser, ProgramEnrollment, User } from "@/types";
 
-import ProgramClientsDashboard from "../ProgramDashboard/ProgramClientsDashboard";
+import AdminDashboardTable from "../AdminDashboardTable";
 
 type Row = {
   id?: string;
@@ -43,5 +43,7 @@ export default function VaccineVoucherClientDashboard({
 }: VaccineVoucherClientDashboardProps): ReactNode {
   const rows = getRows(VaccineVoucherProgramEnrollments);
 
-  return <ProgramClientsDashboard programName="Vaccine Voucher" rows={rows} />;
+  return (
+    <AdminDashboardTable tableName="Vaccine Voucher Clients" rows={rows} />
+  );
 }

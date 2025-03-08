@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { ReactNode, useState } from "react";
 
-type ProgramDashboardProps = {
+type AdminProgramDashboardProps = {
   // Tabs config
   defaultTab: string;
   tabs: Record<
@@ -13,10 +13,10 @@ type ProgramDashboardProps = {
   >;
 };
 
-export default function ProgramDashboard({
+export default function AdminProgramDashboard({
   defaultTab,
   tabs,
-}: ProgramDashboardProps): ReactNode {
+}: AdminProgramDashboardProps): ReactNode {
   const [selectedTab, setSelectedTab] = useState(defaultTab);
 
   return (

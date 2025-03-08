@@ -25,7 +25,7 @@ import { handleCreateScheduledMeeting } from "@/server/api/scheduled-meetings/pu
 import { ClientUser, ScheduledMeeting } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-import { createRowFromScheduledMeeting, Row } from ".";
+import { createRowFromScheduledMeeting, ScheduledMeetingsRow } from ".";
 
 const style = {
   position: "absolute",
@@ -55,7 +55,7 @@ type ScheduleMeetingFormValues = z.infer<typeof scheduleMeetingScehma>;
 
 type CreateNewMeetingProps = {
   allClients: ClientUser[];
-  setRows: Dispatch<SetStateAction<Row[]>>;
+  setRows: Dispatch<SetStateAction<ScheduledMeetingsRow[]>>;
 };
 
 export default function CreateNewMeeting({

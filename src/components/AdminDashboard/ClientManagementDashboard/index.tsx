@@ -1,25 +1,23 @@
 "use client";
 
-import Search from "@mui/icons-material/Search";
-import { Box, TextField, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
 
 import ClientProgramManagementForm from "@/components/AdminDashboard/ClientManagementDashboard/ClientProgramManagementForm";
 import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/";
 import { ClientUser, ProgramEnrollment } from "@/types";
 
-export type Row = {
-  id?: string;
-  lastName: string;
-  firstName: string;
-  phoneNumber: string;
-  email: string;
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
+
+export type ClientsRow = AdminDashboardTableRow & {
   programEnrollments: ProgramEnrollment[];
   client: ClientUser;
 };
 
-const createRowFromClient = (client: ClientUser): Row => {
+const createRowFromClient = (client: ClientUser): ClientsRow => {
   return {
     id: client._id,
     lastName: client.lastName,
@@ -31,7 +29,7 @@ const createRowFromClient = (client: ClientUser): Row => {
   };
 };
 
-function getRows(clients: ClientUser[]): Row[] {
+function getRows(clients: ClientUser[]): ClientsRow[] {
   return clients.map(createRowFromClient);
 }
 
@@ -43,30 +41,8 @@ export default function ClientManagementDashboard({
   clients,
 }: ClientManagementDashboardProps): ReactNode {
   const [rows] = useState(getRows(clients));
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const columns: GridColDef<Row>[] = [
-    {
-      field: "firstName",
-      headerName: "First name",
-      width: 150,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      width: 150,
-    },
-    {
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      width: 125,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      minWidth: 200,
-      flex: 1,
-    },
+  const additionalColumns: GridColDef<ClientsRow>[] = [
     {
       field: "action",
       headerName: "Actions",
@@ -101,45 +77,12 @@ export default function ClientManagementDashboard({
     },
   ];
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
     <Box sx={{ width: "95%", height: "75%", marginTop: "100px" }}>
-      <Typography align="center" variant="h6">
-        Clients
-      </Typography>
-      <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-          placeholder="Search..."
-          size="small"
-        />
-        <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-      </Box>
-      <DataGrid
-        rows={filteredRows}
-        columns={columns}
-        disableRowSelectionOnClick
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        sx={{
-          height: "300px",
-        }}
+      <AdminDashboardTable
+        tableName="Clients"
+        rows={rows}
+        additionalColumns={additionalColumns}
       />
     </Box>
   );

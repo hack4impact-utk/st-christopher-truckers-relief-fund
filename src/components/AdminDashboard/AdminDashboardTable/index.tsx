@@ -5,7 +5,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
 
-export type ProgramClientsDashboardRow = {
+export type AdminDashboardTableRow = {
   id?: string;
   firstName: string;
   lastName: string;
@@ -15,20 +15,23 @@ export type ProgramClientsDashboardRow = {
   [key: string]: any;
 };
 
-type ProgramClientsDashboardProps<RowType extends ProgramClientsDashboardRow> =
-  {
-    programName: string;
-    rows: RowType[];
-    additionalColumns?: GridColDef<RowType>[];
-  };
+type AdminDashboardTableProps<RowType extends AdminDashboardTableRow> = {
+  tableName: string;
+  rows: RowType[];
+  additionalColumns?: GridColDef<RowType>[];
+  width?: string;
+  actionButtons?: ReactNode;
+};
 
-export default function ProgramClientsDashboard<
-  RowType extends ProgramClientsDashboardRow,
+export default function AdminDashboardTable<
+  RowType extends AdminDashboardTableRow,
 >({
-  programName,
+  tableName,
   rows,
   additionalColumns,
-}: ProgramClientsDashboardProps<RowType>): ReactNode {
+  width,
+  actionButtons,
+}: AdminDashboardTableProps<RowType>): ReactNode {
   const [searchQuery, setSearchQuery] = useState("");
 
   const baseColumns: GridColDef<RowType>[] = [
@@ -71,7 +74,7 @@ export default function ProgramClientsDashboard<
   return (
     <Box>
       <Typography align="center" variant="h6">
-        {programName} Clients
+        {tableName}
       </Typography>
       <Box display="flex" alignItems="center" sx={{ py: 2 }}>
         <TextField
@@ -84,6 +87,9 @@ export default function ProgramClientsDashboard<
           size="small"
         />
         <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
+        {actionButtons && (
+          <Box sx={{ marginLeft: "auto" }}>{actionButtons}</Box>
+        )}
       </Box>
       <DataGrid
         rows={filteredRows}
@@ -96,7 +102,10 @@ export default function ProgramClientsDashboard<
             },
           },
         }}
-        sx={{ height: "300px" }}
+        sx={{
+          height: "300px",
+          width: width || "100%",
+        }}
       />
     </Box>
   );

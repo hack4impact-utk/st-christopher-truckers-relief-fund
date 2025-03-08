@@ -8,12 +8,12 @@ import React, { Dispatch, ReactNode, SetStateAction } from "react";
 import { handleApproveProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { ProgramEnrollment } from "@/types";
 
-import { Row } from ".";
+import { PendingApplicationsRow } from ".";
 
 type AcceptPendingApplicationButtonProps = {
   programEnrollment: ProgramEnrollment;
-  rows: Row[];
-  setRows: Dispatch<SetStateAction<Row[]>>;
+  rows: PendingApplicationsRow[];
+  setRows: Dispatch<SetStateAction<PendingApplicationsRow[]>>;
 };
 
 export default function AcceptPendingApplicationButton({

@@ -1,28 +1,26 @@
 "use client";
 
 import DeleteIcon from "@mui/icons-material/Delete";
-import Search from "@mui/icons-material/Search";
-import { Box, IconButton, TextField, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 
 import { handleDeleteUrgentMeetingRequest } from "@/server/api/urgent-meeting-requests/public-mutations";
 import { ClientUser, UrgentMeetingRequest } from "@/types";
 
-type Row = {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
+
+type UrgentMeetingRequestRow = AdminDashboardTableRow & {
   reason: string;
   client: ClientUser;
 };
 
 function createRowFromUrgentMeetingRequest(
   urgentMeetingRequest: UrgentMeetingRequest,
-): Row {
+): UrgentMeetingRequestRow {
   const client = urgentMeetingRequest.client as ClientUser;
 
   return {
@@ -36,7 +34,9 @@ function createRowFromUrgentMeetingRequest(
   };
 }
 
-function getRows(urgentMeetingRequests: UrgentMeetingRequest[]): Row[] {
+function getRows(
+  urgentMeetingRequests: UrgentMeetingRequest[],
+): UrgentMeetingRequestRow[] {
   return urgentMeetingRequests.map(createRowFromUrgentMeetingRequest);
 }
 
@@ -48,7 +48,6 @@ export default function UrgentMeetingRequests({
   urgentMeetingRequests,
 }: UrgentMeetingRequestsProps): ReactNode {
   const [rows, setRows] = useState(getRows(urgentMeetingRequests));
-  const [searchQuery, setSearchQuery] = useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   async function handleDelete(id: string): Promise<void> {
@@ -79,31 +78,7 @@ export default function UrgentMeetingRequests({
     });
   }
 
-  const columns: GridColDef<Row>[] = [
-    {
-      field: "firstName",
-      headerName: "First name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      flex: 1,
-      minWidth: 125,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 2,
-      minWidth: 200,
-    },
+  const additionalColumns: GridColDef<UrgentMeetingRequestRow>[] = [
     {
       field: "reason",
       headerName: "Reason",
@@ -131,48 +106,11 @@ export default function UrgentMeetingRequests({
     },
   ];
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
-    <>
-      <Box>
-        <Typography align="center" variant="h6">
-          Urgent Meeting Requests
-        </Typography>
-        <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-          <TextField
-            id="search-bar"
-            className="text"
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-            placeholder="Search..."
-            size="small"
-          />
-          <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-        </Box>
-        <DataGrid
-          rows={filteredRows}
-          columns={columns}
-          disableRowSelectionOnClick
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          sx={{
-            height: "300px",
-          }}
-        />
-      </Box>
-    </>
+    <AdminDashboardTable
+      tableName="Urgent Meeting Requests"
+      rows={rows}
+      additionalColumns={additionalColumns}
+    />
   );
 }

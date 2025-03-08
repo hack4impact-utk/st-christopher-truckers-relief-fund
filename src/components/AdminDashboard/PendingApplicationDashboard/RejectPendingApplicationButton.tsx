@@ -16,7 +16,7 @@ import ControlledTextField from "@/components/controlled/ControlledTextField";
 import { handleRejectProgramApplication } from "@/server/api/program-enrollments/public-mutations";
 import { ProgramEnrollment } from "@/types";
 
-import { Row } from ".";
+import { PendingApplicationsRow } from ".";
 
 const rejectionReasonSchema = z.object({
   rejectionReason: z.string().min(1, { message: "Reason is required" }),
@@ -26,8 +26,8 @@ type RejectButtonFormValues = z.infer<typeof rejectionReasonSchema>;
 
 type RejectPendingApplicationButtonProps = {
   programEnrollment: ProgramEnrollment;
-  rows: Row[];
-  setRows: Dispatch<SetStateAction<Row[]>>;
+  rows: PendingApplicationsRow[];
+  setRows: Dispatch<SetStateAction<PendingApplicationsRow[]>>;
 };
 
 export default function RejectPendingApplicationButton({
