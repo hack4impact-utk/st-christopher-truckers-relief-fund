@@ -9,7 +9,7 @@ type PharmacyName =
   | "Walmart"
   | "Sam's Club";
 
-type VaccineVoucherRequestStatus =
+export type VaccineVoucherRequestStatus =
   | "requested"
   | "rejected"
   | "approved"

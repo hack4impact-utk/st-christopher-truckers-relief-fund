@@ -172,6 +172,12 @@ export async function getVaccineVoucherProgramEnrollments(): Promise<
     })
       .populate({
         path: "user",
+        populate: [
+          {
+            path: "vaccineVoucherRequests",
+            options: { sort: { submittedDate: -1 } },
+          },
+        ],
       })
       .lean<ProgramEnrollment[]>()
       .exec();

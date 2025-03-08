@@ -2,18 +2,21 @@
 
 import { ReactNode } from "react";
 
-import { ProgramEnrollment } from "@/types";
+import { ProgramEnrollment, VaccineVoucherRequest } from "@/types";
 
 import AdminProgramDashboard from "../AdminProgramDashboard";
 import VaccineVoucherClientDashboard from "./VaccineVoucherDashboard";
 import VaccineVoucherMetrics from "./VaccineVoucherMetrics";
+import VaccineVoucherRequestsTable from "./VaccineVoucherRequestsTable";
 
 type VaccineVoucherDashboardProps = {
   vaccineVoucherProgramEnrollments: ProgramEnrollment[];
+  vaccineVoucherRequests: VaccineVoucherRequest[];
 };
 
 export default function VaccineVoucherDashboard({
   vaccineVoucherProgramEnrollments,
+  vaccineVoucherRequests,
 }: VaccineVoucherDashboardProps): ReactNode {
   return (
     <AdminProgramDashboard
@@ -36,6 +39,14 @@ export default function VaccineVoucherDashboard({
               VaccineVoucherProgramEnrollments={
                 vaccineVoucherProgramEnrollments
               }
+            />
+          ),
+        },
+        requests: {
+          title: "Vaccine Voucher Requests",
+          content: (
+            <VaccineVoucherRequestsTable
+              vaccineVoucherRequests={vaccineVoucherRequests}
             />
           ),
         },

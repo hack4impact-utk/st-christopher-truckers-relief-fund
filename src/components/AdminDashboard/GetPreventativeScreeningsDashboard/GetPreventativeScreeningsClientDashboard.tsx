@@ -1,21 +1,21 @@
+import { Box } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { ReactNode } from "react";
 
-import { ClientUser, ProgramEnrollment, User } from "@/types";
+import { ClientUser, ProgramEnrollment } from "@/types";
 
-import AdminDashboardTable from "../AdminDashboardTable";
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
+import GetPreventativeScreeningsHistoryModal from "./GetPreventativeScreeningsHistoryModal";
 
-type Row = {
-  id?: string;
-  lastName: string;
-  firstName: string;
-  phoneNumber: string;
-  email: string;
-  user: User;
+type GetPreventativeScreeningsRow = AdminDashboardTableRow & {
+  user: ClientUser;
 };
 
 const createRowFromGetPreventativeScreeningsProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
-): Row => {
+): GetPreventativeScreeningsRow => {
   const user = programEnrollment.user as ClientUser;
 
   return {
@@ -28,7 +28,9 @@ const createRowFromGetPreventativeScreeningsProgramEnrollment = (
   };
 };
 
-function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
+function getRows(
+  programEnrollments: ProgramEnrollment[],
+): GetPreventativeScreeningsRow[] {
   return programEnrollments.map(
     createRowFromGetPreventativeScreeningsProgramEnrollment,
   );
@@ -44,10 +46,37 @@ export default function GetPreventativeScreeningsClientDashboard({
 }: GetPreventativeScreeningsClientDashboardProps): ReactNode {
   const rows = getRows(GetPreventativeScreeningProgramEnrollments);
 
+  const additionalColumns: GridColDef<GetPreventativeScreeningsRow>[] = [
+    {
+      field: "History",
+      headerName: "History",
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params): ReactNode => {
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: 2,
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <GetPreventativeScreeningsHistoryModal
+              initialScreeningRequests={params.row.user.screeningRequests}
+            />
+          </Box>
+        );
+      },
+    },
+  ];
+
   return (
     <AdminDashboardTable
       tableName="Get Preventative Screenings Clients"
       rows={rows}
+      additionalColumns={additionalColumns}
     />
   );
 }
