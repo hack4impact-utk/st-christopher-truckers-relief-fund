@@ -22,7 +22,9 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
@@ -79,8 +81,12 @@ export default function GeneralInformationFormSection(): ReactNode {
     }
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const onError = (): void => {
-    window.alert("Please review all fields before continuing.");
+    enqueueSnackbar("Please review all fields before continuing.", {
+      variant: "error",
+    });
   };
 
   // Doctors array logic
@@ -345,10 +351,24 @@ export default function GeneralInformationFormSection(): ReactNode {
                   label={
                     <>
                       I confirm that I have submitted a copy of my CDL to{" "}
-                      <a href="tel:+8655448145">865-544-8145</a> or{" "}
-                      <a href="mailto:Health@truckersfund.org">
-                        Health@truckersfund.org.
-                      </a>
+                      <Link
+                        href="tel:+8655448145"
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Typography color="primary" component="a">
+                          865-544-8145
+                        </Typography>
+                      </Link>{" "}
+                      or{" "}
+                      <Link
+                        href="mailto:Health@truckersfund.org"
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Typography color="primary" component="a">
+                          Health@truckersfund.org
+                        </Typography>
+                      </Link>
+                      .
                     </>
                   }
                 />
