@@ -55,6 +55,9 @@ const apiErrors = {
   screeningRequest: {
     screeningRequestNotFound: "Screening request not found",
   },
+  vaccineVoucherRequest: {
+    vaccineVoucherRequestNotFound: "Vaccine voucher request not found",
+  },
 };
 
 export default apiErrors;

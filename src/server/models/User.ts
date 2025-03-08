@@ -64,6 +64,12 @@ const UserSchema = new Schema<User>(
         ref: "ScreeningRequest",
       },
     ],
+    vaccineVoucherRequests: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "VaccineVoucherRequest",
+      },
+    ],
     comments: {
       type: String,
     },
