@@ -13,6 +13,7 @@ type UserPopulateOptions = {
   populateEnrollmentForm?: boolean;
   populateFagerstromTests?: boolean;
   populateScreeningRequests?: boolean;
+  populateVaccineVoucherRequests?: boolean;
 };
 
 async function getUser(
@@ -54,6 +55,16 @@ async function getUser(
     if (options?.populateScreeningRequests) {
       userQuery.populate({
         path: "screeningRequests",
+        options: { sort: { submittedDate: -1 } },
+        populate: {
+          path: "user",
+        },
+      });
+    }
+
+    if (options?.populateVaccineVoucherRequests) {
+      userQuery.populate({
+        path: "vaccineVoucherRequests",
         options: { sort: { submittedDate: -1 } },
         populate: {
           path: "user",
@@ -124,6 +135,16 @@ export async function getUsers(
     if (options?.populateScreeningRequests) {
       usersQuery.populate({
         path: "screeningRequests",
+        options: { sort: { submittedDate: -1 } },
+        populate: {
+          path: "user",
+        },
+      });
+    }
+
+    if (options?.populateVaccineVoucherRequests) {
+      usersQuery.populate({
+        path: "vaccineVoucherRequests",
         options: { sort: { submittedDate: -1 } },
         populate: {
           path: "user",

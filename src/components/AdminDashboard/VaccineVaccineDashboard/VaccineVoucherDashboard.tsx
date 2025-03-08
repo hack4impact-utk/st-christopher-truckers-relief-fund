@@ -1,23 +1,23 @@
 "use client";
 
+import { Box } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { ReactNode } from "react";
 
-import { ClientUser, ProgramEnrollment, User } from "@/types";
+import { ClientUser, ProgramEnrollment } from "@/types";
 
-import AdminDashboardTable from "../AdminDashboardTable";
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
+import VaccineVoucherHistoryModal from "./VaccineVoucherHistoryModal";
 
-type Row = {
-  id?: string;
-  lastName: string;
-  firstName: string;
-  phoneNumber: string;
-  email: string;
-  user: User;
+type VaccineVoucherClientsRow = AdminDashboardTableRow & {
+  user: ClientUser;
 };
 
 const createRowFromVaccineVoucherProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
-): Row => {
+): VaccineVoucherClientsRow => {
   const user = programEnrollment.user as ClientUser;
 
   return {
@@ -30,7 +30,9 @@ const createRowFromVaccineVoucherProgramEnrollment = (
   };
 };
 
-function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
+function getRows(
+  programEnrollments: ProgramEnrollment[],
+): VaccineVoucherClientsRow[] {
   return programEnrollments.map(createRowFromVaccineVoucherProgramEnrollment);
 }
 
@@ -43,7 +45,39 @@ export default function VaccineVoucherClientDashboard({
 }: VaccineVoucherClientDashboardProps): ReactNode {
   const rows = getRows(VaccineVoucherProgramEnrollments);
 
+  const additionalColumns: GridColDef<VaccineVoucherClientsRow>[] = [
+    {
+      field: "History",
+      headerName: "History",
+      flex: 1,
+      minWidth: 100,
+      renderCell: (params): ReactNode => {
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: 2,
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <VaccineVoucherHistoryModal
+              initialVaccineVoucherRequests={
+                params.row.user.vaccineVoucherRequests
+              }
+            />
+          </Box>
+        );
+      },
+    },
+  ];
+
   return (
-    <AdminDashboardTable tableName="Vaccine Voucher Clients" rows={rows} />
+    <AdminDashboardTable
+      tableName="Vaccine Voucher Clients"
+      rows={rows}
+      additionalColumns={additionalColumns}
+    />
   );
 }

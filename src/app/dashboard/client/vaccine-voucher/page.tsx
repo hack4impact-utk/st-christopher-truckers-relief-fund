@@ -16,6 +16,7 @@ export default async function VaccineVoucherPage(): Promise<ReactNode> {
   const [user, error] = await getUserByEmail(session.user.email, {
     populateProgramEnrollments: true,
     populateEnrollmentForm: true,
+    populateVaccineVoucherRequests: true,
   });
 
   if (error !== null) {

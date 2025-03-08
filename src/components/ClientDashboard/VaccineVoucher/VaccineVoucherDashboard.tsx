@@ -1,8 +1,10 @@
 "use client";
 
-import VaccineVoucherApplyForm from "@/components/ClientDashboard/VaccineVoucher/VaccineVoucherApplyForm";
+import { useState } from "react";
+
+import VaccineVoucherApplyForm from "@/components/ClientDashboard/VaccineVoucher/VaccineVoucherApplyForm/VaccineVoucherApplyForm";
 import VaccineVoucherHistory from "@/components/ClientDashboard/VaccineVoucher/VaccineVoucherHistory";
-import { ClientUser } from "@/types";
+import { ClientUser, VaccineVoucherRequest } from "@/types";
 
 import ClientProgramDashboard from "../ClientProgramDashboard";
 
@@ -13,6 +15,10 @@ type VaccineVoucherDashboardProps = {
 export default function VaccineVoucherDashboard({
   user,
 }: VaccineVoucherDashboardProps): JSX.Element {
+  const [vaccineVoucherRequests, setVaccineVoucherRequests] = useState<
+    VaccineVoucherRequest[]
+  >(user.vaccineVoucherRequests);
+
   return (
     <ClientProgramDashboard
       title="Vaccine Voucher"
@@ -20,11 +26,22 @@ export default function VaccineVoucherDashboard({
       tabs={{
         apply: {
           title: "Apply",
-          content: <VaccineVoucherApplyForm user={user} />,
+          content: (
+            <VaccineVoucherApplyForm
+              user={user}
+              vaccineVoucherRequests={vaccineVoucherRequests}
+              setVaccineVoucherRequests={setVaccineVoucherRequests}
+            />
+          ),
         },
         history: {
           title: "History",
-          content: <VaccineVoucherHistory />,
+          content: (
+            <VaccineVoucherHistory
+              vaccineVoucherRequests={vaccineVoucherRequests}
+              setVaccineVoucherRequests={setVaccineVoucherRequests}
+            />
+          ),
         },
       }}
     />

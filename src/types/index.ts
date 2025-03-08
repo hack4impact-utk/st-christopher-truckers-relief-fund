@@ -11,3 +11,4 @@ export * from "./ScreeningRequest";
 export * from "./SearchParams";
 export * from "./UrgentMeetingRequest";
 export * from "./User";
+export * from "./VaccineVoucherRequest";

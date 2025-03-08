@@ -8,3 +8,4 @@ export { default as ScheduledMeetingModel } from "./ScheduledMeeting";
 export { default as ScreeningRequestModel } from "./ScreeningRequest";
 export { default as UrgentMeetingRequestModel } from "./UrgentMeetingRequest";
 export { default as UserModel } from "./User";
+export { default as VaccineVoucherRequestModel } from "./VaccineVoucherRequest";

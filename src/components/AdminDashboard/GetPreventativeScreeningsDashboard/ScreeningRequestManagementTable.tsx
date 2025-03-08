@@ -13,18 +13,15 @@ import {
 import { ScreeningRequest, ScreeningRequestStatus } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-import AdminDashboardTable from "../AdminDashboardTable";
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
 
 type ScreeningRequestManagementTableProps = {
   screeningRequests: ScreeningRequest[];
 };
 
-type ScreeningRequestRow = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
+type ScreeningRequestRow = AdminDashboardTableRow & {
   requestName: string;
   submittedDate: string;
   status: string;

@@ -47,6 +47,7 @@ export async function handleEnrollmentFormSubmission(
     healthyHabitsTrackingForms: [],
     fagerstromTests: [],
     screeningRequests: [],
+    vaccineVoucherRequests: [],
     comments: "",
   };
 

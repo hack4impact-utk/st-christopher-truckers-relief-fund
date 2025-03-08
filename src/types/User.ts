@@ -3,6 +3,7 @@ import {
   FagerstromTest,
   HealthyHabitsTrackingForm,
   ProgramEnrollment,
+  VaccineVoucherRequest,
 } from ".";
 import { ScreeningRequest } from "./ScreeningRequest";
 
@@ -33,6 +34,7 @@ export type ClientUser = {
   healthyHabitsTrackingForms: HealthyHabitsTrackingForm[];
   fagerstromTests: FagerstromTest[];
   screeningRequests: ScreeningRequest[];
+  vaccineVoucherRequests: VaccineVoucherRequest[];
   comments: string;
 };
 

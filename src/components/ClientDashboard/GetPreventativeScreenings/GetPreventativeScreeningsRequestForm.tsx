@@ -14,9 +14,13 @@ import { z } from "zod";
 
 import { handleScreeningRequestSubmission } from "@/server/api/screening-requests.ts/public-mutations";
 import { ClientUser, ScreeningRequest } from "@/types";
-import calculateAge from "@/utils/calculateAge";
 import dayjsUtil from "@/utils/dayjsUtil";
-import isCompeletedScreeningRequest from "@/utils/isCompletedScreeningRequest";
+
+import {
+  isEligibleForCervicalScreening,
+  isEligibleForColorectalScreening,
+  isEligibleForProstateScreening,
+} from "./helpers";
 
 const screeningRequestValidator = z.object({
   wantsProstateCancerScreening: z.boolean(),
@@ -25,108 +29,6 @@ const screeningRequestValidator = z.object({
 });
 
 type ScreeningRequestFormValues = z.infer<typeof screeningRequestValidator>;
-
-function isEligibleForProstateScreening(
-  user: ClientUser,
-  screeningRequests: ScreeningRequest[],
-): boolean {
-  if (user.enrollmentForm.generalInformationSection.sex === "female") {
-    return false;
-  }
-
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
-
-  if (age <= 50 || age >= 65) {
-    return false;
-  }
-
-  const mostRecentProstateScreeningRequest = screeningRequests.find(
-    (screeningRequest) => screeningRequest.name === "Prostate Screening",
-  );
-
-  if (!mostRecentProstateScreeningRequest) {
-    return true;
-  }
-
-  if (isCompeletedScreeningRequest(mostRecentProstateScreeningRequest)) {
-    const twoYearsAfterMostRecentProstateScreening = dayjsUtil(
-      mostRecentProstateScreeningRequest.submittedDate,
-    ).add(2, "year");
-
-    return dayjsUtil().isAfter(twoYearsAfterMostRecentProstateScreening);
-  }
-
-  return false;
-}
-
-function isEligibleForColorectalScreening(
-  user: ClientUser,
-  screeningRequests: ScreeningRequest[],
-): boolean {
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
-
-  if (age <= 45 || age >= 75) {
-    return false;
-  }
-
-  const mostRecentColorectalScreeningRequest = screeningRequests.find(
-    (screeningRequest) =>
-      screeningRequest.name === "Colon / Colorectal Screening",
-  );
-
-  if (!mostRecentColorectalScreeningRequest) {
-    return true;
-  }
-
-  if (isCompeletedScreeningRequest(mostRecentColorectalScreeningRequest)) {
-    const oneYearAfterMostRecentColorectalScreening = dayjsUtil(
-      mostRecentColorectalScreeningRequest.submittedDate,
-    ).add(1, "year");
-
-    return dayjsUtil().isAfter(oneYearAfterMostRecentColorectalScreening);
-  }
-
-  return false;
-}
-
-function isEligibleForCervicalScreening(
-  user: ClientUser,
-  screeningRequests: ScreeningRequest[],
-): boolean {
-  if (user.enrollmentForm.generalInformationSection.sex === "male") {
-    return false;
-  }
-
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
-
-  if (age <= 21 || age >= 65) {
-    return false;
-  }
-
-  const mostRecentCervicalScreeningRequest = screeningRequests.find(
-    (screeningRequest) => screeningRequest.name === "Cervical Cancer Screening",
-  );
-
-  if (!mostRecentCervicalScreeningRequest) {
-    return true;
-  }
-
-  if (isCompeletedScreeningRequest(mostRecentCervicalScreeningRequest)) {
-    const oneYearAfterMostRecentColorectalScreening = dayjsUtil(
-      mostRecentCervicalScreeningRequest.submittedDate,
-    ).add(1, "year");
-
-    return dayjsUtil().isAfter(oneYearAfterMostRecentColorectalScreening);
-  }
-
-  return false;
-}
 
 type GetPreventativeScreeningsRequestFormProps = {
   user: ClientUser;
@@ -282,7 +184,7 @@ export default function GetPreventativeScreeningsRequestForm({
           gap: 2,
         }}
       >
-        <Typography variant="h4">Screening Request Form</Typography>
+        <Typography variant="h5">Screening Request Form</Typography>
         <Divider />
         <Typography>What screenings would you like to apply for?</Typography>
 

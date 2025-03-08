@@ -3,12 +3,16 @@ import { ReactNode } from "react";
 
 import VaccineVoucherDashboard from "@/components/AdminDashboard/VaccineVaccineDashboard";
 import { getVaccineVoucherProgramEnrollments } from "@/server/api/program-enrollments/queries";
+import { getAllVaccineVoucherRequests } from "@/server/api/vaccine-voucher-requests/queries";
 
 export default async function VaccineVoucher(): Promise<ReactNode> {
-  const [vaccineVoucherProgramEnrollments, error] =
+  const [vaccineVoucherProgramEnrollments, programEnrollmentsError] =
     await getVaccineVoucherProgramEnrollments();
 
-  if (error !== null) {
+  const [vaccineVoucherRequests, vaccineVoucherRequestError] =
+    await getAllVaccineVoucherRequests();
+
+  if (programEnrollmentsError !== null) {
     return (
       <Box
         sx={{
@@ -19,6 +23,23 @@ export default async function VaccineVoucher(): Promise<ReactNode> {
         }}
       >
         <Typography>There was an error fetching Vaccine Voucher</Typography>
+      </Box>
+    );
+  }
+
+  if (vaccineVoucherRequestError !== null) {
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography>
+          There was an error fetching Vaccine Voucher Requests
+        </Typography>
       </Box>
     );
   }
@@ -36,6 +57,7 @@ export default async function VaccineVoucher(): Promise<ReactNode> {
     >
       <VaccineVoucherDashboard
         vaccineVoucherProgramEnrollments={vaccineVoucherProgramEnrollments}
+        vaccineVoucherRequests={vaccineVoucherRequests}
       />
     </Box>
   );
