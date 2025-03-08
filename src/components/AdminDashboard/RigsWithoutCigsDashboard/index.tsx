@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ProgramEnrollment } from "@/types";
 
-import ProgramDashboard from "../ProgramDashboard";
+import AdminProgramDashboard from "../AdminProgramDashboard";
 import RigsWithoutCigsClientDashboard from "./RigsWithoutCigsClientDashboard";
 import RigsWithoutCigsMetric from "./RigsWithoutCigsMetric";
 
@@ -16,7 +16,7 @@ export default function RigsWithoutCigsDashboard({
   rigsWithoutCigsProgramEnrollments,
 }: RigsWithoutCigsDashboardProps): ReactNode {
   return (
-    <ProgramDashboard
+    <AdminProgramDashboard
       defaultTab="clients"
       tabs={{
         clients: {

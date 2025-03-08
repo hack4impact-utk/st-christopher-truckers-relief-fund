@@ -1,7 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import Search from "@mui/icons-material/Search";
-import { Box, IconButton, TextField, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { IconButton } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 
@@ -9,21 +8,19 @@ import { handleDeleteScheduledMeeting } from "@/server/api/scheduled-meetings/pu
 import { ClientUser, ScheduledMeeting } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../../AdminDashboardTable";
 import CreateNewMeeting from "./CreateNewMeeting";
 
-export type Row = {
-  id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
+export type ScheduledMeetingsRow = AdminDashboardTableRow & {
   reason: string;
   date: string;
 };
 
 export function createRowFromScheduledMeeting(
   scheduledMeeting: ScheduledMeeting,
-): Row {
+): ScheduledMeetingsRow {
   return {
     id: scheduledMeeting._id,
     firstName: scheduledMeeting.client.firstName,
@@ -37,7 +34,9 @@ export function createRowFromScheduledMeeting(
   };
 }
 
-function getRows(scheduledMeetings: ScheduledMeeting[]): Row[] {
+function getRows(
+  scheduledMeetings: ScheduledMeeting[],
+): ScheduledMeetingsRow[] {
   return scheduledMeetings.map(createRowFromScheduledMeeting);
 }
 
@@ -51,7 +50,6 @@ export default function ScheduledMeetings({
   allClients,
 }: ScheduledMeetingsProps): ReactNode {
   const [rows, setRows] = useState(getRows(scheduledMeetings));
-  const [searchQuery, setSearchQuery] = useState("");
   const { enqueueSnackbar } = useSnackbar();
 
   async function handleDelete(id: string): Promise<void> {
@@ -82,31 +80,7 @@ export default function ScheduledMeetings({
     });
   }
 
-  const columns: GridColDef<Row>[] = [
-    {
-      field: "firstName",
-      headerName: "First name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      flex: 1,
-      minWidth: 125,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 2,
-      minWidth: 200,
-    },
+  const additionalColumns: GridColDef<ScheduledMeetingsRow>[] = [
     {
       field: "reason",
       headerName: "Reason",
@@ -135,51 +109,14 @@ export default function ScheduledMeetings({
     },
   ];
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
-    <Box>
-      <Typography align="center" variant="h6">
-        Scheduled Meetings
-      </Typography>
-      <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-        <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-          <TextField
-            id="search-bar"
-            className="text"
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-            placeholder="Search..."
-            size="small"
-          />
-          <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-        </Box>
-        <Box sx={{ marginLeft: "auto" }}>
-          <CreateNewMeeting allClients={allClients} setRows={setRows} />
-        </Box>
-      </Box>
-      <DataGrid
-        rows={filteredRows}
-        columns={columns}
-        disableRowSelectionOnClick
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        sx={{
-          height: "300px",
-        }}
-      />
-    </Box>
+    <AdminDashboardTable
+      tableName="Scheduled Meetings"
+      rows={rows}
+      additionalColumns={additionalColumns}
+      actionButtons={
+        <CreateNewMeeting allClients={allClients} setRows={setRows} />
+      }
+    />
   );
 }

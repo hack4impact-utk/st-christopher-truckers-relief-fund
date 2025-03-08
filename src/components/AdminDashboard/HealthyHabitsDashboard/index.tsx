@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ProgramEnrollment } from "@/types";
 
-import ProgramDashboard from "../ProgramDashboard";
+import AdminProgramDashboard from "../AdminProgramDashboard";
 import HealthyHabitsClientDashboard from "./HealthyHabitsClientDashboard";
 import HealthyHabitsMetrics from "./HealthyHabitsMetrics";
 
@@ -16,7 +16,7 @@ export default function HealthyHabitsDashboard({
   healthyHabitsProgramEnrollments,
 }: HealthyHabitsDashboardProps): ReactNode {
   return (
-    <ProgramDashboard
+    <AdminProgramDashboard
       defaultTab="clients"
       tabs={{
         clients: {

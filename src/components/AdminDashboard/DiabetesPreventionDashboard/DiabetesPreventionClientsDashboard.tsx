@@ -18,9 +18,9 @@ import {
 import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
-import ProgramClientsDashboard, {
-  ProgramClientsDashboardRow,
-} from "../ProgramDashboard/ProgramClientsDashboard";
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
 import DiabetesPreventionHistoryModal from "./DiabetesPreventionHistoryModal";
 
 type ActivityStatus =
@@ -30,7 +30,7 @@ type ActivityStatus =
   | "inactiveFor8Weeks"
   | "noTrackingForms";
 
-type DiabetesPreventionRow = ProgramClientsDashboardRow & {
+type DiabetesPreventionRow = AdminDashboardTableRow & {
   trackingForms: HealthyHabitsTrackingForm[];
   activityStatus: ActivityStatus;
   user: User;
@@ -163,8 +163,8 @@ export default function DiabetesPreventionClientsDashboard({
   ];
 
   return (
-    <ProgramClientsDashboard
-      programName="Diabetes Prevention"
+    <AdminDashboardTable
+      tableName="Diabetes Prevention Clients"
       rows={rows}
       additionalColumns={additionalColumns}
     />

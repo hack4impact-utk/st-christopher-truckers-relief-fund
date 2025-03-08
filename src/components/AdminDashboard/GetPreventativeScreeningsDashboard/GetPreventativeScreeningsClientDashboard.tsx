@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { ClientUser, ProgramEnrollment, User } from "@/types";
 
-import ProgramClientsDashboard from "../ProgramDashboard/ProgramClientsDashboard";
+import AdminDashboardTable from "../AdminDashboardTable";
 
 type Row = {
   id?: string;
@@ -45,8 +45,8 @@ export default function GetPreventativeScreeningsClientDashboard({
   const rows = getRows(GetPreventativeScreeningProgramEnrollments);
 
   return (
-    <ProgramClientsDashboard
-      programName="Get Preventative Screenings"
+    <AdminDashboardTable
+      tableName="Get Preventative Screenings Clients"
       rows={rows}
     />
   );

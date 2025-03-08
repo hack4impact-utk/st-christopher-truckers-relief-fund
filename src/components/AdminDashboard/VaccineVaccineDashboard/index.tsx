@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ProgramEnrollment } from "@/types";
 
-import ProgramDashboard from "../ProgramDashboard";
+import AdminProgramDashboard from "../AdminProgramDashboard";
 import VaccineVoucherClientDashboard from "./VaccineVoucherDashboard";
 import VaccineVoucherMetrics from "./VaccineVoucherMetrics";
 
@@ -16,7 +16,7 @@ export default function VaccineVoucherDashboard({
   vaccineVoucherProgramEnrollments,
 }: VaccineVoucherDashboardProps): ReactNode {
   return (
-    <ProgramDashboard
+    <AdminProgramDashboard
       defaultTab="clients"
       tabs={{
         clients: {

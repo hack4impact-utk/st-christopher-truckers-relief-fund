@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 import { ProgramEnrollment, ScreeningRequest } from "@/types";
 
-import ProgramDashboard from "../ProgramDashboard";
+import AdminProgramDashboard from "../AdminProgramDashboard";
 import GetPreventativeScreeningsClientDashboard from "./GetPreventativeScreeningsClientDashboard";
 import GetPreventativeScreeningsMetrics from "./GetPreventativeScreeningsMetrics";
 import ScreeningRequestManagementTable from "./ScreeningRequestManagementTable";
@@ -18,7 +18,7 @@ export default function GetPreventativeScreeningsDashboard({
   screeningRequests,
 }: GetPreventativeScreeningsDashboardProps): ReactNode {
   return (
-    <ProgramDashboard
+    <AdminProgramDashboard
       defaultTab="clients"
       tabs={{
         clients: {

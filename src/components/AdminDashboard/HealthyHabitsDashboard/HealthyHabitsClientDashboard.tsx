@@ -4,11 +4,10 @@ import Alarm from "@mui/icons-material/Alarm";
 import Check from "@mui/icons-material/Check";
 import Close from "@mui/icons-material/Close";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import Search from "@mui/icons-material/Search";
 import Warning from "@mui/icons-material/Warning";
-import { Box, TextField, Tooltip, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { ReactNode, useState } from "react";
+import { Box, Tooltip } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
+import { ReactNode } from "react";
 
 import {
   ClientUser,
@@ -19,6 +18,9 @@ import {
 import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
 
+import AdminDashboardTable, {
+  AdminDashboardTableRow,
+} from "../AdminDashboardTable";
 import HealthyHabitsHistoryModal from "./HealthyHabitsHistoryModal";
 
 type ActivityStatus =
@@ -28,12 +30,7 @@ type ActivityStatus =
   | "inactiveFor8Weeks"
   | "noTrackingForms";
 
-type Row = {
-  id?: string;
-  lastName: string;
-  firstName: string;
-  phoneNumber: string;
-  email: string;
+type HealthyHabitsRow = AdminDashboardTableRow & {
   trackingForms: HealthyHabitsTrackingForm[];
   activityStatus: ActivityStatus;
   user: User;
@@ -41,7 +38,7 @@ type Row = {
 
 const createRowFromHealthyHabitsProgramEnrollment = (
   programEnrollment: ProgramEnrollment,
-): Row => {
+): HealthyHabitsRow => {
   const user = programEnrollment.user as ClientUser;
 
   let status: ActivityStatus = "noTrackingForms";
@@ -78,7 +75,7 @@ const createRowFromHealthyHabitsProgramEnrollment = (
   };
 };
 
-function getRows(programEnrollments: ProgramEnrollment[]): Row[] {
+function getRows(programEnrollments: ProgramEnrollment[]): HealthyHabitsRow[] {
   return programEnrollments.map(createRowFromHealthyHabitsProgramEnrollment);
 }
 
@@ -125,33 +122,8 @@ export default function HealthyHabitsClientDashboard({
   healthyHabitsProgramEnrollments,
 }: HealthyHabitsClientDashboardProps): ReactNode {
   const rows = getRows(healthyHabitsProgramEnrollments);
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const columns: GridColDef<Row>[] = [
-    {
-      field: "firstName",
-      headerName: "First name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      flex: 1,
-      minWidth: 125,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 2,
-      minWidth: 200,
-    },
+  const additionalColumns: GridColDef<HealthyHabitsRow>[] = [
     {
       field: "history",
       headerName: "View history",
@@ -195,48 +167,11 @@ export default function HealthyHabitsClientDashboard({
     },
   ];
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
-    <>
-      <Box>
-        <Typography align="center" variant="h6">
-          Healthy Habits Clients
-        </Typography>
-        <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-          <TextField
-            id="search-bar"
-            className="text"
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-            }}
-            placeholder="Search..."
-            size="small"
-          />
-          <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-        </Box>
-        <DataGrid
-          rows={filteredRows}
-          columns={columns}
-          disableRowSelectionOnClick
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          sx={{
-            height: "300px",
-          }}
-        />
-      </Box>
-    </>
+    <AdminDashboardTable
+      tableName="Healthy Habits Clients"
+      rows={rows}
+      additionalColumns={additionalColumns}
+    />
   );
 }

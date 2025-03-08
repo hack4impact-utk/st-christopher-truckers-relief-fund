@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { ProgramEnrollment } from "@/types";
 
-import ProgramDashboard from "../ProgramDashboard";
+import AdminProgramDashboard from "../AdminProgramDashboard";
 import DiabetesPreventionClientsDashboard from "./DiabetesPreventionClientsDashboard";
 import DiabetesPreventionMetrics from "./DiabetesPreventionMetrics";
 
@@ -16,7 +16,7 @@ export default function DiabetesPreventionDashboard({
   diabetesPreventionProgramEnrollments,
 }: DiabetesPreventionDashboardProps): ReactNode {
   return (
-    <ProgramDashboard
+    <AdminProgramDashboard
       defaultTab="clients"
       tabs={{
         clients: {

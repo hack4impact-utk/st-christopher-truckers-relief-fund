@@ -1,9 +1,8 @@
 "use client";
 
-import { Search } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Box, Button } from "@mui/material";
+import { GridColDef } from "@mui/x-data-grid";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 
@@ -14,11 +13,13 @@ import {
 import { ScreeningRequest, ScreeningRequestStatus } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
+import AdminDashboardTable from "../AdminDashboardTable";
+
 type ScreeningRequestManagementTableProps = {
   screeningRequests: ScreeningRequest[];
 };
 
-type Row = {
+type ScreeningRequestRow = {
   id: string;
   firstName: string;
   lastName: string;
@@ -51,7 +52,9 @@ function getStatusDisplayName(status: ScreeningRequestStatus): string {
   }
 }
 
-function getRowFromScreeningRequest(screeningRequest: ScreeningRequest): Row {
+function getRowFromScreeningRequest(
+  screeningRequest: ScreeningRequest,
+): ScreeningRequestRow {
   return {
     id: screeningRequest._id!,
     firstName: screeningRequest.user.firstName,
@@ -67,7 +70,7 @@ function getRowFromScreeningRequest(screeningRequest: ScreeningRequest): Row {
   };
 }
 
-function getRows(screeningRequests: ScreeningRequest[]): Row[] {
+function getRows(screeningRequests: ScreeningRequest[]): ScreeningRequestRow[] {
   return screeningRequests.map(getRowFromScreeningRequest);
 }
 
@@ -76,7 +79,6 @@ export default function ScreeningRequestManagementTable({
 }: ScreeningRequestManagementTableProps): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
   const [rows, setRows] = useState(getRows(screeningRequests));
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleDelete = async (
     screeningRequest: ScreeningRequest,
@@ -129,81 +131,44 @@ export default function ScreeningRequestManagementTable({
     }
   };
 
-  function getActionButton(row: Row): ReactNode {
+  function getActionButton(row: ScreeningRequestRow): ReactNode {
     const { screeningRequest } = row;
 
-    switch (screeningRequest.status) {
-      case "requested":
-        return (
-          <>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() =>
-                handleUpdate(
-                  { ...screeningRequest, status: "qualified" },
-                  "Are you sure you want to approve this request?",
-                )
-              }
-            >
-              Approve
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() =>
-                handleUpdate(
-                  { ...screeningRequest, status: "rejected" },
-                  "Are you sure you want to reject this request?",
-                )
-              }
-            >
-              Reject
-            </Button>
-          </>
-        );
-      case "qualified":
-        return <></>;
-      case "rejected":
-        return <></>;
-      case "negative":
-        return <></>;
-      case "initial positive":
-        return <></>;
-      case "true positive":
-        return <></>;
-      case "false positive":
-        return <></>;
-      default:
-        return <></>;
+    if (screeningRequest.status === "requested") {
+      return (
+        <>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() =>
+              handleUpdate(
+                { ...screeningRequest, status: "qualified" },
+                "Are you sure you want to approve this request?",
+              )
+            }
+          >
+            Approve
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() =>
+              handleUpdate(
+                { ...screeningRequest, status: "rejected" },
+                "Are you sure you want to reject this request?",
+              )
+            }
+          >
+            Reject
+          </Button>
+        </>
+      );
     }
+
+    return <></>;
   }
 
-  const columns: GridColDef<Row>[] = [
-    {
-      field: "firstName",
-      headerName: "First name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      flex: 1,
-      minWidth: 125,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 2,
-      minWidth: 200,
-    },
+  const additionalColumns: GridColDef<ScreeningRequestRow>[] = [
     {
       field: "requestName",
       headerName: "Request Name",
@@ -253,47 +218,12 @@ export default function ScreeningRequestManagementTable({
     },
   ];
 
-  const filteredRows = rows.filter(
-    (row) =>
-      row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
   return (
-    <Box sx={{ maxWidth: "100vw" }}>
-      <Typography align="center" variant="h6">
-        Screening Requests
-      </Typography>
-      <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-          placeholder="Search..."
-          size="small"
-        />
-        <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-      </Box>
-      <DataGrid
-        rows={filteredRows}
-        columns={columns}
-        disableRowSelectionOnClick
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        sx={{
-          height: "300px",
-          overflowX: "auto",
-        }}
-      />
-    </Box>
+    <AdminDashboardTable
+      tableName="Screening Requests"
+      rows={rows}
+      additionalColumns={additionalColumns}
+      width="80vw"
+    />
   );
 }
