@@ -1,14 +1,14 @@
 "use client";
 
 import { Box, Button, Fade, Modal, Typography } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
-const style = {
+const defaultModalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "min(90vw, 700px)",
+  width: "min(90vw, 900px)",
   maxHeight: "80vh",
   overflowY: "auto",
   bgcolor: "background.paper",
@@ -16,31 +16,32 @@ const style = {
   p: 4,
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
   gap: 2,
 };
 
-type ModalWrapperProps = {
+type SCFModalProps = {
   trigger: ReactNode;
   title?: string;
+  width?: string;
+
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 };
 
-export default function ModalWrapper({
+export default function SCFModal({
   trigger,
   title,
+  width,
+  open,
+  setOpen,
   children,
-}: ModalWrapperProps): JSX.Element {
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = (): void => setOpen(true);
+}: Readonly<SCFModalProps>): ReactNode {
   const handleClose = (): void => setOpen(false);
 
   return (
     <>
-      <Box onClick={handleOpen} sx={{ display: "inline-block" }}>
-        {trigger}
-      </Box>
+      {trigger}
 
       <Modal
         aria-labelledby="modal-title"
@@ -50,9 +51,14 @@ export default function ModalWrapper({
         closeAfterTransition
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box
+            sx={{
+              ...defaultModalStyle,
+              width: width ?? defaultModalStyle.width,
+            }}
+          >
             {title && (
-              <Typography id="modal-title" variant="h4">
+              <Typography id="modal-title" variant="h5">
                 {title}
               </Typography>
             )}
@@ -61,8 +67,8 @@ export default function ModalWrapper({
 
             <Button
               variant="outlined"
-              onClick={handleClose}
-              sx={{ width: "50%" }}
+              onClick={() => setOpen(false)}
+              sx={{ mt: 3 }}
             >
               Close
             </Button>
