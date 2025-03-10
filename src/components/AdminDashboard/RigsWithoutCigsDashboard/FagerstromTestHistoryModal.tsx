@@ -34,7 +34,7 @@ export default function FagerstromTestHistoryModal({
   initialFagerstromTests,
   user,
   programEnrollment,
-}: FagerstromTestHistoryModalProps): ReactNode {
+}: Readonly<FagerstromTestHistoryModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [fagerstromTests, setFagerstromTests] = useState(
     initialFagerstromTests,

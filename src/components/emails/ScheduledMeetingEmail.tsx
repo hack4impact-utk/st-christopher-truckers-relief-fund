@@ -10,7 +10,7 @@ type MeetingScheduledEmailProps = {
 export default function ScheduledMeetingEmail({
   date,
   reason,
-}: MeetingScheduledEmailProps): ReactNode {
+}: Readonly<MeetingScheduledEmailProps>): ReactNode {
   const preview = "You've been scheduled for a meeting with SCF";
   const text = [
     `You have been scheduled for a meeting with SCF on ${date}.`,

@@ -10,7 +10,7 @@ type RigsWithoutCigsMetricProps = {
 
 export default function RigsWithoutCigsMetric({
   rigsWithoutCigsProgramEnrollments,
-}: RigsWithoutCigsMetricProps): ReactNode {
+}: Readonly<RigsWithoutCigsMetricProps>): ReactNode {
   const totalEnrolled = rigsWithoutCigsProgramEnrollments.length;
   const registrationsInPast3Months = rigsWithoutCigsProgramEnrollments.reduce(
     (acc, programEnrollment) => {

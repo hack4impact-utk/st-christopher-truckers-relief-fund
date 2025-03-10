@@ -22,7 +22,7 @@ type CigarettesFagerstromQuestionsProps = {
 export default function CigarettesFagerstromQuestions({
   control,
   errors,
-}: CigarettesFagerstromQuestionsProps): ReactNode {
+}: Readonly<CigarettesFagerstromQuestionsProps>): ReactNode {
   return (
     <>
       <Divider />

@@ -25,7 +25,7 @@ type HealthyHabitsTrackingFormListItemProps = {
 export default function HealthyHabitsTrackingFormListItem({
   form,
   handleDelete,
-}: HealthyHabitsTrackingFormListItemProps): ReactNode {
+}: Readonly<HealthyHabitsTrackingFormListItemProps>): ReactNode {
   const [open, setOpen] = useState(false);
 
   return (

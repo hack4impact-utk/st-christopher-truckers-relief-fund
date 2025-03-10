@@ -14,7 +14,7 @@ type VaccineVoucherDashboardProps = {
 
 export default function VaccineVoucherDashboard({
   user,
-}: VaccineVoucherDashboardProps): JSX.Element {
+}: Readonly<VaccineVoucherDashboardProps>): JSX.Element {
   const [vaccineVoucherRequests, setVaccineVoucherRequests] = useState<
     VaccineVoucherRequest[]
   >(user.vaccineVoucherRequests);

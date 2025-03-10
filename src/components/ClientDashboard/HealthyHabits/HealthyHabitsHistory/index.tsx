@@ -19,7 +19,7 @@ export default function HealthyHabitsHistory({
   trackingForms,
   setTrackingForms,
   user,
-}: HealthyHabitsHistoryProps): ReactNode {
+}: Readonly<HealthyHabitsHistoryProps>): ReactNode {
   if (trackingForms.length === 0) {
     return (
       <Box

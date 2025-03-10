@@ -115,7 +115,7 @@ const createRow = (
 
 export default function DiabetesPreventionClientsDashboard({
   diabetesPreventionProgramEnrollments,
-}: DiabetesPreventionClientsDashboardProps): ReactNode {
+}: Readonly<DiabetesPreventionClientsDashboardProps>): ReactNode {
   const rows = diabetesPreventionProgramEnrollments.map(createRow);
 
   const additionalColumns: GridColDef[] = [
@@ -145,18 +145,16 @@ export default function DiabetesPreventionClientsDashboard({
         const status = params.row.activityStatus;
 
         return (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              {getStatusIcon(status)}
-            </Box>
-          </>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            {getStatusIcon(status)}
+          </Box>
         );
       },
     },

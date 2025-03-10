@@ -17,7 +17,7 @@ export default function ClientProgramDashboard({
   title,
   defaultTab,
   tabs,
-}: ClientProgramDashboardProps): ReactNode {
+}: Readonly<ClientProgramDashboardProps>): ReactNode {
   const [selectedTab, setSelectedTab] = useState(defaultTab);
 
   return (

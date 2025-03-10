@@ -40,7 +40,7 @@ type ResetPasswordFormProps = {
 
 export default function ResetPasswordForm({
   token,
-}: ResetPasswordFormProps): ReactNode {
+}: Readonly<ResetPasswordFormProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);

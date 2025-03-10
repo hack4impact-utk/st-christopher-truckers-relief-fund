@@ -22,7 +22,7 @@ type SmokelessTobaccoFagerstromQuestionsProps = {
 export default function SmokelessTobaccoFagerstromQuestions({
   control,
   errors,
-}: SmokelessTobaccoFagerstromQuestionsProps): ReactNode {
+}: Readonly<SmokelessTobaccoFagerstromQuestionsProps>): ReactNode {
   return (
     <>
       <Divider />

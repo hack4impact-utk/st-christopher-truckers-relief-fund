@@ -30,7 +30,7 @@ function getStatusDisplayName(status: VaccineVoucherRequestStatus): string {
     case "rejected":
       return "Rejected";
     case "approved":
-      return "Approved and awaiting client confirmation of receival";
+      return "Approved and awaiting client to confirm they have received the voucher";
     case "received":
       return "Received and awaiting client confirmation of use";
     case "used":
@@ -120,7 +120,7 @@ type VaccineVoucherRequestsTableProps = {
 
 export default function VaccineVoucherRequestsTable({
   vaccineVoucherRequests,
-}: VaccineVoucherRequestsTableProps): ReactNode {
+}: Readonly<VaccineVoucherRequestsTableProps>): ReactNode {
   const [rows, setRows] = useState(getRows(vaccineVoucherRequests));
   const { enqueueSnackbar } = useSnackbar();
 

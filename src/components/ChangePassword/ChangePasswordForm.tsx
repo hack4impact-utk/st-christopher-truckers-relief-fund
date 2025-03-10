@@ -45,7 +45,7 @@ type ChangePasswordFormProps = {
 export default function ChangePasswordForm({
   firstName,
   email,
-}: ChangePasswordFormProps): ReactNode {
+}: Readonly<ChangePasswordFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 

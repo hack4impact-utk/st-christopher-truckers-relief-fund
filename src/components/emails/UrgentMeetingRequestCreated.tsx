@@ -12,7 +12,7 @@ export default function UrgentMeetingRequestCreated({
   firstName,
   lastName,
   reason,
-}: UrgentMeetingRequestCreatedProps): ReactNode {
+}: Readonly<UrgentMeetingRequestCreatedProps>): ReactNode {
   const preview = "Urgent meeting requested";
   const text = [
     `${firstName} ${lastName} has requested an urgent meeting.`,

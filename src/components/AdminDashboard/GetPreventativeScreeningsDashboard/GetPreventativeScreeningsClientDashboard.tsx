@@ -43,7 +43,7 @@ type GetPreventativeScreeningsClientDashboardProps = {
 export default function GetPreventativeScreeningsClientDashboard({
   getPreventativeScreeningProgramEnrollments:
     GetPreventativeScreeningProgramEnrollments,
-}: GetPreventativeScreeningsClientDashboardProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsClientDashboardProps>): ReactNode {
   const rows = getRows(GetPreventativeScreeningProgramEnrollments);
 
   const additionalColumns: GridColDef<GetPreventativeScreeningsRow>[] = [

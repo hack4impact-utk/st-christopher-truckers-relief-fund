@@ -16,7 +16,7 @@ type RigsWithoutCigsProps = {
 export default function RigsWithoutCigs({
   user,
   programEnrollment,
-}: RigsWithoutCigsProps): ReactNode {
+}: Readonly<RigsWithoutCigsProps>): ReactNode {
   const [fagerstromTests, setFagerstromTests] = useState<FagerstromTest[]>(
     user.fagerstromTests,
   );

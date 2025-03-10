@@ -124,7 +124,7 @@ export default function ClientProgramManagementForm({
   programEnrollments,
   fullName,
   client,
-}: ClientManagementDashboardProps): ReactNode {
+}: Readonly<ClientManagementDashboardProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [disabled] = useState(false);
@@ -173,7 +173,6 @@ export default function ClientProgramManagementForm({
       );
 
       if (!programEnrollment) {
-        error = true;
         return;
       }
 

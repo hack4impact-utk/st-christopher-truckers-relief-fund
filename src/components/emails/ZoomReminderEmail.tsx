@@ -10,7 +10,7 @@ type ZoomReminderEmailProps = {
 export default function ZoomReminderEmail({
   meetingName,
   meetingLink,
-}: ZoomReminderEmailProps): ReactNode {
+}: Readonly<ZoomReminderEmailProps>): ReactNode {
   const preview = `Reminder: You have an upcoming ${meetingName} meeting`;
   const text = `Please click the link below to join the zoom call for ${meetingName}.`;
   const buttonText = "Join Meeting";

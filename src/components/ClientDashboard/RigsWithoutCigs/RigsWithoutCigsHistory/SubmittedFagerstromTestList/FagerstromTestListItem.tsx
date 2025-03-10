@@ -25,7 +25,7 @@ type FagerstromTestListItemProps = {
 export default function FagerstromTestListItem({
   fagerstromTest,
   handleDelete,
-}: FagerstromTestListItemProps): ReactNode {
+}: Readonly<FagerstromTestListItemProps>): ReactNode {
   return (
     <ListItem
       secondaryAction={

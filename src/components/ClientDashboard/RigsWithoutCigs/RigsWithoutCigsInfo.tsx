@@ -9,7 +9,7 @@ type RigsWithoutCigsInfoProps = {
 
 export default function RigsWithoutCigsInfo({
   user,
-}: RigsWithoutCigsInfoProps): ReactNode {
+}: Readonly<RigsWithoutCigsInfoProps>): ReactNode {
   const accountabilityPerson =
     user.enrollmentForm.programSpecificQuestionsSection.rigsWithoutCigs
       .accountabilityPerson;

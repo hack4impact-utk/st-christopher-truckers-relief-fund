@@ -16,7 +16,7 @@ type VerifyEmailSuccessProps = {
 
 export default function VerifyEmailSuccess({
   emailVerificationToken,
-}: VerifyEmailSuccessProps): ReactNode {
+}: Readonly<VerifyEmailSuccessProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
   const router = useRouter();
   const { data: session, update } = useSession();

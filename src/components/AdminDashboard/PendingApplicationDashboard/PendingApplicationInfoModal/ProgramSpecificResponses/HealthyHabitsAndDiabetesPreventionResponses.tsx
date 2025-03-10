@@ -12,7 +12,7 @@ type HealthyHabitsAndDiabetesPreventionResponsesProps = {
 
 export default function HealthyHabitsAndDiabetesPreventionResponses({
   programSpecificQuestionsSection,
-}: HealthyHabitsAndDiabetesPreventionResponsesProps): ReactNode {
+}: Readonly<HealthyHabitsAndDiabetesPreventionResponsesProps>): ReactNode {
   return (
     <Box mb={2}>
       <Typography

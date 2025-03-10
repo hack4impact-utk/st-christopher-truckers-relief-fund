@@ -14,7 +14,7 @@ type ProgramSpecificResponsesProps = {
 
 export default function ProgramSpecificResponses({
   programSpecificQuestionsSection,
-}: ProgramSpecificResponsesProps): ReactNode {
+}: Readonly<ProgramSpecificResponsesProps>): ReactNode {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>

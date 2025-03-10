@@ -34,7 +34,7 @@ export default function HealthyHabitsTrackingFormModal({
   form,
   open,
   setOpen,
-}: HealthyHabitsTrackingFormModalProps): ReactNode {
+}: Readonly<HealthyHabitsTrackingFormModalProps>): ReactNode {
   return (
     <>
       <InfoIcon onClick={() => setOpen(true)} />

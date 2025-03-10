@@ -10,7 +10,9 @@ type AdminProfileProps = {
   user: User;
 };
 
-export default function AdminProfile({ user }: AdminProfileProps): ReactNode {
+export default function AdminProfile({
+  user,
+}: Readonly<AdminProfileProps>): ReactNode {
   if (user.role !== "admin") {
     return null;
   }

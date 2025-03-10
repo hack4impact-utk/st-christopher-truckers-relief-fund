@@ -35,7 +35,7 @@ type PendingApplicationInfoModalProps = {
 
 export default function PendingApplicationInfoModal({
   enrollmentForm,
-}: PendingApplicationInfoModalProps): ReactNode {
+}: Readonly<PendingApplicationInfoModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
 
   return (

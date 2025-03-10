@@ -11,7 +11,7 @@ type GetPreventativeScreeningResponsesProps = {
 
 export default function GetPreventativeScreeningResponses({
   programSpecificQuestionsSection,
-}: GetPreventativeScreeningResponsesProps): ReactNode {
+}: Readonly<GetPreventativeScreeningResponsesProps>): ReactNode {
   return (
     <Box mb={2}>
       <Typography

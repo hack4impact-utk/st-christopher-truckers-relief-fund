@@ -30,7 +30,7 @@ const style = {
 
 export default function HealthyHabitsHistoryModal({
   initialScreeningRequests,
-}: GetPreventativeScreeningsHistoryModalProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsHistoryModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [screeningRequests, setScreeningRequests] = useState(
     initialScreeningRequests,

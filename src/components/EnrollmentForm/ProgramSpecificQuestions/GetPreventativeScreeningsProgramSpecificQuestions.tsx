@@ -54,7 +54,7 @@ export default function GetPreventativeScreeningsProgramSpecificQuestions({
   control,
   errors,
   enrollmentForm,
-}: GetPreventativeScreeningsProgramSpecificQuestionsProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsProgramSpecificQuestionsProps>): ReactNode {
   const showProstateScreening = isEligibleForProstateScreening(enrollmentForm);
 
   return (

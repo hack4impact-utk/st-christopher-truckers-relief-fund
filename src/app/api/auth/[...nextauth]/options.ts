@@ -15,7 +15,7 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials || !credentials.email || !credentials.password) {
+        if (!credentials?.email || !credentials?.password) {
           throw new Error("You must provide an email and password to sign in");
         }
 

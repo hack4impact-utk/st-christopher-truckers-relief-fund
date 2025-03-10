@@ -16,7 +16,7 @@ type DeleteButtonProps = {
 function DeleteButton({
   vaccineVoucherRequest,
   handleDelete,
-}: DeleteButtonProps): ReactNode {
+}: Readonly<DeleteButtonProps>): ReactNode {
   return (
     <Tooltip title="Delete">
       <IconButton
@@ -42,12 +42,10 @@ export function getVaccineVoucherStatusInformation(
       return {
         message: "Please wait while SCF reviews your request.",
         buttons: (
-          <>
-            <DeleteButton
-              vaccineVoucherRequest={vaccineVoucherRequest}
-              handleDelete={handleDelete}
-            />
-          </>
+          <DeleteButton
+            vaccineVoucherRequest={vaccineVoucherRequest}
+            handleDelete={handleDelete}
+          />
         ),
       };
     case "rejected":
@@ -101,12 +99,10 @@ export function getVaccineVoucherStatusInformation(
       return {
         message: "Unknown",
         buttons: (
-          <>
-            <DeleteButton
-              vaccineVoucherRequest={vaccineVoucherRequest}
-              handleDelete={handleDelete}
-            />
-          </>
+          <DeleteButton
+            vaccineVoucherRequest={vaccineVoucherRequest}
+            handleDelete={handleDelete}
+          />
         ),
       };
   }

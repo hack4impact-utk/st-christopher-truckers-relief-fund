@@ -149,12 +149,10 @@ export default function ProgramSelectionFormSection(): ReactNode {
           name="optedInToHealthyHabits"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Healthy Habits"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Healthy Habits"
+            />
           )}
         />
 

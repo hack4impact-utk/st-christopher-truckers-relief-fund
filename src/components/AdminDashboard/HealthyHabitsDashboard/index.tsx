@@ -14,7 +14,7 @@ type HealthyHabitsDashboardProps = {
 
 export default function HealthyHabitsDashboard({
   healthyHabitsProgramEnrollments,
-}: HealthyHabitsDashboardProps): ReactNode {
+}: Readonly<HealthyHabitsDashboardProps>): ReactNode {
   return (
     <AdminProgramDashboard
       defaultTab="clients"

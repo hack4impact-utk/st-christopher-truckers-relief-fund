@@ -44,7 +44,7 @@ type UrgentMeetingRequestModalProps = {
 
 export default function UrgentMeetingRequestModal({
   user,
-}: UrgentMeetingRequestModalProps): ReactNode {
+}: Readonly<UrgentMeetingRequestModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();

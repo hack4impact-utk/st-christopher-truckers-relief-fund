@@ -16,7 +16,7 @@ export default function NextVaccineDueDates({
   lastPneumoniaVaccineRequest,
   lastShinglesVaccineRequest,
   lastShinglesBoosterVaccineRequest,
-}: NextVaccineDueDatesProps): ReactNode {
+}: Readonly<NextVaccineDueDatesProps>): ReactNode {
   if (
     !lastFluVaccineRequest &&
     !lastPneumoniaVaccineRequest &&

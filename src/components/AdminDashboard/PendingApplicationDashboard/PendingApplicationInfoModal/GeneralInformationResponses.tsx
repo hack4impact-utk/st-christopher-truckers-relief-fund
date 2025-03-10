@@ -11,7 +11,7 @@ type GeneralInformationResponsesProps = {
 
 export default function GeneralInformationResponses({
   generalInformationSection,
-}: GeneralInformationResponsesProps): ReactNode {
+}: Readonly<GeneralInformationResponsesProps>): ReactNode {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
@@ -61,7 +61,7 @@ export default function GeneralInformationResponses({
         {generalInformationSection.hasClassACdl && (
           <FormResponse
             label="CDL Number"
-            value={generalInformationSection.cdlNumber || "Not Provided"}
+            value={generalInformationSection.cdlNumber ?? "Not Provided"}
           />
         )}
         <FormResponse

@@ -18,7 +18,7 @@ export default function NotificationsDashboard({
   urgentMeetingRequests,
   scheduledMeetings,
   allClients,
-}: NotificationsDashboardProps): ReactNode {
+}: Readonly<NotificationsDashboardProps>): ReactNode {
   return (
     <AdminProgramDashboard
       defaultTab="urgentMeetingRequests"

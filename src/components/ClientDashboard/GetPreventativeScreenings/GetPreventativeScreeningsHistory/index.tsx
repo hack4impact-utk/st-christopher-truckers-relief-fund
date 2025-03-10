@@ -18,7 +18,7 @@ type GetPreventativeScreeningsHistoryProps = {
 export default function GetPreventativeScreeningsHistory({
   screeningRequests,
   setScreeningRequests,
-}: GetPreventativeScreeningsHistoryProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsHistoryProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = async (

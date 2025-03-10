@@ -10,7 +10,7 @@ type RejectionEmailProps = {
 export default function RejectionEmail({
   programName,
   rejectReason,
-}: RejectionEmailProps): ReactNode {
+}: Readonly<RejectionEmailProps>): ReactNode {
   const previewText = `Your SCF Program Application Has Been Rejected`;
   const text = [
     `Your SCF program application for ${programName} has been rejected.`,

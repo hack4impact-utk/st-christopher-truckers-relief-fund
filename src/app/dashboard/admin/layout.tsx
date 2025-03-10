@@ -12,7 +12,7 @@ type AdminDashboardLayoutProps = {
 
 export default async function AdminDashboardLayout({
   children,
-}: AdminDashboardLayoutProps): Promise<ReactNode> {
+}: Readonly<AdminDashboardLayoutProps>): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "admin") {

@@ -19,7 +19,7 @@ type ControlledTextFieldProps = {
 };
 
 export default function ControlledTextField(
-  props: ControlledTextFieldProps,
+  props: Readonly<ControlledTextFieldProps>,
 ): ReactNode {
   return (
     <Controller

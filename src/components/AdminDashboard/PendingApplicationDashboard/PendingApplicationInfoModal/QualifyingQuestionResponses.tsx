@@ -11,7 +11,7 @@ type QualifyingQuestionResponsesProps = {
 
 export default function QualifyingQuestionResponses({
   qualifyingQuestionsSection,
-}: QualifyingQuestionResponsesProps): ReactNode {
+}: Readonly<QualifyingQuestionResponsesProps>): ReactNode {
   const { diagnoses } = qualifyingQuestionsSection;
 
   return (

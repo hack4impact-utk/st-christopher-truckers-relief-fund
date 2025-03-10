@@ -9,7 +9,7 @@ type NotistackProviderProps = {
 
 export default function NotistackProvider({
   children,
-}: NotistackProviderProps): ReactNode {
+}: Readonly<NotistackProviderProps>): ReactNode {
   return (
     <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
       {children}

@@ -12,7 +12,9 @@ type HealthyHabitsProps = {
   user: ClientUser;
 };
 
-export default function HealthyHabits({ user }: HealthyHabitsProps): ReactNode {
+export default function HealthyHabits({
+  user,
+}: Readonly<HealthyHabitsProps>): ReactNode {
   const [trackingForms, setTrackingForms] = useState<
     HealthyHabitsTrackingForm[]
   >(user.healthyHabitsTrackingForms);

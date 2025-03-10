@@ -8,6 +8,6 @@ type EnrollmentFormLayoutProps = {
 
 export default function EnrollmentFormLayout({
   children,
-}: EnrollmentFormLayoutProps): ReactNode {
+}: Readonly<EnrollmentFormLayoutProps>): ReactNode {
   return <EnrollmentFormProvider>{children}</EnrollmentFormProvider>;
 }

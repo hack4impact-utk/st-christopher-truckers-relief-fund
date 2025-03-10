@@ -20,7 +20,7 @@ export default function RigsWithoutCigsHistory({
   programEnrollment,
   fagerstromTests,
   setFagerstromTests,
-}: RigsWithoutCigsHistoryProps): ReactNode {
+}: Readonly<RigsWithoutCigsHistoryProps>): ReactNode {
   const daysSinceStartOfProgram = dayjsUtil().diff(
     dayjsUtil(programEnrollment.dateEnrolled),
     "day",

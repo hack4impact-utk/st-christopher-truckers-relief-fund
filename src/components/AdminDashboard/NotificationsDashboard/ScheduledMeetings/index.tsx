@@ -48,7 +48,7 @@ type ScheduledMeetingsProps = {
 export default function ScheduledMeetings({
   scheduledMeetings,
   allClients,
-}: ScheduledMeetingsProps): ReactNode {
+}: Readonly<ScheduledMeetingsProps>): ReactNode {
   const [rows, setRows] = useState(getRows(scheduledMeetings));
   const { enqueueSnackbar } = useSnackbar();
 

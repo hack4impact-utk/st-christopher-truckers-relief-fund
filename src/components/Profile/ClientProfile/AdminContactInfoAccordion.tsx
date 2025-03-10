@@ -80,7 +80,7 @@ export default function AdminContactInfoAccordion(): ReactNode {
             </Typography>
 
             {adminContacts.map((contact, index) => (
-              <Box key={index}>
+              <Box key={index + contact.title}>
                 <Typography variant="subtitle1" fontWeight="bold">
                   {contact.title}:
                 </Typography>

@@ -17,7 +17,7 @@ type VaccineVoucherDashboardProps = {
 export default function VaccineVoucherDashboard({
   vaccineVoucherProgramEnrollments,
   vaccineVoucherRequests,
-}: VaccineVoucherDashboardProps): ReactNode {
+}: Readonly<VaccineVoucherDashboardProps>): ReactNode {
   return (
     <AdminProgramDashboard
       defaultTab="clients"

@@ -12,7 +12,7 @@ type VaccineVoucherMetricsProps = {
 
 export default function VaccineVoucherMetrics({
   VaccineVoucherProgramEnrollments,
-}: VaccineVoucherMetricsProps): ReactNode {
+}: Readonly<VaccineVoucherMetricsProps>): ReactNode {
   const totalEnrolled = VaccineVoucherProgramEnrollments.length;
   const registrationsInPast3Months = VaccineVoucherProgramEnrollments.reduce(
     (acc, programEnrollment) => {

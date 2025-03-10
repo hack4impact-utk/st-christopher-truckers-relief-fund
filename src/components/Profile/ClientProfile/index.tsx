@@ -11,7 +11,9 @@ type ClientProfileProps = {
   user: User;
 };
 
-export default function ClientProfile({ user }: ClientProfileProps): ReactNode {
+export default function ClientProfile({
+  user,
+}: Readonly<ClientProfileProps>): ReactNode {
   if (user.role !== "client") {
     return null;
   }

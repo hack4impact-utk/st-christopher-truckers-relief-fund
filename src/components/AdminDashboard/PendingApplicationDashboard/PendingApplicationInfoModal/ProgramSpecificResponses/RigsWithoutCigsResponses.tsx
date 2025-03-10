@@ -11,7 +11,7 @@ type RigsWithoutCigsResponsesProps = {
 
 export default function RigsWithoutCigsResponses({
   programSpecificQuestionsSection,
-}: RigsWithoutCigsResponsesProps): ReactNode {
+}: Readonly<RigsWithoutCigsResponsesProps>): ReactNode {
   return (
     <Box mb={2}>
       <Typography

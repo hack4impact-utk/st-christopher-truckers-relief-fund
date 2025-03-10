@@ -14,7 +14,7 @@ type VerifyEmailSuccessPageProps = {
 
 export default async function VerifyEmailSuccessPage({
   params,
-}: VerifyEmailSuccessPageProps): Promise<ReactNode> {
+}: Readonly<VerifyEmailSuccessPageProps>): Promise<ReactNode> {
   const { token } = params;
 
   const [emailVerificationToken, error] =

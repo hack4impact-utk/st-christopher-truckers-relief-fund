@@ -13,7 +13,7 @@ type GetPreventativeScreeningsProps = {
 
 export default function GetPreventativeScreenings({
   user,
-}: GetPreventativeScreeningsProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsProps>): ReactNode {
   const [screeningRequests, setScreeningRequests] = useState<
     ScreeningRequest[]
   >(user.screeningRequests);

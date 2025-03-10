@@ -43,7 +43,7 @@ const style = {
   gap: 2,
 };
 
-const scheduleMeetingScehma = z.object({
+const scheduleMeetingSchema = z.object({
   client: z.string().min(1, { message: "Client is required" }),
   reason: z.string().min(1, { message: "Reason is required" }),
   date: z.string().refine((val) => dayjs(val).isValid(), {
@@ -51,7 +51,7 @@ const scheduleMeetingScehma = z.object({
   }),
 });
 
-type ScheduleMeetingFormValues = z.infer<typeof scheduleMeetingScehma>;
+type ScheduleMeetingFormValues = z.infer<typeof scheduleMeetingSchema>;
 
 type CreateNewMeetingProps = {
   allClients: ClientUser[];
@@ -61,7 +61,7 @@ type CreateNewMeetingProps = {
 export default function CreateNewMeeting({
   allClients,
   setRows,
-}: CreateNewMeetingProps): ReactNode {
+}: Readonly<CreateNewMeetingProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -72,7 +72,7 @@ export default function CreateNewMeeting({
     reset,
     formState: { errors },
   } = useForm<ScheduleMeetingFormValues>({
-    resolver: zodResolver(scheduleMeetingScehma),
+    resolver: zodResolver(scheduleMeetingSchema),
     defaultValues: {
       client: allClients[0].email,
       reason: "",
@@ -161,7 +161,7 @@ export default function CreateNewMeeting({
                         }
                         // convert dayjs to string
                         onChange={(date) =>
-                          field.onChange(date?.format("MM/DD/YYYY HH:mm") || "")
+                          field.onChange(date?.format("MM/DD/YYYY HH:mm") ?? "")
                         }
                         label="Date"
                       />

@@ -46,7 +46,7 @@ type UrgentMeetingRequestsProps = {
 
 export default function UrgentMeetingRequests({
   urgentMeetingRequests,
-}: UrgentMeetingRequestsProps): ReactNode {
+}: Readonly<UrgentMeetingRequestsProps>): ReactNode {
   const [rows, setRows] = useState(getRows(urgentMeetingRequests));
   const { enqueueSnackbar } = useSnackbar();
 

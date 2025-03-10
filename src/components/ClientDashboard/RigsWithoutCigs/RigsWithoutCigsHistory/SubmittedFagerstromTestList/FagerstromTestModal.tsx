@@ -30,7 +30,7 @@ type FagerstromTestModalProps = {
 
 export default function FagerstromTestModal({
   fagerstromTest,
-}: FagerstromTestModalProps): ReactNode {
+}: Readonly<FagerstromTestModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
 
   return (

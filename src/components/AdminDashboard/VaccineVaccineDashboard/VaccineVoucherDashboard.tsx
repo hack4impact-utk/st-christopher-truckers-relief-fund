@@ -42,7 +42,7 @@ type VaccineVoucherClientDashboardProps = {
 
 export default function VaccineVoucherClientDashboard({
   vaccineVoucherProgramEnrollments: VaccineVoucherProgramEnrollments,
-}: VaccineVoucherClientDashboardProps): ReactNode {
+}: Readonly<VaccineVoucherClientDashboardProps>): ReactNode {
   const rows = getRows(VaccineVoucherProgramEnrollments);
 
   const additionalColumns: GridColDef<VaccineVoucherClientsRow>[] = [

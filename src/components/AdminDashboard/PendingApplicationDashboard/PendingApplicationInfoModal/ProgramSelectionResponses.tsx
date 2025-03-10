@@ -11,7 +11,7 @@ type ProgramSelectionResponsesProps = {
 
 export default function ProgramSelectionResponses({
   programSelectionSection,
-}: ProgramSelectionResponsesProps): ReactNode {
+}: Readonly<ProgramSelectionResponsesProps>): ReactNode {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>

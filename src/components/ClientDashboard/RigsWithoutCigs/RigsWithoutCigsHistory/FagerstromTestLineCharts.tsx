@@ -89,7 +89,7 @@ function useTobaccoChartData(fagerstromTests: FagerstromTest[]): {
 
 export default function FagerstromTestLineCharts({
   fagerstromTests,
-}: FagerstromTestLineCharts): ReactNode {
+}: Readonly<FagerstromTestLineCharts>): ReactNode {
   const { cigaretteData, cigaretteSeries } =
     useCigaretteChartData(fagerstromTests);
   const { tobaccoData, tobaccoSeries } = useTobaccoChartData(fagerstromTests);

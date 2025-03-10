@@ -11,7 +11,7 @@ export default function FormResponse({
   label,
   value,
   isListItem = false,
-}: FormResponseProps): ReactNode {
+}: Readonly<FormResponseProps>): ReactNode {
   if (isListItem) {
     return (
       <Typography>

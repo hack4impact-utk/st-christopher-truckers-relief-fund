@@ -14,7 +14,7 @@ type RigsWithoutCigsDashboardProps = {
 
 export default function RigsWithoutCigsDashboard({
   rigsWithoutCigsProgramEnrollments,
-}: RigsWithoutCigsDashboardProps): ReactNode {
+}: Readonly<RigsWithoutCigsDashboardProps>): ReactNode {
   return (
     <AdminProgramDashboard
       defaultTab="clients"

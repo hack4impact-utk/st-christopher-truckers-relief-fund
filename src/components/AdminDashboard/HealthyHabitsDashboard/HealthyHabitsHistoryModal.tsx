@@ -32,7 +32,7 @@ const style = {
 export default function HealthyHabitsHistoryModal({
   initialForms,
   user,
-}: HealthyHabitsHistoryModalProps): ReactNode {
+}: Readonly<HealthyHabitsHistoryModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [trackingForms, setTrackingForms] = useState(initialForms);
 

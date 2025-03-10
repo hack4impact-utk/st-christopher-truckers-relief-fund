@@ -16,7 +16,7 @@ type DeleteButtonProps = {
 function DeleteButton({
   screeningRequest,
   handleDelete,
-}: DeleteButtonProps): ReactNode {
+}: Readonly<DeleteButtonProps>): ReactNode {
   return (
     <Tooltip title="Delete">
       <IconButton edge="end" onClick={() => handleDelete(screeningRequest)}>
@@ -39,12 +39,10 @@ export function getPreventativeScreeningRequestStatusInformation(
       return {
         message: "Please wait while SCF reviews your request.",
         buttons: (
-          <>
-            <DeleteButton
-              screeningRequest={screeningRequest}
-              handleDelete={handleDelete}
-            />
-          </>
+          <DeleteButton
+            screeningRequest={screeningRequest}
+            handleDelete={handleDelete}
+          />
         ),
       };
     case "rejected":
@@ -148,12 +146,10 @@ export function getPreventativeScreeningRequestStatusInformation(
       return {
         message: "Unknown",
         buttons: (
-          <>
-            <DeleteButton
-              screeningRequest={screeningRequest}
-              handleDelete={handleDelete}
-            />
-          </>
+          <DeleteButton
+            screeningRequest={screeningRequest}
+            handleDelete={handleDelete}
+          />
         ),
       };
   }

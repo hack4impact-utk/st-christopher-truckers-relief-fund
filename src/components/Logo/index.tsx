@@ -15,7 +15,7 @@ export default function Logo({
   height,
   alt,
   style,
-}: LogoProps): ReactNode {
+}: Readonly<LogoProps>): ReactNode {
   return (
     <Image src={logo} alt={alt} width={width} height={height} style={style} />
   );

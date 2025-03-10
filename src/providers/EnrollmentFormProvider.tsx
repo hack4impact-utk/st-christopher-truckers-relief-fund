@@ -45,7 +45,7 @@ type EnrollmentFormProviderProps = {
 
 export function EnrollmentFormProvider({
   children,
-}: EnrollmentFormProviderProps): ReactNode {
+}: Readonly<EnrollmentFormProviderProps>): ReactNode {
   const [enrollmentForm, setEnrollmentForm] = useState<EnrollmentForm>({
     dateSubmitted: dayjsUtil().utc().toISOString(),
     generalInformationSection: generalInformationSectionDefaultValues,
