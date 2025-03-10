@@ -16,7 +16,7 @@ type GetPreventativeScreeningsDashboardProps = {
 export default function GetPreventativeScreeningsDashboard({
   getPreventativeScreeningProgramEnrollments,
   screeningRequests,
-}: GetPreventativeScreeningsDashboardProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsDashboardProps>): ReactNode {
   return (
     <AdminProgramDashboard
       defaultTab="clients"

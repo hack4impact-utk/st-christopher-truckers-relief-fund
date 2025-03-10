@@ -39,7 +39,7 @@ type ClientManagementDashboardProps = {
 
 export default function ClientManagementDashboard({
   clients,
-}: ClientManagementDashboardProps): ReactNode {
+}: Readonly<ClientManagementDashboardProps>): ReactNode {
   const [rows] = useState(getRows(clients));
 
   const additionalColumns: GridColDef<ClientsRow>[] = [
@@ -53,25 +53,23 @@ export default function ClientManagementDashboard({
         const client = params.row.client;
         const fullName = client.firstName + " " + client.lastName;
         return (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <PendingApplicationInfoModal
-                enrollmentForm={client.enrollmentForm}
-              />
-              <ClientProgramManagementForm
-                programEnrollments={params.row.programEnrollments}
-                client={client}
-                fullName={fullName}
-              />
-            </Box>
-          </>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <PendingApplicationInfoModal
+              enrollmentForm={client.enrollmentForm}
+            />
+            <ClientProgramManagementForm
+              programEnrollments={params.row.programEnrollments}
+              client={client}
+              fullName={fullName}
+            />
+          </Box>
         );
       },
     },

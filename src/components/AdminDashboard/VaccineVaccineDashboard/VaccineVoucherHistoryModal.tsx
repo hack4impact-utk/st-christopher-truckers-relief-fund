@@ -30,7 +30,7 @@ const style = {
 
 export default function HealthyHabitsHistoryModal({
   initialVaccineVoucherRequests,
-}: VaccineVoucherHistoryModalProps): ReactNode {
+}: Readonly<VaccineVoucherHistoryModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [vaccineVoucherRequests, setVaccineVoucherRequests] = useState(
     initialVaccineVoucherRequests,

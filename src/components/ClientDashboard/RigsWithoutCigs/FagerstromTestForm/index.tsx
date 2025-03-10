@@ -68,7 +68,7 @@ type FagerstromTestFormProps = {
 export default function FagerstromTestForm({
   user,
   setFagerstromTests,
-}: FagerstromTestFormProps): ReactNode {
+}: Readonly<FagerstromTestFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
 

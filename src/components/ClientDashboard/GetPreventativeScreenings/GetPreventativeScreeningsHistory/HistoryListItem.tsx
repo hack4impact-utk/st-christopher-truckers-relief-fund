@@ -27,7 +27,7 @@ export default function HistoryListItem({
   screeningRequest,
   handleDelete,
   handleUpdate,
-}: HistoryListItemProps): ReactNode {
+}: Readonly<HistoryListItemProps>): ReactNode {
   const { message, buttons } = getPreventativeScreeningRequestStatusInformation(
     screeningRequest,
     handleUpdate,

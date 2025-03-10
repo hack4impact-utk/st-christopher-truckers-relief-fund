@@ -19,7 +19,7 @@ export default function SubmittedFagerstromTestList({
   user,
   fagerstromTests,
   setFagerstromTests,
-}: RigsWithoutCigsFormsProps): ReactNode {
+}: Readonly<RigsWithoutCigsFormsProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = async (form: FagerstromTest): Promise<void> => {

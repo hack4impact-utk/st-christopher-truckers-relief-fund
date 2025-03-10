@@ -18,7 +18,7 @@ type ProgramCardProps = {
 export default function ProgramCard({
   title,
   href,
-}: ProgramCardProps): ReactNode {
+}: Readonly<ProgramCardProps>): ReactNode {
   const theme = useTheme();
 
   return (

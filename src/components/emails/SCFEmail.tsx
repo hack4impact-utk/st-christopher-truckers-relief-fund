@@ -50,7 +50,7 @@ export default function SCFEmail(props: SCFEmailProps): ReactNode {
 
             {Array.isArray(props.text) ? (
               props.text.map((text, index) => (
-                <Text key={index} style={paragraph}>
+                <Text key={index + text} style={paragraph}>
                   {text}
                 </Text>
               ))

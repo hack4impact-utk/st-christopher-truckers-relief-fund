@@ -94,7 +94,7 @@ function ChartDisplay({
   title,
   chartData,
   series,
-}: ChartDisplayProps): ReactNode {
+}: Readonly<ChartDisplayProps>): ReactNode {
   return (
     <Box sx={{ height: 200, width: "100%" }}>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>

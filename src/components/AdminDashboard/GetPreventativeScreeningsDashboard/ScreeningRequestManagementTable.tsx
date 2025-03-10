@@ -73,7 +73,7 @@ function getRows(screeningRequests: ScreeningRequest[]): ScreeningRequestRow[] {
 
 export default function ScreeningRequestManagementTable({
   screeningRequests,
-}: ScreeningRequestManagementTableProps): ReactNode {
+}: Readonly<ScreeningRequestManagementTableProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
   const [rows, setRows] = useState(getRows(screeningRequests));
 

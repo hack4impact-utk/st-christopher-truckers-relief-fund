@@ -115,7 +115,7 @@ type RigsWithoutCigsAddInfoProps = {
 
 export default function RigsWithoutCigsAddInfo({
   user,
-}: RigsWithoutCigsAddInfoProps): ReactNode {
+}: Readonly<RigsWithoutCigsAddInfoProps>): ReactNode {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);

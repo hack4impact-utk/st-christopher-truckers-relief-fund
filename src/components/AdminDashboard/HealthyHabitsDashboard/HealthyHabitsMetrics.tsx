@@ -13,7 +13,7 @@ type HealthyHabitsMetricsProps = {
 
 export default function HealthyHabitsMetrics({
   healthyHabitsProgramEnrollments,
-}: HealthyHabitsMetricsProps): ReactNode {
+}: Readonly<HealthyHabitsMetricsProps>): ReactNode {
   const totalEnrolled = healthyHabitsProgramEnrollments.length;
   const totalActive = healthyHabitsProgramEnrollments.reduce(
     (acc, programEnrollment) => {

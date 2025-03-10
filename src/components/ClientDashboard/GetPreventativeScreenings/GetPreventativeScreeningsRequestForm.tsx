@@ -40,7 +40,7 @@ export default function GetPreventativeScreeningsRequestForm({
   user,
   screeningRequests,
   setScreeningRequests,
-}: GetPreventativeScreeningsRequestFormProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsRequestFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -152,12 +152,12 @@ export default function GetPreventativeScreeningsRequestForm({
     screeningRequests,
   );
 
-  const ineligbleForAllScreenings =
+  const ineligibleForAllScreenings =
     !showProstateScreening &&
     !showColorectalScreening &&
     !showCervicalScreening;
 
-  if (ineligbleForAllScreenings) {
+  if (ineligibleForAllScreenings) {
     return (
       <Box
         sx={{

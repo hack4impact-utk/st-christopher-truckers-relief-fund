@@ -2,13 +2,13 @@ import { ReactNode } from "react";
 
 import SCFEmail from "./SCFEmail";
 
-type EmailVerifcationEmailProps = {
+type EmailVerificationEmailProps = {
   token: string;
 };
 
 export default function EmailVerificationEmail({
   token,
-}: EmailVerifcationEmailProps): ReactNode {
+}: Readonly<EmailVerificationEmailProps>): ReactNode {
   const preview = "Verify your SCF email address";
   const text = `Please click on the link below to verify your email address.`;
   const buttonText = "Verify Email Address";

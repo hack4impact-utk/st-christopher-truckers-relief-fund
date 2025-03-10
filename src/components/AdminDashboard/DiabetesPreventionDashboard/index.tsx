@@ -14,7 +14,7 @@ type DiabetesPreventionDashboardProps = {
 
 export default function DiabetesPreventionDashboard({
   diabetesPreventionProgramEnrollments,
-}: DiabetesPreventionDashboardProps): ReactNode {
+}: Readonly<DiabetesPreventionDashboardProps>): ReactNode {
   return (
     <AdminProgramDashboard
       defaultTab="clients"

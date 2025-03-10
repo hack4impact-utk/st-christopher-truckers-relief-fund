@@ -15,7 +15,7 @@ type EnrolledProgramsSelectionScreenProps = {
 export default function EnrolledProgramsSelectionScreen({
   programEnrollments,
   user,
-}: EnrolledProgramsSelectionScreenProps): ReactNode {
+}: Readonly<EnrolledProgramsSelectionScreenProps>): ReactNode {
   const enrolledInHealthyHabits = isEnrolledInProgram(
     programEnrollments,
     "Healthy Habits For The Long Haul",

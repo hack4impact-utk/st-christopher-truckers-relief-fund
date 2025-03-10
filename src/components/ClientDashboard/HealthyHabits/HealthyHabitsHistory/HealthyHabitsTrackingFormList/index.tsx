@@ -19,7 +19,7 @@ export default function HealthyHabitsTrackingFormList({
   trackingForms,
   setTrackingForms,
   user,
-}: HealthyHabitsTrackingFormListProps): ReactNode {
+}: Readonly<HealthyHabitsTrackingFormListProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = async (

@@ -120,7 +120,7 @@ function getStatusIcon(status: ActivityStatus): ReactNode {
 
 export default function HealthyHabitsClientDashboard({
   healthyHabitsProgramEnrollments,
-}: HealthyHabitsClientDashboardProps): ReactNode {
+}: Readonly<HealthyHabitsClientDashboardProps>): ReactNode {
   const rows = getRows(healthyHabitsProgramEnrollments);
 
   const additionalColumns: GridColDef<HealthyHabitsRow>[] = [
@@ -150,18 +150,16 @@ export default function HealthyHabitsClientDashboard({
         const status = params.row.activityStatus;
 
         return (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              {getStatusIcon(status)}
-            </Box>
-          </>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            {getStatusIcon(status)}
+          </Box>
         );
       },
     },

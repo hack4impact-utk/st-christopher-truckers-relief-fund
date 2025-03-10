@@ -9,6 +9,6 @@ type NextAuthProviderProps = {
 
 export default function NextAuthProvider({
   children,
-}: NextAuthProviderProps): ReactNode {
+}: Readonly<NextAuthProviderProps>): ReactNode {
   return <SessionProvider>{children}</SessionProvider>;
 }

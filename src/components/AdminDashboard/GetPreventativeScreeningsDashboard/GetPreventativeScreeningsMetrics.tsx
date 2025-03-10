@@ -12,7 +12,7 @@ type GetPreventativeScreeningsMetricsProps = {
 
 export default function GetPreventativeScreeningsMetricsProps({
   getPreventativeScreeningsProgramEnrollments,
-}: GetPreventativeScreeningsMetricsProps): ReactNode {
+}: Readonly<GetPreventativeScreeningsMetricsProps>): ReactNode {
   const totalEnrolled = getPreventativeScreeningsProgramEnrollments.length;
   const registrationsInPast3Months =
     getPreventativeScreeningsProgramEnrollments.reduce(

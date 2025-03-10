@@ -13,7 +13,7 @@ type ResetPasswordWithTokenPageProps = {
 
 export default async function ResetPasswordWithTokenPage({
   params,
-}: ResetPasswordWithTokenPageProps): Promise<ReactNode> {
+}: Readonly<ResetPasswordWithTokenPageProps>): Promise<ReactNode> {
   const { token } = params;
   const [passwordResetToken, error] = await getPasswordResetTokenByToken(token);
 

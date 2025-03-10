@@ -45,7 +45,7 @@ type PendingApplicationDashboardProps = {
 
 export default function PendingApplicationDashboard({
   programEnrollments,
-}: PendingApplicationDashboardProps): ReactNode {
+}: Readonly<PendingApplicationDashboardProps>): ReactNode {
   const [rows, setRows] = useState(getRows(programEnrollments));
 
   const additionalColumns: GridColDef<PendingApplicationsRow>[] = [
@@ -63,30 +63,26 @@ export default function PendingApplicationDashboard({
       renderCell: (params): ReactNode => {
         const user = params.row.programEnrollment.user as ClientUser;
         return (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <AcceptPendingApplicationButton
-                programEnrollment={params.row.programEnrollment}
-                rows={rows}
-                setRows={setRows}
-              />
-              <RejectPendingApplicationButton
-                programEnrollment={params.row.programEnrollment}
-                rows={rows}
-                setRows={setRows}
-              />
-              <PendingApplicationInfoModal
-                enrollmentForm={user.enrollmentForm}
-              />
-            </Box>
-          </>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <AcceptPendingApplicationButton
+              programEnrollment={params.row.programEnrollment}
+              rows={rows}
+              setRows={setRows}
+            />
+            <RejectPendingApplicationButton
+              programEnrollment={params.row.programEnrollment}
+              rows={rows}
+              setRows={setRows}
+            />
+            <PendingApplicationInfoModal enrollmentForm={user.enrollmentForm} />
+          </Box>
         );
       },
     },

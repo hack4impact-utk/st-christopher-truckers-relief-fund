@@ -114,7 +114,7 @@ type SidebarProps = {
 
 export default function Sidebar({
   numberOfUrgentMeetingRequests,
-}: SidebarProps): ReactNode {
+}: Readonly<SidebarProps>): ReactNode {
   const theme = useTheme();
   const pathname = usePathname();
 

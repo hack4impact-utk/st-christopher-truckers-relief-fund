@@ -18,7 +18,7 @@ type VaccineVoucherHistoryProps = {
 export default function VaccineVoucherHistory({
   vaccineVoucherRequests,
   setVaccineVoucherRequests,
-}: VaccineVoucherHistoryProps): ReactNode {
+}: Readonly<VaccineVoucherHistoryProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = async (

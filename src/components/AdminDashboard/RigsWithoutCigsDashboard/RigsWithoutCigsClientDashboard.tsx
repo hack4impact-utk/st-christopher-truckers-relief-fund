@@ -41,7 +41,7 @@ type RigsWithoutCigsClientDashboardProps = {
 
 export default function RigsWithoutCigsClientDashboard({
   rigsWithoutCigsProgramEnrollments,
-}: RigsWithoutCigsClientDashboardProps): ReactNode {
+}: Readonly<RigsWithoutCigsClientDashboardProps>): ReactNode {
   const rows = getRows(rigsWithoutCigsProgramEnrollments);
 
   const additionalColumns: GridColDef<RigsWithoutCigRow>[] = [

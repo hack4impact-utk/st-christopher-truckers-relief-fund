@@ -31,7 +31,7 @@ export default function HealthyHabitsProgramSpecificQuestions({
   errors,
   hasOptedInToHealthyHabits,
   hasOptedInToDiabetesPrevention,
-}: HealthyHabitsProgramSpecificQuestionsProps): ReactNode {
+}: Readonly<HealthyHabitsProgramSpecificQuestionsProps>): ReactNode {
   return (
     <>
       <Divider />
@@ -459,12 +459,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasScale"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Scale"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Scale"
+          />
         )}
       />
 
@@ -472,12 +470,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasBloodPressureCuff"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Blood Pressure Cuff"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Blood Pressure Cuff"
+          />
         )}
       />
 
@@ -485,12 +481,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasGlucoseMonitor"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Glucose Monitor"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Glucose Monitor"
+          />
         )}
       />
 
@@ -498,12 +492,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasA1cHomeTest"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="A1c Home Test"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="A1c Home Test"
+          />
         )}
       />
 
@@ -511,12 +503,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasFitnessTracker"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Fitness Tracker (e.g., Fitbit, Apple Watch, Samsung Watch, etc)"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Fitness Tracker (e.g., Fitbit, Apple Watch, Samsung Watch, etc)"
+          />
         )}
       />
 
@@ -524,12 +514,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasBodyTapeMeasure"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Body Tape Measure"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Body Tape Measure"
+          />
         )}
       />
 
@@ -537,12 +525,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasResistanceBands"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Resistance Bands"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Resistance Bands"
+          />
         )}
       />
 
@@ -550,12 +536,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.hasOtherExerciseEquipment"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="Other Exercise Equipment"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="Other Exercise Equipment"
+          />
         )}
       />
 
@@ -563,12 +547,10 @@ export default function HealthyHabitsProgramSpecificQuestions({
         name="healthyHabitsAndDiabetesPrevention.devices.noneOfTheAbove"
         control={control}
         render={({ field }) => (
-          <>
-            <FormControlLabel
-              control={<Checkbox {...field} checked={field.value} />}
-              label="None of the above"
-            />
-          </>
+          <FormControlLabel
+            control={<Checkbox {...field} checked={field.value} />}
+            label="None of the above"
+          />
         )}
       />
 

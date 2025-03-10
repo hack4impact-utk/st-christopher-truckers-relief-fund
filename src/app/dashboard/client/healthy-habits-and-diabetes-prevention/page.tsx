@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 
 import HealthyHabits from "@/components/ClientDashboard/HealthyHabits";
 import { getUserByEmail } from "@/server/api/users/queries";
-import { ClientUser } from "@/types";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
@@ -70,7 +69,7 @@ export default async function HealthyHabitsPage(): Promise<ReactNode> {
         padding: 1,
       }}
     >
-      <HealthyHabits user={user as ClientUser} />
+      <HealthyHabits user={user} />
     </Box>
   );
 }

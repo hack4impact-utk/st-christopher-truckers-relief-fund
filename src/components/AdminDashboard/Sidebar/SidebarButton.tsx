@@ -28,7 +28,7 @@ export default function SidebarButton({
   icon,
   label,
   padLeft,
-}: SidebarButtonProps): ReactNode {
+}: Readonly<SidebarButtonProps>): ReactNode {
   const { color, backgroundColor, hoverBackgroundColor } = getButtonStyles(
     theme,
     pathname,

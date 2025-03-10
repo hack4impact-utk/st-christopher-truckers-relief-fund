@@ -10,7 +10,7 @@ type HealthyHabitsInfoProps = {
 
 export default function HealthyHabitsInfo({
   user,
-}: HealthyHabitsInfoProps): ReactNode {
+}: Readonly<HealthyHabitsInfoProps>): ReactNode {
   const healthyHabitsEnrolledDate = user.programEnrollments.find(
     (enrollment) => enrollment.program === "Healthy Habits For The Long Haul",
   )?.dateEnrolled;

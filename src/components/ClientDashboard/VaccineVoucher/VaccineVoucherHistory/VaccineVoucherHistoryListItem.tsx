@@ -27,7 +27,7 @@ export default function VaccineVoucherHistoryListItem({
   vaccineVoucherRequest,
   handleDelete,
   handleUpdate,
-}: VaccineVoucherHistoryListItemProps): ReactNode {
+}: Readonly<VaccineVoucherHistoryListItemProps>): ReactNode {
   const { message, buttons } = getVaccineVoucherStatusInformation(
     vaccineVoucherRequest,
     handleUpdate,

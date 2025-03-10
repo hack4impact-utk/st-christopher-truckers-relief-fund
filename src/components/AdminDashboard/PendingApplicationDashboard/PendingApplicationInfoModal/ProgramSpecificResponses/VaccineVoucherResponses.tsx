@@ -11,7 +11,7 @@ type VaccineVoucherResponsesProps = {
 
 export default function VaccineVoucherResponses({
   programSpecificQuestionsSection,
-}: VaccineVoucherResponsesProps): ReactNode {
+}: Readonly<VaccineVoucherResponsesProps>): ReactNode {
   const { vaccineVoucher } = programSpecificQuestionsSection;
 
   return (

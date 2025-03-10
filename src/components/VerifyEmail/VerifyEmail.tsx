@@ -11,7 +11,9 @@ type VerifyEmailProps = {
   email: string;
 };
 
-export default function VerifyEmail({ email }: VerifyEmailProps): ReactNode {
+export default function VerifyEmail({
+  email,
+}: Readonly<VerifyEmailProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const { enqueueSnackbar } = useSnackbar();

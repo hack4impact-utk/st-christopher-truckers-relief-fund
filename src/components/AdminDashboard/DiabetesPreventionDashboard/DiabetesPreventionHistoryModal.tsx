@@ -32,7 +32,7 @@ const style = {
 export default function DiabetesPreventionHistoryModal({
   initialForms,
   user,
-}: DiabetesPreventionHistoryModalProps): ReactNode {
+}: Readonly<DiabetesPreventionHistoryModalProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [trackingForms, setTrackingForms] = useState(initialForms);
 

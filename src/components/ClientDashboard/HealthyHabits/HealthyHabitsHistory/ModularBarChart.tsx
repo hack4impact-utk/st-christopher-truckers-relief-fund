@@ -23,7 +23,7 @@ export default function ModularBarChart({
   graphLabel,
   dataKey,
   title,
-}: ModularBarChartProps): ReactNode {
+}: Readonly<ModularBarChartProps>): ReactNode {
   const theme = useTheme();
 
   const getChartData = (): ChartData[] => {

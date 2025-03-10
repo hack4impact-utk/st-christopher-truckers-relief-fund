@@ -16,7 +16,7 @@ export default function LastRequestDates({
   lastPneumoniaVaccineRequest,
   lastShinglesVaccineRequest,
   lastShinglesBoosterVaccineRequest,
-}: LastRequestDatesProps): ReactNode {
+}: Readonly<LastRequestDatesProps>): ReactNode {
   return (
     <Box>
       <Typography variant="h5">Previous Request Dates</Typography>

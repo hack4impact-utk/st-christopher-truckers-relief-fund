@@ -25,7 +25,7 @@ type VaccineVoucherProgramSpecificQuestionsProps = {
 export default function VaccineVoucherProgramSpecificQuestions({
   control,
   errors,
-}: VaccineVoucherProgramSpecificQuestionsProps): ReactNode {
+}: Readonly<VaccineVoucherProgramSpecificQuestionsProps>): ReactNode {
   return (
     <>
       <Divider />

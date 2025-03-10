@@ -9,7 +9,7 @@ type ClientDashboardLayoutProps = {
 
 export default async function ClientDashboardLayout({
   children,
-}: ClientDashboardLayoutProps): Promise<ReactNode> {
+}: Readonly<ClientDashboardLayoutProps>): Promise<ReactNode> {
   const session = await getUserSession();
 
   if (!session || session.user.role !== "client") {

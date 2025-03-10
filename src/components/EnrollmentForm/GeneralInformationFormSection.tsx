@@ -155,7 +155,7 @@ export default function GeneralInformationFormSection(): ReactNode {
                   }
                   // convert dayjs to string
                   onChange={(date) =>
-                    field.onChange(date?.format("MM/DD/YYYY") || "")
+                    field.onChange(date?.format("MM/DD/YYYY") ?? "")
                   }
                   label="Date of Birth"
                   variant="outlined"
@@ -347,9 +347,8 @@ export default function GeneralInformationFormSection(): ReactNode {
                       I confirm that I have submitted a copy of my CDL to{" "}
                       <a href="tel:+8655448145">865-544-8145</a> or{" "}
                       <a href="mailto:Health@truckersfund.org">
-                        Health@truckersfund.org
+                        Health@truckersfund.org.
                       </a>
-                      .
                     </>
                   }
                 />

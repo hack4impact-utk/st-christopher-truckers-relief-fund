@@ -29,7 +29,7 @@ export default function RigsWithoutCigsProgramSpecificQuestions({
   control,
   errors,
   watch,
-}: RigsWithoutCigsProgramSpecificQuestionsProps): ReactNode {
+}: Readonly<RigsWithoutCigsProgramSpecificQuestionsProps>): ReactNode {
   const rigsWithoutCigsErrors = errors?.rigsWithoutCigs;
 
   return (

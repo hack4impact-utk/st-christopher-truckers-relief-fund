@@ -34,7 +34,7 @@ export default function RejectPendingApplicationButton({
   programEnrollment,
   rows,
   setRows,
-}: RejectPendingApplicationButtonProps): ReactNode {
+}: Readonly<RejectPendingApplicationButtonProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 

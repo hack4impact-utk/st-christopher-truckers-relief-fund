@@ -76,7 +76,7 @@ export default function VaccineVoucherApplyForm({
   user,
   vaccineVoucherRequests,
   setVaccineVoucherRequests,
-}: VaccineVoucherApplyFormProps): ReactNode {
+}: Readonly<VaccineVoucherApplyFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -201,40 +201,34 @@ export default function VaccineVoucherApplyForm({
     !showShinglesBoosterVaccineOption
   ) {
     return (
-      <>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            width: "min(90vw, 700px)",
-            boxShadow: 3,
-            borderRadius: 2,
-            padding: 4,
-          }}
-        >
-          <LastRequestDates
-            lastFluVaccineRequest={lastFluVaccineRequest}
-            lastPneumoniaVaccineRequest={lastPneumoniaVaccineRequest}
-            lastShinglesVaccineRequest={lastShinglesVaccineRequest}
-            lastShinglesBoosterVaccineRequest={
-              lastShinglesBoosterVaccineRequest
-            }
-          />
-          <NextVaccineDueDates
-            lastFluVaccineRequest={lastFluVaccineRequest}
-            lastPneumoniaVaccineRequest={lastPneumoniaVaccineRequest}
-            lastShinglesVaccineRequest={lastShinglesVaccineRequest}
-            lastShinglesBoosterVaccineRequest={
-              lastShinglesBoosterVaccineRequest
-            }
-          />
-          <Divider />
-          <Typography variant="h5" textAlign="center" gutterBottom>
-            You are ineligible for any vaccine vouchers at the moment.
-          </Typography>
-        </Box>
-      </>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          width: "min(90vw, 700px)",
+          boxShadow: 3,
+          borderRadius: 2,
+          padding: 4,
+        }}
+      >
+        <LastRequestDates
+          lastFluVaccineRequest={lastFluVaccineRequest}
+          lastPneumoniaVaccineRequest={lastPneumoniaVaccineRequest}
+          lastShinglesVaccineRequest={lastShinglesVaccineRequest}
+          lastShinglesBoosterVaccineRequest={lastShinglesBoosterVaccineRequest}
+        />
+        <NextVaccineDueDates
+          lastFluVaccineRequest={lastFluVaccineRequest}
+          lastPneumoniaVaccineRequest={lastPneumoniaVaccineRequest}
+          lastShinglesVaccineRequest={lastShinglesVaccineRequest}
+          lastShinglesBoosterVaccineRequest={lastShinglesBoosterVaccineRequest}
+        />
+        <Divider />
+        <Typography variant="h5" textAlign="center" gutterBottom>
+          You are ineligible for any vaccine vouchers at the moment.
+        </Typography>
+      </Box>
     );
   }
 

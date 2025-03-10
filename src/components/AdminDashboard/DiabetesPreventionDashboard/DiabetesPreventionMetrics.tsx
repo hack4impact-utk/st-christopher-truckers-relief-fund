@@ -13,7 +13,7 @@ type DiabetesPreventionMetricsProps = {
 
 export default function DiabetesPreventionMetrics({
   diabetesPreventionProgramEnrollments,
-}: DiabetesPreventionMetricsProps): ReactNode {
+}: Readonly<DiabetesPreventionMetricsProps>): ReactNode {
   const totalEnrolled = diabetesPreventionProgramEnrollments.length;
   const totalActive = diabetesPreventionProgramEnrollments.reduce(
     (acc, programEnrollment) => {

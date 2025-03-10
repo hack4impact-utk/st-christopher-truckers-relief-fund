@@ -60,7 +60,7 @@ export default function HealthyHabitsTracking({
   trackingForms,
   setTrackingForms,
   user,
-}: HealthyHabitsTrackingFormProps): ReactNode {
+}: Readonly<HealthyHabitsTrackingFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -160,7 +160,7 @@ export default function HealthyHabitsTracking({
                   {...field}
                   value={dayjsUtil(field.value, "MM/DD/YYYY")}
                   onChange={(date) =>
-                    field.onChange(date?.format("MM/DD/YYYY") || "")
+                    field.onChange(date?.format("MM/DD/YYYY") ?? "")
                   }
                   label="Date"
                   format="MM/DD/YYYY"
@@ -200,12 +200,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasScale"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Scale"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Scale"
+            />
           )}
         />
 
@@ -213,12 +211,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasBloodPressureCuff"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Blood Pressure Cuff"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Blood Pressure Cuff"
+            />
           )}
         />
 
@@ -226,12 +222,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasGlucoseMonitor"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Glucose Monitor"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Glucose Monitor"
+            />
           )}
         />
 
@@ -239,12 +233,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasA1cHomeTest"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="A1c Home Test"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="A1c Home Test"
+            />
           )}
         />
 
@@ -252,12 +244,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasFitnessTracker"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Fitness Tracker (e.g., Fitbit, Apple Watch, Samsung Watch, etc)"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Fitness Tracker (e.g., Fitbit, Apple Watch, Samsung Watch, etc)"
+            />
           )}
         />
 
@@ -265,12 +255,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasBodyTapeMeasure"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Body Tape Measure"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Body Tape Measure"
+            />
           )}
         />
 
@@ -278,12 +266,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasResistanceBands"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Resistance Bands"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Resistance Bands"
+            />
           )}
         />
 
@@ -291,12 +277,10 @@ export default function HealthyHabitsTracking({
           name="devices.hasOtherExerciseEquipment"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="Other Exercise Equipment"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="Other Exercise Equipment"
+            />
           )}
         />
 
@@ -304,12 +288,10 @@ export default function HealthyHabitsTracking({
           name="devices.noneOfTheAbove"
           control={control}
           render={({ field }) => (
-            <>
-              <FormControlLabel
-                control={<Checkbox {...field} checked={field.value} />}
-                label="None of the above"
-              />
-            </>
+            <FormControlLabel
+              control={<Checkbox {...field} checked={field.value} />}
+              label="None of the above"
+            />
           )}
         />
 

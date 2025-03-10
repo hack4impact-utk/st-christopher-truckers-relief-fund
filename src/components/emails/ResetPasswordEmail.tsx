@@ -8,7 +8,7 @@ type ResetPasswordEmailProps = {
 
 export default function ResetPasswordEmail({
   token,
-}: ResetPasswordEmailProps): ReactNode {
+}: Readonly<ResetPasswordEmailProps>): ReactNode {
   const preview = "Reset your SCF password";
   const text = `We have received a request to reset your password. Please click on the link below.`;
   const buttonText = "Reset Password";

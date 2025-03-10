@@ -20,7 +20,7 @@ export default function AcceptPendingApplicationButton({
   programEnrollment,
   rows,
   setRows,
-}: AcceptPendingApplicationButtonProps): ReactNode {
+}: Readonly<AcceptPendingApplicationButtonProps>): ReactNode {
   const { enqueueSnackbar } = useSnackbar();
 
   const removePendingApplicationFromRows = (): void => {

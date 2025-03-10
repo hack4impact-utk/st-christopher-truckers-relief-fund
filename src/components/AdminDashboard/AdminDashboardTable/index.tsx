@@ -31,7 +31,7 @@ export default function AdminDashboardTable<
   additionalColumns,
   width,
   actionButtons,
-}: AdminDashboardTableProps<RowType>): ReactNode {
+}: Readonly<AdminDashboardTableProps<RowType>>): ReactNode {
   const [searchQuery, setSearchQuery] = useState("");
 
   const baseColumns: GridColDef<RowType>[] = [
@@ -104,7 +104,7 @@ export default function AdminDashboardTable<
         }}
         sx={{
           height: "300px",
-          width: width || "100%",
+          width: width ?? "100%",
         }}
       />
     </Box>
