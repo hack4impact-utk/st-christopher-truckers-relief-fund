@@ -65,7 +65,9 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
   };
 
   const onError = (): void => {
-    window.alert("Please review all fields before continuing.");
+    enqueueSnackbar("Please review all fields before continuing.", {
+      variant: "error",
+    });
   };
 
   // submit form if all sections are completed

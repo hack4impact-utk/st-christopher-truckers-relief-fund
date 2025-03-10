@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useSnackbar } from "notistack";
 import { ReactNode, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -115,8 +116,12 @@ export default function ProgramSelectionFormSection(): ReactNode {
     router.push("/enrollment-form/program-specific-questions");
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const onError = (): void => {
-    window.alert("Please review all fields before continuing.");
+    enqueueSnackbar("Please review all fields before continuing.", {
+      variant: "error",
+    });
   };
 
   const showDiabetesButton = shouldShowDiabetesPreventionButton(enrollmentForm);

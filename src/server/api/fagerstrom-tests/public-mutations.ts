@@ -1,6 +1,8 @@
 "use server";
 
 import { ApiResponse, FagerstromTest, User } from "@/types";
+import authenticateServerFunction from "@/utils/authenticateServerFunction";
+import apiErrors from "@/utils/constants/apiErrors";
 
 import {
   createFagerstromTest,
@@ -10,12 +12,24 @@ import {
 export async function handleCreateFagerstromTest(
   fagerstromTest: FagerstromTest,
 ): Promise<ApiResponse<null>> {
-  const [, error] = await createFagerstromTest(fagerstromTest);
+  const [session, authError] = await authenticateServerFunction();
 
-  if (error !== null) {
-    return [null, error];
+  if (authError !== null) {
+    return [null, authError];
   }
 
+  if (
+    session.user.role === "client" &&
+    session.user.email !== fagerstromTest.client.email
+  ) {
+    return [null, apiErrors.unauthorized];
+  }
+
+  const [, createError] = await createFagerstromTest(fagerstromTest);
+
+  if (createError !== null) {
+    return [null, createError];
+  }
   return [null, null];
 }
 
@@ -23,6 +37,17 @@ export async function handleFagerstromTestDeletion(
   fagerstromTest: FagerstromTest,
   client: User,
 ): Promise<ApiResponse<null>> {
+  fagerstromTest.client = client;
+  const [session, authError] = await authenticateServerFunction();
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  if (session.user.role === "client" && session.user.email !== client.email) {
+    return [null, apiErrors.unauthorized];
+  }
+
   fagerstromTest.client = client;
   const [, error] = await deleteFagerstromTest(fagerstromTest);
 

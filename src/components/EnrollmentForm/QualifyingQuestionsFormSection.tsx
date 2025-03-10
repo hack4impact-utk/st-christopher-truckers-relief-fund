@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useSnackbar } from "notistack";
 import { ReactNode, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -57,8 +58,12 @@ export default function QualifyingQuestionsFormSection(): ReactNode {
     router.push("/enrollment-form/program-selection");
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const onError = (): void => {
-    window.alert("Please review all fields before continuing.");
+    enqueueSnackbar("Please review all fields before continuing.", {
+      variant: "error",
+    });
   };
 
   return (
