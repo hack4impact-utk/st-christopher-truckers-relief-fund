@@ -32,7 +32,7 @@ export function shouldShowFluVaccine(
   // Check for flu season
   const currentDate = dayjsUtil().utc();
   const month = currentDate.month() + 1;
-  const isFluSeason = month >= 9 && month <= 3;
+  const isFluSeason = month >= 9 || month <= 3;
 
   if (!isFluSeason) {
     return false;

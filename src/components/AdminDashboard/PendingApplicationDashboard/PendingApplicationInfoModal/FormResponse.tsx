@@ -12,23 +12,13 @@ export default function FormResponse({
   value,
   isListItem = false,
 }: Readonly<FormResponseProps>): ReactNode {
-  if (isListItem) {
-    return (
-      <Typography>
-        <Typography component="span" sx={{ fontWeight: "bold" }}>
-          - {label}:{" "}
-        </Typography>
-        {value}
+  return (
+    <Typography>
+      <Typography component="span" sx={{ fontWeight: "bold" }}>
+        {isListItem ? `- ${label}` : label}
+        {": "}
       </Typography>
-    );
-  } else {
-    return (
-      <Typography>
-        <Typography component="span" sx={{ fontWeight: "bold" }}>
-          {label}:{" "}
-        </Typography>
-        {value}
-      </Typography>
-    );
-  }
+      {value}
+    </Typography>
+  );
 }
