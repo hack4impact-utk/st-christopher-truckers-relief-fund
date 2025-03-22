@@ -22,7 +22,7 @@ export default function VerifyEmail({
     setIsLoading(true);
     await handleEmailVerificationTokenRequest(email);
 
-    enqueueSnackbar("Email verification email sent");
+    enqueueSnackbar("Email verification email sent", { variant: "success" });
 
     setIsLoading(false);
     setDisabled(true);

@@ -78,13 +78,15 @@ export default function ChangePasswordForm({
     );
 
     if (error === null) {
-      enqueueSnackbar("Password successfully changed");
+      enqueueSnackbar("Password successfully changed", {
+        variant: "success",
+      });
 
       setTimeout(() => {
         router.push("/settings");
       }, 1000);
     } else {
-      enqueueSnackbar("Password change failed.");
+      enqueueSnackbar("Password change failed.", { variant: "error" });
     }
 
     setIsLoading(false);

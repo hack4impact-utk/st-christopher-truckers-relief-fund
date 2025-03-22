@@ -122,16 +122,19 @@ export default function HealthyHabitsTracking({
         ...prevTrackingForms,
         healthyHabitsTrackingForm,
       ]);
-      enqueueSnackbar("Healthy Habits Tracking Form submitted successfully");
+      enqueueSnackbar("Healthy Habits Tracking Form submitted successfully", {
+        variant: "success",
+      });
     } else if (
       error ===
       apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormAlreadyExists
     ) {
       enqueueSnackbar(
         "You have already submitted the form for the selected week.",
+        { variant: "warning" },
       );
     } else {
-      enqueueSnackbar("An unknown error occurred");
+      enqueueSnackbar("An unknown error occurred", { variant: "error" });
     }
 
     setIsLoading(false);

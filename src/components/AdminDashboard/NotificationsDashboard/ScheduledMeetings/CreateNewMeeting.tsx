@@ -94,7 +94,9 @@ export default function CreateNewMeeting({
       await handleCreateScheduledMeeting(scheduledMeeting);
 
     if (error === null) {
-      enqueueSnackbar("Meeting scheduled successfully");
+      enqueueSnackbar("Meeting scheduled successfully", {
+        variant: "success",
+      });
       setRows((prevRows) => [
         ...prevRows,
         createRowFromScheduledMeeting(scheduledMeetingInDatabase),
@@ -105,7 +107,7 @@ export default function CreateNewMeeting({
       return;
     }
 
-    enqueueSnackbar("An unexpected error occurred");
+    enqueueSnackbar("An unexpected error occurred", { variant: "error" });
   };
 
   return (

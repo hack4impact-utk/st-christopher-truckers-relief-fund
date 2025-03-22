@@ -77,18 +77,22 @@ export default function ProgramSpecificQuestionsFormSection(): ReactNode {
         const [, error] = await handleEnrollmentFormSubmission(enrollmentForm);
 
         if (error === null) {
-          enqueueSnackbar("Enrollment form submitted successfully");
+          enqueueSnackbar("Enrollment form submitted successfully", {
+            variant: "success",
+          });
           router.push("/enrollment-form/submitted");
         } else if (error === apiErrors.user.userAlreadyExists) {
-          enqueueSnackbar("You already have an account");
+          enqueueSnackbar("You already have an account", { variant: "error" });
           setIsLoading(false);
         } else if (
           error === apiErrors.enrollmentForm.enrollmentFormAlreadyExists
         ) {
-          enqueueSnackbar("You have already submitted this form");
+          enqueueSnackbar("You have already submitted this form", {
+            variant: "error",
+          });
           setIsLoading(false);
         } else {
-          enqueueSnackbar("An unknown error occurred");
+          enqueueSnackbar("An unknown error occurred", { variant: "error" });
           setIsLoading(false);
         }
       }

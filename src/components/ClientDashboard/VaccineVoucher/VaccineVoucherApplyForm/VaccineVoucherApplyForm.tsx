@@ -78,7 +78,6 @@ export default function VaccineVoucherApplyForm({
   setVaccineVoucherRequests,
 }: Readonly<VaccineVoucherApplyFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -139,7 +138,6 @@ export default function VaccineVoucherApplyForm({
       enqueueSnackbar("Vaccine voucher requests submitted successfully.", {
         variant: "success",
       });
-      setIsDisabled(true);
     }
 
     setIsLoading(false);
@@ -372,7 +370,6 @@ export default function VaccineVoucherApplyForm({
             variant="contained"
             color="primary"
             loading={isLoading}
-            disabled={isDisabled}
           >
             Submit
           </LoadingButton>

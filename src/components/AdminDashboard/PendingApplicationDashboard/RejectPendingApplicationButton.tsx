@@ -71,9 +71,11 @@ export default function RejectPendingApplicationButton({
     );
 
     if (error !== null) {
-      enqueueSnackbar("An unexpected error occurred");
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
     } else {
-      enqueueSnackbar("Application successfully rejected");
+      enqueueSnackbar("Application successfully rejected", {
+        variant: "success",
+      });
     }
 
     setOpen(false);

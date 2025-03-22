@@ -63,13 +63,15 @@ export default function ResetPasswordForm({
     const [, error] = await resetPasswordWithToken(token, newPassword);
 
     if (error === null) {
-      enqueueSnackbar("Password successfully reset");
+      enqueueSnackbar("Password successfully reset", { variant: "success" });
 
       setTimeout(() => {
         router.push("/");
       }, 1000);
     } else {
-      enqueueSnackbar("Password reset failed. This link is now invalid.");
+      enqueueSnackbar("Password reset failed. This link is now invalid.", {
+        variant: "error",
+      });
 
       setIsLoading(false);
       setDisabled(true);

@@ -40,9 +40,9 @@ export default function HealthyHabitsTrackingFormList({
     const [, error] = await handleHealthyHabitsTrackingFormDeletion(form, user);
 
     if (error !== null) {
-      enqueueSnackbar("An unexpected error occurred.");
+      enqueueSnackbar("An unexpected error occurred.", { variant: "error" });
     } else {
-      enqueueSnackbar("Form deleted successfully.");
+      enqueueSnackbar("Form deleted successfully.", { variant: "success" });
     }
   };
 

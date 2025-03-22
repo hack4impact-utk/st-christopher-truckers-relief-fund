@@ -197,11 +197,17 @@ export default function ClientProgramManagementForm({
     setIsLoading(false);
     setOpen(false);
 
-    const snakeBarMessage = error
-      ? `There was a problem updating ${fullName}'s information`
-      : `You have successfully updated ${fullName}'s information`;
-
-    enqueueSnackbar(snakeBarMessage);
+    if (error) {
+      enqueueSnackbar(
+        `There was a problem updating ${fullName}'s information`,
+        { variant: "error" },
+      );
+    } else {
+      enqueueSnackbar(
+        `You have successfully updated ${fullName}'s information`,
+        { variant: "success" },
+      );
+    }
 
     reset(getClientManagementFormDefaultValues(programEnrollments, client));
   };

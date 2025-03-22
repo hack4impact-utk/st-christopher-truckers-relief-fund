@@ -42,7 +42,6 @@ export default function GetPreventativeScreeningsRequestForm({
   setScreeningRequests,
 }: Readonly<GetPreventativeScreeningsRequestFormProps>): ReactNode {
   const [isLoading, setIsLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
 
   const { control, handleSubmit } = useForm<ScreeningRequestFormValues>({
     resolver: zodResolver(screeningRequestValidator),
@@ -136,7 +135,6 @@ export default function GetPreventativeScreeningsRequestForm({
     });
 
     setIsLoading(false);
-    setDisabled(true);
   };
 
   const showProstateScreening = isEligibleForProstateScreening(
@@ -232,7 +230,6 @@ export default function GetPreventativeScreeningsRequestForm({
           variant="contained"
           color="primary"
           loading={isLoading}
-          disabled={disabled}
           sx={{ width: "100%" }}
         >
           Submit

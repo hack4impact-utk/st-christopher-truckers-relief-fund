@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useSnackbar } from "notistack";
@@ -32,7 +32,6 @@ export default function VerifyEmailSuccess({
     }
 
     await verifyEmailWithToken(emailVerificationToken.token);
-    enqueueSnackbar("Email verified");
 
     // Update session to reflect database changes
     await update({
@@ -43,9 +42,7 @@ export default function VerifyEmailSuccess({
       },
     });
 
-    setTimeout(() => {
-      router.push("/");
-    }, 2000);
+    enqueueSnackbar("Email verified successfully", { variant: "success" });
   };
 
   // Call verifyEmail directly when session becomes available
@@ -53,5 +50,19 @@ export default function VerifyEmailSuccess({
     void verifyEmail();
   }
 
-  return <Typography variant="body1">Verifying email...</Typography>;
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        gap: 2,
+      }}
+    >
+      <Typography>Verifying email...</Typography>
+      <CircularProgress />
+    </Box>
+  );
 }
