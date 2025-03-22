@@ -42,9 +42,11 @@ export default function GetPreventativeScreeningsHistory({
     const [, error] = await handleScreeningRequestDeletion(screeningRequest);
 
     if (error !== null) {
-      enqueueSnackbar("An unexpected error occurred.");
+      enqueueSnackbar("An unexpected error occurred.", { variant: "error" });
     } else {
-      enqueueSnackbar("Screening request deleted successfully.");
+      enqueueSnackbar("Screening request deleted successfully.", {
+        variant: "success",
+      });
     }
   };
 
@@ -69,9 +71,11 @@ export default function GetPreventativeScreeningsHistory({
     const [, error] = await handleScreeningRequestUpdate(newScreeningRequest);
 
     if (error !== null) {
-      enqueueSnackbar("An unexpected error occurred.");
+      enqueueSnackbar("An unexpected error occurred.", { variant: "error" });
     } else {
-      enqueueSnackbar("Screening request updated successfully.");
+      enqueueSnackbar("Screening request updated successfully.", {
+        variant: "success",
+      });
     }
   };
 

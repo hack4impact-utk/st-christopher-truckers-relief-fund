@@ -32,7 +32,7 @@ export default function VerifyEmailSuccess({
     }
 
     await verifyEmailWithToken(emailVerificationToken.token);
-    enqueueSnackbar("Email verified");
+    enqueueSnackbar("Email verified successfully", { variant: "success" });
 
     // Update session to reflect database changes
     await update({
@@ -53,5 +53,5 @@ export default function VerifyEmailSuccess({
     void verifyEmail();
   }
 
-  return <Typography variant="body1">Verifying email...</Typography>;
+  return <Typography>Verifying email... </Typography>;
 }

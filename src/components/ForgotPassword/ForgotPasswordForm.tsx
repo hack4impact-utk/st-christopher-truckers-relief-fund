@@ -37,7 +37,7 @@ export default function ForgotPasswordForm(): ReactNode {
 
     const { email } = data;
     await handlePasswordResetRequest(email);
-    enqueueSnackbar("Password reset email sent");
+    enqueueSnackbar("Password reset email sent", { variant: "success" });
 
     setIsLoading(false);
     setDisabled(true);

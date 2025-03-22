@@ -45,11 +45,13 @@ export default function AcceptPendingApplicationButton({
     const [, error] = await handleApproveProgramApplication(programEnrollment);
 
     if (error !== null) {
-      enqueueSnackbar("An unexpected error occurred");
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
       return;
     }
 
-    enqueueSnackbar("Application successfully approved");
+    enqueueSnackbar("Application successfully approved", {
+      variant: "success",
+    });
   };
 
   return (

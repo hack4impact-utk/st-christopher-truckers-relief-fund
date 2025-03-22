@@ -76,9 +76,11 @@ export default function UrgentMeetingRequestModal({
       await handleCreateUrgentMeetingRequest(urgentMeetingRequest);
 
     if (error !== null) {
-      enqueueSnackbar("An unexpected error occurred");
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
     } else {
-      enqueueSnackbar("Urgent meeting request submitted successfully");
+      enqueueSnackbar("Urgent meeting request submitted successfully", {
+        variant: "success",
+      });
     }
 
     reset();
