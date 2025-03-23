@@ -83,7 +83,7 @@ export default function ChangePasswordForm({
       });
 
       setTimeout(() => {
-        router.push("/settings");
+        router.push("/profile");
       }, 1000);
     } else {
       enqueueSnackbar("Password change failed.", { variant: "error" });
