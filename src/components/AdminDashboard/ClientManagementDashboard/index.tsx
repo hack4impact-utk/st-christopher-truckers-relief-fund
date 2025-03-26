@@ -5,7 +5,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { ReactNode, useState } from "react";
 
 import ClientProgramManagementForm from "@/components/AdminDashboard/ClientManagementDashboard/ClientProgramManagementForm";
-import PendingApplicationInfoModal from "@/components/AdminDashboard/PendingApplicationDashboard/PendingApplicationInfoModal/";
+import PendingApplicationInfoModal from "@/components/AdminDashboard/EnrollmentFormResponseModal";
 import { ClientUser, ProgramEnrollment } from "@/types";
 
 import AdminDashboardTable, {
