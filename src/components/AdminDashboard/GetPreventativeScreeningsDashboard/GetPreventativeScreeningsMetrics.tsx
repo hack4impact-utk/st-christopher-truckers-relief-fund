@@ -97,7 +97,15 @@ function getMonthlyData(
 function getYearlyData(screeningRequests: ScreeningRequest[]): YearlyData[] {
   if (screeningRequests.length > 0) {
     const currentYear = dayjsUtil().year();
-    const years = Array.from({ length: 7 }, (_, i) => currentYear - i);
+    const earliestYear = Math.min(
+      ...screeningRequests.map((request) =>
+        dayjsUtil(request.submittedDate).year(),
+      ),
+    );
+    const years = Array.from(
+      { length: currentYear - earliestYear + 1 },
+      (_, i) => earliestYear + i,
+    );
 
     const yearlyData = years
       .map((year) => {
@@ -119,14 +127,7 @@ function getYearlyData(screeningRequests: ScreeningRequest[]): YearlyData[] {
       })
       .reverse();
 
-    // Filter out years with no data
-    return yearlyData.filter(
-      (data) =>
-        data.totalRegistrations > 0 ||
-        data.colorectalRegistered > 0 ||
-        data.prostateRegistered > 0 ||
-        data.cervicalRegistered > 0,
-    );
+    return yearlyData;
   }
   return [];
 }
