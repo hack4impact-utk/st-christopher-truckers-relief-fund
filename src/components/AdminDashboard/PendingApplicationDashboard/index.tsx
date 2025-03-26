@@ -9,8 +9,8 @@ import { ClientUser, Program, ProgramEnrollment } from "@/types";
 import AdminDashboardTable, {
   AdminDashboardTableRow,
 } from "../AdminDashboardTable";
+import PendingApplicationInfoModal from "../EnrollmentFormResponseModal";
 import AcceptPendingApplicationButton from "./AcceptPendingApplicationButton";
-import PendingApplicationInfoModal from "./PendingApplicationInfoModal";
 import RejectPendingApplicationButton from "./RejectPendingApplicationButton";
 
 export type PendingApplicationsRow = AdminDashboardTableRow & {
