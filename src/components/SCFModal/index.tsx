@@ -43,13 +43,7 @@ export default function SCFModal({
     <>
       {trigger}
 
-      <Modal
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
+      <Modal open={open} onClose={handleClose} closeAfterTransition>
         <Fade in={open}>
           <Box
             sx={{
@@ -57,11 +51,7 @@ export default function SCFModal({
               width: width ?? defaultModalStyle.width,
             }}
           >
-            {title && (
-              <Typography id="modal-title" variant="h5">
-                {title}
-              </Typography>
-            )}
+            {title && <Typography variant="h6">{title}</Typography>}
 
             {children}
 
