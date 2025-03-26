@@ -253,15 +253,46 @@ export default function GetPreventativeScreeningsMetrics({
             ]}
             slotProps={{
               legend: {
-                direction: "row",
-                position: { vertical: "bottom", horizontal: "middle" },
-                padding: 20,
-                hidden: false,
-                itemGap: 20,
+                hidden: true,
               },
             }}
-            margin={{ top: 20, right: 20, bottom: 150, left: 20 }}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
           />
+        </Box>
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 2,
+              justifyContent: "center",
+            }}
+          >
+            {[
+              { label: "Total Registrations", color: "#1976d2" },
+              { label: "Colorectal Registered", color: "#2e7d32" },
+              { label: "Colorectal Qualified", color: "#4caf50" },
+              { label: "Prostate Registered", color: "#ed6c02" },
+              { label: "Prostate Qualified", color: "#ff9800" },
+              { label: "Cervical Registered", color: "#9c27b0" },
+              { label: "Cervical Qualified", color: "#ba68c8" },
+            ].map((item) => (
+              <Box
+                key={item.label}
+                sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              >
+                <Box
+                  sx={{
+                    width: 16,
+                    height: 16,
+                    backgroundColor: item.color,
+                    borderRadius: 1,
+                  }}
+                />
+                <Typography variant="body2">{item.label}</Typography>
+              </Box>
+            ))}
+          </Box>
         </Box>
       </Box>
 
