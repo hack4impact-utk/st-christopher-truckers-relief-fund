@@ -38,6 +38,7 @@ export default function GetPreventativeScreeningsDashboard({
               getPreventativeScreeningsProgramEnrollments={
                 getPreventativeScreeningProgramEnrollments
               }
+              screeningRequests={screeningRequests}
             />
           ),
         },
