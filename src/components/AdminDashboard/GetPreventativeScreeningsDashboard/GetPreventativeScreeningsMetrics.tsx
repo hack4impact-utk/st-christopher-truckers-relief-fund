@@ -95,35 +95,40 @@ function getMonthlyData(
 }
 
 function getYearlyData(screeningRequests: ScreeningRequest[]): YearlyData[] {
-  const currentYear = dayjsUtil().year();
-  const years = Array.from({ length: 7 }, (_, i) => currentYear - i);
+  if (screeningRequests.length > 0) {
+    const currentYear = dayjsUtil().year();
+    const years = Array.from({ length: 7 }, (_, i) => currentYear - i);
 
-  const yearlyData = years
-    .map((year) => {
-      const yearStart = dayjsUtil().year(year).startOf("year");
-      const yearEnd = yearStart.endOf("year");
+    const yearlyData = years
+      .map((year) => {
+        const yearStart = dayjsUtil().year(year).startOf("year");
+        const yearEnd = yearStart.endOf("year");
 
-      const yearRequests = screeningRequests.filter((request) => {
-        const requestDate = dayjsUtil(request.submittedDate);
-        return requestDate.isAfter(yearStart) && requestDate.isBefore(yearEnd);
-      });
+        const yearRequests = screeningRequests.filter((request) => {
+          const requestDate = dayjsUtil(request.submittedDate);
+          return (
+            requestDate.isAfter(yearStart) && requestDate.isBefore(yearEnd)
+          );
+        });
 
-      const metrics = calculateMetrics(yearRequests);
-      return {
-        year,
-        ...metrics,
-      };
-    })
-    .reverse();
+        const metrics = calculateMetrics(yearRequests);
+        return {
+          year,
+          ...metrics,
+        };
+      })
+      .reverse();
 
-  // Filter out years with no data
-  return yearlyData.filter(
-    (data) =>
-      data.totalRegistrations > 0 ||
-      data.colorectalRegistered > 0 ||
-      data.prostateRegistered > 0 ||
-      data.cervicalRegistered > 0,
-  );
+    // Filter out years with no data
+    return yearlyData.filter(
+      (data) =>
+        data.totalRegistrations > 0 ||
+        data.colorectalRegistered > 0 ||
+        data.prostateRegistered > 0 ||
+        data.cervicalRegistered > 0,
+    );
+  }
+  return [];
 }
 
 export default function GetPreventativeScreeningsMetrics({
