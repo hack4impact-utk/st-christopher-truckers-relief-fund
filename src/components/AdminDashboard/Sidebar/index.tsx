@@ -2,6 +2,7 @@
 
 import Apps from "@mui/icons-material/Apps";
 import Description from "@mui/icons-material/Description";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Insights from "@mui/icons-material/Insights";
 import MedicationIcon from "@mui/icons-material/Medication";
 import Notifications from "@mui/icons-material/Notifications";
@@ -104,6 +105,12 @@ function getSidebarItems(numberOfUrgentMeetingRequests: number): SidebarItem[] {
       label: "Applications",
       icon: <Description />,
       href: "/dashboard/admin/applications",
+    },
+    {
+      type: "standard",
+      label: "Data Export",
+      icon: <FileDownloadIcon />,
+      href: "/dashboard/admin/data-export",
     },
   ];
 }
