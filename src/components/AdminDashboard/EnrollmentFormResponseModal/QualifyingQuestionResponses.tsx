@@ -17,6 +17,18 @@ export default function QualifyingQuestionResponses({
 
   const diagnosesResponses = [
     {
+      label: "Type 1 Diabetes",
+      value: diagnoses.hasType1Diabetes ? "Yes" : "No",
+    },
+    {
+      label: "Type 2 Diabetes",
+      value: diagnoses.hasType2Diabetes ? "Yes" : "No",
+    },
+    {
+      label: "High Blood Pressure",
+      value: diagnoses.hasHighBloodPressure ? "Yes" : "No",
+    },
+    {
       label: "High Cholesterol",
       value: diagnoses.hasHighCholesterol ? "Yes" : "No",
     },
