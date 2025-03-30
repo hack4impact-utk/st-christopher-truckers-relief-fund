@@ -30,9 +30,7 @@ export default function HealthyHabitsTrackingFormListItem({
     <ListItem
       secondaryAction={
         <Box sx={{ display: "flex", gap: 2 }}>
-          <IconButton edge="end" aria-label="info">
-            <HealthyHabitsTrackingFormModal form={form} />
-          </IconButton>
+          <HealthyHabitsTrackingFormModal form={form} />
           <IconButton edge="end" onClick={() => handleDelete(form)}>
             <DeleteIcon />
           </IconButton>

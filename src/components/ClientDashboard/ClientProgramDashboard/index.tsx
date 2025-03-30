@@ -1,4 +1,13 @@
-import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  Box,
+  Button,
+  Divider,
+  Link,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { ReactNode, useState } from "react";
 
 type ClientProgramDashboardProps = {
@@ -31,6 +40,16 @@ export default function ClientProgramDashboard({
         }}
       >
         <Box sx={{ width: "min(90vw, 700px)", marginBottom: 2 }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            href="/dashboard/client"
+            startIcon={<ArrowBackIcon />}
+            sx={{ my: 2 }}
+          >
+            Back
+          </Button>
           <Typography sx={{ fontSize: "1.5rem", textAlign: "center" }}>
             {title}
           </Typography>

@@ -102,6 +102,10 @@ export async function handleAddRigsWithoutCigsInformation(
 
   const updatedEnrollmentForm = {
     ...enrollmentForm,
+    programSelectionSection: {
+      ...enrollmentForm.programSelectionSection,
+      optedInToRigsWithoutCigs: true,
+    },
     programSpecificQuestionsSection: {
       ...enrollmentForm.programSpecificQuestionsSection,
       hasOptedInToRigsWithoutCigs: true,
@@ -118,7 +122,7 @@ export async function handleAddRigsWithoutCigsInformation(
   return [null, null];
 }
 
-async function createFagerstromTestsFromEnrollmentForm(
+export async function createFagerstromTestsFromEnrollmentForm(
   enrollmentForm: EnrollmentForm,
   user: User,
 ): Promise<void> {

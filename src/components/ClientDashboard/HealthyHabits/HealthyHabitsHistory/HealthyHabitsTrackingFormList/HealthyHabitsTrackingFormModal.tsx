@@ -1,7 +1,7 @@
 "use client";
 
 import InfoIcon from "@mui/icons-material/Info";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { ReactNode, useState } from "react";
 
 import SCFModal from "@/components/SCFModal";
@@ -77,7 +77,11 @@ export default function HealthyHabitsTrackingFormModal({
     { label: "Emotional Health", value: `${form.emotionalHealthRanking}/5` },
   ];
 
-  const trigger = <InfoIcon onClick={() => setOpen(true)} />;
+  const trigger = (
+    <IconButton edge="end" aria-label="info" onClick={() => setOpen(true)}>
+      <InfoIcon />
+    </IconButton>
+  );
 
   return (
     <SCFModal
