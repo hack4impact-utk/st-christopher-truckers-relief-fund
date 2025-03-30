@@ -15,6 +15,7 @@ const theme = createTheme({
     },
   },
   components: {
+    // Customize scrollbar
     MuiCssBaseline: {
       styleOverrides: {
         body: {
@@ -32,6 +33,12 @@ const theme = createTheme({
             backgroundColor: "transparent",
           },
         },
+      },
+    },
+    // Disable ripple effect on buttons
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true,
       },
     },
   },

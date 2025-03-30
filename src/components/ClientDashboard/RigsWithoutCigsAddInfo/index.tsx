@@ -3,6 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Typography } from "@mui/material";
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
@@ -92,7 +96,14 @@ const rigsWithoutCigsInformationValidator = z.object({
     accountabilityPerson: z.object({
       firstName: z.string(),
       lastName: z.string(),
-      phoneNumber: z.string(),
+      phoneNumber: z
+        .string()
+        .refine((val) => isValidPhoneNumber(val, "US"), {
+          message: "Invalid phone number",
+        })
+        .transform((val) =>
+          parsePhoneNumberWithError(val, "US").number.toString(),
+        ),
       relationshipToAccountabilityPerson: z.enum([
         "Friend",
         "Coworker",

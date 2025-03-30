@@ -104,7 +104,7 @@ export default function EnrolledProgramsSelectionScreen({
         )}
       </Box>
 
-      <Box sx={{ marginTop: "auto", alignSelf: "center" }}>
+      <Box sx={{ marginTop: "auto", alignSelf: "center", p: 2 }}>
         <UrgentMeetingRequestModal user={user} />
       </Box>
     </Box>
