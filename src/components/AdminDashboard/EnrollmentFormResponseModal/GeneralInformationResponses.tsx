@@ -10,9 +10,111 @@ type GeneralInformationResponsesProps = {
   generalInformationSection: GeneralInformationSection;
 };
 
+type GeneralInformationSectionResponse = {
+  label: string;
+  value: string | number;
+  showFormResponse?: boolean;
+  isListItem?: boolean;
+};
+
 export default function GeneralInformationResponses({
   generalInformationSection,
 }: Readonly<GeneralInformationResponsesProps>): ReactNode {
+  const generalInformationSectionResponses: GeneralInformationSectionResponse[] =
+    [
+      {
+        label: "First Name",
+        value: generalInformationSection.firstName,
+      },
+      {
+        label: "Last Name",
+        value: generalInformationSection.lastName,
+      },
+      {
+        label: "Email",
+        value: generalInformationSection.email,
+      },
+      {
+        label: "Phone Number",
+        value: generalInformationSection.phoneNumber,
+      },
+      {
+        label: "Date of Birth",
+        value: generalInformationSection.dateOfBirth,
+      },
+      {
+        label: "Sex",
+        value: generalInformationSection.sex,
+      },
+      {
+        label: "Address",
+        value: generalInformationSection.address,
+      },
+      {
+        label: "Preferred Method of Contact",
+        value: generalInformationSection.preferredMethodOfContact,
+      },
+      {
+        label: "U.S. Citizen",
+        value: generalInformationSection.isUsCitizen ? "Yes" : "No",
+      },
+      {
+        label: "Class A CDL",
+        value: generalInformationSection.hasClassACdl ? "Yes" : "No",
+      },
+      {
+        label: "CDL Number",
+        value: generalInformationSection.cdlNumber ?? "Not Provided",
+        showFormResponse: !!generalInformationSection.hasClassACdl,
+      },
+      {
+        label: "Trucking Industry Affiliation",
+        value: generalInformationSection.truckingIndustryAffiliation,
+      },
+      {
+        label: "Job Description",
+        value: generalInformationSection.jobDescription,
+      },
+      {
+        label: "Referral Source",
+        value: generalInformationSection.referralSource,
+      },
+      {
+        label: "Employer Name",
+        value: generalInformationSection.employer.name ?? "Not Provided",
+        showFormResponse: !!generalInformationSection.employer.name,
+      },
+      {
+        label: "Employer Contact",
+        value: generalInformationSection.employer.contact ?? "Not Provided",
+        showFormResponse: !!generalInformationSection.employer.contact,
+      },
+      {
+        label: "Monthly Household Expenses",
+        value: `$${generalInformationSection.monthlyHouseholdExpenses}`,
+      },
+      {
+        label: "Is A Owner Or Operator",
+        value: generalInformationSection.isOwnerOperator ? "Yes" : "No",
+      },
+      {
+        label: "Business Income",
+        value: generalInformationSection.ownerOperatorInfo.businessIncome
+          ? `$${generalInformationSection.ownerOperatorInfo.businessIncome}`
+          : "Not Provided",
+        showFormResponse: !!generalInformationSection.isOwnerOperator,
+        isListItem: true,
+      },
+      {
+        label: "Business Expenses",
+        value: generalInformationSection.ownerOperatorInfo.businessExpenses
+          ? `$${generalInformationSection.ownerOperatorInfo.businessExpenses}`
+          : "Not Provided",
+        showFormResponse: !!generalInformationSection.isOwnerOperator,
+        isListItem: true,
+      },
+    ];
+
   return (
     <Box>
       <FormSection title="General Information">
@@ -23,101 +125,15 @@ export default function GeneralInformationResponses({
             gap: 2,
           }}
         >
-          <FormResponse
-            label="First Name"
-            value={generalInformationSection.firstName}
-          />
-          <FormResponse
-            label="Last Name"
-            value={generalInformationSection.lastName}
-          />
-          <FormResponse label="Email" value={generalInformationSection.email} />
-          <FormResponse
-            label="Phone Number"
-            value={generalInformationSection.phoneNumber}
-          />
-          <FormResponse
-            label="Date of Birth"
-            value={generalInformationSection.dateOfBirth}
-          />
-          <FormResponse label="Sex" value={generalInformationSection.sex} />
-          <FormResponse
-            label="Address"
-            value={generalInformationSection.address}
-          />
-          <FormResponse
-            label="Preferred Method of Contact"
-            value={generalInformationSection.preferredMethodOfContact}
-          />
-          <FormResponse
-            label="U.S. Citizen"
-            value={generalInformationSection.isUsCitizen ? "Yes" : "No"}
-          />
-          <FormResponse
-            label="Class A CDL"
-            value={generalInformationSection.hasClassACdl ? "Yes" : "No"}
-          />
-          {generalInformationSection.hasClassACdl && (
+          {generalInformationSectionResponses.map((response) => (
             <FormResponse
-              label="CDL Number"
-              value={generalInformationSection.cdlNumber ?? "Not Provided"}
+              key={response.label}
+              label={response.label}
+              value={response.value}
+              showFormResponse={response.showFormResponse}
+              isListItem={response.isListItem}
             />
-          )}
-          <FormResponse
-            label="Trucking Industry Affiliation"
-            value={generalInformationSection.truckingIndustryAffiliation}
-          />
-          <FormResponse
-            label="Job Description"
-            value={generalInformationSection.jobDescription}
-          />
-          <FormResponse
-            label="Referral Source"
-            value={generalInformationSection.referralSource}
-          />
-          {generalInformationSection.employer.name && (
-            <FormResponse
-              label="Employer Name"
-              value={generalInformationSection.employer.name}
-            />
-          )}
-          {generalInformationSection.employer.contact && (
-            <FormResponse
-              label="Employer Contact"
-              value={generalInformationSection.employer.contact}
-            />
-          )}
-
-          <FormResponse
-            label="Monthly Household Expenses"
-            value={`$${generalInformationSection.monthlyHouseholdExpenses}`}
-          />
-          <FormResponse
-            label="Is A Owner Or Operator"
-            value={generalInformationSection.isOwnerOperator ? "Yes" : "No"}
-          />
-          {generalInformationSection.isOwnerOperator && (
-            <Box display="flex" flexDirection="column" gap={1}>
-              <FormResponse
-                label="Business Income"
-                value={
-                  generalInformationSection.ownerOperatorInfo.businessIncome
-                    ? `$${generalInformationSection.ownerOperatorInfo.businessIncome}`
-                    : "Not Provided"
-                }
-                isListItem={true}
-              />
-              <FormResponse
-                label="Business Expenses"
-                value={
-                  generalInformationSection.ownerOperatorInfo.businessExpenses
-                    ? `$${generalInformationSection.ownerOperatorInfo.businessExpenses}`
-                    : "Not Provided"
-                }
-                isListItem={true}
-              />
-            </Box>
-          )}
+          ))}
 
           <FormResponse
             label="Acknowledged HIPAA Notice"
@@ -127,6 +143,7 @@ export default function GeneralInformationResponses({
                 : "No"
             }
           />
+
           <FormSubsection title="Doctors">
             {generalInformationSection.doctors.map((doctor) => (
               <Box
