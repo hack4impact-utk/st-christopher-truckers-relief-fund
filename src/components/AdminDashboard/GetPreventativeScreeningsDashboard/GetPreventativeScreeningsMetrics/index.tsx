@@ -11,11 +11,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { LineChart } from "@mui/x-charts";
 import { ReactNode } from "react";
 
 import { ProgramEnrollment, ScreeningRequest } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
+
+import YearlyTrendChart from "./YearlyTrendChart";
 
 type GetPreventativeScreeningsMetricsProps = {
   getPreventativeScreeningsProgramEnrollments: ProgramEnrollment[];
@@ -43,6 +44,18 @@ type YearlyData = {
   cervicalQualified: number;
 };
 
+function isRequestQualified(request: ScreeningRequest): boolean {
+  const status = request.status;
+
+  return (
+    status === "qualified" ||
+    status === "initial positive" ||
+    status === "true positive" ||
+    status === "false positive" ||
+    status === "negative"
+  );
+}
+
 function calculateMetrics(
   screeningRequests: ScreeningRequest[],
 ): ScreeningMetrics {
@@ -53,15 +66,15 @@ function calculateMetrics(
       switch (request.name) {
         case "Colon / Colorectal Screening":
           acc.colorectalRegistered++;
-          if (request.status === "qualified") acc.colorectalQualified++;
+          if (isRequestQualified(request)) acc.colorectalQualified++;
           break;
         case "Prostate Screening":
           acc.prostateRegistered++;
-          if (request.status === "qualified") acc.prostateQualified++;
+          if (isRequestQualified(request)) acc.prostateQualified++;
           break;
         case "Cervical Cancer Screening":
           acc.cervicalRegistered++;
-          if (request.status === "qualified") acc.cervicalQualified++;
+          if (isRequestQualified(request)) acc.cervicalQualified++;
           break;
       }
 
@@ -85,51 +98,50 @@ function getMonthlyData(
   const currentMonth = dayjsUtil().startOf("month");
   const lastMonth = currentMonth.subtract(1, "month");
 
-  // Filter requests for last month
-  const lastMonthRequests = screeningRequests.filter((request) => {
+  const thisMonthsRequests = screeningRequests.filter((request) => {
     const requestDate = dayjsUtil(request.submittedDate);
-    return requestDate.isAfter(lastMonth) && requestDate.isBefore(currentMonth);
+    return requestDate.isAfter(lastMonth);
   });
 
-  return calculateMetrics(lastMonthRequests);
+  return calculateMetrics(thisMonthsRequests);
 }
 
 function getYearlyData(screeningRequests: ScreeningRequest[]): YearlyData[] {
-  if (screeningRequests.length > 0) {
-    const currentYear = dayjsUtil().year();
-    const earliestYear = Math.min(
-      ...screeningRequests.map((request) =>
-        dayjsUtil(request.submittedDate).year(),
-      ),
-    );
-    const years = Array.from(
-      { length: currentYear - earliestYear + 1 },
-      (_, i) => earliestYear + i,
-    );
-
-    const yearlyData = years
-      .map((year) => {
-        const yearStart = dayjsUtil().year(year).startOf("year");
-        const yearEnd = yearStart.endOf("year");
-
-        const yearRequests = screeningRequests.filter((request) => {
-          const requestDate = dayjsUtil(request.submittedDate);
-          return (
-            requestDate.isAfter(yearStart) && requestDate.isBefore(yearEnd)
-          );
-        });
-
-        const metrics = calculateMetrics(yearRequests);
-        return {
-          year,
-          ...metrics,
-        };
-      })
-      .reverse();
-
-    return yearlyData;
+  if (screeningRequests.length === 0) {
+    return [];
   }
-  return [];
+
+  const currentYear = dayjsUtil().year();
+  const earliestYear = Math.min(
+    ...screeningRequests.map((request) =>
+      dayjsUtil(request.submittedDate).year(),
+    ),
+  );
+
+  const years = Array.from(
+    { length: currentYear - earliestYear + 1 },
+    (_, i) => earliestYear + i,
+  );
+
+  const yearlyData = years
+    .map((year) => {
+      const yearStart = dayjsUtil().year(year).startOf("year");
+      const yearEnd = yearStart.endOf("year");
+
+      const yearRequests = screeningRequests.filter((request) => {
+        const requestDate = dayjsUtil(request.submittedDate);
+        return requestDate.isAfter(yearStart) && requestDate.isBefore(yearEnd);
+      });
+
+      const metrics = calculateMetrics(yearRequests);
+      return {
+        year,
+        ...metrics,
+      };
+    })
+    .reverse();
+
+  return yearlyData;
 }
 
 export default function GetPreventativeScreeningsMetrics({
@@ -198,108 +210,10 @@ export default function GetPreventativeScreeningsMetrics({
         </Box>
       </Box>
 
-      {/* Line Charts */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Yearly Screening Trends
-        </Typography>
-        <Box sx={{ height: 400, width: "100%" }}>
-          <LineChart
-            xAxis={[
-              {
-                data: chartData.map((item) => item.year),
-                label: "Year",
-                scaleType: "linear",
-                valueFormatter: (value) => value.toString(),
-                tickMinStep: 1,
-              },
-            ]}
-            series={[
-              {
-                data: chartData.map((item) => item.total),
-                label: "Total Registrations",
-                color: "#1976d2",
-              },
-              {
-                data: chartData.map((item) => item.colorectal),
-                label: "Colorectal Registered",
-                color: "#2e7d32",
-              },
-              {
-                data: chartData.map((item) => item.colorectalQualified),
-                label: "Colorectal Qualified",
-                color: "#4caf50",
-              },
-              {
-                data: chartData.map((item) => item.prostate),
-                label: "Prostate Registered",
-                color: "#ed6c02",
-              },
-              {
-                data: chartData.map((item) => item.prostateQualified),
-                label: "Prostate Qualified",
-                color: "#ff9800",
-              },
-              {
-                data: chartData.map((item) => item.cervical),
-                label: "Cervical Registered",
-                color: "#9c27b0",
-              },
-              {
-                data: chartData.map((item) => item.cervicalQualified),
-                label: "Cervical Qualified",
-                color: "#ba68c8",
-              },
-            ]}
-            slotProps={{
-              legend: {
-                hidden: true,
-              },
-            }}
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          />
-        </Box>
-        <Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 2,
-              justifyContent: "center",
-            }}
-          >
-            {[
-              { label: "Total Registrations", color: "#1976d2" },
-              { label: "Colorectal Registered", color: "#2e7d32" },
-              { label: "Colorectal Qualified", color: "#4caf50" },
-              { label: "Prostate Registered", color: "#ed6c02" },
-              { label: "Prostate Qualified", color: "#ff9800" },
-              { label: "Cervical Registered", color: "#9c27b0" },
-              { label: "Cervical Qualified", color: "#ba68c8" },
-            ].map((item) => (
-              <Box
-                key={item.label}
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <Box
-                  sx={{
-                    width: 16,
-                    height: 16,
-                    backgroundColor: item.color,
-                    borderRadius: 1,
-                  }}
-                />
-                <Typography variant="body2">{item.label}</Typography>
-              </Box>
-            ))}
-          </Box>
-        </Box>
-      </Box>
-
       {/* Monthly Metrics Table */}
       <Box>
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Last Month&apos;s Metrics
+        <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
+          This Month&apos;s Metrics
         </Typography>
         <TableContainer component={Paper}>
           <Table>
@@ -355,6 +269,78 @@ export default function GetPreventativeScreeningsMetrics({
             </TableBody>
           </Table>
         </TableContainer>
+      </Box>
+
+      {/* Line Charts */}
+      <Box
+        sx={{
+          marginTop: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Yearly Screening Trends
+        </Typography>
+        <YearlyTrendChart
+          title="Total Registrations"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.total,
+          }))}
+          color="#1976d2"
+        />
+        <YearlyTrendChart
+          title="Colorectal Screening - Registered"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.colorectal,
+          }))}
+          color="#2e7d32"
+        />
+        <YearlyTrendChart
+          title="Colorectal Screening - Qualified"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.colorectalQualified,
+          }))}
+          color="#4caf50"
+        />
+        <YearlyTrendChart
+          title="Prostate Screening - Registered"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.prostate,
+          }))}
+          color="#ed6c02"
+        />
+        <YearlyTrendChart
+          title="Prostate Screening - Qualified"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.prostateQualified,
+          }))}
+          color="#ff9800"
+        />
+        <YearlyTrendChart
+          title="Cervical Screening - Registered"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.cervical,
+          }))}
+          color="#9c27b0"
+        />
+        <YearlyTrendChart
+          title="Cervical Screening - Qualified"
+          data={chartData.map((item) => ({
+            year: item.year,
+            value: item.cervicalQualified,
+          }))}
+          color="#ba68c8"
+        />
       </Box>
     </Box>
   );
