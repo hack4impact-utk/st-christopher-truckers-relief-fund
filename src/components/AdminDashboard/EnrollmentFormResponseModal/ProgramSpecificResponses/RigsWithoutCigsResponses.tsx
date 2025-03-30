@@ -139,6 +139,44 @@ export default function RigsWithoutCigsResponses({
       label: "How to Help",
       value: programSpecificQuestionsSection.rigsWithoutCigs.howCanWeHelpYou,
     },
+    {
+      label: "Referral Source",
+      value: programSpecificQuestionsSection.rigsWithoutCigs.referralSource,
+    },
+    {
+      label: "Has Primary Care Physician",
+      value: programSpecificQuestionsSection.rigsWithoutCigs
+        .currentlyHasPrimaryCarePhysician
+        ? "Yes"
+        : "No",
+    },
+  ];
+
+  const accountabilityPersonResponses = [
+    {
+      label: "Accountability Person First Name",
+      value:
+        programSpecificQuestionsSection.rigsWithoutCigs.accountabilityPerson
+          .firstName,
+    },
+    {
+      label: "Accountability Person Last Name",
+      value:
+        programSpecificQuestionsSection.rigsWithoutCigs.accountabilityPerson
+          .lastName,
+    },
+    {
+      label: "Accountability Person Phone Number",
+      value:
+        programSpecificQuestionsSection.rigsWithoutCigs.accountabilityPerson
+          .phoneNumber,
+    },
+    {
+      label: "Relationship to Accountability Person",
+      value:
+        programSpecificQuestionsSection.rigsWithoutCigs.accountabilityPerson
+          .relationshipToAccountabilityPerson,
+    },
   ];
 
   const attemptedQuittingMethods = [
@@ -307,6 +345,17 @@ export default function RigsWithoutCigsResponses({
                 key={method.label}
                 label={method.label}
                 value={method.value}
+                isListItem
+              />
+            ))}
+          </FormSubsection>
+
+          <FormSubsection title="Accountability Person">
+            {accountabilityPersonResponses.map((response) => (
+              <FormResponse
+                key={response.label}
+                label={response.label}
+                value={response.value}
                 isListItem
               />
             ))}
