@@ -36,9 +36,8 @@ export default function VaccineVoucherDashboard({
           title: "Metrics",
           content: (
             <VaccineVoucherMetrics
-              VaccineVoucherProgramEnrollments={
-                vaccineVoucherProgramEnrollments
-              }
+              vaccineVoucherProgramEnrollments={vaccineVoucherProgramEnrollments}
+              vaccineVoucherRequests={vaccineVoucherRequests}
             />
           ),
         },
