@@ -1,0 +1,4 @@
+firstName,lastName,email,phoneNumber,dateOfBirth,sex,isEnrolledInHealthyHabits,healthyHabitsEnrollmentDate,isEnrolledInDiabetesPrevention,diabetesPreventionEnrollmentDate,isEnrolledInRigsWithoutCigs,rigsWithoutCigsEnrollmentDate,isEnrolledInVaccineVoucher,vaccineVoucherEnrollmentDate
+John,Smith,john.smith@example.com,555-123-4567,1980-05-15,male,true,2024-01-15,true,2024-01-15,false,2024-01-15,true,2024-01-15
+Sarah,Johnson,sarah.j@example.com,555-234-5678,1985-08-22,female,true,2024-02-01,false,2024-02-01,true,2024-02-01,false,2024-02-01
+Michael,Brown,mike.brown@example.com,555-345-6789,1978-12-10,male,false,2024-02-15,true,2024-02-15,true,2024-02-15,true,2024-02-15 
