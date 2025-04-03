@@ -1,16 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { ProgramEnrollment, VaccineVoucherRequest } from "@/types";
@@ -20,6 +10,7 @@ import AdminDashboardTable, {
   AdminDashboardTableRow,
 } from "../AdminDashboardTable";
 import YearlyTrendChart from "../GetPreventativeScreeningsDashboard/GetPreventativeScreeningsMetrics/YearlyTrendChart";
+import MetricsTable from "../MetricsTable";
 
 type VaccineVoucherMetricsProps = {
   vaccineVoucherProgramEnrollments: ProgramEnrollment[];
@@ -193,78 +184,26 @@ export default function VaccineVoucherMetrics({
 
   return (
     <Box>
-      <Typography align="center" variant="h4" sx={{ m: 2 }}>
-        Vaccine Voucher Metrics
-      </Typography>
+      <MetricsTable
+        title="Overview"
+        rows={[
+          { label: "Total Enrolled", value: totalEnrolled },
+          {
+            label: "Registrations in Past 3 Months",
+            value: registrationsInPast3Months,
+          },
+        ]}
+      />
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-          mb: 4,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            borderRadius: 2,
-            boxShadow: 3,
-            padding: 4,
-          }}
-        >
-          <Typography>
-            <strong>Total Enrolled:</strong> {totalEnrolled}
-          </Typography>
-          <Typography>
-            <strong>Registrations in Past 3 Months:</strong>{" "}
-            {registrationsInPast3Months}
-          </Typography>
-        </Box>
-      </Box>
-
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
-          This Month&apos;s Metrics
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Metric</TableCell>
-                <TableCell align="right">Count</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>Total Requests</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.totalRequests}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Registered</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.totalRegistered}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Received</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.totalReceived}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Used</TableCell>
-                <TableCell align="right">{monthlyMetrics.totalUsed}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+      <MetricsTable
+        title="This Month's Metrics"
+        rows={[
+          { label: "Total Requests", value: monthlyMetrics.totalRequests },
+          { label: "Registered", value: monthlyMetrics.totalRegistered },
+          { label: "Received", value: monthlyMetrics.totalReceived },
+          { label: "Used", value: monthlyMetrics.totalUsed },
+        ]}
+      />
 
       <Box sx={{ mb: 6 }}>
         <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
@@ -283,7 +222,7 @@ export default function VaccineVoucherMetrics({
             return (
               <Box sx={{ mb: 4 }} key={vaccineName}>
                 <AdminDashboardTable
-                  tableName={`Vaccine: ${vaccineName}`}
+                  tableName={vaccineName}
                   rows={tableRows}
                   additionalColumns={[
                     {

@@ -76,37 +76,43 @@ export default function AdminDashboardTable<
       <Typography align="center" variant="h6">
         {tableName}
       </Typography>
-      <Box display="flex" alignItems="center" sx={{ py: 2 }}>
-        <TextField
-          id="search-bar"
-          className="text"
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-          }}
-          placeholder="Search..."
-          size="small"
-        />
-        <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
-        {actionButtons && (
-          <Box sx={{ marginLeft: "auto" }}>{actionButtons}</Box>
-        )}
-      </Box>
-      <DataGrid
-        rows={filteredRows}
-        columns={columns}
-        disableRowSelectionOnClick
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
+      <Box
         sx={{
-          height: "300px",
           width: width ?? "100%",
+          marginInline: "auto",
         }}
-      />
+      >
+        <Box display="flex" alignItems="center" sx={{ py: 2 }}>
+          <TextField
+            id="search-bar"
+            className="text"
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+            placeholder="Search..."
+            size="small"
+          />
+          <Search sx={{ fontSize: 28, m: 1 }} color="primary" />
+          {actionButtons && (
+            <Box sx={{ marginLeft: "auto" }}>{actionButtons}</Box>
+          )}
+        </Box>
+        <DataGrid
+          rows={filteredRows}
+          columns={columns}
+          disableRowSelectionOnClick
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          sx={{
+            height: "300px",
+          }}
+        />
+      </Box>
     </Box>
   );
 }

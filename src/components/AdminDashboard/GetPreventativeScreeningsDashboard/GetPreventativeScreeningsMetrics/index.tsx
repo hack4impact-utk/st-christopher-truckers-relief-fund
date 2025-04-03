@@ -1,21 +1,12 @@
 "use client";
 
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import { ProgramEnrollment, ScreeningRequest } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
+import MetricsTable from "../../MetricsTable";
 import YearlyTrendChart from "./YearlyTrendChart";
 
 type GetPreventativeScreeningsMetricsProps = {
@@ -180,96 +171,51 @@ export default function GetPreventativeScreeningsMetrics({
         Get Preventative Screenings Metrics
       </Typography>
 
-      {/* Summary Box */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-          mb: 4,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            borderRadius: 2,
-            boxShadow: 3,
-            padding: 4,
-          }}
-        >
-          <Typography>
-            <strong>Total Enrolled:</strong> {totalEnrolled}
-          </Typography>
-          <Typography>
-            <strong>Registrations in Past 3 Months:</strong>{" "}
-            {registrationsInPast3Months}
-          </Typography>
-        </Box>
-      </Box>
+      <MetricsTable
+        title="Overview"
+        rows={[
+          { label: "Total Enrolled", value: totalEnrolled },
+          {
+            label: "Registrations in Past 3 Months",
+            value: registrationsInPast3Months,
+          },
+        ]}
+      />
 
       {/* Monthly Metrics Table */}
-      <Box>
-        <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
-          This Month&apos;s Metrics
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Metric</TableCell>
-                <TableCell align="right">Count</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>Total Registrations</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.totalRegistrations}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Colorectal Screening Registered</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.colorectalRegistered}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Colorectal Screening Qualified</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.colorectalQualified}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Prostate Screening Registered</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.prostateRegistered}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Prostate Screening Qualified</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.prostateQualified}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Cervical Screening Registered</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.cervicalRegistered}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Cervical Screening Qualified</TableCell>
-                <TableCell align="right">
-                  {monthlyMetrics.cervicalQualified}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
+      <MetricsTable
+        title="This Month's Metrics"
+        rows={[
+          {
+            label: "Total Registrations",
+            value: monthlyMetrics.totalRegistrations,
+          },
+          {
+            label: "Colorectal Screening Registered",
+            value: monthlyMetrics.colorectalRegistered,
+          },
+          {
+            label: "Colorectal Screening Qualified",
+            value: monthlyMetrics.colorectalQualified,
+          },
+          {
+            label: "Prostate Screening Registered",
+            value: monthlyMetrics.prostateRegistered,
+          },
+          {
+            label: "Prostate Screening Qualified",
+            value: monthlyMetrics.prostateQualified,
+          },
+          {
+            label: "Cervical Screening Registered",
+            value: monthlyMetrics.cervicalRegistered,
+          },
+          {
+            label: "Cervical Screening Qualified",
+            value: monthlyMetrics.cervicalQualified,
+          },
+        ]}
+      />
 
       {/* Line Charts */}
       <Box
