@@ -143,9 +143,7 @@ export default function VaccineVoucherApplyForm({
     setIsLoading(false);
   };
 
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
+  const age = calculateAge(user.dateOfBirth);
 
   if (age > 65) {
     return (
