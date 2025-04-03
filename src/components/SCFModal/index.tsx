@@ -28,7 +28,7 @@ type SCFModalProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 
-  showCloseButton: boolean;
+  showCloseButton?: boolean;
 };
 
 export default function SCFModal({
