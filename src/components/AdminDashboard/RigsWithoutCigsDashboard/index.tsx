@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 import { ProgramEnrollment } from "@/types";
 
@@ -15,6 +15,10 @@ type RigsWithoutCigsDashboardProps = {
 export default function RigsWithoutCigsDashboard({
   rigsWithoutCigsProgramEnrollments,
 }: Readonly<RigsWithoutCigsDashboardProps>): ReactNode {
+  const [programEnrollments, setProgramEnrollments] = useState<
+    ProgramEnrollment[]
+  >(rigsWithoutCigsProgramEnrollments);
+
   return (
     <AdminProgramDashboard
       defaultTab="clients"
@@ -23,9 +27,8 @@ export default function RigsWithoutCigsDashboard({
           title: "Clients",
           content: (
             <RigsWithoutCigsClientDashboard
-              rigsWithoutCigsProgramEnrollments={
-                rigsWithoutCigsProgramEnrollments
-              }
+              rigsWithoutCigsProgramEnrollments={programEnrollments}
+              setProgramEnrollments={setProgramEnrollments}
             />
           ),
         },
@@ -33,9 +36,7 @@ export default function RigsWithoutCigsDashboard({
           title: "Metrics",
           content: (
             <RigsWithoutCigsMetric
-              rigsWithoutCigsProgramEnrollments={
-                rigsWithoutCigsProgramEnrollments
-              }
+              rigsWithoutCigsProgramEnrollments={programEnrollments}
             />
           ),
         },
