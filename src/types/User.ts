@@ -5,6 +5,7 @@ import {
   ProgramEnrollment,
   VaccineVoucherRequest,
 } from ".";
+import { RigsWithoutCigsStatus } from "./RigsWithoutCigsStatus";
 import { ScreeningRequest } from "./ScreeningRequest";
 
 export type AdminUser = {
@@ -32,6 +33,7 @@ export type ClientUser = {
   enrollmentForm: EnrollmentForm;
   programEnrollments: ProgramEnrollment[];
   healthyHabitsTrackingForms: HealthyHabitsTrackingForm[];
+  rigsWithoutCigsStatus: RigsWithoutCigsStatus;
   fagerstromTests: FagerstromTest[];
   screeningRequests: ScreeningRequest[];
   vaccineVoucherRequests: VaccineVoucherRequest[];

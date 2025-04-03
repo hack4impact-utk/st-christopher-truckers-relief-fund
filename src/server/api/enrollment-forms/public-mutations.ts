@@ -45,6 +45,7 @@ export async function handleEnrollmentFormSubmission(
     enrollmentForm: enrollmentFormInDatabase,
     programEnrollments: [],
     healthyHabitsTrackingForms: [],
+    rigsWithoutCigsStatus: "unknown",
     fagerstromTests: [],
     screeningRequests: [],
     vaccineVoucherRequests: [],

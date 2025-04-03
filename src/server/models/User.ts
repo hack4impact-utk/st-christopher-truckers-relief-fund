@@ -52,6 +52,10 @@ const UserSchema = new Schema<User>(
         ref: "HealthyHabitsTrackingForm",
       },
     ],
+    rigsWithoutCigsStatus: {
+      type: String,
+      required: true,
+    },
     fagerstromTests: [
       {
         type: Schema.Types.ObjectId,
