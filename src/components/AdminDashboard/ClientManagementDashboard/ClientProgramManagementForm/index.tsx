@@ -222,7 +222,7 @@ export default function ClientProgramManagementForm({
       open={open}
       setOpen={setOpen}
       title="Manage Client"
-      hideCloseButton
+      showCloseButton={false}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ display: "flex", flexDirection: "column", paddingY: 1 }}>

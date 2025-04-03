@@ -99,7 +99,7 @@ export default function CreateNewMeeting({
       open={open}
       setOpen={setOpen}
       title="Schedule Meeting"
-      hideCloseButton
+      showCloseButton={false}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

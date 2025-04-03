@@ -91,7 +91,7 @@ export default function UrgentMeetingRequestModal({
       open={open}
       setOpen={setOpen}
       title="Need to meet with SCF urgently?"
-      hideCloseButton
+      showCloseButton={false}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

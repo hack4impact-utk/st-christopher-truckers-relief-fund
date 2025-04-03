@@ -28,7 +28,7 @@ type SCFModalProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
 
-  hideCloseButton?: boolean;
+  showCloseButton: boolean;
 };
 
 export default function SCFModal({
@@ -38,7 +38,7 @@ export default function SCFModal({
   open,
   setOpen,
   children,
-  hideCloseButton,
+  showCloseButton = true,
 }: Readonly<SCFModalProps>): ReactNode {
   const handleClose = (): void => setOpen(false);
 
@@ -58,7 +58,7 @@ export default function SCFModal({
 
             {children}
 
-            {!hideCloseButton && (
+            {showCloseButton && (
               <Button
                 variant="outlined"
                 onClick={() => setOpen(false)}
