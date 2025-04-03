@@ -14,6 +14,7 @@ import { ReactNode, useState } from "react";
 
 export default function DataExport(): ReactNode {
   const [selected, setSelected] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSelect = (value: string) => (): void => {
     const currentIndex = selected.indexOf(value);
@@ -67,9 +68,45 @@ export default function DataExport(): ReactNode {
     },
   ];
 
-  const handleExport = (): void => {
-    // eslint-disable-next-line no-console
-    console.log("Exporting data for: ", selected);
+  const handleExport = async (): Promise<void> => {
+    if (selected.length === 0) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch("/api/data-export", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ collections: selected }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to export data");
+      }
+
+      // Create download link
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      // Create hidden link and click to start download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "exported_data.xlsx";
+      document.body.appendChild(a);
+      a.click();
+
+      // Remove hidden link
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
   };
 
   return (
@@ -98,7 +135,9 @@ export default function DataExport(): ReactNode {
           </ListItem>
         ))}
       </List>
-      <Button onClick={handleExport}>Export</Button>
+      <Button onClick={handleExport} loading={loading}>
+        Export
+      </Button>
     </Box>
   );
 }
