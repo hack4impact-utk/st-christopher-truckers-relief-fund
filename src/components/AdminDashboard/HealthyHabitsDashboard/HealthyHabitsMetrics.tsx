@@ -1,11 +1,13 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { ReactNode } from "react";
 
 import { ClientUser, ProgramEnrollment } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 import getClosestPastSunday from "@/utils/getClosestPastSunday";
+
+import MetricsTable from "../MetricsTable";
 
 type HealthyHabitsMetricsProps = {
   healthyHabitsProgramEnrollments: ProgramEnrollment[];
@@ -45,39 +47,20 @@ export default function HealthyHabitsMetrics({
 
   return (
     <Box>
-      <Typography align="center" variant="h4" sx={{ m: 2 }}>
-        Healthy Habits Metrics
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            borderRadius: 2,
-            boxShadow: 3,
-            padding: 4,
-          }}
-        >
-          <Typography>
-            <strong>Total Enrolled:</strong> {totalEnrolled}
-          </Typography>
-          <Typography>
-            <strong>Total Active:</strong> {totalActive}
-          </Typography>
-          <Typography>
-            <strong>Registrations in Past 3 Months:</strong>{" "}
-            {registrationsInPast3Months}
-          </Typography>
-        </Box>
-      </Box>
+      <MetricsTable
+        title="Overview"
+        rows={[
+          { label: "Total Enrolled", value: totalEnrolled },
+          {
+            label: "Total Active",
+            value: totalActive,
+          },
+          {
+            label: "Registrations in Past 3 Months",
+            value: registrationsInPast3Months,
+          },
+        ]}
+      />
     </Box>
   );
 }
