@@ -36,6 +36,7 @@ export async function handleEnrollmentFormSubmission(
   const user: ClientUser = {
     firstName: enrollmentForm.generalInformationSection.firstName,
     lastName: enrollmentForm.generalInformationSection.lastName,
+    dateOfBirth: enrollmentForm.generalInformationSection.dateOfBirth,
     email: enrollmentForm.generalInformationSection.email,
     phoneNumber: enrollmentForm.generalInformationSection.phoneNumber,
     password: enrollmentForm.generalInformationSection.password,

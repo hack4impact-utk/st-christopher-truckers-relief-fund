@@ -24,6 +24,7 @@ export type ClientUser = {
   _id?: string;
   firstName: string;
   lastName: string;
+  dateOfBirth: string;
   email: string;
   phoneNumber: string;
   password: string;

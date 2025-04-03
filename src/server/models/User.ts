@@ -12,6 +12,10 @@ const UserSchema = new Schema<User>(
       type: String,
       required: true,
     },
+    dateOfBirth: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
