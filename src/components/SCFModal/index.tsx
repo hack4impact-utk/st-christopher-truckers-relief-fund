@@ -27,6 +27,8 @@ type SCFModalProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
+
+  showCloseButton?: boolean;
 };
 
 export default function SCFModal({
@@ -36,6 +38,7 @@ export default function SCFModal({
   open,
   setOpen,
   children,
+  showCloseButton = true,
 }: Readonly<SCFModalProps>): ReactNode {
   const handleClose = (): void => setOpen(false);
 
@@ -55,13 +58,15 @@ export default function SCFModal({
 
             {children}
 
-            <Button
-              variant="outlined"
-              onClick={() => setOpen(false)}
-              sx={{ mt: 3 }}
-            >
-              Close
-            </Button>
+            {showCloseButton && (
+              <Button
+                variant="outlined"
+                onClick={() => setOpen(false)}
+                sx={{ mt: 3 }}
+              >
+                Close
+              </Button>
+            )}
           </Box>
         </Fade>
       </Modal>

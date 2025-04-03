@@ -2,15 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Fade,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
@@ -21,27 +13,12 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import SCFModal from "@/components/SCFModal";
 import { handleCreateScheduledMeeting } from "@/server/api/scheduled-meetings/public-mutations";
 import { ClientUser, ScheduledMeeting } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 
 import { createRowFromScheduledMeeting, ScheduledMeetingsRow } from ".";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "min(90vw, 700px)",
-  maxHeight: "80vh",
-  overflowY: "auto",
-  bgcolor: "background.paper",
-  boxShadow: 2,
-  p: 4,
-  display: "flex",
-  flexDirection: "column",
-  gap: 2,
-};
 
 const scheduleMeetingSchema = z.object({
   client: z.string().min(1, { message: "Client is required" }),
@@ -110,97 +87,87 @@ export default function CreateNewMeeting({
     enqueueSnackbar("An unexpected error occurred", { variant: "error" });
   };
 
+  const trigger = (
+    <Button variant="contained" onClick={() => setOpen(true)}>
+      Schedule Meeting
+    </Button>
+  );
+
   return (
-    <Box>
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Schedule Meeting
-      </Button>
-      <Modal open={open}>
-        <Fade in={open}>
-          <Box sx={style}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <Typography id="transition-modal-title" variant="h4">
-                  Schedule Meeting
-                </Typography>
-                <Controller
-                  name="client"
-                  control={control}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      options={allClients}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Client"
-                          variant="outlined"
-                        />
-                      )}
-                      getOptionLabel={(option) =>
-                        `${option.firstName} ${option.lastName}`
-                      }
-                      value={
-                        allClients.find((c) => c.email === field.value) || null
-                      }
-                      onChange={(_, value) => {
-                        field.onChange(value?.email);
-                      }}
-                    />
-                  )}
+    <SCFModal
+      trigger={trigger}
+      open={open}
+      setOpen={setOpen}
+      title="Schedule Meeting"
+      showCloseButton={false}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Controller
+            name="client"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                {...field}
+                options={allClients}
+                renderInput={(params) => (
+                  <TextField {...params} label="Client" variant="outlined" />
+                )}
+                getOptionLabel={(option) =>
+                  `${option.firstName} ${option.lastName}`
+                }
+                value={allClients.find((c) => c.email === field.value) || null}
+                onChange={(_, value) => {
+                  field.onChange(value?.email);
+                }}
+              />
+            )}
+          />
+          <Controller
+            name="date"
+            control={control}
+            render={({ field }) => (
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimeField
+                  {...field}
+                  value={
+                    field.value
+                      ? dayjsUtil(field.value, "MM/DD/YYYY HH:mm")
+                      : null
+                  }
+                  // convert dayjs to string
+                  onChange={(date) =>
+                    field.onChange(date?.format("MM/DD/YYYY HH:mm") ?? "")
+                  }
+                  label="Date"
                 />
-                <Controller
-                  name="date"
-                  control={control}
-                  render={({ field }) => (
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateTimeField
-                        {...field}
-                        value={
-                          field.value
-                            ? dayjsUtil(field.value, "MM/DD/YYYY HH:mm")
-                            : null
-                        }
-                        // convert dayjs to string
-                        onChange={(date) =>
-                          field.onChange(date?.format("MM/DD/YYYY HH:mm") ?? "")
-                        }
-                        label="Date"
-                      />
-                    </LocalizationProvider>
-                  )}
-                />
-                <ControlledTextField
-                  control={control}
-                  name="reason"
-                  label="Reason"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  error={errors.reason}
-                />
-                <Box display="flex" gap={2}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setOpen(false)}
-                    fullWidth
-                  >
-                    Cancel
-                  </Button>
-                  <LoadingButton
-                    variant="contained"
-                    type="submit"
-                    loading={isLoading}
-                    fullWidth
-                  >
-                    Submit
-                  </LoadingButton>
-                </Box>
-              </Box>
-            </form>
+              </LocalizationProvider>
+            )}
+          />
+          <ControlledTextField
+            control={control}
+            name="reason"
+            label="Reason"
+            multiline
+            rows={4}
+            variant="outlined"
+            error={errors.reason}
+          />
+          <Box display="flex" gap={2}>
+            <Button variant="outlined" onClick={() => setOpen(false)} fullWidth>
+              Cancel
+            </Button>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={isLoading}
+              fullWidth
+            >
+              Submit
+            </LoadingButton>
           </Box>
-        </Fade>
-      </Modal>
-    </Box>
+        </Box>
+      </form>
+    </SCFModal>
   );
 }

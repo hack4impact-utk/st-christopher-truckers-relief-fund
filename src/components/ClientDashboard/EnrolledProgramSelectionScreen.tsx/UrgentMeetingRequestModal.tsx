@@ -3,32 +3,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, Fade, Modal, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ControlledTextField from "@/components/controlled/ControlledTextField";
+import SCFModal from "@/components/SCFModal";
 import { handleCreateUrgentMeetingRequest } from "@/server/api/urgent-meeting-requests/public-mutations";
 import { UrgentMeetingRequest, User } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "min(90vw, 700px)",
-  maxHeight: "80vh",
-  overflowY: "auto",
-  bgcolor: "background.paper",
-  boxShadow: 2,
-  p: 4,
-  display: "flex",
-  flexDirection: "column",
-  gap: 2,
-};
 
 const urgentMeetingRequestSchema = z.object({
   reason: z.string().min(1, { message: "Reason is required" }),
@@ -89,59 +74,54 @@ export default function UrgentMeetingRequestModal({
     setIsLoading(false);
   };
 
+  const trigger = (
+    <Button
+      variant="contained"
+      color="error"
+      startIcon={<PriorityHighIcon />}
+      onClick={() => setOpen(true)}
+    >
+      Schedule Urgent Meeting
+    </Button>
+  );
+
   return (
-    <Box>
-      <Button
-        variant="contained"
-        color="error"
-        startIcon={<PriorityHighIcon />}
-        onClick={() => setOpen(true)}
-      >
-        Schedule Urgent Meeting
-      </Button>
-      <Modal open={open}>
-        <Fade in={open}>
-          <Box sx={style}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <Typography id="transition-modal-title" variant="h4">
-                  Need to meet with SCF urgently?
-                </Typography>
-                <Typography>
-                  Please fill out the following form to schedule an urgent
-                  meeting.
-                </Typography>
-                <ControlledTextField
-                  control={control}
-                  name="reason"
-                  label="Reason"
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  error={errors.reason}
-                />
-                <Box display="flex" gap={2}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setOpen(false)}
-                    fullWidth
-                  >
-                    Cancel
-                  </Button>
-                  <LoadingButton
-                    variant="contained"
-                    type="submit"
-                    loading={isLoading}
-                    fullWidth
-                  >
-                    Submit
-                  </LoadingButton>
-                </Box>
-              </Box>
-            </form>
+    <SCFModal
+      trigger={trigger}
+      open={open}
+      setOpen={setOpen}
+      title="Need to meet with SCF urgently?"
+      showCloseButton={false}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography>
+            Please fill out the following form to schedule an urgent meeting.
+          </Typography>
+          <ControlledTextField
+            control={control}
+            name="reason"
+            label="Reason"
+            multiline
+            rows={4}
+            variant="outlined"
+            error={errors.reason}
+          />
+          <Box display="flex" gap={2}>
+            <Button variant="outlined" onClick={() => setOpen(false)} fullWidth>
+              Cancel
+            </Button>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={isLoading}
+              fullWidth
+            >
+              Submit
+            </LoadingButton>
           </Box>
-        </Fade>
-      </Modal>
-    </Box>
+        </Box>
+      </form>
+    </SCFModal>
   );
 }
