@@ -73,7 +73,6 @@ export default function GetPreventativeScreeningsRequestForm({
         user: user,
       };
 
-      setScreeningRequests([...screeningRequests, screeningRequest]);
       setScreeningRequests((prevScreeningRequests) => [
         ...prevScreeningRequests,
         screeningRequest,

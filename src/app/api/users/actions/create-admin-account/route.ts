@@ -5,6 +5,10 @@ import {
 import { z } from "zod";
 
 import { createAdminUser } from "@/server/api/users/private-mutations";
+import {
+  getFailedJsonApiResponse,
+  getSuccessfulJsonApiResponse,
+} from "@/utils/getJsonApiResponse";
 
 const adminUserRequestSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
@@ -34,25 +38,13 @@ export async function POST(request: Request): Promise<Response> {
     const apiKeyHeader = request.headers.get("x-api-key");
 
     if (!apiKeyHeader || apiKeyHeader !== process.env.API_KEY) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid request." }),
-        {
-          status: 401,
-          headers: { "Content-Type": "application/json" },
-        },
-      );
+      return getFailedJsonApiResponse(401, "Invalid request.");
     }
 
     const parsedJson = adminUserRequestSchema.safeParse(json);
 
     if (parsedJson.success === false) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid request body." }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        },
-      );
+      return getFailedJsonApiResponse(400, "Invalid request body.");
     }
 
     const adminUserRequest = parsedJson.data;
@@ -60,24 +52,15 @@ export async function POST(request: Request): Promise<Response> {
     const [, error] = await createAdminUser(adminUserRequest);
 
     if (error !== null) {
-      return new Response(JSON.stringify({ success: false, error: error }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return getFailedJsonApiResponse(
+        400,
+        "An error occured creating the admin account.",
+      );
     }
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return getSuccessfulJsonApiResponse(200);
   } catch (error) {
     console.error(error);
-    return new Response(
-      JSON.stringify({ success: false, error: "Internal server error." }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return getFailedJsonApiResponse(500, "Internal server error.");
   }
 }

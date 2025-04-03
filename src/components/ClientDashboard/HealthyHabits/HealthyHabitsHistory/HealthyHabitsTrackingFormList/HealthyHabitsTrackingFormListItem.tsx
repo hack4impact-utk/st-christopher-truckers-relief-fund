@@ -10,7 +10,7 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 import { HealthyHabitsTrackingForm } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
@@ -26,19 +26,11 @@ export default function HealthyHabitsTrackingFormListItem({
   form,
   handleDelete,
 }: Readonly<HealthyHabitsTrackingFormListItemProps>): ReactNode {
-  const [open, setOpen] = useState(false);
-
   return (
     <ListItem
       secondaryAction={
         <Box sx={{ display: "flex", gap: 2 }}>
-          <IconButton edge="end" aria-label="info">
-            <HealthyHabitsTrackingFormModal
-              form={form}
-              open={open}
-              setOpen={setOpen}
-            />
-          </IconButton>
+          <HealthyHabitsTrackingFormModal form={form} />
           <IconButton edge="end" onClick={() => handleDelete(form)}>
             <DeleteIcon />
           </IconButton>

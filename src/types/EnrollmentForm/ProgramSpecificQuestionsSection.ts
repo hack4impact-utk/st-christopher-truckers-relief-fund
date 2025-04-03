@@ -140,7 +140,14 @@ export const programSpecificQuestionsSectionValidator = z
       accountabilityPerson: z.object({
         firstName: z.string(),
         lastName: z.string(),
-        phoneNumber: z.string(),
+        phoneNumber: z
+          .string()
+          .refine((val) => isValidPhoneNumber(val, "US"), {
+            message: "Invalid phone number",
+          })
+          .transform((val) =>
+            parsePhoneNumberWithError(val, "US").number.toString(),
+          ),
         relationshipToAccountabilityPerson: z.enum([
           "Friend",
           "Coworker",
