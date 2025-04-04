@@ -21,7 +21,7 @@ import {
   parsePhoneNumberWithError,
 } from "libphonenumber-js";
 import { useSnackbar } from "notistack";
-import { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -35,6 +35,8 @@ import { handleClientUpdate } from "@/server/api/users/public-mutations";
 import { ClientUser, Program, ProgramEnrollment } from "@/types";
 import dayjsUtil from "@/utils/dayjsUtil";
 import isEnrolledInProgram from "@/utils/isEnrolledInProgram";
+
+import { ClientsRow, createRowFromClient } from "..";
 
 const ClientManagementFormSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
@@ -135,12 +137,14 @@ type ClientManagementDashboardProps = {
   programEnrollments: ProgramEnrollment[];
   client: ClientUser;
   fullName: string;
+  setRows: Dispatch<SetStateAction<ClientsRow[]>>;
 };
 
 export default function ClientProgramManagementForm({
   programEnrollments,
   fullName,
   client,
+  setRows,
 }: Readonly<ClientManagementDashboardProps>): ReactNode {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -220,6 +224,12 @@ export default function ClientProgramManagementForm({
     if (clientInfoHasChanged) {
       const [, commentError] = await handleClientUpdate(updateClient);
       error = error || commentError !== null;
+
+      setRows((prevRows) =>
+        prevRows.map((row) =>
+          row.id === client._id ? createRowFromClient(updateClient) : row,
+        ),
+      );
     }
 
     setIsLoading(false);

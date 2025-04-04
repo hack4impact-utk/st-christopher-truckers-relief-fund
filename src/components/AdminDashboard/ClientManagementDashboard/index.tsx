@@ -17,7 +17,7 @@ export type ClientsRow = AdminDashboardTableRow & {
   client: ClientUser;
 };
 
-const createRowFromClient = (client: ClientUser): ClientsRow => {
+export const createRowFromClient = (client: ClientUser): ClientsRow => {
   return {
     id: client._id,
     lastName: client.lastName,
@@ -40,7 +40,7 @@ type ClientManagementDashboardProps = {
 export default function ClientManagementDashboard({
   clients,
 }: Readonly<ClientManagementDashboardProps>): ReactNode {
-  const [rows] = useState(getRows(clients));
+  const [rows, setRows] = useState(getRows(clients));
 
   const additionalColumns: GridColDef<ClientsRow>[] = [
     {
@@ -68,6 +68,7 @@ export default function ClientManagementDashboard({
               programEnrollments={params.row.programEnrollments}
               client={client}
               fullName={fullName}
+              setRows={setRows}
             />
           </Box>
         );
