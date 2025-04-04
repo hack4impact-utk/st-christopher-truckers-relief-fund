@@ -49,6 +49,7 @@ export async function POST(request: Request): Promise<Response> {
       lastName: enrollmentForm.generalInformationSection.lastName,
       email: enrollmentForm.generalInformationSection.email,
       phoneNumber: enrollmentForm.generalInformationSection.phoneNumber,
+      dateOfBirth: enrollmentForm.generalInformationSection.dateOfBirth,
       password: randomSixteenCharacterPassword,
       role: "client",
       dateCreated: new Date().toISOString(),
@@ -61,6 +62,7 @@ export async function POST(request: Request): Promise<Response> {
       screeningRequests: [],
       vaccineVoucherRequests: [],
       comments: "",
+      goals: "",
     };
 
     const [userInDatabase, userInDatabaseError] = await createClientUser(user);

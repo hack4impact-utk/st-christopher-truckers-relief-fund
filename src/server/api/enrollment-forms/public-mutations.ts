@@ -51,6 +51,7 @@ export async function handleEnrollmentFormSubmission(
     screeningRequests: [],
     vaccineVoucherRequests: [],
     comments: "",
+    goals: "",
   };
 
   // create user

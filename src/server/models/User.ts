@@ -81,6 +81,9 @@ const UserSchema = new Schema<User>(
     comments: {
       type: String,
     },
+    goals: {
+      type: String,
+    },
   },
   { versionKey: false },
 );

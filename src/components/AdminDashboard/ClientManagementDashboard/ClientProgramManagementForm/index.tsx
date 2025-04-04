@@ -3,7 +3,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Box, Button, Checkbox, FormControlLabel } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Typography,
+} from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateField } from "@mui/x-date-pickers/DateField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import dayjs from "dayjs";
+import {
+  isValidPhoneNumber,
+  parsePhoneNumberWithError,
+} from "libphonenumber-js";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -17,14 +33,28 @@ import {
 } from "@/server/api/program-enrollments/public-mutations";
 import { handleClientUpdate } from "@/server/api/users/public-mutations";
 import { ClientUser, Program, ProgramEnrollment } from "@/types";
+import dayjsUtil from "@/utils/dayjsUtil";
 import isEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
 const ClientManagementFormSchema = z.object({
+  firstName: z.string().min(1, { message: "First name is required" }),
+  lastName: z.string().min(1, { message: "Last name is required" }),
+  dateOfBirth: z.string().refine((val) => dayjs(val).isValid(), {
+    message: "Invalid date format",
+  }),
+  phoneNumber: z
+    .string()
+    .refine(
+      (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
+      "Invalid phone number",
+    )
+    .transform((val) => parsePhoneNumberWithError(val, "US").number.toString()),
   enrolledInHealthyHabits: z.boolean(),
   enrolledInDiabetesPrevention: z.boolean(),
   enrolledInRigsWithoutCigs: z.boolean(),
   enrolledInVaccineVoucher: z.boolean(),
   enrolledInGetPreventativeScreenings: z.boolean(),
+  goals: z.string(),
   comments: z.string(),
 });
 
@@ -46,6 +76,10 @@ const getClientManagementFormDefaultValues = (
   client: ClientUser,
 ): ClientManagementFormValues => {
   return {
+    firstName: client.firstName,
+    lastName: client.lastName,
+    dateOfBirth: client.dateOfBirth,
+    phoneNumber: client.phoneNumber,
     enrolledInHealthyHabits: isEnrolledInProgram(
       programEnrollments,
       "Healthy Habits For The Long Haul",
@@ -66,6 +100,7 @@ const getClientManagementFormDefaultValues = (
       programEnrollments,
       "GPS (Get Preventative Screenings)",
     ),
+    goals: client.goals,
     comments: client.comments,
   };
 };
@@ -78,11 +113,16 @@ const fieldToProgramEnrollment = (
     keyof ClientManagementFormValues,
     Program | null
   > = {
+    firstName: null,
+    lastName: null,
+    dateOfBirth: null,
+    phoneNumber: null,
     enrolledInHealthyHabits: "Healthy Habits For The Long Haul",
     enrolledInDiabetesPrevention: "Diabetes Prevention",
     enrolledInRigsWithoutCigs: "Rigs Without Cigs",
     enrolledInVaccineVoucher: "Vaccine Voucher",
     enrolledInGetPreventativeScreenings: "GPS (Get Preventative Screenings)",
+    goals: null,
     comments: null,
   };
 
@@ -112,7 +152,7 @@ export default function ClientProgramManagementForm({
     control,
     handleSubmit,
     reset,
-    formState: { dirtyFields, isDirty },
+    formState: { dirtyFields, isDirty, errors },
   } = useForm<ClientManagementFormValues>({
     resolver: zodResolver(ClientManagementFormSchema),
     defaultValues: getClientManagementFormDefaultValues(
@@ -131,16 +171,23 @@ export default function ClientProgramManagementForm({
 
     let error = false;
 
+    let clientInfoHasChanged = false;
+
+    const updateClient = client;
+
     for (const dirtyField in dirtyFields) {
       const field = dirtyField as keyof ClientManagementFormValues;
 
-      if (field == "comments") {
-        const comment = data[field];
-        client.comments = comment;
-
-        const [, commentError] = await handleClientUpdate(client);
-        error = error || commentError !== null;
-
+      if (
+        field === "firstName" ||
+        field === "lastName" ||
+        field === "dateOfBirth" ||
+        field === "phoneNumber" ||
+        field === "goals" ||
+        field === "comments"
+      ) {
+        clientInfoHasChanged = true;
+        updateClient[field] = data[field];
         continue;
       }
 
@@ -150,7 +197,7 @@ export default function ClientProgramManagementForm({
       );
 
       if (!programEnrollment) {
-        return;
+        continue;
       }
 
       const enrollmentStatus = data[field] ? "accepted" : "rejected";
@@ -159,7 +206,6 @@ export default function ClientProgramManagementForm({
       if (enrollmentStatus === "accepted") {
         const [, approveError] =
           await handleApproveProgramApplication(programEnrollment);
-
         error = error || approveError !== null;
       } else {
         const [, rejectError] = await handleRejectProgramApplication(
@@ -169,6 +215,11 @@ export default function ClientProgramManagementForm({
 
         error = error || rejectError !== null;
       }
+    }
+
+    if (clientInfoHasChanged) {
+      const [, commentError] = await handleClientUpdate(updateClient);
+      error = error || commentError !== null;
     }
 
     setIsLoading(false);
@@ -225,7 +276,89 @@ export default function ClientProgramManagementForm({
       showCloseButton={false}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={{ display: "flex", flexDirection: "column", paddingY: 1 }}>
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          General Information
+        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            gap: 2,
+            mb: 3,
+          }}
+        >
+          <ControlledTextField
+            control={control}
+            name="firstName"
+            label="First Name"
+            variant="outlined"
+            error={errors.firstName}
+            required
+            sx={{ width: "100%" }}
+          />
+
+          <ControlledTextField
+            control={control}
+            name="lastName"
+            label="Last Name"
+            variant="outlined"
+            error={errors.lastName}
+            required
+            sx={{ width: "100%" }}
+          />
+        </Box>
+
+        <Box sx={{ width: "100%", mb: 3 }}>
+          <Controller
+            name="dateOfBirth"
+            control={control}
+            render={({ field }) => (
+              <FormControl error={!!errors.dateOfBirth} fullWidth>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateField
+                    {...field}
+                    // handle string value correctly
+                    value={
+                      field.value ? dayjsUtil(field.value, "MM/DD/YYYY") : null
+                    }
+                    // convert dayjs to string
+                    onChange={(date) =>
+                      field.onChange(date?.format("MM/DD/YYYY") ?? "")
+                    }
+                    label="Date of Birth"
+                    variant="outlined"
+                    format="MM/DD/YYYY"
+                    required
+                  />
+                </LocalizationProvider>
+                <FormHelperText>{errors.dateOfBirth?.message}</FormHelperText>
+              </FormControl>
+            )}
+          />
+        </Box>
+
+        <ControlledTextField
+          sx={{ width: "100%", mb: 3 }}
+          control={control}
+          name="phoneNumber"
+          label="Phone Number"
+          variant="outlined"
+          error={errors.phoneNumber}
+          type="tel"
+          required
+        />
+
+        <Typography variant="h6">Enrolled Programs</Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mb: 2,
+          }}
+        >
           {showHealthyHabitsButton && (
             <Controller
               name="enrolledInHealthyHabits"
@@ -286,6 +419,22 @@ export default function ClientProgramManagementForm({
               )}
             />
           )}
+        </Box>
+
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          Goals & Comments
+        </Typography>
+
+        <Box>
+          <ControlledTextField
+            sx={{ width: "100%", mb: 3 }}
+            name="goals"
+            control={control}
+            label="Goals"
+            variant="outlined"
+            multiline
+            rows={3}
+          />
         </Box>
 
         <Box>
