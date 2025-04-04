@@ -24,6 +24,7 @@ export type ClientUser = {
   _id?: string;
   firstName: string;
   lastName: string;
+  dateOfBirth: string;
   email: string;
   phoneNumber: string;
   password: string;
@@ -38,6 +39,7 @@ export type ClientUser = {
   screeningRequests: ScreeningRequest[];
   vaccineVoucherRequests: VaccineVoucherRequest[];
   comments: string;
+  goals: string;
 };
 
 export type User = AdminUser | ClientUser;

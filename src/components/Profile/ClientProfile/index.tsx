@@ -40,6 +40,12 @@ export default function ClientProfile({
         <Typography>
           <strong>Phone Number:</strong> {user.phoneNumber}
         </Typography>
+        <Typography>
+          <strong>Date of Birth:</strong> {user.dateOfBirth}
+        </Typography>
+        <Typography>
+          <strong>Goals:</strong> {user.goals}
+        </Typography>
       </Box>
 
       <AdminContactInfoAccordion />

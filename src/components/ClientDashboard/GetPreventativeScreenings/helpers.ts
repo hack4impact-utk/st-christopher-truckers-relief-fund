@@ -21,9 +21,7 @@ export function isEligibleForProstateScreening(
     return false;
   }
 
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
+  const age = calculateAge(user.dateOfBirth);
 
   if (age <= 50 || age >= 65) {
     return false;
@@ -52,9 +50,7 @@ export function isEligibleForColorectalScreening(
   user: ClientUser,
   screeningRequests: ScreeningRequest[],
 ): boolean {
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
+  const age = calculateAge(user.dateOfBirth);
 
   if (age <= 45 || age >= 75) {
     return false;
@@ -88,9 +84,7 @@ export function isEligibleForCervicalScreening(
     return false;
   }
 
-  const age = calculateAge(
-    user.enrollmentForm.generalInformationSection.dateOfBirth,
-  );
+  const age = calculateAge(user.dateOfBirth);
 
   if (age <= 21 || age >= 65) {
     return false;
