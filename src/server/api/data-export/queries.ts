@@ -11,13 +11,30 @@ export async function exportData(collections: string[]): Promise<Buffer> {
     throw new Error("Database connection is not established.");
   }
 
+  const collectionAllowList = [
+    "enrollmentforms",
+    "fagerstromtests",
+    "healthyhabitstrackingforms",
+    "programenrollments",
+    "scheduledmeetings",
+    "screeningrequests",
+    "urgentmeetingrequests",
+    "users",
+    "vaccinevoucherrequests",
+  ];
+
+  // Prevent exporting sensitive collections
+  const allowedCollections = collections.filter((c) =>
+    collectionAllowList.includes(c),
+  );
+
   const sheets = await Promise.all(
-    collections.map(async (collectionName) => {
-      const documents = await db.collection(collectionName).find({}).toArray();
+    allowedCollections.map(async (c) => {
+      const documents = await db.collection(c).find({}).toArray();
 
       if (documents.length === 0) {
         return {
-          name: collectionName,
+          name: c,
           data: [["No data"]],
           options: {}, // Ensure options is always defined
         };
@@ -32,7 +49,7 @@ export async function exportData(collections: string[]): Promise<Buffer> {
       );
 
       return {
-        name: collectionName,
+        name: c,
         data: [headers, ...rows],
         options: {}, // Add an empty options object to satisfy the WorkSheet type
       };
