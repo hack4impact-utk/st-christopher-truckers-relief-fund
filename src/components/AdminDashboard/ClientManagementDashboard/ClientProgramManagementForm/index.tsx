@@ -442,8 +442,6 @@ export default function ClientProgramManagementForm({
             control={control}
             label="Goals"
             variant="outlined"
-            multiline
-            rows={3}
           />
         </Box>
 
