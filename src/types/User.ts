@@ -21,16 +21,25 @@ export type AdminUser = {
 };
 
 export type ClientUser = {
+  // basic user information
   _id?: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
+  sex: "male" | "female";
   email: string;
   phoneNumber: string;
   password: string;
   role: "client";
   dateCreated: string;
+  comments: string;
+  goals: string;
+
+  // flags
   isEmailVerified: boolean;
+  needsInformationUpdated: boolean;
+
+  // foreign key relationships
   enrollmentForm: EnrollmentForm;
   programEnrollments: ProgramEnrollment[];
   healthyHabitsTrackingForms: HealthyHabitsTrackingForm[];
@@ -38,8 +47,6 @@ export type ClientUser = {
   fagerstromTests: FagerstromTest[];
   screeningRequests: ScreeningRequest[];
   vaccineVoucherRequests: VaccineVoucherRequest[];
-  comments: string;
-  goals: string;
 };
 
 export type User = AdminUser | ClientUser;

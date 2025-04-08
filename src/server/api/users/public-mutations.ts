@@ -12,7 +12,7 @@ import { sendPasswordChangeEmail } from "../emails/private-mutations";
 import { deletePasswordResetToken } from "../password-reset-tokens/private-mutations";
 import { getPasswordResetTokenByToken } from "../password-reset-tokens/queries";
 import { changePassword, updateUser } from "./private-mutations";
-import { getUserById } from "./queries";
+import { getUserByEmail, getUserById } from "./queries";
 
 export async function resetPasswordWithToken(
   token: string,
@@ -114,6 +114,48 @@ export async function handleClientUpdate(
   if (updateError !== null) {
     return [null, updateError];
   }
+
+  return [null, null];
+}
+
+export async function handleAddClientInformation(
+  newClient: ClientUser,
+): Promise<ApiResponse<null>> {
+  const [session, authError] = await authenticateServerFunction();
+
+  if (authError !== null) {
+    return [null, authError];
+  }
+
+  if (session.user.email !== newClient.email) {
+    return [null, apiErrors.unauthorized];
+  }
+
+  const [userInDatabase, currentUserError] = await getUserByEmail(
+    newClient.email,
+  );
+
+  if (currentUserError !== null) {
+    return [null, currentUserError];
+  }
+
+  const currentClient = userInDatabase as ClientUser;
+
+  if (!currentClient.needsInformationUpdated) {
+    return [null, apiErrors.unauthorized];
+  }
+
+  const updatedClient: ClientUser = {
+    ...currentClient,
+    firstName: newClient.firstName,
+    lastName: newClient.lastName,
+    dateOfBirth: newClient.dateOfBirth,
+    phoneNumber: newClient.phoneNumber,
+    sex: newClient.sex,
+    needsInformationUpdated: false,
+  };
+
+  await updateUser(updatedClient);
 
   return [null, null];
 }

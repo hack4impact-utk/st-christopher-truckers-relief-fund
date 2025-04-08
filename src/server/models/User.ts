@@ -16,6 +16,10 @@ const UserSchema = new Schema<User>(
       type: String,
       required: true,
     },
+    sex: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -83,6 +87,9 @@ const UserSchema = new Schema<User>(
     },
     goals: {
       type: String,
+    },
+    needsInformationUpdated: {
+      type: Boolean,
     },
   },
   { versionKey: false },
