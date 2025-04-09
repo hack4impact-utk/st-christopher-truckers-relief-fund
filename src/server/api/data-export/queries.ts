@@ -14,6 +14,7 @@ export async function exportData(collections: string[]): Promise<Buffer> {
   const collectionAllowList = [
     "enrollmentforms",
     "fagerstromtests",
+    "featureflags",
     "healthyhabitstrackingforms",
     "programenrollments",
     "scheduledmeetings",
