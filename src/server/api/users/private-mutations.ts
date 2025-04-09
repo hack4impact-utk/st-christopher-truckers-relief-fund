@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 
 import { AdminUserRequest } from "@/app/api/users/actions/create-admin-account/route";
 import dbConnect from "@/server/dbConnect";
-import { ProgramEnrollmentModel, UserModel } from "@/server/models";
+import {
+  ProgramEnrollmentModel,
+  ScheduledMeetingModel,
+  UserModel,
+} from "@/server/models";
 import {
   AdminUser,
   ApiResponse,
@@ -170,5 +174,35 @@ export async function getUsersByProgram(
   } catch (error) {
     console.error(error);
     return [null, "Error fetching users by program."];
+  }
+}
+
+export async function getUsersWithMeetingsToday(): Promise<
+  ApiResponse<User[]>
+> {
+  await dbConnect();
+
+  try {
+    const today = dayjsUtil().startOf("day").toISOString();
+    const tomorrow = dayjsUtil().add(1, "day").startOf("day").toISOString();
+
+    // Find all meetings scheduled for today
+    const meetings = await ScheduledMeetingModel.find({
+      date: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+    })
+      .populate("client")
+      .lean()
+      .exec();
+
+    // Extract unique users from the meetings
+    const users = meetings.map((meeting) => meeting.client);
+
+    return [users, null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
   }
 }
