@@ -20,5 +20,9 @@ export default async function ClientDashboardLayout({
     redirect("/verify-email");
   }
 
+  if (session.user.needsInformationUpdated) {
+    redirect("/update-client-information");
+  }
+
   return <>{children}</>;
 }

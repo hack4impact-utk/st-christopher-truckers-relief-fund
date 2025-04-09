@@ -25,7 +25,11 @@ export async function POST(request: Request): Promise<Response> {
     const parsedJson = clientCreationRequestSchema.safeParse(json);
 
     if (parsedJson.success === false) {
-      return getFailedJsonApiResponse(400, "Invalid request body.");
+      console.error(parsedJson.error);
+      return getFailedJsonApiResponse(
+        400,
+        "Invalid request body: " + parsedJson.error,
+      );
     }
 
     const randomSixteenCharacterPassword = Math.random()
@@ -41,7 +45,11 @@ export async function POST(request: Request): Promise<Response> {
       await createEnrollmentForm(enrollmentForm);
 
     if (enrollmentFormInDatabaseError !== null) {
-      return getFailedJsonApiResponse(500, "Internal server error.");
+      return getFailedJsonApiResponse(
+        500,
+        "Internal server error creating enrollment form: " +
+          enrollmentFormInDatabaseError,
+      );
     }
 
     const user: ClientUser = {
@@ -50,6 +58,7 @@ export async function POST(request: Request): Promise<Response> {
       email: enrollmentForm.generalInformationSection.email,
       phoneNumber: enrollmentForm.generalInformationSection.phoneNumber,
       dateOfBirth: enrollmentForm.generalInformationSection.dateOfBirth,
+      sex: enrollmentForm.generalInformationSection.sex,
       password: randomSixteenCharacterPassword,
       role: "client",
       dateCreated: new Date().toISOString(),
@@ -63,12 +72,16 @@ export async function POST(request: Request): Promise<Response> {
       vaccineVoucherRequests: [],
       comments: "",
       goals: "",
+      needsInformationUpdated: true,
     };
 
     const [userInDatabase, userInDatabaseError] = await createClientUser(user);
 
     if (userInDatabaseError !== null) {
-      return getFailedJsonApiResponse(500, "Internal server error.");
+      return getFailedJsonApiResponse(
+        500,
+        "Internal server error creating user: " + userInDatabaseError,
+      );
     }
 
     // create program enrollments
@@ -77,6 +90,9 @@ export async function POST(request: Request): Promise<Response> {
     return getSuccessfulJsonApiResponse(200);
   } catch (error) {
     console.error(error);
-    return getFailedJsonApiResponse(500, "Internal server error.");
+    return getFailedJsonApiResponse(
+      500,
+      "Unknown Internal server error: " + error,
+    );
   }
 }

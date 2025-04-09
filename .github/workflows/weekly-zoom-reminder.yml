@@ -2,7 +2,7 @@ name: Weekly Zoom Reminder
 on:
   schedule:
     # Runs at 12:00 PM UTC (noon) every Sunday
-    - cron: '0 12 * * 0'
+    - cron: "0 12 * * 0"
 
 jobs:
   send-reminders:
@@ -11,6 +11,6 @@ jobs:
       - name: Send Zoom Reminder Emails
         run: |
           curl -X POST \
-          https://rudra-utkscf-fork.vercel.app/api/emails/actions/send-healthy-habits-zoom-link \
+          ${{ secrets.ZOOM_REMINDER_API_URL}} \
           -H "x-api-key: ${{ secrets.API_KEY }}" \
           -H "Content-Type: application/json"

@@ -14,11 +14,14 @@ const UserSchema = new Schema<User>(
     },
     dateOfBirth: {
       type: String,
-      required: true,
+    },
+    sex: {
+      type: String,
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phoneNumber: {
       type: String,
@@ -58,7 +61,6 @@ const UserSchema = new Schema<User>(
     ],
     rigsWithoutCigsStatus: {
       type: String,
-      required: true,
     },
     fagerstromTests: [
       {
@@ -83,6 +85,9 @@ const UserSchema = new Schema<User>(
     },
     goals: {
       type: String,
+    },
+    needsInformationUpdated: {
+      type: Boolean,
     },
   },
   { versionKey: false },

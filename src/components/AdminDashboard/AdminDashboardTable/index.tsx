@@ -68,7 +68,10 @@ export default function AdminDashboardTable<
       row.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.phoneNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      row.email.toLowerCase().includes(searchQuery.toLowerCase()),
+      row.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      ` ${row.firstName} ${row.lastName}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -104,12 +107,12 @@ export default function AdminDashboardTable<
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 8,
               },
             },
           }}
           sx={{
-            height: "300px",
+            height: "500px",
           }}
         />
       </Box>

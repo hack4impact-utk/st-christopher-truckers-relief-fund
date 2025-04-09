@@ -37,6 +37,7 @@ export async function handleEnrollmentFormSubmission(
     firstName: enrollmentForm.generalInformationSection.firstName,
     lastName: enrollmentForm.generalInformationSection.lastName,
     dateOfBirth: enrollmentForm.generalInformationSection.dateOfBirth,
+    sex: enrollmentForm.generalInformationSection.sex,
     email: enrollmentForm.generalInformationSection.email,
     phoneNumber: enrollmentForm.generalInformationSection.phoneNumber,
     password: enrollmentForm.generalInformationSection.password,
@@ -52,6 +53,7 @@ export async function handleEnrollmentFormSubmission(
     vaccineVoucherRequests: [],
     comments: "",
     goals: "",
+    needsInformationUpdated: false,
   };
 
   // create user

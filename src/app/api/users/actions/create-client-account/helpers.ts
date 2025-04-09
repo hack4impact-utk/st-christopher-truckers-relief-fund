@@ -1,7 +1,4 @@
-import {
-  isValidPhoneNumber,
-  parsePhoneNumberWithError,
-} from "libphonenumber-js";
+import { parsePhoneNumberWithError } from "libphonenumber-js";
 import { z } from "zod";
 
 import { createProgramEnrollment } from "@/server/api/program-enrollments/private-mutations";
@@ -23,19 +20,21 @@ export const clientCreationRequestSchema = z.object({
     .transform((val) => val.toLowerCase()),
   dateOfBirth: z
     .string()
-    .refine((val) => dayjsUtil(val).isValid(), {
+    .refine((val) => val === "Unknown" || dayjsUtil(val).isValid(), {
       message: "Invalid date format",
     })
-    .transform((val) => dayjsUtil(val).format("MM/DD/YYYY")),
+    .transform((val) =>
+      val === "Unknown" ? val : dayjsUtil(val).format("MM/DD/YYYY"),
+    ),
   sex: z.enum(["male", "female"]),
-  phoneNumber: z
-    .string()
-    .refine(
-      (val) => isValidPhoneNumber(val, { defaultCountry: "US" }),
-      "Invalid phone number",
-    )
-    .transform((val) => parsePhoneNumberWithError(val, "US").number.toString()),
-
+  phoneNumber: z.string().transform((val) => {
+    try {
+      const parsed = parsePhoneNumberWithError(val, "US");
+      return parsed.number.toString(); // returns in E.164 format (e.g. +14155552671)
+    } catch {
+      return "Unknown";
+    }
+  }),
   // Specifying the programs the client is enrolled in
   isEnrolledInHealthyHabits: z.boolean(),
   healthyHabitsEnrollmentDate: z

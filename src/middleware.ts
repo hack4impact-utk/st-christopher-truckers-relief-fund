@@ -9,5 +9,6 @@ export const config = {
     "/profile/:path*",
     "/verify-email",
     "/verify-email/:path*",
+    "/update-client-information",
   ],
 };
