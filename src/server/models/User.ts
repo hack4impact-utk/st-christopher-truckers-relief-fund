@@ -14,15 +14,14 @@ const UserSchema = new Schema<User>(
     },
     dateOfBirth: {
       type: String,
-      required: true,
     },
     sex: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phoneNumber: {
       type: String,
@@ -62,7 +61,6 @@ const UserSchema = new Schema<User>(
     ],
     rigsWithoutCigsStatus: {
       type: String,
-      required: true,
     },
     fagerstromTests: [
       {

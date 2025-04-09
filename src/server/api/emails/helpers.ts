@@ -1,5 +1,7 @@
 import { createTransport, SentMessageInfo, Transporter } from "nodemailer";
 
+import { getFeatureFlag } from "../feature-flags/queries";
+
 function getTransporter(): Transporter {
   const email = process.env.SCF_GMAIL;
   const password = process.env.SCF_GMAIL_APP_PASSWORD;
@@ -29,6 +31,12 @@ export default async function sendEmail(
   subject: string,
   html: string,
 ): Promise<SentMessageInfo> {
+  const isEmailEnabled = await getFeatureFlag("isEmailEnabled");
+  if (!isEmailEnabled) {
+    console.error("Email sending is currently disabled.");
+    return;
+  }
+
   const transporter = getTransporter();
 
   const email = process.env.SCF_GMAIL;
