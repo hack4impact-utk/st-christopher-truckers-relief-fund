@@ -26,6 +26,7 @@ export async function POST(request: Request): Promise<Response> {
           new Date(meeting.date).toLocaleTimeString([], {
             hour: "numeric",
             minute: "2-digit",
+            timeZoneName: "short",
           }),
         ),
       ),
