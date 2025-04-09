@@ -1,0 +1,16 @@
+name: Daily Scheduled Meeting Reminders
+on:
+  schedule:
+    # Runs at 9:00 AM UTC every day
+    - cron: "0 9 * * *"
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Scheduled Meeting Reminder Emails
+        run: |
+          curl -X POST \
+          ${{ secrets.DAILY_SCHEDULED_MEETING_REMINDER_API_URL }} \
+          -H "x-api-key: ${{ secrets.API_KEY }}" \
+          -H "Content-Type: application/json"

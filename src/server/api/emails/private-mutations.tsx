@@ -3,6 +3,7 @@ import { render } from "@react-email/components";
 import EmailVerificationEmail from "@/components/emails/EmailVerificationEmail";
 import PasswordChangedEmail from "@/components/emails/PasswordChangedEmail";
 import RejectionEmail from "@/components/emails/RejectionEmail";
+import ReminderEmail from "@/components/emails/ReminderEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import ScheduledMeetingEmail from "@/components/emails/ScheduledMeetingEmail";
 import UrgentMeetingRequestCreated from "@/components/emails/UrgentMeetingRequestCreated";
@@ -79,6 +80,19 @@ export async function sendZoomReminderEmail(
   await sendEmail(
     recipientEmail,
     `Reminder: You have an upcoming meeting for ${meetingName}.`,
+    html,
+  );
+}
+
+export async function sendDailyZoomReminderEmail(
+  recipientEmail: string,
+  meetingTime: string,
+): Promise<void> {
+  const html = await render(<ReminderEmail time={meetingTime} />);
+
+  await sendEmail(
+    recipientEmail,
+    `Reminder: You have a scheduled meeting with SCF today`,
     html,
   );
 }
