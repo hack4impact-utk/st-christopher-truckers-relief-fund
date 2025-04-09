@@ -90,6 +90,9 @@ export async function POST(request: Request): Promise<Response> {
     return getSuccessfulJsonApiResponse(200);
   } catch (error) {
     console.error(error);
-    return getFailedJsonApiResponse(500, "Unknown Internal server error: " + error);
+    return getFailedJsonApiResponse(
+      500,
+      "Unknown Internal server error: " + error,
+    );
   }
 }

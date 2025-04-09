@@ -1,7 +1,4 @@
-import {
-  isValidPhoneNumber,
-  parsePhoneNumberWithError,
-} from "libphonenumber-js";
+import { parsePhoneNumberWithError } from "libphonenumber-js";
 import { z } from "zod";
 
 import { createProgramEnrollment } from "@/server/api/program-enrollments/private-mutations";
