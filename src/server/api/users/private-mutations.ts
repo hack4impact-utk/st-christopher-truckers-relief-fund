@@ -13,6 +13,7 @@ import {
   ApiResponse,
   ClientUser,
   ProgramEnrollment,
+  ScheduledMeeting,
   User,
 } from "@/types";
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
@@ -178,7 +179,7 @@ export async function getUsersByProgram(
 }
 
 export async function getUsersWithMeetingsToday(): Promise<
-  ApiResponse<User[]>
+  ApiResponse<{ user: User; meeting: ScheduledMeeting }[]>
 > {
   await dbConnect();
 
@@ -197,10 +198,13 @@ export async function getUsersWithMeetingsToday(): Promise<
       .lean()
       .exec();
 
-    // Extract unique users from the meetings
-    const users = meetings.map((meeting) => meeting.client);
+    // Return both the user and their meeting
+    const usersWithMeetings = meetings.map((meeting) => ({
+      user: meeting.client,
+      meeting,
+    }));
 
-    return [users, null];
+    return [usersWithMeetings, null];
   } catch (error) {
     console.error(error);
     return [null, handleMongooseError(error)];

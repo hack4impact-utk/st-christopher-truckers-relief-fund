@@ -1,4 +1,4 @@
-import { sendZoomReminderEmail } from "@/server/api/emails/private-mutations";
+import { sendDailyZoomReminderEmail } from "@/server/api/emails/private-mutations";
 import { getUsersWithMeetingsToday } from "@/server/api/users/private-mutations";
 import {
   getFailedJsonApiResponse,
@@ -20,11 +20,13 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     await Promise.allSettled(
-      usersWithMeetings.map((user) =>
-        sendZoomReminderEmail(
-          "Scheduled Meeting",
-          "https://google.com", // TODO: Replace with actual meeting link
+      usersWithMeetings.map(({ user, meeting }) =>
+        sendDailyZoomReminderEmail(
           user.email,
+          new Date(meeting.date).toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          }),
         ),
       ),
     );
