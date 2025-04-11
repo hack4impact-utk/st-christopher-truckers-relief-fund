@@ -1,15 +1,27 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
-import ScreeningRequestManagementTable from "@/components/AdminDashboard/GetPreventativeScreeningsDashboard/ScreeningRequestManagementTable";
-import { getAllScreeningRequests } from "@/server/api/screening-requests.ts/queries";
+import { getPaginatedClients } from "@/server/api/users/queries";
 
 export default async function ServerComponentTestPage(): Promise<ReactNode> {
-  const [screeningRequests, error] = await getAllScreeningRequests();
+  const [response, error] = await getPaginatedClients({
+    page: 0,
+    pageSize: 10,
+    sortField: "lastName",
+    sortOrder: "desc",
+    search: "",
+    options: {
+      populateEnrollmentForm: true,
+      populateProgramEnrollments: true,
+      populateHealthyHabitsTrackingForms: true,
+    },
+  });
 
   if (error !== null) {
     return <>{error}</>;
   }
+
+  const [clients, count] = response;
 
   return (
     <Box
@@ -19,9 +31,17 @@ export default async function ServerComponentTestPage(): Promise<ReactNode> {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
+        gap: 2,
       }}
     >
-      <ScreeningRequestManagementTable screeningRequests={screeningRequests} />
+      <Typography>Clients: {count}</Typography>
+      {clients.map((client) => (
+        <Typography key={client._id}>
+          {client.firstName} {client.lastName} {client.email}{" "}
+          {client.phoneNumber}
+        </Typography>
+      ))}
     </Box>
   );
 }
