@@ -10,11 +10,15 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
+
+import dayjsUtil from "@/utils/dayjsUtil";
 
 export default function DataExport(): ReactNode {
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSelect = (value: string) => (): void => {
     const currentIndex = selected.indexOf(value);
@@ -37,6 +41,10 @@ export default function DataExport(): ReactNode {
     {
       name: "Fagerstrom Tests",
       key: "fagerstromtests",
+    },
+    {
+      name: "Feature Flags",
+      key: "featureflags",
     },
     {
       name: "Healthy Habits Tracking Forms",
@@ -85,7 +93,10 @@ export default function DataExport(): ReactNode {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to export data");
+        enqueueSnackbar("Error exporting data.", {
+          variant: "error",
+        });
+        return;
       }
 
       // Create download link
@@ -93,9 +104,10 @@ export default function DataExport(): ReactNode {
       const url = URL.createObjectURL(blob);
 
       // Create hidden link and click to start download
+      const currentDay = dayjsUtil().format("MM_DD_YYYY");
       const a = document.createElement("a");
       a.href = url;
-      a.download = "exported_data.xlsx";
+      a.download = `scf_data_export_${currentDay}.xlsx`;
       document.body.appendChild(a);
       a.click();
 
@@ -104,18 +116,19 @@ export default function DataExport(): ReactNode {
       URL.revokeObjectURL(url);
 
       setLoading(false);
-    } catch (error) {
-      console.error("Error exporting data:", error);
+    } catch {
+      enqueueSnackbar("Error exporting data.", {
+        variant: "error",
+      });
+      setLoading(false);
     }
   };
 
   return (
-    <Box>
-      <Typography align="center" variant="h6">
-        Data Export
-      </Typography>
+    <Box sx={{ marginTop: "100px", p: 4 }}>
+      <Typography variant="h6">Data Export</Typography>
 
-      <Typography>Select which datasets to export.</Typography>
+      <Typography>Select which database tables to export.</Typography>
       <List>
         {listItems.map((item) => (
           <ListItem
@@ -135,7 +148,12 @@ export default function DataExport(): ReactNode {
           </ListItem>
         ))}
       </List>
-      <Button onClick={handleExport} loading={loading}>
+      <Button
+        onClick={handleExport}
+        loading={loading}
+        variant="contained"
+        sx={{ width: "100%" }}
+      >
         Export
       </Button>
     </Box>
