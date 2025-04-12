@@ -193,8 +193,6 @@ export async function getPaginatedClients({
   await dbConnect();
 
   try {
-    await dbConnect();
-
     const filters: Record<string, unknown> = {
       role: "client",
     };

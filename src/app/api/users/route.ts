@@ -5,22 +5,23 @@ import {
   getFailedJsonApiResponse,
   getSuccessfulJsonApiResponse,
 } from "@/utils/getJsonApiResponse";
+import getUserSession from "@/utils/getUserSession";
 
 export async function GET(request: NextRequest): Promise<Response> {
   try {
-    const apiKeyHeader = request.headers.get("x-api-key");
+    const session = await getUserSession();
 
-    if (!apiKeyHeader || apiKeyHeader !== process.env.API_KEY) {
-      return getFailedJsonApiResponse(401, "Invalid request");
+    if (!session || session.user.role !== "admin") {
+      return getFailedJsonApiResponse(401, "Unauthorized");
     }
 
     const { searchParams } = request.nextUrl;
 
     // extract query params
-    const page = searchParams.get("page") || 0;
-    const pageSize = searchParams.get("pageSize") || 10;
-    const search = searchParams.get("search") || "";
-    const sortField = searchParams.get("sortField") || "lastName";
+    const page = searchParams.get("page") ?? 0;
+    const pageSize = searchParams.get("pageSize") ?? 10;
+    const search = searchParams.get("search") ?? "";
+    const sortField = searchParams.get("sortField") ?? "lastName";
     const sortOrder = searchParams.get("sortOrder") === "desc" ? "desc" : "asc";
 
     const [response, error] = await getPaginatedClients({
