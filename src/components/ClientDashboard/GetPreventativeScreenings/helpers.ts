@@ -2,7 +2,7 @@ import { ClientUser, ScreeningRequest } from "@/types";
 import calculateAge from "@/utils/calculateAge";
 import dayjsUtil from "@/utils/dayjsUtil";
 
-export function isCompletedScreeningRequest(
+function isCompletedScreeningRequest(
   screeningRequest: ScreeningRequest,
 ): boolean {
   return (

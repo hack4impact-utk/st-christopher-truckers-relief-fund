@@ -127,7 +127,7 @@ export async function handleAddRigsWithoutCigsInformation(
   return [null, null];
 }
 
-export async function createFagerstromTestsFromEnrollmentForm(
+async function createFagerstromTestsFromEnrollmentForm(
   enrollmentForm: EnrollmentForm,
   user: User,
 ): Promise<void> {

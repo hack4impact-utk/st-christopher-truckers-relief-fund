@@ -2,7 +2,7 @@ import { Dayjs } from "dayjs";
 
 import dayjsUtil from "./dayjsUtil";
 
-export type PrizeTimes = {
+type PrizeTimes = {
   timeUntil1Month: number;
   timeUntil6Months: number;
   timeUntil1Year: number;

@@ -1,3 +1,3 @@
-export type SearchParams = {
+type SearchParams = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
