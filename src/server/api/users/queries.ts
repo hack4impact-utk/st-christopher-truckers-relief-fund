@@ -172,3 +172,105 @@ export async function getClients(
     ApiResponse<ClientUser[]>
   >;
 }
+
+type GetPaginatedClientsParams = {
+  page: number;
+  pageSize: number;
+  search?: string;
+  sortField?: string;
+  sortOrder?: "asc" | "desc";
+  options?: UserPopulateOptions;
+};
+
+export async function getPaginatedClients({
+  page,
+  pageSize,
+  search = "",
+  sortField = "lastName",
+  sortOrder = "asc",
+  options,
+}: GetPaginatedClientsParams): Promise<ApiResponse<[ClientUser[], number]>> {
+  await dbConnect();
+
+  try {
+    const filters: Record<string, unknown> = {
+      role: "client",
+    };
+
+    if (search) {
+      const searchRegex = new RegExp(search, "i");
+      filters.$or = [
+        { firstName: searchRegex },
+        { lastName: searchRegex },
+        { email: searchRegex },
+        { phoneNumber: searchRegex },
+      ];
+    }
+
+    const sort = {
+      [sortField]: sortOrder,
+    };
+
+    const usersQuery = UserModel.find(filters)
+      .sort(sort)
+      .skip(page * pageSize)
+      .limit(pageSize);
+
+    if (options?.populateHealthyHabitsTrackingForms) {
+      usersQuery.populate({
+        path: "healthyHabitsTrackingForms",
+        options: { sort: { submittedDate: -1 } },
+      });
+    }
+
+    if (options?.populateProgramEnrollments) {
+      usersQuery.populate({
+        path: "programEnrollments",
+        populate: {
+          path: "user",
+        },
+      });
+    }
+
+    if (options?.populateEnrollmentForm) {
+      usersQuery.populate("enrollmentForm");
+    }
+
+    if (options?.populateFagerstromTests) {
+      usersQuery.populate({
+        path: "fagerstromTests",
+        options: { sort: { submittedDate: -1 } },
+      });
+    }
+
+    if (options?.populateScreeningRequests) {
+      usersQuery.populate({
+        path: "screeningRequests",
+        options: { sort: { submittedDate: -1 } },
+        populate: {
+          path: "user",
+        },
+      });
+    }
+
+    if (options?.populateVaccineVoucherRequests) {
+      usersQuery.populate({
+        path: "vaccineVoucherRequests",
+        options: { sort: { submittedDate: -1 } },
+        populate: {
+          path: "user",
+        },
+      });
+    }
+
+    const [users, count] = await Promise.all([
+      usersQuery.lean<User>().exec(),
+      UserModel.countDocuments(filters),
+    ]);
+
+    return [[serializeMongooseObject(users), count], null];
+  } catch (error) {
+    console.error(error);
+    return [null, handleMongooseError(error)];
+  }
+}

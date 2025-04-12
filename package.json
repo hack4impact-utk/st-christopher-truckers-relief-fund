@@ -14,7 +14,8 @@
     "check-format": "prettier --check src",
     "email-dev": "email dev --dir ./src/components/emails",
     "email-build": "email build --dir ./src/components/emails",
-    "email-export": "email export --dir ./src/components/emails"
+    "email-export": "email export --dir ./src/components/emails",
+    "knip": "knip"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -30,6 +31,7 @@
     "@mui/x-date-pickers": "^7.28.3",
     "@next/bundle-analyzer": "^15.2.4",
     "@react-email/components": "^0.0.25",
+    "@tanstack/react-query": "^5.72.2",
     "bcrypt": "^5.1.1",
     "dayjs": "^1.11.13",
     "libphonenumber-js": "^1.12.6",
@@ -46,6 +48,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.72.2",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.17.30",
     "@types/nodemailer": "^6.4.17",
@@ -59,8 +62,9 @@
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "knip": "^5.50.2",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@9.4.0"
 }

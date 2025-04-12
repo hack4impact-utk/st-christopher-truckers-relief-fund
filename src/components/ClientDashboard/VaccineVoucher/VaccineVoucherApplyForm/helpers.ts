@@ -12,7 +12,7 @@ export const getLastVaccineVoucherRequest = (
   );
 };
 
-export const lastRequestWasOverTenMonthsAgo = (
+const lastRequestWasOverTenMonthsAgo = (
   previousRequest?: VaccineVoucherRequest,
 ): boolean => {
   if (!previousRequest) {

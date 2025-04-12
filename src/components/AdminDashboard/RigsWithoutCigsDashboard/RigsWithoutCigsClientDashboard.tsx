@@ -17,7 +17,7 @@ type RigsWithoutCigRow = AdminDashboardTableRow & {
   rigsWithoutCigsStatus: string;
 };
 
-export function getRigsWithoutCigsStatusDisplayName(
+function getRigsWithoutCigsStatusDisplayName(
   status: RigsWithoutCigsStatus,
 ): string {
   switch (status) {

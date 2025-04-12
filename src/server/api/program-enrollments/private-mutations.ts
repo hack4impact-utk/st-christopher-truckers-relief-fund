@@ -88,7 +88,7 @@ export async function createProgramEnrollmentsFromEnrollmentForm(
   });
 }
 
-export async function updateProgramEnrollment(
+async function updateProgramEnrollment(
   newProgramEnrollment: ProgramEnrollment,
 ): Promise<ApiResponse<ProgramEnrollment>> {
   await dbConnect();

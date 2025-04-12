@@ -1,7 +1,13 @@
 /* eslint-env node */
 module.exports = {
   // plugins
-  plugins: ["@typescript-eslint", "prettier", "simple-import-sort", "react"],
+  plugins: [
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort",
+    "react",
+    "@tanstack/query",
+  ],
 
   // default rules
   extends: [
@@ -10,6 +16,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/stylistic",
+    "plugin:@tanstack/query/recommended",
     "plugin:prettier/recommended",
   ],
 
