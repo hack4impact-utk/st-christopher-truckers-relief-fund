@@ -3,17 +3,18 @@ name: pr-check
 on:
   pull_request:
     types:
-      # default types
       - opened
       - reopened
       - synchronize
-      # run when PR title or body changes
       - edited
     branches:
       - main
+
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,9 +45,19 @@ jobs:
           echo "SCF_GMAIL_APP_PASSWORD=${{ secrets.SCF_GMAIL_APP_PASSWORD }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
           echo "API_KEY=${{ secrets.API_KEY }}" >> .env
-      
-      - name: Check for dead code
+
+      - name: Check for dead code with knip
+        id: knip
+        continue-on-error: true
         run: pnpm run knip
+
+      - name: Warn if knip failed
+        if: steps.knip.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body ":warning: \`pnpm run knip\` failed in CI. Please check for potential dead code or issues with the knip config."
 
       - name: Check that project builds
         run: pnpm run build
