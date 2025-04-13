@@ -51,7 +51,7 @@ export default function CreateNewMeeting({
   } = useForm<ScheduleMeetingFormValues>({
     resolver: zodResolver(scheduleMeetingSchema),
     defaultValues: {
-      client: allClients[0].email,
+      client: allClients[0]?.email ?? "",
       reason: "",
       date: "",
     },

@@ -24,10 +24,6 @@ export function serializeMongooseObject(data: any): any {
   if (typeof data === "object") {
     const result: any = {};
     for (const [key, value] of Object.entries(data)) {
-      if (key == "password") {
-        result[key] = "";
-        continue;
-      }
       result[key] = serializeMongooseObject(value);
     }
     return result;
