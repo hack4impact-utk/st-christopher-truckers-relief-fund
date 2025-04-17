@@ -3,7 +3,7 @@ import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
-import handleMongooseError from "@/utils/handleMongooseError";
+import { findOne } from "@/utils/db/find";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getPasswordResetTokenByToken(
@@ -11,26 +11,19 @@ export async function getPasswordResetTokenByToken(
 ): Promise<ApiResponse<PasswordResetToken>> {
   await dbConnect();
 
-  try {
-    const passwordResetToken = await PasswordResetTokenModel.findOne({
-      token,
-    })
-      .lean<PasswordResetToken>()
-      .exec();
+  const [passwordResetToken, error] = await findOne(PasswordResetTokenModel, {
+    filters: { token },
+  });
 
-    if (!passwordResetToken) {
-      return [null, apiErrors.passwordResetToken.passwordResetTokenNotFound];
-    }
-
-    const now = dayjsUtil().utc();
-    const tokenHasExpired = dayjsUtil(passwordResetToken.expires).isBefore(now);
-    if (tokenHasExpired) {
-      return [null, apiErrors.passwordResetToken.passwordResetTokenExpired];
-    }
-
-    return [serializeMongooseObject(passwordResetToken), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  const now = dayjsUtil().utc();
+  const tokenHasExpired = dayjsUtil(passwordResetToken.expires).isBefore(now);
+  if (tokenHasExpired) {
+    return [null, apiErrors.passwordResetToken.passwordResetTokenExpired];
+  }
+
+  return [serializeMongooseObject(passwordResetToken), null];
 }

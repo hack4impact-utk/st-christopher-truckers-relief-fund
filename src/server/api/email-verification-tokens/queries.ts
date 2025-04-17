@@ -1,32 +1,18 @@
-import dbConnect from "@/server/dbConnect";
 import { EmailVerificationTokenModel } from "@/server/models";
 import { ApiResponse, EmailVerificationToken } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
-import handleMongooseError from "@/utils/handleMongooseError";
+import { findOne } from "@/utils/db/find";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getEmailVerificationTokenByToken(
   token: string,
 ): Promise<ApiResponse<EmailVerificationToken>> {
-  await dbConnect();
+  const [response, error] = await findOne(EmailVerificationTokenModel, {
+    filters: { token },
+  });
 
-  try {
-    const emailVerificationToken = await EmailVerificationTokenModel.findOne({
-      token,
-    })
-      .lean<EmailVerificationToken>()
-      .exec();
-
-    if (!emailVerificationToken) {
-      return [
-        null,
-        apiErrors.emailVerificationToken.emailVerificationTokenNotFound,
-      ];
-    }
-
-    return [serializeMongooseObject(emailVerificationToken), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [serializeMongooseObject(response), null];
 }

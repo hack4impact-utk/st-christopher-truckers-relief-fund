@@ -1,5 +1,7 @@
 const apiErrors = {
   unauthorized: "You must be logged in to access this resource",
+  notFound: "The requested resource was not found",
+  duplicate: "The requested resource already exists",
   mongoose: {
     CastError: "Error casting value",
     DivergentArrayError: "You modified an array in the middle of a save.",

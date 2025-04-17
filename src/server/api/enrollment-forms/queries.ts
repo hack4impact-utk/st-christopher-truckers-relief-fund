@@ -1,29 +1,18 @@
-import dbConnect from "@/server/dbConnect";
 import { EnrollmentFormModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
-import handleMongooseError from "@/utils/handleMongooseError";
+import { findOne } from "@/utils/db/find";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getEnrollmentFormByEmail(
   email: string,
 ): Promise<ApiResponse<EnrollmentForm>> {
-  await dbConnect();
+  const [enrollmentForm, error] = await findOne(EnrollmentFormModel, {
+    filters: { "generalInformationSection.email": email },
+  });
 
-  try {
-    const enrollmentForm = await EnrollmentFormModel.findOne({
-      "generalInformationSection.email": email,
-    })
-      .lean<EnrollmentForm>()
-      .exec();
-
-    if (!enrollmentForm) {
-      return [null, apiErrors.enrollmentForm.enrollmentFormNotFound];
-    }
-
-    return [serializeMongooseObject(enrollmentForm), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [serializeMongooseObject(enrollmentForm), null];
 }

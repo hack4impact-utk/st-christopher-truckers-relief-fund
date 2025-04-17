@@ -1,19 +1,14 @@
-import dbConnect from "@/server/dbConnect";
 import { FeatureFlagModel } from "@/server/models";
+import { findOne } from "@/utils/db/find";
 
 export async function getFeatureFlag(name: string): Promise<boolean> {
-  await dbConnect();
+  const [featureFlag, error] = await findOne(FeatureFlagModel, {
+    filters: { name },
+  });
 
-  try {
-    const featureFlag = await FeatureFlagModel.findOne({ name });
-
-    if (!featureFlag) {
-      return false;
-    }
-
-    return featureFlag.enabled;
-  } catch (error) {
-    console.error(error);
+  if (error !== null) {
     return false;
   }
+
+  return featureFlag.enabled;
 }
