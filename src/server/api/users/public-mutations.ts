@@ -75,10 +75,7 @@ export async function verifyEmailWithToken(
     await getEmailVerificationTokenByToken(token);
 
   if (emailVerificationTokenError !== null) {
-    return [
-      null,
-      apiErrors.emailVerificationToken.emailVerificationTokenNotFound,
-    ];
+    return [null, apiErrors.notFound];
   }
 
   const [user, userError] = await getUserById(emailVerificationToken.userId);

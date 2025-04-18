@@ -125,10 +125,7 @@ export default function HealthyHabitsTracking({
       enqueueSnackbar("Healthy Habits Tracking Form submitted successfully", {
         variant: "success",
       });
-    } else if (
-      error ===
-      apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormAlreadyExists
-    ) {
+    } else if (error === apiErrors.duplicate) {
       enqueueSnackbar(
         "You have already submitted the form for the selected week.",
         { variant: "warning" },

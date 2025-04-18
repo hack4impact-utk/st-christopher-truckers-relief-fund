@@ -1,33 +1,13 @@
-import dbConnect from "@/server/dbConnect";
-import { UserModel, VaccineVoucherRequestModel } from "@/server/models";
+import { VaccineVoucherRequestModel } from "@/server/models";
 import { ApiResponse, VaccineVoucherRequest } from "@/types";
+import { create } from "@/utils/db/create";
 import { findByIdAndDelete } from "@/utils/db/delete";
 import { findOneAndUpdate } from "@/utils/db/update";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function createVaccineVoucherRequest(
   vaccineVoucherRequest: VaccineVoucherRequest,
 ): Promise<ApiResponse<VaccineVoucherRequest>> {
-  await dbConnect();
-
-  try {
-    const newVaccineVoucherRequestDocument =
-      await VaccineVoucherRequestModel.create(vaccineVoucherRequest);
-
-    const newVaccineVoucherRequest =
-      newVaccineVoucherRequestDocument.toObject();
-
-    // add to User object
-    await UserModel.findByIdAndUpdate(vaccineVoucherRequest.user._id, {
-      $push: { vaccineVoucherRequests: newVaccineVoucherRequest._id },
-    });
-
-    return [serializeMongooseObject(newVaccineVoucherRequest), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+  return await create(VaccineVoucherRequestModel, vaccineVoucherRequest);
 }
 
 export async function updateVaccineVoucherRequest(

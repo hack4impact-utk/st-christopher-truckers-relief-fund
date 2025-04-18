@@ -4,8 +4,8 @@ import dbConnect from "@/server/dbConnect";
 import { ApiResponse } from "@/types";
 
 import apiErrors from "../constants/apiErrors";
-import handleMongooseError from "../handleMongooseError";
-import { serializeMongooseObject } from "../serializeMongooseObject";
+import handleMongooseError from "./handleMongooseError";
+import { serializeMongooseObject } from "./serializeMongooseObject";
 
 type FindOneOptions<T> = {
   filters?: FilterQuery<T>;

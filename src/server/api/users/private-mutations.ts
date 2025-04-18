@@ -19,78 +19,55 @@ import {
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
+import { create } from "@/utils/db/create";
+import handleMongooseError from "@/utils/db/handleMongooseError";
 import { findOneAndUpdate } from "@/utils/db/update";
-import handleMongooseError from "@/utils/handleMongooseError";
 
 import { getUserByEmail } from "./queries";
 
 export async function createAdminUser(
   adminUserRequest: AdminUserRequest,
 ): Promise<ApiResponse<AdminUser>> {
-  await dbConnect();
+  const [existingUser] = await getUserByEmail(adminUserRequest.email);
 
-  try {
-    const [existingUser] = await getUserByEmail(adminUserRequest.email);
-
-    if (existingUser) {
-      return [null, apiErrors.user.userAlreadyExists];
-    }
-
-    const objectid = new mongoose.Types.ObjectId().toString();
-    const user: User = {
-      _id: objectid,
-      firstName: adminUserRequest.firstName,
-      lastName: adminUserRequest.lastName,
-      email: adminUserRequest.email,
-      phoneNumber: adminUserRequest.phoneNumber,
-      password: adminUserRequest.password,
-      role: "admin",
-      dateCreated: dayjsUtil.utc().toISOString(),
-      isEmailVerified: true,
-    };
-
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    user.password = hashedPassword;
-
-    user.dateCreated = dayjsUtil.utc().toISOString();
-
-    const adminUserDocument = await UserModel.create(user);
-
-    const adminUser = adminUserDocument.toObject() as AdminUser;
-
-    return [adminUser, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (existingUser) {
+    return [null, apiErrors.duplicate];
   }
+
+  const objectid = new mongoose.Types.ObjectId().toString();
+  const user: User = {
+    _id: objectid,
+    firstName: adminUserRequest.firstName,
+    lastName: adminUserRequest.lastName,
+    email: adminUserRequest.email,
+    phoneNumber: adminUserRequest.phoneNumber,
+    password: adminUserRequest.password,
+    role: "admin",
+    dateCreated: dayjsUtil.utc().toISOString(),
+    isEmailVerified: true,
+  };
+
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  user.password = hashedPassword;
+
+  user.dateCreated = dayjsUtil.utc().toISOString();
+
+  return (await create(UserModel, user)) as ApiResponse<AdminUser>;
 }
 
 export async function createClientUser(
   user: ClientUser,
 ): Promise<ApiResponse<ClientUser>> {
-  await dbConnect();
+  const [userInDatabase] = await getUserByEmail(user.email);
 
-  try {
-    // don't create user if one already exists
-    const [userInDatabase] = await getUserByEmail(user.email);
-
-    if (userInDatabase) {
-      return [null, apiErrors.user.userAlreadyExists];
-    }
-
-    // hash password
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    user.password = hashedPassword;
-
-    const newUserDocument = await UserModel.create(user);
-
-    const newUser = newUserDocument.toObject() as ClientUser;
-
-    return [newUser, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (userInDatabase) {
+    return [null, apiErrors.duplicate];
   }
+
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  user.password = hashedPassword;
+
+  return (await create(UserModel, user)) as ApiResponse<ClientUser>;
 }
 
 export async function updateUser(newUser: User): Promise<ApiResponse<User>> {

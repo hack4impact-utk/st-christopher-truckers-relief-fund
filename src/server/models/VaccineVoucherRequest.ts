@@ -31,6 +31,12 @@ const VaccineVoucherRequestSchema = new Schema<VaccineVoucherRequest>(
   { versionKey: false },
 );
 
+VaccineVoucherRequestSchema.post("save", async function (doc) {
+  await UserModel.findByIdAndUpdate(doc.user, {
+    $push: { vaccineVoucherRequests: doc._id },
+  });
+});
+
 VaccineVoucherRequestSchema.pre("findOneAndDelete", async function (next) {
   const docToDelete = await this.model
     .findOne(this.getQuery())

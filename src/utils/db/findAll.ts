@@ -3,8 +3,8 @@ import { FilterQuery, Model, PopulateOptions } from "mongoose";
 import dbConnect from "@/server/dbConnect";
 import { ApiResponse } from "@/types";
 
-import handleMongooseError from "../handleMongooseError";
-import { serializeMongooseObject } from "../serializeMongooseObject";
+import handleMongooseError from "./handleMongooseError";
+import { serializeMongooseObject } from "./serializeMongooseObject";
 
 type FindAllOptions<T> = {
   filter?: FilterQuery<T>;

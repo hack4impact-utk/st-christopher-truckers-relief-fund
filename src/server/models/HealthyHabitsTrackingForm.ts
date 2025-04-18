@@ -40,6 +40,12 @@ const HealthyHabitsTrackingFormSchema = new Schema<HealthyHabitsTrackingForm>(
   { versionKey: false },
 );
 
+HealthyHabitsTrackingFormSchema.post("save", async function (doc) {
+  await UserModel.findByIdAndUpdate(doc.user, {
+    $push: { healthyHabitsTrackingForms: doc._id },
+  });
+});
+
 HealthyHabitsTrackingFormSchema.pre("findOneAndDelete", async function (next) {
   const docToDelete = await this.model
     .findOne(this.getQuery())

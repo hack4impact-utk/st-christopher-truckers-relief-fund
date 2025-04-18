@@ -36,38 +36,35 @@ function handleAdminDashboardAuthChecks(
   return null;
 }
 
-export default withAuth(
-  // `withAuth` augments your `Request` with the user's token.
-  function middleware(request) {
-    const user = (request.nextauth.token?.user as User) ?? null;
+export default withAuth(function middleware(request) {
+  const user = (request.nextauth.token?.user as User) ?? null;
 
-    if (!user) {
-      return redirect("/");
+  if (!user) {
+    return redirect("/");
+  }
+
+  const pathName = request.nextUrl.pathname;
+
+  if (pathName.startsWith("/dashboard/client")) {
+    const response = handleClientDashboardAuthChecks(user, request);
+
+    if (response) {
+      return response;
     }
+  }
 
-    const pathName = request.nextUrl.pathname;
+  if (pathName.startsWith("/dashboard/admin")) {
+    const response = handleAdminDashboardAuthChecks(user, request);
 
-    if (pathName.startsWith("/dashboard/client")) {
-      const response = handleClientDashboardAuthChecks(user, request);
-
-      if (response) {
-        return response;
-      }
+    if (response) {
+      return response;
     }
+  }
 
-    if (pathName.startsWith("/dashboard/admin")) {
-      const response = handleAdminDashboardAuthChecks(user, request);
-
-      if (response) {
-        return response;
-      }
-    }
-
-    if (pathName.startsWith("/enrollment-form")) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-  },
-);
+  if (pathName.startsWith("/enrollment-form")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+});
 
 export const config = {
   matcher: [

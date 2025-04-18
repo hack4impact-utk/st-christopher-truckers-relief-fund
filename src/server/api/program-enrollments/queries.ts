@@ -3,8 +3,8 @@ import { ProgramEnrollmentModel } from "@/server/models";
 import { ApiResponse, Program, ProgramEnrollment } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import { findAll } from "@/utils/db/findAll";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+import handleMongooseError from "@/utils/db/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/db/serializeMongooseObject";
 
 export async function getPendingProgramEnrollments(): Promise<
   ApiResponse<ProgramEnrollment[]>

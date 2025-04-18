@@ -52,7 +52,6 @@ export async function handleHealthyHabitsTrackingFormDeletion(
 
   const [, error] = await deleteHealthyHabitsTrackingForm(
     healthyHabitsTrackingForm,
-    user,
   );
 
   if (error !== null) {

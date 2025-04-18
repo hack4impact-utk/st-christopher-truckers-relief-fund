@@ -2,8 +2,8 @@ import dbConnect from "@/server/dbConnect";
 import { ScheduledMeetingModel } from "@/server/models";
 import { ApiResponse, ScheduledMeeting } from "@/types";
 import { findByIdAndDelete } from "@/utils/db/delete";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+import handleMongooseError from "@/utils/db/handleMongooseError";
+import { serializeMongooseObject } from "@/utils/db/serializeMongooseObject";
 
 export async function createScheduledMeeting(
   scheduledMeeting: ScheduledMeeting,

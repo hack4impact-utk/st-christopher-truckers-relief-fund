@@ -85,6 +85,12 @@ const FagerstromTestSchema = new Schema<FagerstromTest>(
   { versionKey: false },
 );
 
+FagerstromTestSchema.post("save", async function (doc) {
+  await UserModel.findByIdAndUpdate(doc.client, {
+    $push: { fagerstromTests: doc._id },
+  });
+});
+
 FagerstromTestSchema.pre("findOneAndDelete", async function (next) {
   const docToDelete = await this.model
     .findOne(this.getQuery())

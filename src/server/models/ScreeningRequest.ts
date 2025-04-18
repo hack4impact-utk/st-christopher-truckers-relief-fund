@@ -27,6 +27,12 @@ const ScreeningRequestSchema = new Schema<ScreeningRequest>(
   { versionKey: false },
 );
 
+ScreeningRequestSchema.post("save", async function (doc) {
+  await UserModel.findByIdAndUpdate(doc.user, {
+    $push: { screeningRequests: doc._id },
+  });
+});
+
 ScreeningRequestSchema.pre("findOneAndDelete", async function (next) {
   const docToDelete = await this.model
     .findOne(this.getQuery())

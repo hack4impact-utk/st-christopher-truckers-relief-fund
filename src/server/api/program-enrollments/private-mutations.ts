@@ -1,45 +1,26 @@
 import dbConnect from "@/server/dbConnect";
-import { ProgramEnrollmentModel, UserModel } from "@/server/models";
+import { ProgramEnrollmentModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm, ProgramEnrollment, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
+import { create } from "@/utils/db/create";
 import { findOneAndUpdate } from "@/utils/db/update";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 import { getProgramEnrollmentForUser } from "./queries";
 
 export async function createProgramEnrollment(
   programEnrollment: ProgramEnrollment,
 ): Promise<ApiResponse<ProgramEnrollment>> {
-  await dbConnect();
+  const [existingProgramEnrollment] = await getProgramEnrollmentForUser(
+    programEnrollment.user.email,
+    programEnrollment.program,
+  );
 
-  try {
-    // don't create program enrollment if one already exists
-    const [existingProgramEnrollment] = await getProgramEnrollmentForUser(
-      programEnrollment.user.email,
-      programEnrollment.program,
-    );
-
-    if (existingProgramEnrollment) {
-      return [null, apiErrors.programEnrollment.programEnrollmentAlreadyExists];
-    }
-
-    const newProgramEnrollmentDocument =
-      await ProgramEnrollmentModel.create(programEnrollment);
-
-    const newProgramEnrollment = newProgramEnrollmentDocument.toObject();
-
-    // Update the User's programEnrollments array with the new form ID
-    await UserModel.findByIdAndUpdate(programEnrollment.user._id, {
-      $push: { programEnrollments: newProgramEnrollment._id },
-    });
-
-    return [serializeMongooseObject(newProgramEnrollment), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (existingProgramEnrollment) {
+    return [null, apiErrors.duplicate];
   }
+
+  return await create(ProgramEnrollmentModel, programEnrollment);
 }
 
 export async function createProgramEnrollmentsFromEnrollmentForm(
