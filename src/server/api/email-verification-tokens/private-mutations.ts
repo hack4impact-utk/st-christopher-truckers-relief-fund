@@ -45,14 +45,8 @@ export async function createEmailVerificationToken(
 
 export async function deleteEmailVerificationToken(
   token: string,
-): Promise<ApiResponse<null>> {
-  const [, error] = await findOneAndDelete(EmailVerificationTokenModel, {
+): Promise<ApiResponse<EmailVerificationToken>> {
+  return await findOneAndDelete(EmailVerificationTokenModel, {
     token,
   });
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [null, null];
 }

@@ -1,8 +1,8 @@
 import dbConnect from "@/server/dbConnect";
 import { UserModel, VaccineVoucherRequestModel } from "@/server/models";
 import { ApiResponse, VaccineVoucherRequest } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
 import { findByIdAndDelete } from "@/utils/db/delete";
+import { findOneAndUpdate } from "@/utils/db/update";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -33,41 +33,17 @@ export async function createVaccineVoucherRequest(
 export async function updateVaccineVoucherRequest(
   vaccineVoucherRequest: VaccineVoucherRequest,
 ): Promise<ApiResponse<VaccineVoucherRequest>> {
-  await dbConnect();
-
-  try {
-    const updatedVaccineVoucherRequest =
-      await VaccineVoucherRequestModel.findOneAndUpdate(
-        { _id: vaccineVoucherRequest._id },
-        vaccineVoucherRequest,
-        { new: true, lean: true },
-      ).exec();
-
-    if (!updatedVaccineVoucherRequest) {
-      return [
-        null,
-        apiErrors.vaccineVoucherRequest.vaccineVoucherRequestNotFound,
-      ];
-    }
-
-    return [serializeMongooseObject(updatedVaccineVoucherRequest), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+  return await findOneAndUpdate(
+    VaccineVoucherRequestModel,
+    vaccineVoucherRequest,
+  );
 }
 
 export async function deleteVaccineVoucherRequest(
   vaccineVoucherRequest: VaccineVoucherRequest,
-): Promise<ApiResponse<null>> {
-  const [, error] = await findByIdAndDelete(
+): Promise<ApiResponse<VaccineVoucherRequest>> {
+  return await findByIdAndDelete(
     VaccineVoucherRequestModel,
     vaccineVoucherRequest._id!,
   );
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [null, null];
 }

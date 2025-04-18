@@ -49,14 +49,5 @@ export async function createHealthyHabitsTrackingForm(
 export async function deleteHealthyHabitsTrackingForm(
   form: HealthyHabitsTrackingForm,
 ): Promise<ApiResponse<HealthyHabitsTrackingForm>> {
-  const [healthyHabitsTrackingForm, error] = await findByIdAndDelete(
-    HealthyHabitsTrackingFormModel,
-    form._id!,
-  );
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [healthyHabitsTrackingForm, null];
+  return await findByIdAndDelete(HealthyHabitsTrackingFormModel, form._id!);
 }

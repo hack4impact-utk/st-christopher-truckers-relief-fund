@@ -2,6 +2,7 @@ import dbConnect from "@/server/dbConnect";
 import { EnrollmentFormModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import { findOneAndUpdate } from "@/utils/db/update";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -38,25 +39,5 @@ export async function createEnrollmentForm(
 export async function updateEnrollmentForm(
   enrollmentForm: EnrollmentForm,
 ): Promise<ApiResponse<EnrollmentForm>> {
-  await dbConnect();
-
-  try {
-    const updatedEnrollmentForm = await EnrollmentFormModel.findOneAndUpdate(
-      { _id: enrollmentForm._id },
-      enrollmentForm,
-      { new: true, lean: true },
-    ).exec();
-
-    if (!updatedEnrollmentForm) {
-      return [null, apiErrors.enrollmentForm.enrollmentFormNotFound];
-    }
-
-    // convert ObjectId to string
-    updatedEnrollmentForm._id = String(updatedEnrollmentForm._id);
-
-    return [serializeMongooseObject(updatedEnrollmentForm), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+  return await findOneAndUpdate(EnrollmentFormModel, enrollmentForm);
 }

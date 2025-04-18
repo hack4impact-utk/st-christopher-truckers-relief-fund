@@ -13,6 +13,7 @@ export async function getAllScheduledMeetings(): Promise<
       },
     },
     sort: { date: 1 },
+    fetchAll: true,
   });
 
   if (error !== null) {

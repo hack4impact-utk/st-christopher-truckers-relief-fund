@@ -19,6 +19,7 @@ import {
 import authenticateServerFunction from "@/utils/authenticateServerFunction";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
+import { findOneAndUpdate } from "@/utils/db/update";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 import { getUserByEmail } from "./queries";
@@ -93,19 +94,7 @@ export async function createClientUser(
 }
 
 export async function updateUser(newUser: User): Promise<ApiResponse<User>> {
-  await dbConnect();
-
-  const updatedUser = await UserModel.findOneAndUpdate(
-    { _id: newUser._id },
-    newUser,
-    { new: true, lean: true },
-  ).exec();
-
-  if (!updatedUser) {
-    return [null, apiErrors.user.userNotFound];
-  }
-
-  return [updatedUser, null];
+  return await findOneAndUpdate(UserModel, newUser);
 }
 
 export async function changePassword(

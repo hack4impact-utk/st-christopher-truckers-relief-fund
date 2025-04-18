@@ -15,19 +15,10 @@ export async function getHealthyHabitsTrackingForm(
     return [null, apiErrors.notFound];
   }
 
-  const [healthyHabitsTrackingForm, error] = await findOne(
-    HealthyHabitsTrackingFormModel,
-    {
-      filters: {
-        user: user._id,
-        weekOfSubmission,
-      },
+  return await findOne(HealthyHabitsTrackingFormModel, {
+    filters: {
+      user: user._id,
+      weekOfSubmission,
     },
-  );
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [healthyHabitsTrackingForm, null];
+  });
 }

@@ -8,6 +8,7 @@ export async function getAllVaccineVoucherRequests(): Promise<
   const [response, error] = await findAll(VaccineVoucherRequestModel, {
     populate: ["user"],
     sort: { submittedDate: -1 },
+    fetchAll: true,
   });
 
   if (error !== null) {

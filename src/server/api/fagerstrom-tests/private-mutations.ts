@@ -30,15 +30,6 @@ export async function createFagerstromTest(
 
 export async function deleteFagerstromTest(
   fagerstromTest: FagerstromTest,
-): Promise<ApiResponse<null>> {
-  const [, error] = await findByIdAndDelete(
-    FagerstromTestModel,
-    fagerstromTest._id!,
-  );
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [null, null];
+): Promise<ApiResponse<FagerstromTest>> {
+  return await findByIdAndDelete(FagerstromTestModel, fagerstromTest._id!);
 }

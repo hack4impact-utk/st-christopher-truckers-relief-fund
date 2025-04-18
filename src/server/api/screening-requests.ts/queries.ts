@@ -13,6 +13,7 @@ export async function getAllScreeningRequests(): Promise<
         path: "enrollmentForm",
       },
     },
+    fetchAll: true,
   });
 
   if (error !== null) {

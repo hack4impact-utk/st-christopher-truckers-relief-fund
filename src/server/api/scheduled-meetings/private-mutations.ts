@@ -29,12 +29,6 @@ export async function createScheduledMeeting(
 
 export async function deleteScheduledMeeting(
   _id: string,
-): Promise<ApiResponse<null>> {
-  const [, error] = await findByIdAndDelete(ScheduledMeetingModel, _id);
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [null, null];
+): Promise<ApiResponse<ScheduledMeeting>> {
+  return await findByIdAndDelete(ScheduledMeetingModel, _id);
 }

@@ -17,6 +17,7 @@ export async function getPendingProgramEnrollments(): Promise<
         path: "enrollmentForm",
       },
     },
+    fetchAll: true,
   });
 
   if (error !== null) {
@@ -86,6 +87,7 @@ export async function getHealthyHabitsProgramEnrollments(): Promise<
         },
       ],
     },
+    fetchAll: true,
   });
 
   if (error !== null) {
@@ -109,6 +111,7 @@ export async function getRigsWithoutCigsProgramEnrollments(): Promise<
         },
       ],
     },
+    fetchAll: true,
   });
 
   if (error !== null) {
@@ -133,6 +136,7 @@ export async function getDiabetesPreventionProgramEnrollments(): Promise<
         },
       ],
     },
+    fetchAll: true,
   });
 
   if (error !== null) {
@@ -156,6 +160,7 @@ export async function getVaccineVoucherProgramEnrollments(): Promise<
         },
       ],
     },
+    fetchAll: true,
   });
 
   if (error !== null) {
@@ -182,6 +187,7 @@ export async function getGetPreventativeScreeningsProgramEnrollments(): Promise<
         },
       ],
     },
+    fetchAll: true,
   });
 
   if (error !== null) {

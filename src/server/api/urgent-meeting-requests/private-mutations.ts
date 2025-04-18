@@ -25,12 +25,6 @@ export async function createUrgentMeetingRequest(
 
 export async function deleteUrgentMeetingRequest(
   _id: string,
-): Promise<ApiResponse<null>> {
-  const [, error] = await findByIdAndDelete(UrgentMeetingRequestModel, _id);
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [null, null];
+): Promise<ApiResponse<UrgentMeetingRequest>> {
+  return await findByIdAndDelete(UrgentMeetingRequestModel, _id);
 }

@@ -47,14 +47,8 @@ export async function createPasswordResetToken(
 
 export async function deletePasswordResetToken(
   token: string,
-): Promise<ApiResponse<null>> {
-  const [, error] = await findOneAndDelete(PasswordResetTokenModel, {
+): Promise<ApiResponse<PasswordResetToken>> {
+  return await findOneAndDelete(PasswordResetTokenModel, {
     token,
   });
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [null, null];
 }

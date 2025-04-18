@@ -3,6 +3,7 @@ import { ProgramEnrollmentModel, UserModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm, ProgramEnrollment, User } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
+import { findOneAndUpdate } from "@/utils/db/update";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -91,25 +92,7 @@ export async function createProgramEnrollmentsFromEnrollmentForm(
 async function updateProgramEnrollment(
   newProgramEnrollment: ProgramEnrollment,
 ): Promise<ApiResponse<ProgramEnrollment>> {
-  await dbConnect();
-
-  try {
-    const updatedProgramEnrollment =
-      await ProgramEnrollmentModel.findOneAndUpdate(
-        { _id: newProgramEnrollment._id },
-        newProgramEnrollment,
-        { new: true, lean: true },
-      ).exec();
-
-    if (!updatedProgramEnrollment) {
-      return [null, apiErrors.programEnrollment.programEnrollmentNotFound];
-    }
-
-    return [serializeMongooseObject(updatedProgramEnrollment), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+  return await findOneAndUpdate(ProgramEnrollmentModel, newProgramEnrollment);
 }
 
 export async function rejectProgramEnrollment(

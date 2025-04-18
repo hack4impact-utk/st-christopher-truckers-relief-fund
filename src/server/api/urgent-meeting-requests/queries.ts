@@ -12,6 +12,7 @@ export async function getAllUrgentMeetingRequests(): Promise<
         path: "enrollmentForm",
       },
     },
+    fetchAll: true,
   });
 
   if (error !== null) {

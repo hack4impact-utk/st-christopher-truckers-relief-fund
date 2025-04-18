@@ -77,16 +77,10 @@ async function getUser(
   filters: UserFilters,
   options?: UserPopulateOptions,
 ): Promise<ApiResponse<User>> {
-  const [user, error] = await findOne(UserModel, {
+  return await findOne(UserModel, {
     filters,
     populate: getUserPopulateArray(options),
   });
-
-  if (error !== null) {
-    return [null, error];
-  }
-
-  return [user, null];
 }
 
 export async function getUserByEmail(
@@ -107,6 +101,7 @@ export async function getUsers(
   const [response, error] = await findAll(UserModel, {
     filter: filters,
     populate: getUserPopulateArray(options),
+    fetchAll: true,
   });
 
   if (error !== null) {
