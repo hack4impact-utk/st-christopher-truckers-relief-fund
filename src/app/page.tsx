@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -32,6 +32,9 @@ export default async function Home(): Promise<ReactNode> {
         gap: 2,
       }}
     >
+      <Typography variant="h6" textAlign="center">
+        Welcome to the St. Christopher Truckers Relief Fund Program Dashboard
+      </Typography>
       <LoginForm />
 
       <Link href="/enrollment-form" passHref>
