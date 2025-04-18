@@ -2,6 +2,7 @@ import dbConnect from "@/server/dbConnect";
 import { ScreeningRequestModel, UserModel } from "@/server/models";
 import { ApiResponse, ScreeningRequest } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import { findByIdAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -55,26 +56,14 @@ export async function updateScreeningRequest(
 export async function deleteScreeningRequest(
   screeningRequest: ScreeningRequest,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findByIdAndDelete(
+    ScreeningRequestModel,
+    screeningRequest._id!,
+  );
 
-  try {
-    const deletedScreeningRequest =
-      await ScreeningRequestModel.findByIdAndDelete(
-        screeningRequest._id,
-      ).exec();
-
-    if (!deletedScreeningRequest) {
-      return [null, apiErrors.screeningRequest.screeningRequestNotFound];
-    }
-
-    // remove screening request from user
-    await UserModel.findByIdAndUpdate(screeningRequest.user._id, {
-      $pull: { screeningRequests: screeningRequest._id },
-    });
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

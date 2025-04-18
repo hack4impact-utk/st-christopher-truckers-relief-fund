@@ -1,7 +1,7 @@
 import dbConnect from "@/server/dbConnect";
 import { UrgentMeetingRequestModel } from "@/server/models";
 import { ApiResponse, UrgentMeetingRequest } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
+import { findByIdAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -26,22 +26,11 @@ export async function createUrgentMeetingRequest(
 export async function deleteUrgentMeetingRequest(
   _id: string,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findByIdAndDelete(UrgentMeetingRequestModel, _id);
 
-  try {
-    const urgentMeetingRequestToDelete =
-      await UrgentMeetingRequestModel.findByIdAndDelete(_id);
-
-    if (!urgentMeetingRequestToDelete) {
-      return [
-        null,
-        apiErrors.urgentMeetingRequest.urgentMeetingRequestNotFound,
-      ];
-    }
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

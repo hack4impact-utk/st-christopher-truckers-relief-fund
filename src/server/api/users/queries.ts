@@ -4,7 +4,6 @@ import { UserModel } from "@/server/models";
 import { ApiResponse, ClientUser, User } from "@/types";
 import { findOne } from "@/utils/db/find";
 import { findAll } from "@/utils/db/findAll";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 type UserFilters = Partial<User>;
 
@@ -87,7 +86,7 @@ async function getUser(
     return [null, error];
   }
 
-  return [serializeMongooseObject(user), null];
+  return [user, null];
 }
 
 export async function getUserByEmail(
@@ -114,7 +113,7 @@ export async function getUsers(
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getClients(
@@ -169,5 +168,5 @@ export async function getPaginatedClients({
     return [null, error];
   }
 
-  return [[serializeMongooseObject(response.results), response.total], null];
+  return [[response.results as ClientUser[], response.total], null];
 }

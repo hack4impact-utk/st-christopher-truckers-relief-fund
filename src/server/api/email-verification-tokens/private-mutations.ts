@@ -2,6 +2,7 @@ import dbConnect from "@/server/dbConnect";
 import { EmailVerificationTokenModel } from "@/server/models";
 import { ApiResponse, EmailVerificationToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import { findOneAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 
 import { getEmailVerificationTokenByToken } from "./queries";
@@ -45,24 +46,13 @@ export async function createEmailVerificationToken(
 export async function deleteEmailVerificationToken(
   token: string,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findOneAndDelete(EmailVerificationTokenModel, {
+    token,
+  });
 
-  try {
-    const emailVerificationToken =
-      await EmailVerificationTokenModel.findOneAndDelete({
-        token,
-      });
-
-    if (!emailVerificationToken) {
-      return [
-        null,
-        apiErrors.emailVerificationToken.emailVerificationTokenNotFound,
-      ];
-    }
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

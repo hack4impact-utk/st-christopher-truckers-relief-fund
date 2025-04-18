@@ -23,7 +23,7 @@ export async function getPendingProgramEnrollments(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getProgramEnrollmentForUser(
@@ -92,7 +92,7 @@ export async function getHealthyHabitsProgramEnrollments(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getRigsWithoutCigsProgramEnrollments(): Promise<
@@ -115,7 +115,7 @@ export async function getRigsWithoutCigsProgramEnrollments(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getDiabetesPreventionProgramEnrollments(): Promise<
@@ -139,7 +139,7 @@ export async function getDiabetesPreventionProgramEnrollments(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getVaccineVoucherProgramEnrollments(): Promise<
@@ -162,7 +162,7 @@ export async function getVaccineVoucherProgramEnrollments(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getGetPreventativeScreeningsProgramEnrollments(): Promise<
@@ -188,5 +188,5 @@ export async function getGetPreventativeScreeningsProgramEnrollments(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }

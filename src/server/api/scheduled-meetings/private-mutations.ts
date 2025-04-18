@@ -1,7 +1,7 @@
 import dbConnect from "@/server/dbConnect";
 import { ScheduledMeetingModel } from "@/server/models";
 import { ApiResponse, ScheduledMeeting } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
+import { findByIdAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -30,19 +30,11 @@ export async function createScheduledMeeting(
 export async function deleteScheduledMeeting(
   _id: string,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findByIdAndDelete(ScheduledMeetingModel, _id);
 
-  try {
-    const scheduledMeetingToDelete =
-      await ScheduledMeetingModel.findByIdAndDelete(_id);
-
-    if (!scheduledMeetingToDelete) {
-      return [null, apiErrors.scheduledMeeting.scheduledMeetingNotFound];
-    }
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

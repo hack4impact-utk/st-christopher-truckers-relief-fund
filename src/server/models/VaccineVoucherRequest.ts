@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 import { VaccineVoucherRequest } from "@/types";
 
+import { UserModel } from ".";
+
 const VaccineVoucherRequestSchema = new Schema<VaccineVoucherRequest>(
   {
     user: {
@@ -28,6 +30,21 @@ const VaccineVoucherRequestSchema = new Schema<VaccineVoucherRequest>(
   },
   { versionKey: false },
 );
+
+VaccineVoucherRequestSchema.pre("findOneAndDelete", async function (next) {
+  const docToDelete = await this.model
+    .findOne(this.getQuery())
+    .lean<VaccineVoucherRequest>()
+    .exec();
+
+  if (docToDelete) {
+    await UserModel.findByIdAndUpdate(docToDelete.user, {
+      $pull: { vaccineVoucherRequests: docToDelete._id },
+    });
+  }
+
+  next();
+});
 
 export default (mongoose.models
   .VaccineVoucherRequest as mongoose.Model<VaccineVoucherRequest>) ||

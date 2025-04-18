@@ -1,7 +1,8 @@
 import dbConnect from "@/server/dbConnect";
 import { HealthyHabitsTrackingFormModel, UserModel } from "@/server/models";
-import { ApiResponse, ClientUser, HealthyHabitsTrackingForm } from "@/types";
+import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import { findByIdAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -47,29 +48,15 @@ export async function createHealthyHabitsTrackingForm(
 
 export async function deleteHealthyHabitsTrackingForm(
   form: HealthyHabitsTrackingForm,
-  user: ClientUser,
 ): Promise<ApiResponse<HealthyHabitsTrackingForm>> {
-  await dbConnect();
+  const [healthyHabitsTrackingForm, error] = await findByIdAndDelete(
+    HealthyHabitsTrackingFormModel,
+    form._id!,
+  );
 
-  try {
-    const healthyHabitsTrackingForm =
-      await HealthyHabitsTrackingFormModel.findByIdAndDelete(form._id).exec();
-
-    if (!healthyHabitsTrackingForm) {
-      return [
-        null,
-        apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormNotFound,
-      ];
-    }
-
-    // delete the user's healthy habits tracking form if it exists
-    await UserModel.findByIdAndUpdate(user._id, {
-      $pull: { healthyHabitsTrackingForms: form._id },
-    });
-
-    return [serializeMongooseObject(healthyHabitsTrackingForm), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [healthyHabitsTrackingForm, null];
 }

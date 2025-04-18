@@ -1,7 +1,6 @@
 import { ScreeningRequestModel } from "@/server/models";
 import { ApiResponse, ScreeningRequest } from "@/types";
 import { findAll } from "@/utils/db/findAll";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getAllScreeningRequests(): Promise<
   ApiResponse<ScreeningRequest[]>
@@ -20,5 +19,5 @@ export async function getAllScreeningRequests(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }

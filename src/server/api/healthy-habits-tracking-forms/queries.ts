@@ -2,7 +2,6 @@ import { HealthyHabitsTrackingFormModel } from "@/server/models";
 import { ApiResponse, HealthyHabitsTrackingForm } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import { findOne } from "@/utils/db/find";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 import { getUserByEmail } from "../users/queries";
 
@@ -30,5 +29,5 @@ export async function getHealthyHabitsTrackingForm(
     return [null, error];
   }
 
-  return [serializeMongooseObject(healthyHabitsTrackingForm), null];
+  return [healthyHabitsTrackingForm, null];
 }

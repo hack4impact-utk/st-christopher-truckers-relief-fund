@@ -4,7 +4,6 @@ import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
 import dayjsUtil from "@/utils/dayjsUtil";
 import { findOne } from "@/utils/db/find";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getPasswordResetTokenByToken(
   token: string,
@@ -25,5 +24,5 @@ export async function getPasswordResetTokenByToken(
     return [null, apiErrors.passwordResetToken.passwordResetTokenExpired];
   }
 
-  return [serializeMongooseObject(passwordResetToken), null];
+  return [passwordResetToken, null];
 }

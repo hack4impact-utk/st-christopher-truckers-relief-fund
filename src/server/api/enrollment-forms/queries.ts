@@ -1,7 +1,6 @@
 import { EnrollmentFormModel } from "@/server/models";
 import { ApiResponse, EnrollmentForm } from "@/types";
 import { findOne } from "@/utils/db/find";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getEnrollmentFormByEmail(
   email: string,
@@ -14,5 +13,5 @@ export async function getEnrollmentFormByEmail(
     return [null, error];
   }
 
-  return [serializeMongooseObject(enrollmentForm), null];
+  return [enrollmentForm, null];
 }

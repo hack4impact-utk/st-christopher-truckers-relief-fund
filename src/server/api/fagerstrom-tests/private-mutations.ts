@@ -1,7 +1,7 @@
 import dbConnect from "@/server/dbConnect";
 import { FagerstromTestModel, UserModel } from "@/server/models";
 import { ApiResponse, FagerstromTest } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
+import { findByIdAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -31,25 +31,14 @@ export async function createFagerstromTest(
 export async function deleteFagerstromTest(
   fagerstromTest: FagerstromTest,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findByIdAndDelete(
+    FagerstromTestModel,
+    fagerstromTest._id!,
+  );
 
-  try {
-    const deletedFagerstromTest = await FagerstromTestModel.findByIdAndDelete(
-      fagerstromTest._id,
-    ).exec();
-
-    if (!deletedFagerstromTest) {
-      return [null, apiErrors.fagerstromTest.fagerstromTestNotFound];
-    }
-
-    // delete the user's fagerstrom test if it exists
-    await UserModel.findByIdAndUpdate(fagerstromTest.client._id, {
-      $pull: { fagerstromTests: fagerstromTest._id },
-    });
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

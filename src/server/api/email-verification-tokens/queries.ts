@@ -1,7 +1,6 @@
 import { EmailVerificationTokenModel } from "@/server/models";
 import { ApiResponse, EmailVerificationToken } from "@/types";
 import { findOne } from "@/utils/db/find";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getEmailVerificationTokenByToken(
   token: string,
@@ -14,5 +13,5 @@ export async function getEmailVerificationTokenByToken(
     return [null, error];
   }
 
-  return [serializeMongooseObject(response), null];
+  return [response, null];
 }

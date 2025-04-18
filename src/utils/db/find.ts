@@ -5,39 +5,7 @@ import { ApiResponse } from "@/types";
 
 import apiErrors from "../constants/apiErrors";
 import handleMongooseError from "../handleMongooseError";
-
-type FindOneByIdOptions = {
-  populate?: PopulateOptions | (string | PopulateOptions)[];
-};
-
-export async function findOneById<T>(
-  model: Model<T>,
-  id: string,
-  options: FindOneByIdOptions = {},
-): Promise<ApiResponse<T>> {
-  await dbConnect();
-
-  const { populate } = options;
-
-  try {
-    let query = model.findById(id);
-
-    if (populate) {
-      query = query.populate(populate);
-    }
-
-    const result = await query.lean<T>().exec();
-
-    if (!result) {
-      return [null, apiErrors.notFound];
-    }
-
-    return [result as T, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
-}
+import { serializeMongooseObject } from "../serializeMongooseObject";
 
 type FindOneOptions<T> = {
   filters?: FilterQuery<T>;
@@ -65,7 +33,7 @@ export async function findOne<T>(
       return [null, apiErrors.notFound];
     }
 
-    return [result as T, null];
+    return [serializeMongooseObject(result) as T, null];
   } catch (error) {
     console.error(error);
     return [null, handleMongooseError(error)];

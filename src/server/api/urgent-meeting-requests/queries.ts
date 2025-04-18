@@ -1,7 +1,6 @@
 import { UrgentMeetingRequestModel } from "@/server/models";
 import { ApiResponse, UrgentMeetingRequest } from "@/types";
 import { findAll } from "@/utils/db/findAll";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getAllUrgentMeetingRequests(): Promise<
   ApiResponse<UrgentMeetingRequest[]>
@@ -19,16 +18,15 @@ export async function getAllUrgentMeetingRequests(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }
 
 export async function getNumberOfUrgentMeetingRequests(): Promise<number> {
-  try {
-    const number = await UrgentMeetingRequestModel.countDocuments();
+  const [urgentMeetingRequests, error] = await getAllUrgentMeetingRequests();
 
-    return number;
-  } catch (error) {
-    console.error(error);
+  if (error !== null) {
     return 0;
   }
+
+  return urgentMeetingRequests.length;
 }

@@ -116,19 +116,22 @@ export default function UpdateClientInformation(): ReactNode {
     });
 
     router.push("/dashboard");
+    router.refresh();
   };
 
   if (!session) {
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <CircularProgress />
-    </Box>;
+    return (
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (

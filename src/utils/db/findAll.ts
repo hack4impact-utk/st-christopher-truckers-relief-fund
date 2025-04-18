@@ -4,6 +4,7 @@ import dbConnect from "@/server/dbConnect";
 import { ApiResponse } from "@/types";
 
 import handleMongooseError from "../handleMongooseError";
+import { serializeMongooseObject } from "../serializeMongooseObject";
 
 type FindAllOptions<T> = {
   filter?: FilterQuery<T>;
@@ -54,7 +55,7 @@ export async function findAll<T>(
 
     return [
       {
-        results: results,
+        results: serializeMongooseObject(results) as T[],
         count: results.length,
         total,
       },

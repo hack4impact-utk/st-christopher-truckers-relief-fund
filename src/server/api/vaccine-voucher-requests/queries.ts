@@ -1,7 +1,6 @@
 import { VaccineVoucherRequestModel } from "@/server/models";
 import { ApiResponse, VaccineVoucherRequest } from "@/types";
 import { findAll } from "@/utils/db/findAll";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getAllVaccineVoucherRequests(): Promise<
   ApiResponse<VaccineVoucherRequest[]>
@@ -15,5 +14,5 @@ export async function getAllVaccineVoucherRequests(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }

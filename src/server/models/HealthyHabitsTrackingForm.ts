@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 import { HealthyHabitsTrackingForm } from "@/types";
 
+import { UserModel } from ".";
+
 const HealthyHabitsTrackingFormSchema = new Schema<HealthyHabitsTrackingForm>(
   {
     user: {
@@ -37,6 +39,21 @@ const HealthyHabitsTrackingFormSchema = new Schema<HealthyHabitsTrackingForm>(
   },
   { versionKey: false },
 );
+
+HealthyHabitsTrackingFormSchema.pre("findOneAndDelete", async function (next) {
+  const docToDelete = await this.model
+    .findOne(this.getQuery())
+    .lean<HealthyHabitsTrackingForm>()
+    .exec();
+
+  if (docToDelete) {
+    await UserModel.findByIdAndUpdate(docToDelete.user, {
+      $pull: { healthyHabitsTrackingForms: docToDelete._id },
+    });
+  }
+
+  next();
+});
 
 export default (mongoose.models
   .HealthyHabitsTrackingForm as mongoose.Model<HealthyHabitsTrackingForm>) ||

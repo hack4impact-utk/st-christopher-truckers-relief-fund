@@ -1,7 +1,6 @@
 import { ScheduledMeetingModel } from "@/server/models";
 import { ApiResponse, ScheduledMeeting } from "@/types";
 import { findAll } from "@/utils/db/findAll";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
 export async function getAllScheduledMeetings(): Promise<
   ApiResponse<ScheduledMeeting[]>
@@ -20,5 +19,5 @@ export async function getAllScheduledMeetings(): Promise<
     return [null, error];
   }
 
-  return [serializeMongooseObject(response.results), null];
+  return [response.results, null];
 }

@@ -2,6 +2,7 @@ import dbConnect from "@/server/dbConnect";
 import { UserModel, VaccineVoucherRequestModel } from "@/server/models";
 import { ApiResponse, VaccineVoucherRequest } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import { findByIdAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -59,28 +60,14 @@ export async function updateVaccineVoucherRequest(
 export async function deleteVaccineVoucherRequest(
   vaccineVoucherRequest: VaccineVoucherRequest,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findByIdAndDelete(
+    VaccineVoucherRequestModel,
+    vaccineVoucherRequest._id!,
+  );
 
-  try {
-    const deletedRequest = await VaccineVoucherRequestModel.findByIdAndDelete(
-      vaccineVoucherRequest._id,
-    ).exec();
-
-    if (!deletedRequest) {
-      return [
-        null,
-        apiErrors.vaccineVoucherRequest.vaccineVoucherRequestNotFound,
-      ];
-    }
-
-    // remove from User object
-    await UserModel.findByIdAndUpdate(vaccineVoucherRequest.user._id, {
-      $pull: { vaccineVoucherRequests: vaccineVoucherRequest._id },
-    });
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

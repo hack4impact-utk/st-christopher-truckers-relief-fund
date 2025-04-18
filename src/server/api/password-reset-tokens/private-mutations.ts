@@ -2,6 +2,7 @@ import dbConnect from "@/server/dbConnect";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
+import { findOneAndDelete } from "@/utils/db/delete";
 import handleMongooseError from "@/utils/handleMongooseError";
 import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
 
@@ -47,20 +48,13 @@ export async function createPasswordResetToken(
 export async function deletePasswordResetToken(
   token: string,
 ): Promise<ApiResponse<null>> {
-  await dbConnect();
+  const [, error] = await findOneAndDelete(PasswordResetTokenModel, {
+    token,
+  });
 
-  try {
-    const passwordResetToken = await PasswordResetTokenModel.findOneAndDelete({
-      token,
-    });
-
-    if (!passwordResetToken) {
-      return [null, apiErrors.passwordResetToken.passwordResetTokenNotFound];
-    }
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [null, null];
 }

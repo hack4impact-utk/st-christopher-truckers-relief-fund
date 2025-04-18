@@ -52,15 +52,19 @@ export default function SubmittedFagerstromTestList({
   return (
     <Box sx={{ width: "100%" }}>
       <Typography variant="h6">Previous forms</Typography>
-      <List>
-        {fagerstromTests.map((fagerstromTest) => (
-          <FagerstromTestListItem
-            key={fagerstromTest._id}
-            fagerstromTest={fagerstromTest}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </List>
+      {fagerstromTests.length === 0 ? (
+        <Typography>No previous forms found.</Typography>
+      ) : (
+        <List>
+          {fagerstromTests.map((fagerstromTest) => (
+            <FagerstromTestListItem
+              key={fagerstromTest._id}
+              fagerstromTest={fagerstromTest}
+              handleDelete={handleDelete}
+            />
+          ))}
+        </List>
+      )}
     </Box>
   );
 }
