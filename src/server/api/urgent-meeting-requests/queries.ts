@@ -1,30 +1,25 @@
-import dbConnect from "@/server/dbConnect";
 import { UrgentMeetingRequestModel } from "@/server/models";
 import { ApiResponse, UrgentMeetingRequest } from "@/types";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+import { findAll } from "@/utils/db/findAll";
 
 export async function getAllUrgentMeetingRequests(): Promise<
   ApiResponse<UrgentMeetingRequest[]>
 > {
-  await dbConnect();
+  const [response, error] = await findAll(UrgentMeetingRequestModel, {
+    populate: {
+      path: "client",
+      populate: {
+        path: "enrollmentForm",
+      },
+    },
+    fetchAll: true,
+  });
 
-  try {
-    const urgentMeetingRequests = await UrgentMeetingRequestModel.find()
-      .populate({
-        path: "client",
-        populate: {
-          path: "enrollmentForm",
-        },
-      })
-      .lean<UrgentMeetingRequest[]>()
-      .exec();
-
-    return [serializeMongooseObject(urgentMeetingRequests), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [response.results, null];
 }
 
 export async function getNumberOfUrgentMeetingRequests(): Promise<number> {

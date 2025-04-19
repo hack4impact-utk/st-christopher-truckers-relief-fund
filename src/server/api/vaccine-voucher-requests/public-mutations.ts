@@ -12,7 +12,7 @@ import {
 
 export async function handleVaccineVoucherRequestSubmission(
   vaccineVoucherRequest: VaccineVoucherRequest,
-): Promise<ApiResponse<null>> {
+): Promise<ApiResponse<VaccineVoucherRequest>> {
   const [session, authError] = await authenticateServerFunction();
 
   if (authError !== null) {
@@ -26,14 +26,14 @@ export async function handleVaccineVoucherRequestSubmission(
     return [null, apiErrors.unauthorized];
   }
 
-  const [, createVaccineVoucherRequestError] =
+  const [requestInDatabase, createVaccineVoucherRequestError] =
     await createVaccineVoucherRequest(vaccineVoucherRequest);
 
   if (createVaccineVoucherRequestError !== null) {
     return [null, createVaccineVoucherRequestError];
   }
 
-  return [null, null];
+  return [requestInDatabase, null];
 }
 
 export async function handleVaccineVoucherRequestDeletion(

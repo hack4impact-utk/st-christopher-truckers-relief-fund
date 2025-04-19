@@ -1,29 +1,24 @@
-import dbConnect from "@/server/dbConnect";
 import { ScheduledMeetingModel } from "@/server/models";
 import { ApiResponse, ScheduledMeeting } from "@/types";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+import { findAll } from "@/utils/db/findAll";
 
 export async function getAllScheduledMeetings(): Promise<
   ApiResponse<ScheduledMeeting[]>
 > {
-  await dbConnect();
+  const [response, error] = await findAll(ScheduledMeetingModel, {
+    populate: {
+      path: "client",
+      populate: {
+        path: "enrollmentForm",
+      },
+    },
+    sort: { date: 1 },
+    fetchAll: true,
+  });
 
-  try {
-    const scheduledMeetings = await ScheduledMeetingModel.find()
-      .populate({
-        path: "client",
-        populate: {
-          path: "enrollmentForm",
-        },
-      })
-      .sort({ date: 1 })
-      .lean<ScheduledMeeting[]>()
-      .exec();
-
-    return [serializeMongooseObject(scheduledMeetings), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (error !== null) {
+    return [null, error];
   }
+
+  return [response.results, null];
 }

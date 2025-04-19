@@ -124,6 +124,8 @@ export async function handleAddRigsWithoutCigsInformation(
     return [null, updateError];
   }
 
+  await createFagerstromTestsFromEnrollmentForm(updatedEnrollmentForm, user);
+
   return [null, null];
 }
 

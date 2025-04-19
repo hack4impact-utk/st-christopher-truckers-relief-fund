@@ -12,7 +12,7 @@ import {
 
 export async function handleScreeningRequestSubmission(
   screeningRequest: ScreeningRequest,
-): Promise<ApiResponse<null>> {
+): Promise<ApiResponse<ScreeningRequest>> {
   const [session, authError] = await authenticateServerFunction();
 
   if (authError !== null) {
@@ -23,14 +23,14 @@ export async function handleScreeningRequestSubmission(
     return [null, apiErrors.unauthorized];
   }
 
-  const [, createScreeningRequestError] =
+  const [requestInDatabase, createScreeningRequestError] =
     await createScreeningRequest(screeningRequest);
 
   if (createScreeningRequestError !== null) {
     return [null, createScreeningRequestError];
   }
 
-  return [null, null];
+  return [requestInDatabase, null];
 }
 
 export async function handleScreeningRequestDeletion(

@@ -1,9 +1,8 @@
-import dbConnect from "@/server/dbConnect";
 import { PasswordResetTokenModel } from "@/server/models";
 import { ApiResponse, PasswordResetToken } from "@/types";
 import apiErrors from "@/utils/constants/apiErrors";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+import { create } from "@/utils/db/create";
+import { findOneAndDelete } from "@/utils/db/delete";
 
 import { getPasswordResetTokenByToken } from "./queries";
 
@@ -12,55 +11,23 @@ export async function createPasswordResetToken(
   userId: string,
   expires: string,
 ): Promise<ApiResponse<PasswordResetToken>> {
-  await dbConnect();
+  const [existingToken] = await getPasswordResetTokenByToken(token);
 
-  try {
-    // don't create password reset token if one already exists
-    const [existingToken] = await getPasswordResetTokenByToken(token);
-
-    if (existingToken) {
-      return [
-        null,
-        apiErrors.passwordResetToken.passwordResetTokenAlreadyExists,
-      ];
-    }
-
-    const newPasswordResetToken: PasswordResetToken = {
-      token,
-      userId,
-      expires,
-    };
-
-    const newPasswordResetTokenDocument = await PasswordResetTokenModel.create(
-      newPasswordResetToken,
-    );
-
-    const passwordResetToken = newPasswordResetTokenDocument.toObject();
-
-    return [serializeMongooseObject(passwordResetToken), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
+  if (existingToken) {
+    return [null, apiErrors.duplicate];
   }
+
+  return await create(PasswordResetTokenModel, {
+    userId,
+    token,
+    expires,
+  });
 }
 
 export async function deletePasswordResetToken(
   token: string,
-): Promise<ApiResponse<null>> {
-  await dbConnect();
-
-  try {
-    const passwordResetToken = await PasswordResetTokenModel.findOneAndDelete({
-      token,
-    });
-
-    if (!passwordResetToken) {
-      return [null, apiErrors.passwordResetToken.passwordResetTokenNotFound];
-    }
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+): Promise<ApiResponse<PasswordResetToken>> {
+  return await findOneAndDelete(PasswordResetTokenModel, {
+    token,
+  });
 }

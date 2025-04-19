@@ -43,6 +43,7 @@ export default function VaccineVoucherHistory({
     );
 
     if (error !== null) {
+      console.error(error);
       enqueueSnackbar("An unexpected error occurred.", {
         variant: "error",
       });

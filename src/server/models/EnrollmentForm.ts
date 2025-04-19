@@ -11,7 +11,11 @@ const EnrollmentFormSchema = new Schema<EnrollmentForm>(
     generalInformationSection: {
       firstName: String,
       lastName: String,
-      email: String,
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+      },
       dateOfBirth: String,
       sex: String,
       phoneNumber: String,

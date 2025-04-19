@@ -11,6 +11,7 @@ const EmailVerificationTokenSchema = new Schema<EmailVerificationToken>(
     token: {
       type: String,
       required: true,
+      unique: true,
     },
   },
   { versionKey: false },

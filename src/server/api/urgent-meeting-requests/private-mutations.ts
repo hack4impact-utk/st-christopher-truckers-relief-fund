@@ -1,47 +1,16 @@
-import dbConnect from "@/server/dbConnect";
 import { UrgentMeetingRequestModel } from "@/server/models";
 import { ApiResponse, UrgentMeetingRequest } from "@/types";
-import apiErrors from "@/utils/constants/apiErrors";
-import handleMongooseError from "@/utils/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/serializeMongooseObject";
+import { create } from "@/utils/db/create";
+import { findByIdAndDelete } from "@/utils/db/delete";
 
 export async function createUrgentMeetingRequest(
   urgentMeetingRequest: UrgentMeetingRequest,
 ): Promise<ApiResponse<UrgentMeetingRequest>> {
-  await dbConnect();
-
-  try {
-    const newUrgentMeetingRequestDocument =
-      await UrgentMeetingRequestModel.create(urgentMeetingRequest);
-
-    const newUrgentMeetingRequest = newUrgentMeetingRequestDocument.toObject();
-
-    return [serializeMongooseObject(newUrgentMeetingRequest), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+  return create(UrgentMeetingRequestModel, urgentMeetingRequest);
 }
 
 export async function deleteUrgentMeetingRequest(
   _id: string,
-): Promise<ApiResponse<null>> {
-  await dbConnect();
-
-  try {
-    const urgentMeetingRequestToDelete =
-      await UrgentMeetingRequestModel.findByIdAndDelete(_id);
-
-    if (!urgentMeetingRequestToDelete) {
-      return [
-        null,
-        apiErrors.urgentMeetingRequest.urgentMeetingRequestNotFound,
-      ];
-    }
-
-    return [null, null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+): Promise<ApiResponse<UrgentMeetingRequest>> {
+  return await findByIdAndDelete(UrgentMeetingRequestModel, _id);
 }

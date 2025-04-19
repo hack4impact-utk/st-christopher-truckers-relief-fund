@@ -11,7 +11,7 @@ import {
 
 export async function handleHealthyHabitsTrackingFormSubmission(
   healthyHabitsTrackingForm: HealthyHabitsTrackingForm,
-): Promise<ApiResponse<null>> {
+): Promise<ApiResponse<HealthyHabitsTrackingForm>> {
   const [session, authError] = await authenticateServerFunction();
 
   if (authError !== null) {
@@ -25,7 +25,7 @@ export async function handleHealthyHabitsTrackingFormSubmission(
     return [null, apiErrors.unauthorized];
   }
 
-  const [, createError] = await createHealthyHabitsTrackingForm(
+  const [formInDatabase, createError] = await createHealthyHabitsTrackingForm(
     healthyHabitsTrackingForm,
   );
 
@@ -33,7 +33,7 @@ export async function handleHealthyHabitsTrackingFormSubmission(
     return [null, createError];
   }
 
-  return [null, null];
+  return [formInDatabase, null];
 }
 
 export async function handleHealthyHabitsTrackingFormDeletion(
@@ -52,7 +52,6 @@ export async function handleHealthyHabitsTrackingFormDeletion(
 
   const [, error] = await deleteHealthyHabitsTrackingForm(
     healthyHabitsTrackingForm,
-    user,
   );
 
   if (error !== null) {

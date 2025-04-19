@@ -11,7 +11,7 @@ import {
 
 export async function handleCreateFagerstromTest(
   fagerstromTest: FagerstromTest,
-): Promise<ApiResponse<null>> {
+): Promise<ApiResponse<FagerstromTest>> {
   const [session, authError] = await authenticateServerFunction();
 
   if (authError !== null) {
@@ -25,12 +25,13 @@ export async function handleCreateFagerstromTest(
     return [null, apiErrors.unauthorized];
   }
 
-  const [, createError] = await createFagerstromTest(fagerstromTest);
+  const [formInDatabase, createError] =
+    await createFagerstromTest(fagerstromTest);
 
   if (createError !== null) {
     return [null, createError];
   }
-  return [null, null];
+  return [formInDatabase, null];
 }
 
 export async function handleFagerstromTestDeletion(

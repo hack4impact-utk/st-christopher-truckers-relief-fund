@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 import { FagerstromTest } from "@/types";
 
+import { UserModel } from ".";
+
 const FagerstromTestSchema = new Schema<FagerstromTest>(
   {
     submittedDate: {
@@ -82,6 +84,27 @@ const FagerstromTestSchema = new Schema<FagerstromTest>(
   },
   { versionKey: false },
 );
+
+FagerstromTestSchema.post("save", async function (doc) {
+  await UserModel.findByIdAndUpdate(doc.client, {
+    $push: { fagerstromTests: doc._id },
+  });
+});
+
+FagerstromTestSchema.pre("findOneAndDelete", async function (next) {
+  const docToDelete = await this.model
+    .findOne(this.getQuery())
+    .lean<FagerstromTest>()
+    .exec();
+
+  if (docToDelete) {
+    await UserModel.findByIdAndUpdate(docToDelete.client, {
+      $pull: { fagerstromTests: docToDelete._id },
+    });
+  }
+
+  next();
+});
 
 export default (mongoose.models
   .FagerstromTest as mongoose.Model<FagerstromTest>) ||

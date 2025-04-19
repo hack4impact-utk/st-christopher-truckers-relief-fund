@@ -113,22 +113,20 @@ export default function HealthyHabitsTracking({
       user,
     };
 
-    const [, error] = await handleHealthyHabitsTrackingFormSubmission(
-      healthyHabitsTrackingForm,
-    );
+    const [formInDatabase, error] =
+      await handleHealthyHabitsTrackingFormSubmission(
+        healthyHabitsTrackingForm,
+      );
 
     if (error === null) {
       setTrackingForms((prevTrackingForms) => [
         ...prevTrackingForms,
-        healthyHabitsTrackingForm,
+        formInDatabase,
       ]);
       enqueueSnackbar("Healthy Habits Tracking Form submitted successfully", {
         variant: "success",
       });
-    } else if (
-      error ===
-      apiErrors.healthyHabitsTrackingForm.healthyHabitsTrackingFormAlreadyExists
-    ) {
+    } else if (error === apiErrors.duplicate) {
       enqueueSnackbar(
         "You have already submitted the form for the selected week.",
         { variant: "warning" },

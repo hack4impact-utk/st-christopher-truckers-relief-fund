@@ -1,5 +1,7 @@
 const apiErrors = {
   unauthorized: "You must be logged in to access this resource",
+  notFound: "The requested resource was not found",
+  duplicate: "The requested resource already exists",
   mongoose: {
     CastError: "Error casting value",
     DivergentArrayError: "You modified an array in the middle of a save.",
@@ -16,47 +18,10 @@ const apiErrors = {
     VersionError: "Document version mismatch, likely due to parallel saves.",
   },
   user: {
-    userNotFound: "User not found",
-    userAlreadyExists: "User already exists",
     userInvalidCredentials: "User's credentials are invalid",
   },
-  programEnrollment: {
-    programEnrollmentNotFound: "Program enrollment not found",
-    programEnrollmentAlreadyExists: "Program enrollment already exists",
-  },
   passwordResetToken: {
-    passwordResetTokenNotFound: "Password reset token not found",
-    passwordResetTokenAlreadyExists: "Password reset token already exists",
     passwordResetTokenExpired: "Password reset token expired",
-  },
-  enrollmentForm: {
-    enrollmentFormNotFound: "Enrollment form not found",
-    enrollmentFormAlreadyExists: "Enrollment form already exists",
-  },
-  emailVerificationToken: {
-    emailVerificationTokenNotFound: "Email verification token not found",
-    emailVerificationTokenAlreadyExists:
-      "Email verification token already exists",
-  },
-  healthyHabitsTrackingForm: {
-    healthyHabitsTrackingFormNotFound: "Healthy habits tracking form not found",
-    healthyHabitsTrackingFormAlreadyExists:
-      "Healthy habits tracking form already exists",
-  },
-  urgentMeetingRequest: {
-    urgentMeetingRequestNotFound: "Urgent meeting request not found",
-  },
-  scheduledMeeting: {
-    scheduledMeetingNotFound: "Scheduled meeting not found",
-  },
-  fagerstromTest: {
-    fagerstromTestNotFound: "Fagerstrom test not found",
-  },
-  screeningRequest: {
-    screeningRequestNotFound: "Screening request not found",
-  },
-  vaccineVoucherRequest: {
-    vaccineVoucherRequestNotFound: "Vaccine voucher request not found",
   },
 };
 

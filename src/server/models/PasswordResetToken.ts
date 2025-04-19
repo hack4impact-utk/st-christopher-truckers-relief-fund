@@ -11,6 +11,7 @@ const PasswordResetTokenSchema = new Schema<PasswordResetToken>(
     token: {
       type: String,
       required: true,
+      unique: true,
     },
     expires: {
       type: String,

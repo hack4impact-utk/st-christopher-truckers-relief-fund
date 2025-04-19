@@ -132,7 +132,8 @@ export default function FagerstromTestForm({
       client: user,
     };
 
-    const [, error] = await handleCreateFagerstromTest(fagerstromTest);
+    const [formInDatabase, error] =
+      await handleCreateFagerstromTest(fagerstromTest);
 
     if (error !== null) {
       enqueueSnackbar("An unexpected error occurred.", {
@@ -142,7 +143,7 @@ export default function FagerstromTestForm({
       return;
     }
 
-    setFagerstromTests((prevTests) => [fagerstromTest, ...prevTests]);
+    setFagerstromTests((prevTests) => [formInDatabase, ...prevTests]);
 
     enqueueSnackbar("Fagerstrom test submitted successfully.", {
       variant: "success",

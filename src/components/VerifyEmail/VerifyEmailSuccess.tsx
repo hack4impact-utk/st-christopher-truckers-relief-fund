@@ -28,6 +28,7 @@ export default function VerifyEmailSuccess({
 
     if (session.user.isEmailVerified) {
       router.push("/");
+      router.refresh();
       return;
     }
 
