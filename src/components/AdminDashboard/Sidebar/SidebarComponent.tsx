@@ -19,7 +19,6 @@ import {
   Toolbar,
   useTheme,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
 
@@ -116,7 +115,13 @@ function getSidebarItems(numberOfUrgentMeetingRequests: number): SidebarItem[] {
   ];
 }
 
-export default function Sidebar(): ReactNode {
+type SidebarProps = {
+  numberOfUrgentMeetingRequests: number;
+};
+
+export default function Sidebar({
+  numberOfUrgentMeetingRequests,
+}: Readonly<SidebarProps>): ReactNode {
   const theme = useTheme();
   const pathname = usePathname();
 
@@ -124,17 +129,7 @@ export default function Sidebar(): ReactNode {
 
   const [open, setOpen] = useState(isOnProgramsSubpage);
 
-  const { data } = useQuery({
-    queryKey: ["numberOfUrgentMeetingRequests"],
-    queryFn: async () => {
-      const response = await fetch("/api/urgent-meeting-requests");
-      return await response.json();
-    },
-  });
-
-  const sidebarItems = getSidebarItems(
-    data?.data?.numberOfUrgentMeetingRequests,
-  );
+  const sidebarItems = getSidebarItems(numberOfUrgentMeetingRequests);
 
   return (
     <Drawer
