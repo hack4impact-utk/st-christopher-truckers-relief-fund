@@ -113,14 +113,15 @@ export default function HealthyHabitsTracking({
       user,
     };
 
-    const [, error] = await handleHealthyHabitsTrackingFormSubmission(
-      healthyHabitsTrackingForm,
-    );
+    const [formInDatabase, error] =
+      await handleHealthyHabitsTrackingFormSubmission(
+        healthyHabitsTrackingForm,
+      );
 
     if (error === null) {
       setTrackingForms((prevTrackingForms) => [
         ...prevTrackingForms,
-        healthyHabitsTrackingForm,
+        formInDatabase,
       ]);
       enqueueSnackbar("Healthy Habits Tracking Form submitted successfully", {
         variant: "success",

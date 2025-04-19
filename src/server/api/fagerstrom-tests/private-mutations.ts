@@ -6,7 +6,7 @@ import { findByIdAndDelete } from "@/utils/db/delete";
 export async function createFagerstromTest(
   fagerstromTest: FagerstromTest,
 ): Promise<ApiResponse<FagerstromTest>> {
-  return create(FagerstromTestModel, fagerstromTest);
+  return create(FagerstromTestModel, fagerstromTest, { populate: ["client"] });
 }
 
 export async function deleteFagerstromTest(

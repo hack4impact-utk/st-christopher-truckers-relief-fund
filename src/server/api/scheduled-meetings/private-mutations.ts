@@ -1,30 +1,14 @@
-import dbConnect from "@/server/dbConnect";
 import { ScheduledMeetingModel } from "@/server/models";
 import { ApiResponse, ScheduledMeeting } from "@/types";
+import { create } from "@/utils/db/create";
 import { findByIdAndDelete } from "@/utils/db/delete";
-import handleMongooseError from "@/utils/db/handleMongooseError";
-import { serializeMongooseObject } from "@/utils/db/serializeMongooseObject";
 
 export async function createScheduledMeeting(
   scheduledMeeting: ScheduledMeeting,
 ): Promise<ApiResponse<ScheduledMeeting>> {
-  await dbConnect();
-
-  try {
-    const newScheduledMeeting =
-      await ScheduledMeetingModel.create(scheduledMeeting);
-
-    const newScheduledMeetingWithPopulatedClient =
-      await newScheduledMeeting.populate("client");
-
-    const newScheduledMeetingDocument =
-      newScheduledMeetingWithPopulatedClient.toObject();
-
-    return [serializeMongooseObject(newScheduledMeetingDocument), null];
-  } catch (error) {
-    console.error(error);
-    return [null, handleMongooseError(error)];
-  }
+  return await create(ScheduledMeetingModel, scheduledMeeting, {
+    populate: ["client"],
+  });
 }
 
 export async function deleteScheduledMeeting(

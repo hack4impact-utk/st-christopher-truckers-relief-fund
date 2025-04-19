@@ -59,6 +59,8 @@ export default function GetPreventativeScreeningsRequestForm({
 
     let error = false;
 
+    const requestsInDatabase: (ScreeningRequest | null)[] = [];
+
     const {
       wantsProstateCancerScreening,
       wantsColorectalCancerScreening,
@@ -73,12 +75,10 @@ export default function GetPreventativeScreeningsRequestForm({
         user: user,
       };
 
-      setScreeningRequests((prevScreeningRequests) => [
-        ...prevScreeningRequests,
-        screeningRequest,
-      ]);
-      const [, createScreeningRequestError] =
+      const [requestInDatabase, createScreeningRequestError] =
         await handleScreeningRequestSubmission(screeningRequest);
+
+      requestsInDatabase.push(requestInDatabase);
 
       error = error || createScreeningRequestError !== null;
     }
@@ -91,13 +91,10 @@ export default function GetPreventativeScreeningsRequestForm({
         user: user,
       };
 
-      setScreeningRequests((prevScreeningRequests) => [
-        ...prevScreeningRequests,
-        screeningRequest,
-      ]);
-
-      const [, createScreeningRequestError] =
+      const [requestInDatabase, createScreeningRequestError] =
         await handleScreeningRequestSubmission(screeningRequest);
+
+      requestsInDatabase.push(requestInDatabase);
 
       error = error || createScreeningRequestError !== null;
     }
@@ -110,13 +107,10 @@ export default function GetPreventativeScreeningsRequestForm({
         user: user,
       };
 
-      setScreeningRequests((prevScreeningRequests) => [
-        ...prevScreeningRequests,
-        screeningRequest,
-      ]);
-
-      const [, createScreeningRequestError] =
+      const [requestInDatabase, createScreeningRequestError] =
         await handleScreeningRequestSubmission(screeningRequest);
+
+      requestsInDatabase.push(requestInDatabase);
 
       error = error || createScreeningRequestError !== null;
     }
@@ -128,6 +122,11 @@ export default function GetPreventativeScreeningsRequestForm({
       setIsLoading(false);
       return;
     }
+
+    setScreeningRequests((prevScreeningRequests) => [
+      ...prevScreeningRequests,
+      ...(requestsInDatabase as ScreeningRequest[]),
+    ]);
 
     enqueueSnackbar("Screening request submitted successfully.", {
       variant: "success",

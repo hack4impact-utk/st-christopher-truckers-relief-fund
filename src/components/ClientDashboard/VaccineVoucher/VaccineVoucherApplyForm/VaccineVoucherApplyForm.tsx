@@ -107,7 +107,7 @@ export default function VaccineVoucherApplyForm({
       }
     }
 
-    const createdRequests: VaccineVoucherRequest[] = [];
+    const databaseResponses: (VaccineVoucherRequest | null)[] = [];
 
     for (const requestedVaccine of requestedVaccines) {
       const request: VaccineVoucherRequest = {
@@ -118,12 +118,13 @@ export default function VaccineVoucherApplyForm({
         status: "requested",
       };
 
-      createdRequests.push(request);
-
-      const [, createVaccineVoucherRequestError] =
-        await handleVaccineVoucherRequestSubmission(request);
+      const [
+        vaccineVoucherRequestInDatabase,
+        createVaccineVoucherRequestError,
+      ] = await handleVaccineVoucherRequestSubmission(request);
 
       error = error || createVaccineVoucherRequestError !== null;
+      databaseResponses.push(vaccineVoucherRequestInDatabase);
     }
 
     if (error) {
@@ -133,7 +134,7 @@ export default function VaccineVoucherApplyForm({
     } else {
       setVaccineVoucherRequests((prevRequests) => [
         ...prevRequests,
-        ...createdRequests,
+        ...(databaseResponses as VaccineVoucherRequest[]),
       ]);
       enqueueSnackbar("Vaccine voucher requests submitted successfully.", {
         variant: "success",

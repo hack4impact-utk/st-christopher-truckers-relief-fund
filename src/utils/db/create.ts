@@ -1,4 +1,5 @@
-import { Model } from "mongoose";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { HydratedDocument, Model, PopulateOptions } from "mongoose";
 
 import dbConnect from "@/server/dbConnect";
 import { ApiResponse } from "@/types";
@@ -6,14 +7,24 @@ import { ApiResponse } from "@/types";
 import handleMongooseError from "./handleMongooseError";
 import { serializeMongooseObject } from "./serializeMongooseObject";
 
+type CreateOptions = {
+  populate?: PopulateOptions | (string | PopulateOptions)[];
+};
+
 export async function create<T>(
   model: Model<T>,
   object: T,
+  options: CreateOptions = {},
 ): Promise<ApiResponse<T>> {
+  const { populate } = options;
   await dbConnect();
 
   try {
-    const newObjectDocument = await model.create(object);
+    let newObjectDocument: HydratedDocument<T> = await model.create(object);
+
+    if (populate) {
+      newObjectDocument = await (newObjectDocument as any).populate(populate);
+    }
 
     const newObject = newObjectDocument.toObject();
 

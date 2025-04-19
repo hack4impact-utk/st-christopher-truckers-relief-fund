@@ -7,7 +7,9 @@ import { findOneAndUpdate } from "@/utils/db/update";
 export async function createVaccineVoucherRequest(
   vaccineVoucherRequest: VaccineVoucherRequest,
 ): Promise<ApiResponse<VaccineVoucherRequest>> {
-  return await create(VaccineVoucherRequestModel, vaccineVoucherRequest);
+  return await create(VaccineVoucherRequestModel, vaccineVoucherRequest, {
+    populate: ["user"],
+  });
 }
 
 export async function updateVaccineVoucherRequest(

@@ -22,6 +22,7 @@ export async function createHealthyHabitsTrackingForm(
   return await create(
     HealthyHabitsTrackingFormModel,
     healthyHabitsTrackingForm,
+    { populate: ["user"] },
   );
 }
 

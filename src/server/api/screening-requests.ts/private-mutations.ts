@@ -7,7 +7,9 @@ import { findOneAndUpdate } from "@/utils/db/update";
 export async function createScreeningRequest(
   screeningRequest: ScreeningRequest,
 ): Promise<ApiResponse<ScreeningRequest>> {
-  return await create(ScreeningRequestModel, screeningRequest);
+  return await create(ScreeningRequestModel, screeningRequest, {
+    populate: ["user"],
+  });
 }
 
 export async function updateScreeningRequest(
