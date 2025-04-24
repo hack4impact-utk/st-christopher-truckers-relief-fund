@@ -92,11 +92,13 @@ def create_client(row: pd.Series, api_url: str, api_key: str) -> None:
             "Content-Type": "application/json",
             "x-api-key": api_key,
         },
-        timeout=10,
+        timeout=30,
     )
 
     if response.status_code != 200:
-        print(f"Error: Failed to create client {row['email']}")
+        print(
+            f"Error: Failed to create client {row['firstName']} {row['lastName']} with email {row['email']} and phone number {row['phoneNumber']}"
+        )
         print(response.json())
         return
 
