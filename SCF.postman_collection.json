@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "4652a916-ee49-4788-b4e9-296494816a69",
+		"name": "SCF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24322261"
+	},
+	"item": [
+		{
+			"name": "Feature Flags",
+			"item": [
+				{
+					"name": "Create Feature Flag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"isEmailEnabled\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/feature-flags",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"feature-flags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Feature Flag",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"isEmailEnabled\",\r\n    \"enabled\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/feature-flags",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"feature-flags"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Actions",
+					"item": [
+						{
+							"name": "Create Admin",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{API_KEY}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Admin\",\r\n    \"lastName\": \"Admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"password\",\r\n    \"phoneNumber\": \"6156001712\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/users/actions/create-admin-account",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"actions",
+										"create-admin-account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Client",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{API_KEY}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"Rudra\",\r\n  \"lastName\": \"Patel\",\r\n  \"email\": \"patelrudra2003@gmail.com\",\r\n  \"dateOfBirth\": \"10/02/2003\",\r\n  \"sex\": \"male\",\r\n  \"phoneNumber\": \"(336) 303-5649\",\r\n  \"isEnrolledInHealthyHabits\": true,\r\n  \"healthyHabitsEnrollmentDate\": \"3/30/2025\",\r\n  \"isEnrolledInDiabetesPrevention\": true,\r\n  \"diabetesPreventionEnrollmentDate\": \"3/30/2025\",\r\n  \"isEnrolledInRigsWithoutCigs\": true,\r\n  \"rigsWithoutCigsEnrollmentDate\": \"9/20/2024\",\r\n  \"isEnrolledInVaccineVoucher\": true,\r\n  \"vaccineVoucherEnrollmentDate\": \"3/30/25\",\r\n  \"isEnrolledInGetPreventativeScreenings\": true,\r\n  \"getPreventativeScreeningsEnrollmentDate\": \"3/30/25\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/users/actions/create-client-account",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"actions",
+										"create-client-account"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
