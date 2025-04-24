@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import QualifyingQuestionsFormSection from "@/components/EnrollmentForm/QualifyingQuestionsFormSection";
 
+export const dynamic = "force-dynamic";
+
 export default function QualifyingQuestionsPage(): ReactNode {
   return (
     <Box

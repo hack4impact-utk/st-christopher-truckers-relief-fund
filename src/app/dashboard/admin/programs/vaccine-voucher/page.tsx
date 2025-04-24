@@ -5,6 +5,8 @@ import VaccineVoucherDashboard from "@/components/AdminDashboard/VaccineVaccineD
 import { getVaccineVoucherProgramEnrollments } from "@/server/api/program-enrollments/queries";
 import { getAllVaccineVoucherRequests } from "@/server/api/vaccine-voucher-requests/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function VaccineVoucher(): Promise<ReactNode> {
   const [vaccineVoucherProgramEnrollments, programEnrollmentsError] =
     await getVaccineVoucherProgramEnrollments();

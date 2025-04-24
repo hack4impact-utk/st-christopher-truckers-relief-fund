@@ -6,6 +6,8 @@ import RigsWithoutCigsAddInfo from "@/components/ClientDashboard/RigsWithoutCigs
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function AddRigsWithoutCigsInformationPage(): Promise<ReactNode> {
   const session = await getUserSession();
 

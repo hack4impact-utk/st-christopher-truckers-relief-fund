@@ -14,6 +14,8 @@ const postRequestValidator = z.object({
   name: z.string(),
 });
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const json = await request.json();

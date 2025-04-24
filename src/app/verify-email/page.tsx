@@ -5,6 +5,8 @@ import { ReactNode } from "react";
 import VerifyEmail from "@/components/VerifyEmail/VerifyEmail";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function VerifyEmailPage(): Promise<ReactNode> {
   const session = await getUserSession();
 

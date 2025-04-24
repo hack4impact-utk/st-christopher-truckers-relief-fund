@@ -7,6 +7,8 @@ import SignOutButton from "@/components/Profile/SignOutButton";
 import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function ClientProfilePage(): Promise<ReactNode> {
   const session = await getUserSession();
 

@@ -5,6 +5,8 @@ import {
   getSuccessfulJsonApiResponse,
 } from "@/utils/getJsonApiResponse";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const apiKeyHeader = request.headers.get("x-api-key");

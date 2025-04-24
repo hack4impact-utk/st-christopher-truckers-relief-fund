@@ -6,6 +6,8 @@ import { getEmailVerificationTokenByToken } from "@/server/api/email-verificatio
 import InvalidEmailVerificationToken from "@/components/VerifyEmail/InvalidEmailVerificationToken";
 import { ReactNode } from "react";
 
+export const dynamic = "force-dynamic";
+
 type VerifyEmailSuccessPageProps = {
   params: {
     token: string;

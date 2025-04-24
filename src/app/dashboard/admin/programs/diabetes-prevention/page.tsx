@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import DiabetesPreventionDashboard from "@/components/AdminDashboard/DiabetesPreventionDashboard";
 import { getDiabetesPreventionProgramEnrollments } from "@/server/api/program-enrollments/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function DiabetesPrevention(): Promise<ReactNode> {
   const [diabetesPreventionProgramEnrollments, error] =
     await getDiabetesPreventionProgramEnrollments();

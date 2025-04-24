@@ -5,6 +5,8 @@ import { ReactNode } from "react";
 import UpdateClientInformation from "@/components/ClientDashboard/UpdateClientInformation";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function UpdateInformationPage(): Promise<ReactNode> {
   const session = await getUserSession();
 

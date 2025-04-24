@@ -5,6 +5,8 @@ import { ReactNode } from "react";
 import AdminProfile from "@/components/Profile/AdminProfile";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminProfilePage(): Promise<ReactNode> {
   const session = await getUserSession();
 

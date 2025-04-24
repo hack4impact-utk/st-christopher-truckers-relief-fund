@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import DisqualifiedFormSection from "@/components/EnrollmentForm/DisqualifiedFormSection";
 
+export const dynamic = "force-dynamic";
+
 export default function DisqualifiedPage(): ReactNode {
   return (
     <Box

@@ -10,6 +10,8 @@ import {
   getSuccessfulJsonApiResponse,
 } from "@/utils/getJsonApiResponse";
 
+export const dynamic = "force-dynamic";
+
 const adminUserRequestSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),

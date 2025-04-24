@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import RigsWithoutCigsDashboard from "@/components/AdminDashboard/RigsWithoutCigsDashboard";
 import { getRigsWithoutCigsProgramEnrollments } from "@/server/api/program-enrollments/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function RigsWithoutCigsProgramPage(): Promise<ReactNode> {
   const [rigsWithoutCigsProgramEnrollments, error] =
     await getRigsWithoutCigsProgramEnrollments();

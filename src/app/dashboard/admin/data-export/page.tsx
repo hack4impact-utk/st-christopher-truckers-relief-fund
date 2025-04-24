@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import DataExport from "@/components/AdminDashboard/DataExport";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminDataExport(): ReactNode {
   return (
     <Box

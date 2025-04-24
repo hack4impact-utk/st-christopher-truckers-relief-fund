@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage(): Promise<ReactNode> {
   const session = await getUserSession();
 

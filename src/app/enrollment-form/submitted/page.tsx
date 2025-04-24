@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import SubmittedFormSection from "@/components/EnrollmentForm/SubmittedFormSection";
 
+export const dynamic = "force-dynamic";
+
 export default function SubmittedPage(): ReactNode {
   return (
     <Box

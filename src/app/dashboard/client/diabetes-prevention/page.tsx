@@ -6,6 +6,8 @@ import { getUserByEmail } from "@/server/api/users/queries";
 import getUserSession from "@/utils/getUserSession";
 import isUserEnrolledInProgram from "@/utils/isEnrolledInProgram";
 
+export const dynamic = "force-dynamic";
+
 export default async function DiabetesPreventionPage(): Promise<ReactNode> {
   const session = await getUserSession();
 
