@@ -6,6 +6,8 @@ import { ReactNode } from "react";
 import LoginForm from "@/components/LoginForm";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home(): Promise<ReactNode> {
   const session = await getUserSession();
 

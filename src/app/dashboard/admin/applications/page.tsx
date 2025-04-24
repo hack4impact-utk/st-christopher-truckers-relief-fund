@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 import PendingApplicationDashboard from "@/components/AdminDashboard/PendingApplicationDashboard";
 import { getPendingProgramEnrollments } from "@/server/api/program-enrollments/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage(): Promise<ReactNode> {
   const [programEnrollments, error] = await getPendingProgramEnrollments();
 

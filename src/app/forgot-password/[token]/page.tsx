@@ -5,6 +5,8 @@ import InvalidPasswordResetToken from "@/components/ForgotPassword/InvalidPasswo
 import ResetPasswordForm from "@/components/ForgotPassword/ResetPasswordForm";
 import { getPasswordResetTokenByToken } from "@/server/api/password-reset-tokens/queries";
 
+export const dynamic = "force-dynamic";
+
 type ResetPasswordWithTokenPageProps = {
   params: {
     token: string;

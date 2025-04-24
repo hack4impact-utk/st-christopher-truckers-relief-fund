@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import ForgotPasswordForm from "@/components/ForgotPassword/ForgotPasswordForm";
 
+export const dynamic = "force-dynamic";
+
 export default function ForgotPasswordPage(): ReactNode {
   return (
     <Box

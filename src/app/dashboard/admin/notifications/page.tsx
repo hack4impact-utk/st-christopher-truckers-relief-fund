@@ -6,6 +6,8 @@ import { getAllScheduledMeetings } from "@/server/api/scheduled-meetings/queries
 import { getAllUrgentMeetingRequests } from "@/server/api/urgent-meeting-requests/queries";
 import { getClients } from "@/server/api/users/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminNotificationsPage(): Promise<ReactNode> {
   const [urgentMeetingRequests, urgentMeetingsError] =
     await getAllUrgentMeetingRequests();

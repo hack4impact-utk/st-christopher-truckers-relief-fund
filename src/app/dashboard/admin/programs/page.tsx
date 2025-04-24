@@ -1,6 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminProgramsPage(): ReactNode {
   return (
     <Box

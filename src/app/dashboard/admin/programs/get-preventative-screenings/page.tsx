@@ -5,6 +5,8 @@ import GetPreventativeScreeningsDashboard from "@/components/AdminDashboard/GetP
 import { getGetPreventativeScreeningsProgramEnrollments } from "@/server/api/program-enrollments/queries";
 import { getAllScreeningRequests } from "@/server/api/screening-requests.ts/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function GetPreventativeScreeningsProgramPage(): Promise<ReactNode> {
   const [programEnrollments, programEnrollmentsError] =
     await getGetPreventativeScreeningsProgramEnrollments();

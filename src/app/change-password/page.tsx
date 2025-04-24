@@ -5,6 +5,8 @@ import { ReactNode } from "react";
 import ChangePasswordForm from "@/components/ChangePassword/ChangePasswordForm";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function ForgotPasswordPage(): Promise<ReactNode> {
   const session = await getUserSession();
 

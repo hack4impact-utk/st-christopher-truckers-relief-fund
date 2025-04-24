@@ -1,6 +1,8 @@
 import { exportData } from "@/server/api/data-export/queries";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const session = await getUserSession();

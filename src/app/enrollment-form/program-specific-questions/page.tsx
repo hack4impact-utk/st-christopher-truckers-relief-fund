@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import ProgramSpecificQuestionsFormSection from "@/components/EnrollmentForm/ProgramSpecificQuestions/ProgramSpecificQuestionsFormSection";
 
+export const dynamic = "force-dynamic";
+
 export default function ProgramSpecificQuestionsPage(): ReactNode {
   return (
     <Box

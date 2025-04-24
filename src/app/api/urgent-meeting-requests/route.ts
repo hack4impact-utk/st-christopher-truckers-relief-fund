@@ -5,6 +5,8 @@ import {
 } from "@/utils/getJsonApiResponse";
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(): Promise<Response> {
   const session = await getUserSession();
 

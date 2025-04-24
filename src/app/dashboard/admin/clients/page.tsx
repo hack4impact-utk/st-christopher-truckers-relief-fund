@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import ClientManagementDashboard from "@/components/AdminDashboard/ClientManagementDashboard";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminClientsPage(): ReactNode {
   return (
     <Box

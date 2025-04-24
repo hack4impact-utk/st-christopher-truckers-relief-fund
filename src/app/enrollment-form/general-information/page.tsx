@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import GeneralInformationFormSection from "@/components/EnrollmentForm/GeneralInformationFormSection";
 
+export const dynamic = "force-dynamic";
+
 export default function GeneralInformationPage(): ReactNode {
   return (
     <Box

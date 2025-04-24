@@ -3,6 +3,8 @@ import { ReactNode } from "react";
 
 import getUserSession from "@/utils/getUserSession";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProfilePage(): Promise<ReactNode> {
   const session = await getUserSession();
 
