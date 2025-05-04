@@ -3,7 +3,6 @@ This script creates clients from a CSV file.
 It is used to import all existing SCF clients into the new client management system.
 """
 
-import concurrent.futures
 import os
 import sys
 from datetime import datetime
@@ -65,16 +64,8 @@ def check_required_columns(df: pd.DataFrame) -> bool:
 
 def create_clients(df: pd.DataFrame, api_url: str, api_key: str) -> None:
     """Create clients from the DataFrame using multithreading"""
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [
-            executor.submit(create_client, row, api_url, api_key)
-            for _, row in df.iterrows()
-        ]
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                future.result()
-            except Exception as e:
-                print(f"Error during client creation: {e}")
+    for _, row in df.iterrows():
+        create_client(row, api_url, api_key)
 
 
 def create_client(row: pd.Series, api_url: str, api_key: str) -> None:
@@ -92,7 +83,7 @@ def create_client(row: pd.Series, api_url: str, api_key: str) -> None:
             "Content-Type": "application/json",
             "x-api-key": api_key,
         },
-        timeout=10,
+        timeout=60,
     )
 
     if response.status_code != 200:
