@@ -45,6 +45,7 @@ jobs:
           echo "SCF_GMAIL_APP_PASSWORD=${{ secrets.SCF_GMAIL_APP_PASSWORD }}" >> .env
           echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
           echo "API_KEY=${{ secrets.API_KEY }}" >> .env
+          echo "ZOOM_LINK=${{ secrets.ZOOM_LINK }}" >> .env
 
       - name: Check for dead code with knip
         id: knip

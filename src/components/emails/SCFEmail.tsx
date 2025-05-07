@@ -13,7 +13,7 @@ import {
 } from "@react-email/components";
 import { ReactNode } from "react";
 
-import imgurLogoImageUrl from "@/utils/constants/imgurLogoImageUrl";
+import transparentLogoUrl from "@/utils/constants/transparentLogoUrl";
 
 type BaseEmailProps = {
   previewText: string;
@@ -41,7 +41,7 @@ export default function SCFEmail(props: SCFEmailProps): ReactNode {
         <Container style={container}>
           <Section style={box}>
             <Img
-              src={imgurLogoImageUrl}
+              src={transparentLogoUrl}
               width="128"
               height="128"
               alt="St. Christopher Truckers Relief Fund"

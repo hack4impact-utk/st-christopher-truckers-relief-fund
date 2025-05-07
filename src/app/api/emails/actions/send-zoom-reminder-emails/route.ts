@@ -7,6 +7,8 @@ import {
 
 export const dynamic = "force-dynamic";
 
+const ZOOM_LINK = process.env.ZOOM_LINK;
+
 export async function POST(request: Request): Promise<Response> {
   try {
     const apiKeyHeader = request.headers.get("x-api-key");
@@ -45,7 +47,7 @@ export async function POST(request: Request): Promise<Response> {
       healthyHabitsOnlyEmails.map((email) =>
         sendZoomReminderEmail(
           "Healthy Habits For The Long Haul",
-          "https://google.com",
+          ZOOM_LINK,
           email,
         ),
       ),
@@ -53,11 +55,7 @@ export async function POST(request: Request): Promise<Response> {
 
     await Promise.allSettled(
       diabetesPreventionOnlyEmails.map((email) =>
-        sendZoomReminderEmail(
-          "Diabetes Prevention",
-          "https://google.com",
-          email,
-        ),
+        sendZoomReminderEmail("Diabetes Prevention", ZOOM_LINK, email),
       ),
     );
 
@@ -65,7 +63,7 @@ export async function POST(request: Request): Promise<Response> {
       emailsInBoth.map((email) =>
         sendZoomReminderEmail(
           "Healthy Habits & Diabetes Prevention",
-          "https://google.com",
+          ZOOM_LINK,
           email,
         ),
       ),
