@@ -10,6 +10,7 @@ declare global {
       SCF_GMAIL_APP_PASSWORD: string;
       BASE_URL: string;
       API_KEY: string;
+      ZOOM_LINK: string;
     }
   }
 }
