@@ -1,8 +1,88 @@
-import { createTransport, SentMessageInfo, Transporter } from "nodemailer";
+import { createTransport, Transporter } from "nodemailer";
+import postmark from "postmark";
 
 import { getFeatureFlag } from "../feature-flags/queries";
 
-function getTransporter(): Transporter {
+export default async function sendEmail(
+  recipient: string,
+  subject: string,
+  html: string,
+): Promise<void> {
+  const isEmailEnabled = await getFeatureFlag("isEmailEnabled");
+
+  if (!isEmailEnabled) {
+    console.error("Email sending is currently disabled.");
+    return;
+  }
+
+  const postmarkSendingEnabled = await getFeatureFlag(
+    "isPostmarkSendingEnabled",
+  );
+
+  if (postmarkSendingEnabled) {
+    await sendPostmarkEmail(recipient, subject, html);
+  } else {
+    await sendNodemailerEmail(recipient, subject, html);
+  }
+}
+
+async function sendPostmarkEmail(
+  recipient: string,
+  subject: string,
+  html: string,
+): Promise<void> {
+  try {
+    const postmarkApiKey = process.env.POSTMARK_API_KEY;
+
+    if (!postmarkApiKey) {
+      throw new Error("Missing environment variable POSTMARK_API_KEY");
+    }
+
+    const postmarkClient = new postmark.ServerClient(postmarkApiKey);
+
+    const email = process.env.POSTMARK_SENDER_SIGNATURE;
+
+    const mailOptions: postmark.Models.Message = {
+      From: email,
+      To: recipient,
+      Subject: subject,
+      HtmlBody: html,
+      TextBody: html,
+      MessageStream: "outbound",
+    };
+
+    await postmarkClient.sendEmail(mailOptions);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function sendNodemailerEmail(
+  recipient: string,
+  subject: string,
+  html: string,
+): Promise<void> {
+  try {
+    const transporter = getNodemailerTransporter();
+
+    const email = process.env.SCF_GMAIL;
+
+    const mailOptions = {
+      from: `St. Christopher Truckers Relief Fund <${email}>`,
+      to: recipient,
+      subject,
+      html,
+      text: html,
+    };
+
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error(error);
+    return;
+  }
+}
+
+function getNodemailerTransporter(): Transporter {
   const email = process.env.SCF_GMAIL;
   const password = process.env.SCF_GMAIL_APP_PASSWORD;
 
@@ -24,32 +104,4 @@ function getTransporter(): Transporter {
   });
 
   return transporter;
-}
-
-export default async function sendEmail(
-  recipient: string,
-  subject: string,
-  html: string,
-): Promise<SentMessageInfo> {
-  const isEmailEnabled = await getFeatureFlag("isEmailEnabled");
-  if (!isEmailEnabled) {
-    console.error("Email sending is currently disabled.");
-    return;
-  }
-
-  const transporter = getTransporter();
-
-  const email = process.env.SCF_GMAIL;
-
-  const mailOptions = {
-    from: `St. Christopher Truckers Relief Fund <${email}>`,
-    to: recipient,
-    subject,
-    html,
-    text: html,
-  };
-
-  const response = await transporter.sendMail(mailOptions);
-
-  return response;
 }

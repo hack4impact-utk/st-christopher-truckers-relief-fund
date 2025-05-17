@@ -11,6 +11,8 @@ declare global {
       BASE_URL: string;
       API_KEY: string;
       ZOOM_LINK: string;
+      POSTMARK_SENDER_SIGNATURE: string;
+      POSTMARK_API_KEY: string;
     }
   }
 }
