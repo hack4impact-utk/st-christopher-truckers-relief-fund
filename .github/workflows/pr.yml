@@ -16,6 +16,23 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Check that PR title follows conventional commits using regex
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Your PR title is '$TITLE'"
+
+          regex="(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z[[:space:]]+\))?:[[:space:]].+"
+
+          if [[ $TITLE =~ $regex ]]; then
+            echo "PR title follows conventional commits"
+          else
+            echo "PR title does not follow conventional commits format"
+            echo "Prefix your PR title with a descriptor such as 'feat:' and then summarize your change"
+            echo "See the following link for more information: https://www.conventionalcommits.org/en/v1.0.0/"
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -39,13 +56,9 @@ jobs:
         run: |
           touch .env
           echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
-          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
-          echo "SCF_GMAIL=${{ secrets.SCF_GMAIL }}" >> .env
-          echo "SCF_GMAIL_APP_PASSWORD=${{ secrets.SCF_GMAIL_APP_PASSWORD }}" >> .env
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
-          echo "ZOOM_LINK=${{ secrets.ZOOM_LINK }}" >> .env
+
+      - name: Check that project builds
+        run: pnpm run build
 
       - name: Check for dead code with knip
         id: knip
@@ -59,23 +72,3 @@ jobs:
         run: |
           gh pr comment ${{ github.event.pull_request.number }} \
             --body ":warning: \`pnpm run knip\` failed in CI. Please check for potential dead code or issues with the knip config."
-
-      - name: Check that project builds
-        run: pnpm run build
-
-      - name: Check that PR title follows conventional commits using regex
-        env:
-          TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          echo "Your PR title is '$TITLE'"
-
-          regex="(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z[[:space:]]+\))?:[[:space:]].+"
-
-          if [[ $TITLE =~ $regex ]]; then
-            echo "PR title follows conventional commits"
-          else
-            echo "PR title does not follow conventional commits format"
-            echo "Prefix your PR title with a descriptor such as 'feat:' and then summarize your change"
-            echo "See the following link for more information: https://www.conventionalcommits.org/en/v1.0.0/"
-            exit 1
-          fi
