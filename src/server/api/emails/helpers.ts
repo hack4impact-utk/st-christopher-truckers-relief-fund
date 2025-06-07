@@ -1,6 +1,8 @@
 import { createTransport, Transporter } from "nodemailer";
 import postmark from "postmark";
 
+import { FEATURE_FLAGS } from "@/utils/constants/featureFlag";
+
 import { getFeatureFlag } from "../feature-flags/queries";
 
 export default async function sendEmail(
@@ -8,7 +10,7 @@ export default async function sendEmail(
   subject: string,
   html: string,
 ): Promise<void> {
-  const isEmailEnabled = await getFeatureFlag("isEmailEnabled");
+  const isEmailEnabled = await getFeatureFlag(FEATURE_FLAGS.EMAIL.ENABLED);
 
   if (!isEmailEnabled) {
     console.error("Email sending is currently disabled.");
@@ -16,7 +18,7 @@ export default async function sendEmail(
   }
 
   const postmarkSendingEnabled = await getFeatureFlag(
-    "isPostmarkSendingEnabled",
+    FEATURE_FLAGS.EMAIL.POSTMARK_SENDING_ENABLED,
   );
 
   if (postmarkSendingEnabled) {
