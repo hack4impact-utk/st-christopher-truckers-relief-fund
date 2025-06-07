@@ -68,7 +68,7 @@ export async function POST(request: Request): Promise<Response> {
       enrollmentForm: enrollmentFormInDatabase,
       programEnrollments: [],
       healthyHabitsTrackingForms: [],
-      rigsWithoutCigsStatus: "unknown",
+      rigsWithoutCigsStatus: parsedJson.data.rigsWithoutCigsStatus,
       fagerstromTests: [],
       screeningRequests: [],
       vaccineVoucherRequests: [],

@@ -71,6 +71,17 @@ export const clientCreationRequestSchema = z.object({
       message: "Invalid date format",
     })
     .transform((val) => dayjsUtil(val).format("MM/DD/YYYY")),
+  rigsWithoutCigsStatus: z.enum([
+    "unknown",
+    "quit",
+    "cut back",
+    "in progress",
+    "no success",
+    "not yet started",
+    "withdrawn",
+    "quit / support",
+    "relapsed",
+  ]),
 });
 
 type ClientCreationRequest = z.infer<typeof clientCreationRequestSchema>;

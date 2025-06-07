@@ -18,6 +18,8 @@ type RigsWithoutCigsStatusCounts = {
   noSuccess: number;
   notYetStarted: number;
   withdrawn: number;
+  "quit / support": number;
+  relapsed: number;
 };
 
 function getRigsWithoutCigsStatusCounts(
@@ -49,6 +51,12 @@ function getRigsWithoutCigsStatusCounts(
         case "withdrawn":
           acc.withdrawn++;
           break;
+        case "quit / support":
+          acc["quit / support"]++;
+          break;
+        case "relapsed":
+          acc.relapsed++;
+          break;
       }
       return acc;
     },
@@ -60,6 +68,8 @@ function getRigsWithoutCigsStatusCounts(
       noSuccess: 0,
       notYetStarted: 0,
       withdrawn: 0,
+      "quit / support": 0,
+      relapsed: 0,
     },
   );
 }
@@ -82,6 +92,10 @@ function getMetricTableDisplayValue(
       return "Not yet started";
     case "withdrawn":
       return "Withdrawn";
+    case "quit / support":
+      return "Quit / Support";
+    case "relapsed":
+      return "Relapsed";
   }
 }
 export default function RigsWithoutCigsMetric({

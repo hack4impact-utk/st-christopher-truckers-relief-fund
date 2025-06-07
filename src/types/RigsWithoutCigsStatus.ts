@@ -5,4 +5,6 @@ export type RigsWithoutCigsStatus =
   | "in progress"
   | "no success"
   | "not yet started"
-  | "withdrawn";
+  | "withdrawn"
+  | "quit / support"
+  | "relapsed";

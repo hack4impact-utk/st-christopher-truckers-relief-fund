@@ -29,6 +29,8 @@ const updateStatusFormSchema = z.object({
     "no success",
     "not yet started",
     "withdrawn",
+    "quit / support",
+    "relapsed",
   ]),
 });
 
@@ -134,6 +136,13 @@ export default function UpdateStatusForm({
                 Withdrawn: Never participated (1 year limit), stops responding
                 (1 year limit)
               </Typography>
+              <Typography variant="caption">
+                Quit / Support: Individuals who have already quit smoking but
+                are still receiving support to remain tobacco free
+              </Typography>
+              <Typography variant="caption">
+                Relapsed: Had quit smoking but relapsed
+              </Typography>
             </Box>
           </FormHelperText>
           <FormControl error={!!errors.status} sx={{ width: "100%", py: 2 }}>
@@ -178,6 +187,16 @@ export default function UpdateStatusForm({
                     value="withdrawn"
                     control={<Radio />}
                     label="Withdrawn"
+                  />
+                  <FormControlLabel
+                    value="quit / support"
+                    control={<Radio />}
+                    label="Quit / Support"
+                  />
+                  <FormControlLabel
+                    value="relapsed"
+                    control={<Radio />}
+                    label="Relapsed"
                   />
                 </RadioGroup>
               )}
