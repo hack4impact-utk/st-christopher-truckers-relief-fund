@@ -2,8 +2,8 @@
 "use client";
 
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "nextjs-toploader/app";
 import { useSnackbar } from "notistack";
 import { ReactNode } from "react";
 

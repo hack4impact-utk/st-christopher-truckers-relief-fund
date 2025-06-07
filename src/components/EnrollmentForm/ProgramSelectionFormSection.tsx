@@ -9,7 +9,7 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useSnackbar } from "notistack";
 import { ReactNode, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Box, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useSnackbar } from "notistack";
 import { ReactNode, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
