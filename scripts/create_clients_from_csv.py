@@ -29,6 +29,7 @@ REQUIRED_COLUMNS = [
     "vaccineVoucherEnrollmentDate",
     "isEnrolledInGetPreventativeScreenings",
     "getPreventativeScreeningsEnrollmentDate",
+    "Status",
 ]
 
 DEFAULT_DATE_FORMAT = "%m/%d/%Y"
@@ -92,6 +93,29 @@ def create_client(row: pd.Series, api_url: str, api_key: str) -> None:
         return
 
     print(f"Successfully created client {row['email']}")
+
+
+def get_status(status: str) -> str:
+    """Get the status from the row"""
+
+    status = status.lower()
+
+    acceptable_statuses = [
+        "quit",
+        "cut back",
+        "in progress",
+        "no success",
+        "not yet started",
+        "withdrawn",
+        "quit / support",
+        "unknown",
+        "relapsed",
+    ]
+
+    if status in acceptable_statuses:
+        return status
+
+    raise ValueError(f"Invalid status: {status}")
 
 
 def get_client_creation_request(row: pd.Series) -> dict:
@@ -167,6 +191,9 @@ def get_client_creation_request(row: pd.Series) -> dict:
             row["getPreventativeScreeningsEnrollmentDate"]
             if not pd.isna(row["getPreventativeScreeningsEnrollmentDate"])
             else current_date
+        ),
+        "rigsWithoutCigsStatus": (
+            get_status(row["Status"]) if not pd.isna(row["Status"]) else "unknown"
         ),
     }
 

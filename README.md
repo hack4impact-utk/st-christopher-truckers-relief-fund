@@ -45,6 +45,7 @@ SCF_GMAIL=utkscf@gmail.com
 SCF_GMAIL_APP_PASSWORD=
 BASE_URL=http://localhost:3000
 ZOOM_LINK=https://www.google.com
+POSTMARK_API_KEY=
 ```
 
 Please contact leadership to obtain the following:
@@ -52,6 +53,7 @@ Please contact leadership to obtain the following:
 - `MONGODB_URI` username and password
 - `NEXTAUTH_SECRET`
 - `SCF_GMAIL_APP_PASSWORD`
+- `POSTMARK_API_KEY`
 
 ### Running the App
 

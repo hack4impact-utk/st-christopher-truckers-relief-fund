@@ -7,7 +7,7 @@ import {
   isValidPhoneNumber,
   parsePhoneNumberWithError,
 } from "libphonenumber-js";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useSnackbar } from "notistack";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";

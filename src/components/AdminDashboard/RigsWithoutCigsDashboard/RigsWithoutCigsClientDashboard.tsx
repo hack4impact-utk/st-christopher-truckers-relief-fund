@@ -35,6 +35,10 @@ function getRigsWithoutCigsStatusDisplayName(
       return "Not yet started";
     case "withdrawn":
       return "Withdrawn";
+    case "quit / support":
+      return "Quit / Support";
+    case "relapsed":
+      return "Relapsed";
   }
 }
 
