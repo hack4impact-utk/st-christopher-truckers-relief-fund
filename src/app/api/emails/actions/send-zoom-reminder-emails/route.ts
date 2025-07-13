@@ -1,5 +1,7 @@
 import { sendZoomReminderEmail } from "@/server/api/emails/private-mutations";
+import { getFeatureFlag } from "@/server/api/feature-flags/queries";
 import { getUsersByProgram } from "@/server/api/users/private-mutations";
+import { FEATURE_FLAGS } from "@/utils/constants/featureFlag";
 import {
   getFailedJsonApiResponse,
   getSuccessfulJsonApiResponse,
@@ -15,6 +17,18 @@ export async function POST(request: Request): Promise<Response> {
 
     if (!apiKeyHeader || apiKeyHeader !== process.env.API_KEY) {
       return getFailedJsonApiResponse(401, "Invalid request.");
+    }
+
+    const isAutomaticJobsEnabled = await getFeatureFlag(
+      FEATURE_FLAGS.AUTOMATIC_JOBS.IS_AUTOMATIC_JOBS_ENABLED,
+    );
+
+    if (!isAutomaticJobsEnabled) {
+      console.error(
+        "Automatic jobs are not enabled, so zoom reminder emails will not be sent.",
+      );
+
+      return getFailedJsonApiResponse(500, "Automatic jobs are not enabled.");
     }
 
     const [healthyHabitsUsers, healthyHabitsError] = await getUsersByProgram(
