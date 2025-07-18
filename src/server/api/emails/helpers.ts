@@ -1,5 +1,5 @@
 import { createTransport, Transporter } from "nodemailer";
-import postmark from "postmark";
+import { Message, ServerClient } from "postmark";
 
 import { FEATURE_FLAGS } from "@/utils/constants/featureFlag";
 
@@ -40,11 +40,11 @@ async function sendPostmarkEmail(
       throw new Error("Missing environment variable POSTMARK_API_KEY");
     }
 
-    const postmarkClient = new postmark.ServerClient(postmarkApiKey);
+    const postmarkClient = new ServerClient(postmarkApiKey);
 
     const email = process.env.POSTMARK_SENDER_SIGNATURE;
 
-    const mailOptions: postmark.Models.Message = {
+    const mailOptions: Message = {
       From: email,
       To: recipient,
       Subject: subject,
